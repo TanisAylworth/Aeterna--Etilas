@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"D6",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"D6",
+  "parent":{
+    "name":"Dice",
+    "path":"folders/Scripts/Dice.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

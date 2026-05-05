@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"Inventory",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"Inventory",
+  "parent":{
+    "name":"MISC_SCR",
+    "path":"folders/Scripts/MISC_SCR.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

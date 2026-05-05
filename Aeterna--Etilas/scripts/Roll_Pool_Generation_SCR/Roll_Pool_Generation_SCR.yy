@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"Roll_Pool_Generation_SCR",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"Roll_Pool_Generation_SCR",
+  "parent":{
+    "name":"MISC_SCR",
+    "path":"folders/Scripts/MISC_SCR.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

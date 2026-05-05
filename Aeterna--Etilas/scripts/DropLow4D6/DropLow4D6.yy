@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"DropLow4D6",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"DropLow4D6",
+  "parent":{
+    "name":"Dice",
+    "path":"folders/Scripts/Dice.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}
