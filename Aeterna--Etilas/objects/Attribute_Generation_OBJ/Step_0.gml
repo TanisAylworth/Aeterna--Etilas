@@ -1,69 +1,125 @@
 var cc = global.char_creation;
 
-var roll_x = 50;
-var roll_y = 80;
-var attr_x = 250;
-var attr_y = 80;
-var row_height = 30;
+// =====================
+// ===== KEYBOARD ======
+// =====================
 
-// keyboard
 if (keyboard_check_pressed(ord("R"))) {
     reroll_all();
 }
-
-// mouse
-if (mouse_check_button_pressed(mb_left)) {
-
-    // rolls
-    for (var i = 0; i < array_length(cc.roll_pool); i++) {
-
-        var x1 = roll_x;
-        var y1 = roll_y + i * row_height;
-        var x2 = roll_x + 60;
-        var y2 = y1 + 20;
-
-        if (mouse_x > x1 && mouse_x < x2 && mouse_y > y1 && mouse_y < y2) {
-            cc.selected_roll_index = i;
-            break;
-        }
-    }
-
-    // attributes
-    for (var i = 0; i < array_length(global.ATTRIBUTES); i++) {
-
-        var attr = global.ATTRIBUTES[i];
-
-        var x1 = attr_x;
-        var y1 = attr_y + i * row_height;
-        var x2 = attr_x + 180;
-        var y2 = y1 + 20;
-
-        if (mouse_x > x1 && mouse_x < x2 && mouse_y > y1 && mouse_y < y2) {
-            var current = variable_struct_get(cc.assigned, attr);
-
-if (!is_undefined(current)) {
-
-    // deselect (remove assignment)
-    variable_struct_set(cc.assigned, attr, undefined);
-
-    // return value to pool
-    array_push(cc.roll_pool, current);
-
-    // clear selected roll so it doesn't auto-cascade
-    cc.selected_roll_index = -1;
-
-} else {
-
-    // normal assign
-    assign_roll(attr);
-}
-            break;
-        }
-    }
-}
-
 
 if (keyboard_check_pressed(ord("Z"))) {
     undo_last();
 }
 
+// =====================
+// ===== MOUSE =========
+// =====================
+
+if (mouse_check_button_pressed(mb_left)) {
+
+    // IMPORTANT:
+    // Must match Draw coordinate system
+    var screen_w = camera_get_view_width(view_camera[0]);
+
+    // ==================================================
+    // ================= ROLL POOL =======================
+    // ==================================================
+
+    var roll_w = 60;
+    var roll_h = 20;
+    var roll_spacing = 10;
+
+    var roll_count = array_length(cc.roll_pool);
+
+    var total_roll_w =
+        roll_count * roll_w +
+        (roll_count - 1) * roll_spacing;
+
+    var roll_start_x =
+        (screen_w - total_roll_w) / 2;
+
+    var roll_y = 80;
+
+    for (var i = 0; i < roll_count; i++) {
+
+        var x1 = roll_start_x + i * (roll_w + roll_spacing);
+        var y1 = roll_y;
+
+        var x2 = x1 + roll_w;
+        var y2 = y1 + roll_h;
+
+        if (point_in_rectangle(mouse_x, mouse_y, x1, y1, x2, y2)) {
+
+            cc.selected_roll_index = i;
+            break;
+        }
+    }
+
+    // ==================================================
+    // ================= ATTRIBUTES ======================
+    // ==================================================
+
+    var attr_w = 200;
+    var attr_h = 20;
+
+    var col_spacing = 80;
+    var row_spacing = 90;
+
+    var attr_count = array_length(global.ATTRIBUTES);
+
+    var cols = 2;
+
+    var total_w =
+        cols * attr_w +
+        (cols - 1) * col_spacing;
+
+    var start_x =
+        (screen_w - total_w) / 2;
+
+    var attr_y = 220;
+
+    for (var i = 0; i < attr_count; i++) {
+
+        var col = i mod cols;
+        var row = floor(i / cols);
+
+        var x1 =
+            start_x + col * (attr_w + col_spacing);
+
+        var y1 =
+            attr_y + row * row_spacing;
+
+        var x2 = x1 + attr_w;
+        var y2 = y1 + attr_h;
+
+        if (point_in_rectangle(mouse_x, mouse_y, x1, y1, x2, y2)) {
+
+            var attr = global.ATTRIBUTES[i];
+
+            var current =
+                variable_struct_get(cc.assigned, attr);
+
+            // deselect
+            if (!is_undefined(current)) {
+
+                variable_struct_set(
+                    cc.assigned,
+                    attr,
+                    undefined
+                );
+
+                array_push(cc.roll_pool, current);
+
+                cc.selected_roll_index = -1;
+
+            } else {
+
+                // assign
+                assign_roll(attr);
+            }
+
+            break;
+        }
+    }
+}

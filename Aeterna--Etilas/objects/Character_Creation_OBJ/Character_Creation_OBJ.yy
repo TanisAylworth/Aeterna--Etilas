@@ -1,17 +1,17 @@
 {
   "$GMObject":"",
-  "%Name":"Attribute_Generation_OBJ",
+  "%Name":"Character_Creation_OBJ",
   "eventList":[
-    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":3,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":8,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
   ],
   "managed":true,
-  "name":"Attribute_Generation_OBJ",
+  "name":"Character_Creation_OBJ",
   "overriddenProperties":[],
   "parent":{
-    "name":"Charcater_Generation_OBJ",
-    "path":"folders/Objects/Charcater_Generation_OBJ.yy",
+    "name":"****OBJ_IN_FOCUS****",
+    "path":"folders/Objects/****OBJ_IN_FOCUS****.yy",
   },
   "parentObjectId":null,
   "persistent":false,

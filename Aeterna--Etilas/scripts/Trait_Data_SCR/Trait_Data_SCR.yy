@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"Trait_Data_SCR",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"Trait_Data_SCR",
+  "parent":{
+    "name":"****SCR_IN_FOCUS****",
+    "path":"folders/Scripts/****SCR_IN_FOCUS****.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

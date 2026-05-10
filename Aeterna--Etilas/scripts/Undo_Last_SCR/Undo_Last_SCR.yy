@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"Undo_Last_SCR",
   "parent":{
-    "name":"****SCR_IN_FOCUS****",
-    "path":"folders/Scripts/****SCR_IN_FOCUS****.yy",
+    "name":"ATTRIBUTE_GENERATION",
+    "path":"folders/Scripts/ATTRIBUTE_GENERATION.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

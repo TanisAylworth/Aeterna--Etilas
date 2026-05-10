@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"Pull_Skills_From_Table_SCR",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"Pull_Skills_From_Table_SCR",
+  "parent":{
+    "name":"MISC_SCR",
+    "path":"folders/Scripts/MISC_SCR.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

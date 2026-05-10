@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"Step_Complete_SCR",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"Step_Complete_SCR",
+  "parent":{
+    "name":"****SCR_IN_FOCUS****",
+    "path":"folders/Scripts/****SCR_IN_FOCUS****.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

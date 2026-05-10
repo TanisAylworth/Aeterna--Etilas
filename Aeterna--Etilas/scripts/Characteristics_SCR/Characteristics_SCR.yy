@@ -1,9 +1,9 @@
 {
   "$GMScript":"v1",
-  "%Name":"Reroll_All_SCR",
+  "%Name":"Characteristics_SCR",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"Reroll_All_SCR",
+  "name":"Characteristics_SCR",
   "parent":{
     "name":"ATTRIBUTE_GENERATION",
     "path":"folders/Scripts/ATTRIBUTE_GENERATION.yy",

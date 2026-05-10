@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"Get_Attribute_Adjustments_SCR",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"Get_Attribute_Adjustments_SCR",
+  "parent":{
+    "name":"MISC_SCR",
+    "path":"folders/Scripts/MISC_SCR.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

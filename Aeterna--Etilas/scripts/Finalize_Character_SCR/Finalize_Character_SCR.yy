@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"Finalize_Character_SCR",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"Finalize_Character_SCR",
+  "parent":{
+    "name":"****SCR_IN_FOCUS****",
+    "path":"folders/Scripts/****SCR_IN_FOCUS****.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

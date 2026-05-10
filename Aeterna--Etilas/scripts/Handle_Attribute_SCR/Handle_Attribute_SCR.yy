@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"Handle_Attribute_SCR",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"Handle_Attribute_SCR",
+  "parent":{
+    "name":"MISC_SCR",
+    "path":"folders/Scripts/MISC_SCR.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}
