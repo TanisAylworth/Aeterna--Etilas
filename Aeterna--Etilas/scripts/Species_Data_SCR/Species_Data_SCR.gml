@@ -47,11 +47,32 @@ function Species_Data_SCR() {
         negatives: [
             "None"
         ],
+		
+		hit_locations: {
+		data: {
+        head: [1],
+        torso: [2,3,4],
+        left_arm: [5],
+        right_arm: [6],
+        left_leg: [7,8],
+        right_leg: [9,10]
+		    },
+
+		    order: [
+		        "head",
+		        "torso",
+		        "right_arm",
+		        "left_arm",
+		        "left_leg",
+				"right_leg"
+		    ]
+		},
 
         traits: [
-            "Medium",
-            "Universal"
+            "medium",
+			"universal"
         ]
+		
     },
 
 
@@ -99,25 +120,7 @@ function Species_Data_SCR() {
             choices: 1
 		},
 
-        hit_locations: {
-		data: {
-        head: [1],
-        torso: [2,3,4],
-        left_arm: [5],
-        right_arm: [6],
-        left_leg: [7,8],
-        right_leg: [9,10]
-		    },
-
-		    order: [
-		        "head",
-		        "torso",
-		        "right_arm",
-		        "left_arm",
-		        "left_leg",
-				"right_leg"
-		    ]
-		},
+        
 
         abilities: [
             "None"
@@ -125,11 +128,6 @@ function Species_Data_SCR() {
 
         negatives: [
             "None"
-        ],
-
-        traits: [
-            "Medium",
-			"Universal"
         ]
 		
 	}
@@ -159,19 +157,19 @@ function Species_Data_SCR() {
         },
 
         abilities: [
-            "War Roar"
+            "None"
         ],
 
         negatives: [
-            "Slow Reflexes"
-        ],
-
-        traits: [
-            "Large",
-            "Darkvision"
+            "strict code",
+			"stiff"
         ],
 		
-		 hit_locations: {
+		traits: [
+			"martial_focus"
+		],
+		
+		hit_locations: {
 		data: {
         head: [1],
         torso: [2,3,4],
@@ -211,16 +209,16 @@ function Species_Data_SCR() {
 		},
 
         knowledge_tables: {
-            choices: 1,
             options: [
-                "Clan Traditions"
-            ]
+		    "Warfare",
+		    "Professional"
+		]
         },
 
         knowledge_skills: {
-            choices: 1,
-            options: [
-                "Intimidation"
+           options: [
+                "Etiquette",
+				"Tactics"
             ]
         },
 
@@ -229,32 +227,7 @@ function Species_Data_SCR() {
             options: [
                 "Mountain Born"
             ]
-        },
-		
-		 hit_locations: {
-		data: {
-        head: [1],
-        torso: [2,3,4],
-        left_arm: [5],
-        right_arm: [6],
-        left_leg: [7,8],
-        right_leg: [9,10]
-		    },
-
-		    order: [
-		        "head",
-		        "torso",
-		        "right_arm",
-		        "left_arm",
-		        "left_leg",
-				"right_leg"
-		    ]
-		},
-		
-		traits: [
-            "Large",
-            "Darkvision"
-        ],
+        }
 		
     }
 }

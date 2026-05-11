@@ -233,10 +233,8 @@ if (point_in_rectangle(mx, my, tx, ty, tx + 200, ty + 18))
     set_tooltip("Defines body targeting and damage distribution.", mx + 16, my + 16);
 }
 
-show_debug_message("HIT LOC STRUCT = " + string(selected.creation.hit_locations));
-show_debug_message("KEYS = " + string(variable_struct_get_names(selected.creation.hit_locations)));
 
-ty = scr_ui_draw_section(tx, ty, "Hit Locations", selected.creation.hit_locations);
+ty = scr_ui_draw_section(tx, ty, "Hit Locations", selected.stats.hit_locations);
 
 // =========================
 // TRAITS
@@ -249,7 +247,7 @@ if (point_in_rectangle(mx, my, tx, ty, tx + 200, ty + 18))
     set_tooltip("Passive identity modifiers unique to the species.", mx + 16, my + 16);
 }
 
-ty = scr_ui_draw_section(tx, ty, "", selected.creation.traits);
+ty = scr_ui_draw_section(tx, ty, "Traits", selected.stats.traits);
 
 
 }

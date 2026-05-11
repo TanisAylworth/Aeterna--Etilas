@@ -28,27 +28,82 @@ function scr_ui_draw_section(tx, ty, title, data)
     // =========================
     // ARRAY
     // =========================
-    if (is_array(data))
+	
+	// BEFORE array handler
+	
+   if (is_array(data))
+{
+    // HARD EXCLUSION: traits handled elsewhere ONLY
+
+
+if (title == "Traits")
+{
+    for (var i = 0; i < array_length(data); i++)
     {
-        if (title == "Traits") return ty; // IMPORTANT: traits handled elsewhere
+        var t = string_trim(string_lower(string(data[i])));
+        var item_y = ty;
 
-        for (var i = 0; i < array_length(data); i++)
+        var raw = data[i];
+		var key = string_lower(string_trim(string(raw)));
+
+		draw_text(tx + 20, item_y, "- " + scr_fmt_label(raw));
+
+        var tooltip_text = "No description available.";
+
+        if (variable_struct_exists(global.trait_data, t))
         {
-            var item_y = ty;
-            var value = data[i];
+            var trait = global.trait_data[$ t];
 
-            draw_text(tx + 10, item_y, "- " + string(value));
-
-            if (point_in_rectangle(mx, my, tx, item_y, tx + hover_w, item_y + hover_h))
+            if (is_struct(trait) && variable_struct_exists(trait, "description"))
             {
-                set_tooltip("Item: " + string(value), mx + 16, my + 16);
+                tooltip_text = trait.description;
             }
-
-            ty += line;
         }
 
-        return ty + 6;
+        if (point_in_rectangle(mx, my, tx, item_y, tx + hover_w, item_y + hover_h))
+        {
+            set_tooltip(tooltip_text, mx + 16, my + 16);
+        }
+
+        ty += line;
     }
+
+    return ty;
+}
+
+
+
+    for (var i = 0; i < array_length(data); i++)
+    {
+        var item_y = ty;
+        var value = data[i];
+
+        var raw = data[i];
+		var key = string_lower(string_trim(string(raw)));
+
+		draw_text(tx + 20, item_y, "- " + scr_fmt_label(raw));
+
+        if (point_in_rectangle(mx, my,
+            tx, item_y,
+            tx + hover_w, item_y + hover_h))
+        {
+            set_tooltip(string(value), mx + 16, my + 16);
+        }
+
+        ty += line;
+    }
+
+    return ty + 6;
+}
+	
+	
+	
+
+
+// =========================
+// TRAITS (HARD OVERRIDE)
+// =========================
+
 
     // =========================
     // STRUCT
@@ -158,39 +213,7 @@ function scr_ui_draw_section(tx, ty, title, data)
     // =====================================================
     // TRAITS (FIXED CLEAN VERSION)
     // =====================================================
-    if (title == "Traits")
-    {
-        for (var i = 0; i < array_length(data); i++)
-        {
-            var t = data[i];
-            var item_y = ty;
-
-            var key = string_lower(string_replace(t, " ", "_"));
-
-            draw_text(tx + 20, item_y, "- " + string(t));
-
-            var tooltip_text = "No description available.";
-
-            if (variable_struct_exists(global.trait_data, key))
-            {
-                var trait = global.trait_data[$ key];
-
-                if (is_struct(trait) && variable_struct_exists(trait, "description"))
-                {
-                    tooltip_text = trait.description;
-                }
-            }
-
-            if (point_in_rectangle(mx, my, tx, item_y, tx + hover_w, item_y + hover_h))
-            {
-                set_tooltip(tooltip_text, mx + 16, my + 16);
-            }
-
-            ty += line;
-        }
-
-        return ty;
-    }
+    
 
     // =====================================================
     // CHOICES (ONLY IF NO ARRAY/TRAIT OVERRIDE)

@@ -1,7 +1,12 @@
 function set_tooltip(_text, _x, _y)
 {
-    global.char_creation.tooltip.active = true;
-    global.char_creation.tooltip.text = _text;
-    global.char_creation.tooltip.x = _x;
-    global.char_creation.tooltip.y = _y;
+    var t = global.char_creation.tooltip;
+
+    // STOP ANY OVERWRITES
+    if (t.active) return;
+
+    t.active = true;
+    t.text = _text;
+    t.x = _x;
+    t.y = _y;
 }

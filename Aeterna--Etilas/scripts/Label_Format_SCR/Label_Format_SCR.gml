@@ -1,9 +1,22 @@
-function scr_fmt_label(str)
+function scr_fmt_label(_str)
 {
-    var s = string_replace_all(str, "_", " ");
+    var s = string_replace_all(_str, "_", " ");
+    var parts = string_split(s, " ");
+    var out = "";
 
-    if (string_length(s) <= 0) return s;
+    for (var i = 0; i < array_length(parts); i++)
+    {
+        var p = parts[i];
 
-    return string_upper(string_copy(s, 1, 1)) +
-           string_lower(string_copy(s, 2, string_length(s) - 1));
+        if (string_length(p) > 0)
+        {
+            out += string_upper(string_copy(p, 1, 1)) +
+                   string_lower(string_copy(p, 2, string_length(p) - 1));
+        }
+
+        if (i < array_length(parts) - 1)
+            out += " ";
+    }
+
+    return out;
 }

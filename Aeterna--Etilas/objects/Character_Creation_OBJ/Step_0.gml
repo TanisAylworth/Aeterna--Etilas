@@ -1,5 +1,4 @@
 
-global.char_creation.tooltip.active = false;
 
 global.char_creation.steps = [
 
