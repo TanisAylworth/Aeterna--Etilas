@@ -1,32 +1,5 @@
-// obj_char_creation Create
-completed = false;
-randomize();
+function Attribute_data(){
 
-cc = global.char_creation;
-cc.roll_pool = generate_roll_pool();
-cc.assigned = {};
-cc.selected_roll_index = -1;
-
-global.char_creation.history = [];
-
-// initialize attribute slots
-global.ATTRIBUTES = [
-    "Strength",
-    "Dexterity",
-    "Endurance",
-	"Reflexes",
-	"Intelligence",
-    "Perception",
-    "Willpower",
-    "Charm",
-    "Toughness",
-    "Leadership"
-];
-
-for (var i = 0; i < array_length(global.ATTRIBUTES); i++) {
-    var attr = global.ATTRIBUTES[i];
-    variable_struct_set(global.char_creation.assigned, attr, undefined);
-}
 
 
 global.attribute_data = {
@@ -273,6 +246,4 @@ global.attribute_data = {
 
 };
 
-
-var test = generate_roll_pool();
-show_debug_message("ROLL TEST: " + string(test));
+}

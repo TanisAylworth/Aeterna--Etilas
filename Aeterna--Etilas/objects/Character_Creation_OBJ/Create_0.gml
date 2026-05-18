@@ -3,6 +3,7 @@
 // ===============================
 
 Species_Data_SCR();
+Attribute_data();
 init_attributes();
 var ui_scale_x = display_get_width() / 1920;
 var ui_scale_y = display_get_height() / 1080;
@@ -16,6 +17,8 @@ show_debug_message("INIT DATA COMPLETE");
 global.char_creation = {
     step_index: 0,
     species: undefined,
+	locked_species: undefined,
+	confirmed_species: -1,
     assigned: {},
     selections: {
         knowledge_tables: [],
@@ -26,43 +29,42 @@ global.char_creation = {
     steps: [
 
         {
-            id: "species",
-            title: "Choose Species",
-            type: "single_select",
-            next: "attributes"
-        },
+        id: "species",
+        title: "Choose Species",
+        type: "single_select",
+        next: "attributes"
+    },
 
-        {
-            id: "attributes",
-            title: "Assign Attributes",
-            type: "roll_assign",
-            rolls: 6,
-            next: "knowledge_tables"
-        },
+    {
+        id: "attributes",
+        title: "Assign Attributes",
+        type: "roll_assign",
+        rolls: 10,
+        next: "generation"
+    },
 
-        {
-            id: "knowledge_tables",
-            title: "Choose Knowledge Tables",
-            type: "multi_select_limited",
-            choices: 3,
-            resolver: "get_species_knowledge_tables",
-            next: "skills"
-        },
+    {
+        id: "generation",
+        title: "Character Generation",
+        type: "generation_shop",
+        slots_base: 20,
+        int_bonus: true,
+        categories:
+        [
+            "tables",
+            "skills",
+            "talents",
+            "cdt",
+            "gold"
+        ],
+        next: "finalize"
+    },
 
-        {
-            id: "skills",
-            title: "Choose Skills",
-            type: "multi_select_limited",
-            choices: 4,
-            resolver: "get_available_skills",
-            next: "finalize"
-        },
-
-        {
-            id: "finalize",
-            title: "Finalize Character",
-            type: "finalize"
-        }
+    {
+        id: "finalize",
+        title: "Finalize Character",
+        type: "finalize"
+    }
     ]
 };
 
@@ -71,15 +73,7 @@ global.char_creation = {
 // DEBUG VALIDATION
 // ===============================
 
-show_debug_message("CREATE RUN");
 
-if (is_struct(global.char_creation)) {
-    show_debug_message("CHAR CREATION OK");
-}
-
-if (is_array(global.char_creation.steps)) {
-    show_debug_message("STEPS OK: " + string(array_length(global.char_creation.steps)));
-}
 
 
 global.char_creation.locked_species = undefined;
@@ -91,3 +85,5 @@ global.char_creation.tooltip = {
     x: 0,
     y: 0
 };
+
+

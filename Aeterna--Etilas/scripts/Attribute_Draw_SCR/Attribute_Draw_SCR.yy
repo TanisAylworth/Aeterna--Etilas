@@ -1,9 +1,9 @@
 {
   "$GMScript":"v1",
-  "%Name":"Characteristics_SCR",
+  "%Name":"Attribute_Draw_SCR",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"Characteristics_SCR",
+  "name":"Attribute_Draw_SCR",
   "parent":{
     "name":"ATTRIBUTE_GENERATION",
     "path":"folders/Scripts/ATTRIBUTE_GENERATION.yy",

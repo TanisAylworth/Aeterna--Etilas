@@ -148,7 +148,7 @@ function Species_Data_SCR() {
 
     stats: {
 
-        cdt: 16,
+        cdt: 8,
 
         attributes: {
             strength: 4,
@@ -222,12 +222,9 @@ function Species_Data_SCR() {
             ]
         },
 
-        knowledge_talents: {
-            choices: 1,
-            options: [
-                "Mountain Born"
-            ]
-        }
+        knowledge_talents: 
+           ["None"],
+        
 		
     }
 }

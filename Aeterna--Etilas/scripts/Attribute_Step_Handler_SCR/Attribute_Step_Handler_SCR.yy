@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"Attribute_Step_Handler_SCR",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"Attribute_Step_Handler_SCR",
+  "parent":{
+    "name":"ATTRIBUTE_GENERATION",
+    "path":"folders/Scripts/ATTRIBUTE_GENERATION.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

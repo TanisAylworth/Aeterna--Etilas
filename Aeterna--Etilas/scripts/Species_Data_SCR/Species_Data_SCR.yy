@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"Species_Data_SCR",
   "parent":{
-    "name":"****SCR_IN_FOCUS****",
-    "path":"folders/Scripts/****SCR_IN_FOCUS****.yy",
+    "name":"Species_SCR",
+    "path":"folders/Scripts/Species_SCR.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

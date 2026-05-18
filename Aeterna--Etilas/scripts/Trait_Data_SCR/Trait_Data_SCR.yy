@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"Trait_Data_SCR",
   "parent":{
-    "name":"****SCR_IN_FOCUS****",
-    "path":"folders/Scripts/****SCR_IN_FOCUS****.yy",
+    "name":"MISC_SCR",
+    "path":"folders/Scripts/MISC_SCR.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

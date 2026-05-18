@@ -1,39 +1,32 @@
-function get_final_attribute(attr) {
+function get_final_attribute(cc, attr)
+{
+    var base = variable_struct_exists(cc, "assigned")
+        && variable_struct_exists(cc.assigned, attr)
+        ? cc.assigned[$ attr]
+        : 0;
 
-    var cc = global.char_creation;
+    var species_bonus = 0;
 
-    var base =
-        variable_struct_get(cc.assigned, attr);
+    if (!is_undefined(cc.locked_species)
+    && variable_struct_exists(global.species_data, cc.locked_species))
+    {
+        var sp = global.species_data[$ cc.locked_species];
 
-    if (is_undefined(base)) {
-        base = 0;
-    }
+        if (variable_struct_exists(sp, "stats")
+        && variable_struct_exists(sp.stats, "attributes"))
+        {
+            var attrs = sp.stats.attributes;
 
-    var species =
-        global.species_data[$ cc.species];
-
-    var total = base;
-
-    // fixed bonuses
-    if (variable_struct_exists(species.attributes, attr)) {
-        total += species.attributes[$ attr];
-    }
-
-    // flexible bonuses
-    if (!is_undefined(species.flex_attributes)) {
-
-        var amount =
-            species.flex_attributes.amount;
-
-        for (var i = 0;
-             i < array_length(cc.species_bonus_choices);
-             i++) {
-
-            if (cc.species_bonus_choices[i] == attr) {
-                total += amount;
-            }
+            if (variable_struct_exists(attrs, attr))
+                species_bonus = attrs[$ attr];
         }
     }
 
-    return total;
+    var choice_bonus =
+        variable_struct_exists(cc, "species_bonus_map")
+        && variable_struct_exists(cc.species_bonus_map, attr)
+        ? 1
+        : 0;
+
+    return base + species_bonus + choice_bonus;
 }

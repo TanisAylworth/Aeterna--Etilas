@@ -16,6 +16,29 @@ function draw_species_select(step)
     draw_set_color(c_black);
     draw_rectangle(panel_x, panel_y, panel_x + panel_w, panel_y + vh, true);
 
+
+	// =====================================================
+	// SPECIES CONTROLS HELP PANEL
+	// =====================================================
+
+	var sc_box_x = 20;
+	var sc_box_y = 20; // place under attribute controls or adjust as needed
+
+	var sc_box_w = 380;
+	var sc_box_h = 120;
+
+	draw_set_color(make_color_rgb(20, 20, 20));
+	draw_rectangle(sc_box_x, sc_box_y, sc_box_x + sc_box_w, sc_box_y + sc_box_h, false);
+
+	draw_set_color(c_white);
+	draw_rectangle(sc_box_x, sc_box_y, sc_box_x + sc_box_w, sc_box_y + sc_box_h, true);
+
+	// Title
+	draw_text(sc_box_x + 10, sc_box_y + 10, "SPECIES CONTROLS");
+
+	// Instructions
+	draw_text(sc_box_x + 10, sc_box_y + 35, "• Left Click Species = Select / Lock");
+	draw_text(sc_box_x + 10, sc_box_y + 55, "• Hover To View Summary");
     // =====================================================
     // SPECIES LIST LAYOUT
     // =====================================================
@@ -54,12 +77,25 @@ function draw_species_select(step)
 
         if (is_hovered)
         {
-            hovered_species = sp;
+            hovered_species = species_id;
 
             // LEFT CLICK = LOCK SELECTION
             if (mouse_check_button_pressed(mb_left))
             {
-                global.char_creation.locked_species = sp;
+                var cc = global.char_creation;
+
+				cc.locked_species = species_id;
+
+				cc.species_bonus_map = {};
+				cc.species_bonus_remaining = 0;
+
+				var data = global.species_data[$ species_id];
+				var adj = data.creation.attribute_adjustments;
+
+				if (variable_struct_exists(adj, "choices"))
+				{
+				    cc.species_bonus_remaining = adj.choices;
+				}
             }
         }
 
@@ -80,14 +116,27 @@ function draw_species_select(step)
     }
 
     // =====================================================
-    // SELECTION RESOLUTION
-    // =====================================================
-    var selected = global.char_creation.locked_species;
+// SELECTION RESOLUTION (FIXED)
+// =====================================================
 
-    if (selected == undefined && hovered_species != undefined)
+var selected_id = global.char_creation.locked_species;
+
+// fallback to hover (hovered_species is already an ID string)
+if (selected_id == undefined && hovered_species != undefined)
+{
+    selected_id = hovered_species;
+}
+
+// convert ID → STRUCT safely
+var selected = undefined;
+
+if (selected_id != undefined)
+{
+    if (variable_struct_exists(global.species_data, selected_id))
     {
-        selected = hovered_species;
+        selected = global.species_data[$ selected_id];
     }
+}
 
     // =====================================================
     // RIGHT PANEL BASE
@@ -105,23 +154,30 @@ function draw_species_select(step)
     }
 
     // =====================================================
-    // BASIC INFO
-    // =====================================================
-    draw_text(tx, ty, selected.name);
-    ty += line * 2;
+	// BASIC INFO
+	// =====================================================
 
-    draw_text_ext(
-        tx, ty,
-        selected.description,
-        line,
-        panel_w - 32
-    );
+	// NAME
+	draw_set_color(c_white);
+	draw_text(tx, ty, selected.name);
 
-    ty += string_height_ext(
-        selected.description,
-        line,
-        panel_w - 32
-    ) + 10;
+	ty += 28;
+
+	// DESCRIPTION
+	draw_text_ext(
+	    tx,
+	    ty,
+	    selected.description,
+	    line,
+	    panel_w - 32
+	);
+
+	// advance properly after wrapped text
+	ty += string_height_ext(
+	    selected.description,
+	    line,
+	    panel_w - 32
+	) + 20;
 
     var cdt_y = ty;
 
@@ -129,7 +185,7 @@ function draw_species_select(step)
 
 	if (point_in_rectangle(mx, my, tx, cdt_y, tx + 200, cdt_y + 18))
 	{
-	    set_tooltip("Character Development Total: determines starting complexity budget.", mx + 16, my + 16);
+	    set_tooltip("Critical Damage Threshold: The amount of damage required in a single hit to sustain a Critical Wound.", mx + 16, my + 16);
 	}
 
 	ty += line * 2;

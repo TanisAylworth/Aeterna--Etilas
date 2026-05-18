@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"generaton_shop_draw",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"generaton_shop_draw",
+  "parent":{
+    "name":"****SCR_IN_FOCUS****",
+    "path":"folders/Scripts/****SCR_IN_FOCUS****.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

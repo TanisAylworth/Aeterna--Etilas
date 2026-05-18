@@ -1,12 +1,12 @@
 {
   "$GMScript":"v1",
-  "%Name":"Species_SCR",
+  "%Name":"Script34",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"Species_SCR",
+  "name":"Script34",
   "parent":{
-    "name":"MISC_SCR",
-    "path":"folders/Scripts/MISC_SCR.yy",
+    "name":"****SCR_IN_FOCUS****",
+    "path":"folders/Scripts/****SCR_IN_FOCUS****.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",
