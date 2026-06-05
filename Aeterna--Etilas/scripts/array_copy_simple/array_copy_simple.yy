@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"array_copy_simple",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"array_copy_simple",
+  "parent":{
+    "name":"ATTRIBUTE_GENERATION",
+    "path":"folders/Scripts/ATTRIBUTE_GENERATION.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

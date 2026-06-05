@@ -1,53 +1,44 @@
 function attribute_step_init(cc)
 {
+    if (!is_struct(cc)) return;
+
     if (variable_struct_exists(cc, "attribute_initialized") && cc.attribute_initialized)
-        exit;
+        return;
 
-    randomize();
-
-    // -------------------------
-    // CORE STRUCTS
-    // -------------------------
-    if (!variable_struct_exists(cc, "roll_pool"))
-        cc.roll_pool = generate_roll_pool();
-
-    if (!variable_struct_exists(cc, "assigned"))
-        cc.assigned = {}; // IMPORTANT: DO NOT prefill attributes
-
-    if (!variable_struct_exists(cc, "history"))
-        cc.history = [];
-
-    cc.selected_roll_index = -1;
-
-    if (!variable_struct_exists(cc, "locked_species"))
-        cc.locked_species = undefined;
-
-    // -------------------------
-    // ATTRIBUTE LIST
-    // -------------------------
     global.ATTRIBUTES = [
-        "Strength",
-        "Dexterity",
-        "Endurance",
-        "Reflexes",
-        "Intelligence",
-        "Perception",
-        "Willpower",
-        "Charm",
-        "Toughness",
-        "Leadership"
+        "Strength","Dexterity","Endurance","Reflexes","Intelligence",
+        "Perception","Willpower","Charm","Toughness","Leadership"
     ];
 
-    // -------------------------
-    // SPECIES BONUS SYSTEM
-    // -------------------------
-    if (!variable_struct_exists(cc, "species_bonus_map"))
-        cc.species_bonus_map = {};
+    // ==========================================
+    // STATE INIT
+    // ==========================================
+    cc.history = [];
+    cc.assigned = {};
 
-    if (!variable_struct_exists(cc, "species_bonus_remaining"))
-        cc.species_bonus_remaining = 0;
+    cc.base_pool = generate_roll_pool();
+
+    // roll_pool is the authoritative working copy
+    cc.roll_pool = array_copy_simple(cc.base_pool);
+
+    // optional: only if you truly need it globally consistent
+    sanitize_roll_pool(cc);
+
+    // ==========================================
+    // UI / SELECTION STATE
+    // ==========================================
+    cc.selected_roll_index = -1;
+    cc.selected_roll_value = undefined;
+
+    cc.species_bonus_map = {};
+    cc.species_bonus_remaining = 0;
+
+    cc.confirm_btn = { w: 260, h: 60, x: 0, y: 0 };
+
+    cc.ready_to_confirm = false;
+    cc.undo_version = 2;
 
     cc.attribute_initialized = true;
 
-    show_debug_message("ATTRIBUTE INIT COMPLETE");
+    show_debug_message("ATTRIBUTE INIT COMPLETE (DERIVED POOL MODE)");
 }

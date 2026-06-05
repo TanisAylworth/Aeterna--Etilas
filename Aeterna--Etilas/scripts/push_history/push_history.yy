@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"push_history",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"push_history",
+  "parent":{
+    "name":"ATTRIBUTE_GENERATION",
+    "path":"folders/Scripts/ATTRIBUTE_GENERATION.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

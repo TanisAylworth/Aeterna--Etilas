@@ -7,252 +7,45 @@ function scr_ui_draw_section(tx, ty, title, data)
     var hover_w = 300;
     var hover_h = line;
 
-
-
-	
-    // =========================
+    // =====================================================
     // TITLE
-    // =========================
+    // =====================================================
     draw_set_color(c_gray);
     draw_text(tx, ty, title);
     ty += line;
 
     draw_set_color(c_white);
 
-    // =========================
+    // =====================================================
     // EMPTY
-    // =========================
-    if (is_undefined(data) || data == undefined)
+    // =====================================================
+    if (is_undefined(data))
     {
         draw_text(tx + 10, ty, "- None");
         return ty + line;
     }
 
-    // =========================
-    // ARRAY
-    // =========================
-	
-	// BEFORE array handler
-	
-   if (is_array(data))
-{
-    // HARD EXCLUSION: traits handled elsewhere ONLY
-
-
-if (title == "Traits")
-{
-    for (var i = 0; i < array_length(data); i++)
-    {
-        var t = string_trim(string_lower(string(data[i])));
-        var item_y = ty;
-
-        var raw = data[i];
-		var key = string_lower(string_trim(string(raw)));
-
-		draw_text(tx + 20, item_y, "- " + scr_fmt_label(raw));
-
-        var tooltip_text = "No description available.";
-
-        if (variable_struct_exists(global.trait_data, t))
-        {
-            var trait = global.trait_data[$ t];
-
-            if (is_struct(trait) && variable_struct_exists(trait, "description"))
-            {
-                tooltip_text = trait.description;
-            }
-        }
-
-        if (point_in_rectangle(mx, my, tx, item_y, tx + hover_w, item_y + hover_h))
-        {
-            set_tooltip(tooltip_text, mx + 16, my + 16);
-        }
-
-        ty += line;
-    }
-
-    return ty;
-}
-
-
-
-    for (var i = 0; i < array_length(data); i++)
-    {
-        var item_y = ty;
-        var value = data[i];
-
-        var raw = data[i];
-		var key = string_lower(string_trim(string(raw)));
-
-		draw_text(tx + 20, item_y, "- " + scr_fmt_label(raw));
-
-        if (point_in_rectangle(mx, my,
-            tx, item_y,
-            tx + hover_w, item_y + hover_h))
-        {
-            set_tooltip(string(value), mx + 16, my + 16);
-        }
-
-        ty += line;
-    }
-
-    return ty + 6;
-}
-	
-	
-	
-
-
-// =========================
-// TRAITS (HARD OVERRIDE)
-// =========================
-
-
-    // =========================
-    // STRUCT
-    // =========================
-    if (!is_struct(data)) return ty;
+    var is_array_data = is_array(data);
+    var is_struct_data = is_struct(data);
 
     // =====================================================
-    // HIT LOCATIONS
+    // ARRAY MODE (PURE LISTS ONLY)
     // =====================================================
-    if (title == "Hit Locations")
+    if (is_array_data)
     {
-        var hit_data = data.data;
-        var order = data.order;
-
-        if (!is_array(order)) return ty;
-
-        for (var i = 0; i < array_length(order); i++)
+        if (array_length(data) == 0)
         {
-            var limb = order[i];
-            if (!variable_struct_exists(hit_data, limb)) continue;
-
-            var arr = hit_data[$ limb];
-            var text_line = "";
-
-            for (var j = 0; j < array_length(arr); j++)
-            {
-                text_line += string(arr[j]);
-                if (j < array_length(arr) - 1) text_line += ", ";
-            }
-
-            var item_y = ty;
-            var label = scr_fmt_label(limb);
-
-            draw_text(tx + 10, item_y, label + ": " + text_line);
-
-            if (point_in_rectangle(mx, my, tx, item_y, tx + hover_w, item_y + hover_h))
-            {
-                set_tooltip("Hit zone: " + label, mx + 16, my + 16);
-            }
-
-            ty += line;
+            draw_text(tx + 10, ty, "- None");
+            return ty + line;
         }
 
-        return ty;
-    }
-
-    // =====================================================
-    // ATTRIBUTE ADJUSTMENTS
-    // =====================================================
-    if (title == "Attribute Adjustments")
-    {
-        if (!variable_struct_exists(data, "type"))
-        {
-            draw_text(tx + 10, ty, "- Missing attribute type");
-            return ty;
-        }
-
-        var t = string_lower(string(data.type));
-
-        if (t == "choice")
+        for (var i = 0; i < array_length(data); i++)
         {
             var item_y = ty;
 
             draw_text(tx + 10, item_y,
-                "Choose +" + string(data.amount) +
-                " to " + string(data.choices) + " attributes"
+                "- " + scr_fmt_label(data[i])
             );
-
-            if (point_in_rectangle(mx, my, tx, item_y, tx + hover_w, item_y + hover_h))
-            {
-                set_tooltip("Distribute bonus attributes.", mx + 16, my + 16);
-            }
-
-            return ty + line;
-        }
-
-        if (t == "fixed")
-        {
-            var vals = data.values;
-            var keys = variable_struct_get_names(vals);
-
-            for (var i = 0; i < array_length(keys); i++)
-            {
-                var k = keys[i];
-                var v = vals[$ k];
-
-                var item_y = ty;
-                var label = scr_fmt_label(k);
-
-                draw_text(tx + 10, item_y, label + ": " + string(v));
-
-                if (point_in_rectangle(mx, my, tx, item_y, tx + hover_w, item_y + hover_h))
-                {
-                    set_tooltip("Attribute: " + label, mx + 16, my + 16);
-                }
-
-                ty += line;
-            }
-
-            return ty;
-        }
-
-        draw_text(tx + 10, ty, "- Unknown attribute type: " + t);
-        return ty;
-    }
-
-    // =====================================================
-    // TRAITS (FIXED CLEAN VERSION)
-    // =====================================================
-    
-
-    // =====================================================
-    // CHOICES (ONLY IF NO ARRAY/TRAIT OVERRIDE)
-    // =====================================================
-    if (variable_struct_exists(data, "choices") && variable_struct_exists(data, "options"))
-    {
-        var item_y = ty;
-
-        draw_text(tx + 10, item_y,
-            "Choose " + string(data.choices) + " option(s)"
-        );
-
-        if (point_in_rectangle(mx, my, tx, item_y, tx + hover_w, item_y + hover_h))
-        {
-            set_tooltip("Selection category", mx + 16, my + 16);
-        }
-
-        return ty + line;
-    }
-
-    // =====================================================
-    // OPTIONS LIST
-    // =====================================================
-    if (variable_struct_exists(data, "options"))
-    {
-        for (var i = 0; i < array_length(data.options); i++)
-        {
-            var item_y = ty;
-            var opt = data.options[i];
-
-            draw_text(tx + 10, item_y, "- " + string(opt));
-
-            if (point_in_rectangle(mx, my, tx, item_y, tx + hover_w, item_y + hover_h))
-            {
-                set_tooltip(string(opt), mx + 16, my + 16);
-            }
 
             ty += line;
         }
@@ -261,27 +54,242 @@ if (title == "Traits")
     }
 
     // =====================================================
-    // FALLBACK STRUCT
+    // SAFE STRUCT EXTRACTION (ONCE ONLY)
     // =====================================================
-    var keys = variable_struct_get_names(data);
+    var fixed_list = [];
+    var choice_count = 0;
+    var choice_options = [];
 
-    for (var i = 0; i < array_length(keys); i++)
+    if (!is_struct(data)) return ty;
+
+// =====================================================
+// EXTRACT
+// =====================================================
+var fixed_list = [];
+var choice_count = 0;
+var choice_options = [];
+
+if (variable_struct_exists(data, "fixed"))
+    fixed_list = data.fixed;
+
+if (variable_struct_exists(data, "choices"))
+{
+    var c = data.choices;
+
+    if (is_struct(c))
     {
-        var key = keys[i];
-        var val = variable_struct_get(data, key);
+        if (variable_struct_exists(c, "count"))
+            choice_count = c.count;
 
-        var item_y = ty;
+        if (variable_struct_exists(c, "options"))
+            choice_options = c.options;
+    }
+}
 
-        draw_text(tx + 10, item_y,
-            scr_fmt_label(key) + ": " + string(val)
+// =====================================================
+// FIXED
+// =====================================================
+if (array_length(fixed_list) > 0)
+{
+    for (var i = 0; i < array_length(fixed_list); i++)
+    {
+        draw_text(tx + 10, ty, "- " + scr_fmt_label(fixed_list[i]));
+        ty += line;
+    }
+
+    return ty; // 🔴 CRITICAL STOP
+}
+
+// =====================================================
+// CHOICES (SUMMARY ONLY)
+// =====================================================
+if (choice_count > 0)
+{
+    draw_text(tx + 10, ty,
+        "Choose " + string(choice_count)
+    );
+
+    ty += line;
+
+    return ty; // 🔴 CRITICAL STOP
+}
+
+// =====================================================
+// OPTIONS (ONLY IF NO CHOICE SUMMARY)
+// =====================================================
+if (is_array(choice_options) && array_length(choice_options) > 0)
+{
+    for (var i = 0; i < array_length(choice_options); i++)
+    {
+        draw_text(tx + 10, ty, "- " + string(choice_options[i]));
+        ty += line;
+    }
+
+    return ty; // 🔴 CRITICAL STOP
+}
+
+    // =====================================================
+    // SPECIAL CASE: ATTRIBUTE ADJUSTMENTS
+    // =====================================================
+    if (is_struct_data && title == "Attribute Adjustments")
+    {
+        var t = string_lower(string(data.type));
+
+        if (t == "choice")
+			{
+			    var item_y = ty;
+
+			    var count = 0;
+
+			    // NEW SCHEMA: uses "count" directly
+			    if (variable_struct_exists(data, "count"))
+			    {
+			        count = data.count;
+			    }
+
+			    draw_text(
+			        tx + 10,
+			        item_y,
+			        "Choose +" + string(data.amount) +
+			        " to " + string(count) + " attributes"
+			    );
+
+			    return ty + line;
+			}
+    }
+
+    // =====================================================
+    // FIXED LIST OUTPUT
+    // =====================================================
+    if (array_length(fixed_list) > 0)
+    {
+        for (var i = 0; i < array_length(fixed_list); i++)
+        {
+            draw_text(tx + 10, ty,
+                "- " + scr_fmt_label(fixed_list[i])
+            );
+
+            ty += line;
+        }
+    }
+
+    // =====================================================
+    // SUMMARY MODE (OVERRIDES EVERYTHING)
+    // =====================================================
+    if (choice_count > 0)
+    {
+        draw_text(tx + 10, ty,
+            "Choose " + string(choice_count)
         );
 
-        if (point_in_rectangle(mx, my, tx, item_y, tx + hover_w, item_y + hover_h))
+        ty += line;
+
+        return ty;
+    }
+
+    // =====================================================
+    // HIT LOCATIONS
+    // =====================================================
+    if (is_struct_data && title == "Hit Locations")
+    {
+        var hit_data = data.data;
+        var order = data.order;
+
+        if (is_array(order))
         {
-            set_tooltip(scr_fmt_label(key), mx + 16, my + 16);
+            for (var i = 0; i < array_length(order); i++)
+            {
+                var limb = order[i];
+                if (!variable_struct_exists(hit_data, limb)) continue;
+
+                var arr = hit_data[$ limb];
+
+                var text_line = "";
+                for (var j = 0; j < array_length(arr); j++)
+                {
+                    text_line += string(arr[j]);
+                    if (j < array_length(arr) - 1) text_line += ", ";
+                }
+
+                draw_text(tx + 10, ty,
+                    scr_fmt_label(limb) + ": " + text_line
+                );
+
+                ty += line;
+            }
         }
 
+        return ty;
+    }
+
+
+if (is_struct(data) && variable_struct_exists(data, "type"))
+{
+    var t = string_lower(string(data.type));
+
+    // =================================================
+    // FIXED ATTRIBUTES
+    // =================================================
+    if (t == "fixed" && variable_struct_exists(data, "values"))
+    {
+        var vals = data.values;
+        var keys = variable_struct_get_names(vals);
+
+        for (var i = 0; i < array_length(keys); i++)
+        {
+            var k = keys[i];
+            var v = vals[$ k];
+
+            draw_text(tx + 10, ty,
+                scr_fmt_label(k) + " " + string(v)
+            );
+
+            ty += line;
+        }
+
+        return ty; // 🔴 IMPORTANT: stop fallback
+    }
+
+    // =================================================
+    // CHOICE ATTRIBUTES
+    // =================================================
+    if (t == "choice")
+    {
+        var count = 0;
+
+        if (variable_struct_exists(data, "count"))
+            count = data.count;
+
+        draw_text(tx + 10, ty,
+            "Choose +" + string(data.amount) +
+            " to " + string(count) + " attributes"
+        );
+
         ty += line;
+
+        return ty;
+    }
+}
+
+
+    // =====================================================
+    // FALLBACK STRUCT
+    // =====================================================
+    if (is_struct_data)
+    {
+        var keys = variable_struct_get_names(data);
+
+        for (var i = 0; i < array_length(keys); i++)
+        {
+            var key = keys[i];
+            var val = variable_struct_get(data, key);
+
+            draw_text(tx + 10, ty,
+                scr_fmt_label(key) + ": " + string(val)
+            );
+
+            ty += line;
+        }
     }
 
     return ty;

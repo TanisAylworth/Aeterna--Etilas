@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"Generation_Shop_Init",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"Generation_Shop_Init",
+  "parent":{
+    "name":"****SCR_IN_FOCUS****",
+    "path":"folders/Scripts/****SCR_IN_FOCUS****.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

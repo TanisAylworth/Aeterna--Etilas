@@ -1,17 +1,24 @@
-function reroll_all() {
+function reroll_all()
+{
     var cc = global.char_creation;
+    if (!is_struct(cc)) return;
 
-    // return assigned values to pool
-    var attrs = global.ATTRIBUTES;
+    // ==========================================
+    // SNAPSHOT BEFORE FULL RESET
+    // ==========================================
+    push_history(cc);
 
-    for (var i = 0; i < array_length(attrs); i++) {
-        var val = variable_struct_get(cc.assigned, attrs[i]);
+    // ==========================================
+    // REGENERATE STATE
+    // ==========================================
+    cc.base_pool = generate_roll_pool();
+    cc.roll_pool = array_copy_simple(cc.base_pool);
 
-        if (!is_undefined(val)) {
-            array_push(cc.roll_pool, val);
-            variable_struct_set(cc.assigned, attrs[i], undefined);
-        }
-    }
+    cc.assigned = {};
 
-    cc.roll_pool = generate_roll_pool();
+    cc.selected_roll_index = -1;
+    cc.selected_roll_value = undefined;
+
+    cc.species_bonus_map = {};
+    cc.species_bonus_remaining = 0;
 }

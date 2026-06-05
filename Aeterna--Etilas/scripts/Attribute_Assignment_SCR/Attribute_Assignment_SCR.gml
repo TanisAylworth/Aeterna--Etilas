@@ -1,34 +1,35 @@
-function assign_roll(attr_name) {
+function assign_roll(cc, attr)
+{
+    if (!is_struct(cc)) return;
+    if (cc.selected_roll_index < 0) return;
+    if (!is_array(cc.roll_pool)) return;
 
-    var cc = global.char_creation;
+    var idx = cc.selected_roll_index;
+    if (idx >= array_length(cc.roll_pool)) return;
 
-    if (cc.selected_roll_index == -1) return;
+    var new_roll = cc.roll_pool[idx];
+    if (!is_real(new_roll)) return;
 
-    var roll = cc.roll_pool[cc.selected_roll_index];
+    // SNAPSHOT FIRST (critical)
+    push_history(cc);
 
-    // store previous value for undo
-    var old_value = variable_struct_get(cc.assigned, attr_name);
+    var old_roll = undefined;
 
-    if (!is_undefined(old_value)) {
+    if (is_real(cc.assigned[$ attr]))
+        old_roll = cc.assigned[$ attr];
 
-        // return old value back into pool
-        array_push(cc.roll_pool, old_value);
-    }
+    // assign
+    cc.assigned[$ attr] = new_roll;
 
-    // assign new value
-    variable_struct_set(cc.assigned, attr_name, roll);
+    // remove from pool
+    array_delete(cc.roll_pool, idx, 1);
 
-    // remove used roll
-    array_delete(cc.roll_pool, cc.selected_roll_index, 1);
+    // restore old roll if valid
+    if (is_real(old_roll))
+        array_push(cc.roll_pool, old_roll);
+
+    sanitize_roll_pool(cc);
 
     cc.selected_roll_index = -1;
-
-    // optional: history stack for full undo system
-    array_push(cc.history, {
-        type: "assign",
-        attr: attr_name,
-        value: roll,
-        previous: old_value
-    });
+    cc.selected_roll_value = undefined;
 }
-

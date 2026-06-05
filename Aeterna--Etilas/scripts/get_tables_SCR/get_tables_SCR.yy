@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"get_tables_SCR",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"get_tables_SCR",
+  "parent":{
+    "name":"****SCR_IN_FOCUS****",
+    "path":"folders/Scripts/****SCR_IN_FOCUS****.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

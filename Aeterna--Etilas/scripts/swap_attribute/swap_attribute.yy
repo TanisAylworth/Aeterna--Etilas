@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"swap_attribute",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"swap_attribute",
+  "parent":{
+    "name":"ATTRIBUTE_GENERATION",
+    "path":"folders/Scripts/ATTRIBUTE_GENERATION.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

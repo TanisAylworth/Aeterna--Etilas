@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"auto_assign_attributes",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"auto_assign_attributes",
+  "parent":{
+    "name":"ATTRIBUTE_GENERATION",
+    "path":"folders/Scripts/ATTRIBUTE_GENERATION.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

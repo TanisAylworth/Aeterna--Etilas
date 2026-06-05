@@ -1,89 +1,130 @@
 // ===============================
 // INIT GLOBAL DATA FIRST
 // ===============================
-
 Species_Data_SCR();
 Attribute_data();
-init_attributes();
-var ui_scale_x = display_get_width() / 1920;
-var ui_scale_y = display_get_height() / 1080;
+
+
+
 show_debug_message("INIT DATA COMPLETE");
 
 
 // ===============================
 // CHARACTER CREATION STATE
 // ===============================
-
 global.char_creation = {
+    // -------------------------------
+    // STEP SYSTEM CORE
+    // -------------------------------
     step_index: 0,
+    last_step_id: "",
+
+    steps: [
+
+        {
+            id: "species",
+            title: "Choose Species",
+            type: "single_select",
+            next: "attributes"
+        },
+
+        {
+            id: "attributes",
+            title: "Assign Attributes",
+            type: "roll_assign",
+            rolls: 10,
+            next: "generation"
+        },
+
+        {
+            id: "generation",
+            title: "Character Generation",
+            type: "generation_shop",
+
+            // generation config
+            slots_base: 20,
+            int_bonus: true,
+
+            categories: [
+                "tables",
+                "skills",
+                "talents",
+                "cdt",
+                "gold"
+            ],
+
+            next: "finalize"
+        },
+
+        {
+            id: "finalize",
+            title: "Finalize Character",
+            type: "finalize"
+        }
+    ],
+
+
+    // -------------------------------
+    // SPECIES STATE
+    // -------------------------------
     species: undefined,
-	locked_species: undefined,
-	confirmed_species: -1,
+    locked_species: undefined,
+    confirmed_species: -1,
+
+
+    // -------------------------------
+    // ATTRIBUTE SYSTEM
+    // -------------------------------
     assigned: {},
+    selected_index: -1,
+
+
+    // -------------------------------
+    // GENERATION SYSTEM (WILL BE INITIALIZED ON ENTER)
+    // -------------------------------
+    generation_initialized: false,
+    generation_slots_total: 0,
+    generation_slots_remaining: 0,
+
+	
+	
+
+    generation: {
+        tables: [],
+        skills: [],
+        talents: [],
+        cdt_bonus: 0,
+        gold_bonus: 0
+    },
+
+
+    // -------------------------------
+    // TEMP / UI STATE
+    // -------------------------------
     selections: {
         knowledge_tables: [],
         skills: []
     },
+
     temp_pool: [],
-    selected_index: -1,
-    steps: [
 
-        {
-        id: "species",
-        title: "Choose Species",
-        type: "single_select",
-        next: "attributes"
-    },
 
-    {
-        id: "attributes",
-        title: "Assign Attributes",
-        type: "roll_assign",
-        rolls: 10,
-        next: "generation"
-    },
-
-    {
-        id: "generation",
-        title: "Character Generation",
-        type: "generation_shop",
-        slots_base: 20,
-        int_bonus: true,
-        categories:
-        [
-            "tables",
-            "skills",
-            "talents",
-            "cdt",
-            "gold"
-        ],
-        next: "finalize"
-    },
-
-    {
-        id: "finalize",
-        title: "Finalize Character",
-        type: "finalize"
+    // -------------------------------
+    // TOOLTIP SYSTEM
+    // -------------------------------
+    tooltip: {
+        active: false,
+        text: "",
+        x: 0,
+        y: 0
+		
+		
+		
     }
-    ]
-};
+	
+	
+	
 
-
-// ===============================
-// DEBUG VALIDATION
-// ===============================
-
-
-
-
-global.char_creation.locked_species = undefined;
-
-
-global.char_creation.tooltip = {
-    active: false,
-    text: "",
-    x: 0,
-    y: 0
 };
 
 

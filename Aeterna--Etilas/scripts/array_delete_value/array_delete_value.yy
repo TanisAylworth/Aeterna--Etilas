@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"array_delete_value",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"array_delete_value",
+  "parent":{
+    "name":"ATTRIBUTE_GENERATION",
+    "path":"folders/Scripts/ATTRIBUTE_GENERATION.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

@@ -16,7 +16,7 @@ function draw_species_select(step)
     draw_set_color(c_black);
     draw_rectangle(panel_x, panel_y, panel_x + panel_w, panel_y + vh, true);
 
-
+	
 	// =====================================================
 	// SPECIES CONTROLS HELP PANEL
 	// =====================================================
@@ -78,7 +78,7 @@ function draw_species_select(step)
         if (is_hovered)
         {
             hovered_species = species_id;
-
+			
             // LEFT CLICK = LOCK SELECTION
             if (mouse_check_button_pressed(mb_left))
             {
@@ -96,17 +96,67 @@ function draw_species_select(step)
 				{
 				    cc.species_bonus_remaining = adj.choices;
 				}
+				
+				
             }
         }
 
-        // DRAW BOX
-        draw_set_color(is_hovered ? c_yellow : c_white);
-        draw_rectangle(list_x, yy, list_x + box_w, yy + box_h, false);
+        // =====================================
+// VISUAL STATE
+// =====================================
 
-        draw_set_color(c_black);
-        draw_rectangle(list_x, yy, list_x + box_w, yy + box_h, true);
+var is_selected =
+    (global.char_creation.locked_species == species_id);
 
-        draw_text(list_x + 10, yy + 6, sp.name);
+// BORDER COLOR
+if (is_selected)
+{
+    draw_set_color(c_green);
+}
+else if (is_hovered)
+{
+    draw_set_color(c_yellow);
+}
+else
+{
+    draw_set_color(c_white);
+}
+
+// OUTLINE
+draw_rectangle(
+    list_x,
+    yy,
+    list_x + box_w,
+    yy + box_h,
+    false
+);
+
+// FILL
+if (is_selected)
+{
+    draw_set_color(make_color_rgb(40,120,40));
+}
+else
+{
+    draw_set_color(c_black);
+}
+
+draw_rectangle(
+    list_x,
+    yy,
+    list_x + box_w,
+    yy + box_h,
+    true
+);
+
+// TEXT
+draw_set_color(c_black);
+
+draw_text(
+    list_x + 10,
+    yy + 6,
+    sp.name
+);
     }
 
     // RIGHT CLICK = UNLOCK
@@ -306,7 +356,59 @@ if (point_in_rectangle(mx, my, tx, ty, tx + 200, ty + 18))
 ty = scr_ui_draw_section(tx, ty, "Traits", selected.stats.traits);
 
 
+
+
+
+// =====================================================
+// CONFIRM BUTTON
+// =====================================================
+
+if (global.char_creation.locked_species != undefined)
+{
+    var btn_w = 260;
+    var btn_h = 60;
+
+    var btn_x = (vw - btn_w) * 0.5;
+    var btn_y = vh - 100;
+
+    var hovering = point_in_rectangle(
+        mx, my,
+        btn_x, btn_y,
+        btn_x + btn_w,
+        btn_y + btn_h
+    );
+
+    draw_set_color(hovering ? c_lime : c_green);
+
+    draw_rectangle(
+        btn_x,
+        btn_y,
+        btn_x + btn_w,
+        btn_y + btn_h,
+        false
+    );
+
+    draw_set_color(c_white);
+
+    draw_set_halign(fa_center);
+    draw_set_valign(fa_middle);
+
+    draw_text(
+        btn_x + btn_w * 0.5,
+        btn_y + btn_h * 0.5,
+        "CONFIRM SPECIES"
+    );
+
+    draw_set_halign(fa_left);
+    draw_set_valign(fa_top);
 }
+
+
+}
+
+
+
+
 
 
 

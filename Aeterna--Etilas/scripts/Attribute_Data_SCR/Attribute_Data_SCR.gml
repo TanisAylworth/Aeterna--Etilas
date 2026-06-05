@@ -7,15 +7,16 @@ global.attribute_data = {
     Strength: function(val) {
 		
 		if (val >= 10) {
-
+			
 	        car  = 40 + ((val - 10) * 20);
 	        dmg  = floor((val - 10) / 2);
+			
 
 	    } else {
 
 	        // different scaling for low stats
 	        car  = 40 - ((10 - val) * 5); // negative penalty
-	        dmg  = floor((val - 10) / 2); // less harsh damage penalty
+	        dmg  = ceil((val - 10) / 2); // less harsh damage penalty
 	    }
 		if(val <= 0){
 			car  = 0;
@@ -30,16 +31,16 @@ global.attribute_data = {
     Dexterity: function(val) {
 		if (val >= 10) {
 
-	        atk  = val - 10;
+	        atk  = val;
 	        move = floor(30 + ((val - 10) * 5));
 	        dmg  = floor((val - 10) / 3);
 
 	    } else {
 
 	        // different scaling for low stats
-	        atk  = val - 10; // negative penalty
-	        move = floor(30 - (((10 - val)/2) * 5)); // softer penalty
-	        dmg  = floor((val - 10) / 4); // less harsh damage penalty
+	        atk  = val; // negative penalty
+	        move = ceil(30 + (ceil((val - 10)/2) * 5)); // softer penalty
+	        dmg  = ceil((val - 10) / 2); // less harsh damage penalty
 	    }
 		if(val <= 0){
 			atk  = 0;
@@ -47,7 +48,7 @@ global.attribute_data = {
 	        dmg  = 0;
 		}
         return [
-            "Attack Bonus: " + string(atk),
+            "Base Attack Check: " + string(atk),
             "Move Speed: " + string(floor(move)) + " ft",
             "Dexterity Damage Bonus: " + string(floor((dmg)))
         ];
@@ -79,22 +80,22 @@ global.attribute_data = {
 	Reflexes: function(val) {
 		if (val >= 10) {
 
-	        int  = (0 + (val - 10));
-	        def = (0 + (val - 10));
+	        int  = (val + (val - 10));
+	        def = val;
 
 	    } else {
 
 	        // different scaling for low stats
-	        int  = (0 - (10 - val));
-	        def = (0 - (10 - val));
+	        int  = (val - (10 - val));
+	        def = val;
 	    }
 		if(val <= 0){
 			int  = 0;
 	        def = 0;
 		}
         return [
-            "Initiative Check Bonus: " + string(int),
-            "Defense Action Bonus: " + string(def)
+            "Initiative Check: " + string(int),
+            "Base Defense Check: " + string(def)
         ];
     },
 	
@@ -103,21 +104,21 @@ global.attribute_data = {
 		
 		if (val >= 10) {
 
-	        slot  = (val - 10);
-	        logi  = (val + 10);
+	        slot  = (20 + (val - 10));
+	        logi  = (val + (val - 10));
 
 	    } else {
 
 	        // different scaling for low stats
-	        slot  = floor(1 + (val - 10) / 2); 
-	        logi  = floor(10 + (val - 10)); 
+	        slot  = 20 + ceil((val - 10) / 2); 
+	        logi  = ceil(val + (val - 10)); 
 	    }
 		if(val <= 0){
 			slot  = 0;
 	        logi  = 0;
 		}
         return [
-            "Additional Creation Slots: " + string(slot),
+            "Character Points: " + string(slot),
             "Logic Test: " + string(logi)
         ];
     },
@@ -208,8 +209,8 @@ global.attribute_data = {
 	    } else {
 
 	        // different scaling for low stats
-	        com  = floor((1 + (val - 10) / 2) + val); 
-	        fol  = floor(2 + (1 + (val - 10) / 4)); 
+	        com  = ceil((1 + (val - 10) / 2) + val); 
+	        fol  = ceil(2 + (1 + (val - 10) / 4)); 
 	    }
 		if(val <= 0){
 			com  = 0;
@@ -231,8 +232,8 @@ global.attribute_data = {
 	    } else {
 
 	        // different scaling for low stats
-	        cdt  = floor(((val - 10) / 2)); 
-	        heal  = 2 + floor((1 + (val - 10) / 4)); 
+	        cdt  = ceil(((val - 10) / 2)); 
+	        heal  = 2 + ceil(((val - 10) / 4)); 
 	    }
 		if(val <= 0){
 			cdt  = 0;

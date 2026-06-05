@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"Step_Species_SCR",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"Step_Species_SCR",
+  "parent":{
+    "name":"Species_SCR",
+    "path":"folders/Scripts/Species_SCR.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}
