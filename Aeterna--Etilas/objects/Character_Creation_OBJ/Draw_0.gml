@@ -1,5 +1,8 @@
 var cc = global.char_creation;
 
+// Draw Event
+show_debug_message("DRAW RUNNING");
+
 global.char_creation.tooltip.active = false;
 
 if (!is_struct(cc)) exit;

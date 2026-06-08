@@ -9,7 +9,6 @@ function generation_shop_init(cc)
     }
 
     var sp = cc.locked_species;
-
     // =====================================================
     // SAFE SPECIES FETCH
     // =====================================================
@@ -19,23 +18,41 @@ function generation_shop_init(cc)
     {
         species = global.species_data[$ sp];
     }
+	
+	
+	
+	
+	if (!variable_struct_exists(cc, "skill_ranks"))
+    cc.skill_ranks = {};
+
+if (!variable_struct_exists(cc, "skill_points_remaining"))
+    cc.skill_points_remaining = STARTING_SKILL_POINTS;
+
+if (!variable_struct_exists(cc, "selected_table"))
+    cc.selected_table = "";
+
+if (!variable_struct_exists(cc, "selected_skill"))
+    cc.selected_skill = "";
 
     // =====================================================
     // NORMALIZED DATA HELPERS
     // =====================================================
     function _normalize_knowledge(node)
     {
-        var out = {
+        var out =
+        {
             fixed: [],
-            choices: {
+            choices:
+            {
                 count: 0,
                 options: []
             }
         };
 
-        if (is_undefined(node)) return out;
+        if (is_undefined(node))
+            return out;
 
-        // CASE 1: already standardized
+        // already standardized
         if (variable_struct_exists(node, "fixed"))
             out.fixed = node.fixed;
 
@@ -51,24 +68,19 @@ function generation_shop_init(cc)
                 if (variable_struct_exists(c, "options"))
                     out.choices.options = c.options;
             }
-            else if (is_array(c))
-            {
-                // fallback: old format like "choices: 4"
-                out.choices.count = c;
-            }
             else if (is_real(c))
             {
                 out.choices.count = c;
             }
         }
 
-        // CASE 2: legacy "options only"
+        // legacy options-only format
         if (variable_struct_exists(node, "options"))
         {
             out.choices.options = node.options;
         }
 
-        // CASE 3: raw array fallback
+        // raw array fallback
         if (is_array(node))
         {
             out.fixed = node;
@@ -78,44 +90,137 @@ function generation_shop_init(cc)
     }
 
     // =====================================================
-    // AVAILABLE DATA (SAFE DEFAULTS)
-    // =====================================================
-    cc.available_tables  = [];
-    cc.available_skills  = [];
-    cc.available_talents = [];
-
-    if (!is_undefined(species))
-    {
-        cc.available_tables  = _normalize_knowledge(species.creation.knowledge_tables);
-        cc.available_skills  = _normalize_knowledge(species.creation.knowledge_skills);
-        cc.available_talents = _normalize_knowledge(species.creation.knowledge_talents);
-    }
-
-    // =====================================================
-    // GENERATION STATE RESET
+    // GENERATION STATE
     // =====================================================
     cc.generation =
     {
+        // purchases
         tables: [],
         skills: [],
         talents: [],
+
+        // generation resources
         cdt_bonus: 0,
-        gold_bonus: 0
+        gold_bonus: 0,
+
+        // table tracking
+        fixed_tables: [],
+        choice_tables: [],
+        purchased_tables: [],
+		tables_locked : false,
+
+        table_choices_remaining: 0
+    };
+	
+	cc.selected_knowledge_table = "";
+
+    // =====================================================
+    // SAFE DEFAULTS
+    // =====================================================
+    cc.available_tables =
+    {
+        fixed: [],
+        choices:
+        {
+            count: 0,
+            options: []
+        }
+    };
+
+    cc.available_skills =
+    {
+        fixed: [],
+        choices:
+        {
+            count: 0,
+            options: []
+        }
+    };
+
+    cc.available_talents =
+    {
+        fixed: [],
+        choices:
+        {
+            count: 0,
+            options: []
+        }
     };
 
     // =====================================================
-    // CDT CAP SAFE INIT
+    // LOAD SPECIES DATA
     // =====================================================
-    cc.generation.cdt_bonus = 0;
-    cc.generation.gold_bonus = 0;
+    if (!is_undefined(species))
+    {
+        // -------------------------
+        // normalized species data
+        // -------------------------
+        cc.available_tables =
+            _normalize_knowledge(
+                species.creation.knowledge_tables
+            );
 
+        cc.available_skills =
+            _normalize_knowledge(
+                species.creation.knowledge_skills
+            );
+
+        cc.available_talents =
+            _normalize_knowledge(
+                species.creation.knowledge_talents
+            );
+
+        // -------------------------
+        // fixed tables
+        // -------------------------
+        if (variable_struct_exists(
+            species.creation.knowledge_tables,
+            "fixed"))
+        {
+            cc.generation.fixed_tables =
+                array_copy_simple(
+                    species.creation.knowledge_tables.fixed
+                );
+        }
+
+        // -------------------------
+        // table choices
+        // -------------------------
+        if (variable_struct_exists(
+            species.creation.knowledge_tables,
+            "choices"))
+        {
+            cc.generation.table_choices_remaining =
+                species.creation.knowledge_tables.choices.count;
+        }
+    }
+
+    // =====================================================
+    // SLOT CALCULATION
+    // =====================================================
     var base_slots = cc.steps[cc.step_index].slots_base;
-    var int_bonus  = get_final_attribute(cc, "Intelligence");
+    var int_bonus = get_final_attribute(cc, "Intelligence");
 
-    cc.generation_slots_total = base_slots + max(0, int_bonus);
-    cc.generation_slots_remaining = cc.generation_slots_total;
+    cc.generation_slots_total =
+        base_slots + max(0, int_bonus);
 
+    cc.generation_slots_remaining =
+        cc.generation_slots_total;
+
+   
+
+    // =====================================================
+    // COMPLETE
+    // =====================================================
     cc.generation_initialized = true;
 
-    show_debug_message("GENERATION INIT → CLEAN STANDARDIZED PIPELINE READY");
+    show_debug_message(
+        "GENERATION INIT → CLEAN STANDARDIZED PIPELINE READY"
+    );
+	
+	
+	show_debug_message("GENERATION INIT COMPLETE");
+show_debug_message("HAS CDT: " + string(variable_struct_exists(cc.generation, "cdt_bonus")));
+show_debug_message("HAS GOLD: " + string(variable_struct_exists(cc.generation, "gold_bonus")));
+show_debug_message("HAS TABLES: " + string(variable_struct_exists(cc.generation, "table_choices_remaining")));
 }

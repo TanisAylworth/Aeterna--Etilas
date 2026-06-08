@@ -1,23 +1,21 @@
 
 function attribute_step_draw(cc)
 {
-	if (!variable_global_exists("ATTRIBUTES"))
-{
-    exit;
-}
+    // =====================================================
+    // VALIDATION
+    // =====================================================
 
-if (!is_struct(cc)) exit;
-if (!variable_struct_exists(cc, "attribute_initialized")) exit;
-if (!is_array(global.ATTRIBUTES)) exit;
-	
+    if (!variable_global_exists("ATTRIBUTES")) exit;
+    if (!is_array(global.ATTRIBUTES)) exit;
     if (!is_struct(cc)) exit;
-	
-	if (!variable_struct_exists(cc, "attribute_initialized"))
-    exit;
+
+    if (!variable_struct_exists(cc, "attribute_initialized"))
+        exit;
 
     // =====================================================
-    // SAFETY (ONLY ONCE, EARLY)
+    // SAFETY
     // =====================================================
+
     if (!variable_struct_exists(cc, "roll_pool"))
         cc.roll_pool = generate_roll_pool();
 
@@ -35,12 +33,19 @@ if (!is_array(global.ATTRIBUTES)) exit;
 
     if (!variable_struct_exists(cc, "confirm_btn"))
     {
-        cc.confirm_btn = { w: 260, h: 60, x: 0, y: 0 };
+        cc.confirm_btn =
+        {
+            w : 260,
+            h : 60,
+            x : 0,
+            y : 0
+        };
     }
 
     // =====================================================
-    // INPUT (SINGLE SOURCE OF TRUTH)
+    // INPUT
     // =====================================================
+
     var mx = device_mouse_x_to_gui(0);
     var my = device_mouse_y_to_gui(0);
 
@@ -48,26 +53,17 @@ if (!is_array(global.ATTRIBUTES)) exit;
     var screen_h = display_get_gui_height();
 
     // =====================================================
-    // LAYOUT CONFIG
+    // LAYOUT
     // =====================================================
-    var cols = 2;
 
-    var attr_w = 200;
-    var attr_h = 20;
+    var attr_count = array_length(global.ATTRIBUTES);
 
-    var col_spacing = 80;
-    var row_spacing = 90;
+    var L = get_attribute_layout();
 
-    var attr_count = is_array(global.ATTRIBUTES)
-    ? array_length(global.ATTRIBUTES)
-    : 0;
+    var bonus_x = L.right_x + 120;
+    var bonus_y = L.top_y;
 
-    var total_attr_w = cols * attr_w + (cols - 1) * col_spacing;
-    var attr_start_x = (screen_w - total_attr_w) * 0.5;
-    var attr_y = 220;
 
-    var bonus_x = attr_start_x + total_attr_w + 120;
-    var bonus_y = attr_y;
 
     // =====================================================
     // ROLL POOL DRAW
@@ -119,12 +115,12 @@ if (!is_array(global.ATTRIBUTES)) exit;
     // =====================================================
     draw_set_halign(fa_center);
 
-    draw_text_colour(
-        screen_w * 0.5,
-        attr_y - 50,
-        "ATTRIBUTES",
-        c_white,c_white,c_white,c_white,1
-    );
+   draw_text_colour(
+    screen_w * 0.5,
+    L.top_y - 50,
+    "ATTRIBUTES",
+    c_white, c_white, c_white, c_white, 1
+);
 
     draw_set_halign(fa_left);
 
@@ -132,14 +128,12 @@ if (!is_array(global.ATTRIBUTES)) exit;
     {
         var attr = global.ATTRIBUTES[i];
 
-        var col = i mod cols;
-        var row = floor(i / cols);
+        var r = get_attribute_rect(i);
 
-        var x1 = attr_start_x + col * (attr_w + col_spacing);
-        var y1 = attr_y + row * row_spacing;
-
-        var x2 = x1 + attr_w;
-        var y2 = y1 + attr_h;
+		var x1 = r.x;
+		var y1 = r.y;
+		var x2 = r.x + r.w;
+		var y2 = r.y + r.h;
 
         var base = 0;
         var species_bonus = 0;
@@ -148,11 +142,41 @@ if (!is_array(global.ATTRIBUTES)) exit;
         if (is_real(cc.assigned[$ attr]))
             base = cc.assigned[$ attr];
 
+		var sp = cc.locked_species;
+
+		if (!is_undefined(sp)
+		&& variable_struct_exists(global.species_data, sp))
+		{
+		    var data = global.species_data[$ sp];
+
+		    if (variable_struct_exists(data, "stats")
+		    && variable_struct_exists(data.stats, "attributes"))
+		    {
+		        var attrs = data.stats.attributes;
+
+		        if (variable_struct_exists(attrs, attr))
+		        {
+		            species_bonus = attrs[$ attr];
+		        }
+		        else if (variable_struct_exists(attrs, string_lower(attr)))
+		        {
+		            species_bonus = attrs[$ string_lower(attr)];
+		        }
+		    }
+		}
+		
+		if (variable_struct_exists(cc.species_bonus_map, attr))
+		{
+		    choice_bonus = 1;
+		}
+
         var final_val = base + species_bonus + choice_bonus;
 
         var hover = point_in_rectangle(mx, my, x1, y1, x2, y2);
 
-        var is_assigned = is_real(cc.assigned[$ attr]);
+        var is_assigned =
+    variable_struct_exists(cc.assigned, attr)
+    && is_real(cc.assigned[$ attr]);
         var has_bonus = variable_struct_exists(cc.species_bonus_map, attr);
 
         if (hover)
@@ -171,42 +195,188 @@ if (!is_array(global.ATTRIBUTES)) exit;
 
         draw_rectangle(x1, y1, x2, y2, false);
 
-        draw_set_color(c_black);
+// ======================================
+// Attribute Value (BLACK)
+// ======================================
+draw_set_color(c_black);
 
-        draw_text(x1 + 5, y1 + 2, attr + ": " + string(final_val));
+draw_text(
+    x1 + 5,
+    y1 + 2,
+    attr + ": " + string(final_val)
+);
 
-        if (variable_struct_exists(global.attribute_data, attr))
-        {
-            var effects = global.attribute_data[$ attr](final_val);
+// ======================================
+// Derived Effects (WHITE)
+// ======================================
+draw_set_color(c_white);
 
-            for (var j = 0; j < array_length(effects); j++)
-            {
-                draw_text(x1 + 5, y1 + 18 + j * 14, effects[j]);
-            }
-        }
+if (variable_struct_exists(global.attribute_data, attr))
+{
+    var effects = global.attribute_data[$ attr](final_val);
+
+    for (var j = 0; j < array_length(effects); j++)
+    {
+        draw_text(
+            x1 + 5,
+            y1 + 25 + j * 25,
+            effects[j]
+        );
+    }
+}
     }
 
-    // =====================================================
-    // SPECIES PANEL (UNCHANGED LOGIC, CLEANED INPUT)
-    // =====================================================
-    draw_text(bonus_x, bonus_y, "SPECIES BONUSES");
+   // =====================================================
+// SPECIES BONUS PANEL
+// =====================================================
+
+
+
+var panel_w = 220;
+var panel_h = 280;
+
+// Background
+draw_set_color(c_black);
+
+draw_rectangle(
+    bonus_x - 10,
+    bonus_y - 10,
+    bonus_x + panel_w,
+    bonus_y + panel_h,
+    false
+);
+
+// Border
+draw_set_color(c_white);
+
+draw_rectangle(
+    bonus_x - 10,
+    bonus_y - 10,
+    bonus_x + panel_w,
+    bonus_y + panel_h,
+    true
+);
+
+// Header
+draw_set_color(c_white);
+
+draw_text(
+    bonus_x,
+    bonus_y,
+    "SPECIES BONUSES"
+);
+
+draw_text(
+    bonus_x,
+    bonus_y + 20,
+    "Remaining: " + string(cc.species_bonus_remaining)
+);
+
+// Attribute choices
+for (var i = 0; i < array_length(global.ATTRIBUTES); i++)
+{
+    var attr = global.ATTRIBUTES[i];
+
+    var yy = bonus_y + 50 + i * 20;
+
+    var selected =
+        variable_struct_exists(
+            cc.species_bonus_map,
+            attr
+        );
+
+    var hover =
+        point_in_rectangle(
+            mx, my,
+            bonus_x,
+            yy,
+            bonus_x + 180,
+            yy + 18
+        );
+
+    if (selected)
+        draw_set_color(c_lime);
+    else if (hover && cc.species_bonus_remaining > 0)
+        draw_set_color(c_yellow);
+    else
+        draw_set_color(c_white);
 
     draw_text(
         bonus_x,
-        bonus_y + 20,
-        "Remaining: " + string(cc.species_bonus_remaining)
+        yy,
+        attr
     );
 
+    draw_text(
+        bonus_x + 150,
+        yy,
+        selected ? "-" : "+"
+    );
+}
+		
+	
     // =====================================================
-    // CONTROLS (UNCHANGED VISUAL)
-    // =====================================================
-    draw_text(20, 20, "CONTROLS");
+// CONTROLS PANEL
+// =====================================================
 
-    draw_text(20, 40, "* Left Click Roll = Select");
-    draw_text(20, 60, "* Left Click Attribute = Assign/Remove");
-    draw_text(20, 80, "* R = Reroll");
-    draw_text(20, 100, "* Z = Undo");
-    draw_text(20, 120, "* A = Auto Assign");
+var ctrl_x = 20;
+var ctrl_y = 20;
+
+var ctrl_w = 400;
+var ctrl_h = 200;
+
+// Background
+draw_set_color(c_black);
+
+draw_rectangle(
+    ctrl_x,
+    ctrl_y,
+    ctrl_x + ctrl_w,
+    ctrl_y + ctrl_h,
+    false
+);
+
+draw_set_colour(c_white)
+draw_rectangle(
+    ctrl_x,
+    ctrl_y,
+    ctrl_x + ctrl_w,
+    ctrl_y + ctrl_h,
+    true
+);
+
+
+
+// Text
+draw_set_color(c_white);
+
+draw_set_halign(fa_left);
+draw_set_valign(fa_top);
+
+draw_text(ctrl_x + 10, ctrl_y + 10, "CONTROLS");
+
+draw_text(ctrl_x + 10, ctrl_y + 35,
+    "* Left Click Roll = Select");
+
+draw_text(ctrl_x + 10, ctrl_y + 55,
+    "* Left Click Attribute = Assign / Swap");
+	
+	draw_text(ctrl_x + 10, ctrl_y + 75,
+    "* Right Click Assigned Attribute = Remove");
+
+draw_text(ctrl_x + 10, ctrl_y + 95,
+    "* Left Click Species Bonus = Add / Remove");
+	
+	
+
+draw_text(ctrl_x + 10, ctrl_y + 115,
+    "* R = Reroll All");
+
+draw_text(ctrl_x + 10, ctrl_y + 135,
+    "* Z = Undo");
+
+draw_text(ctrl_x + 10, ctrl_y + 155,
+    "* A = Auto Assign");
 
     // =====================================================
     // CONFIRM BUTTON (SINGLE SYSTEM ONLY)

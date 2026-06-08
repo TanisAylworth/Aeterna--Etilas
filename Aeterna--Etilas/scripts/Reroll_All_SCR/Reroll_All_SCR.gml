@@ -20,5 +20,16 @@ function reroll_all()
     cc.selected_roll_value = undefined;
 
     cc.species_bonus_map = {};
+
+var species = global.species_data[$ cc.locked_species];
+
+if (species.creation.attribute_adjustments.type == "choice")
+{
+    cc.species_bonus_remaining =
+        species.creation.attribute_adjustments.count;
+}
+else
+{
     cc.species_bonus_remaining = 0;
+}
 }

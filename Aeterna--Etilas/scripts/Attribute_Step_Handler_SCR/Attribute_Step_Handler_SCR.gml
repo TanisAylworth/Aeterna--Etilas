@@ -36,9 +36,7 @@ function attribute_step_update(cc)
     var roll_h = 20;
     var roll_spacing = 10;
 
-    var attr_w = 200;
-    var col_spacing = 80;
-    var cols = 2;
+   
 
     var roll_count = array_length(cc.roll_pool);
     var attr_count = array_length(global.ATTRIBUTES);
@@ -47,9 +45,7 @@ function attribute_step_update(cc)
     var roll_start_x = (screen_w - roll_total_w) * 0.5;
     var roll_y = 80;
 
-    var attr_total_w = cols * attr_w + (cols - 1) * col_spacing;
-    var attr_start_x = (screen_w - attr_total_w) * 0.5;
-    var attr_y = 220;
+   
 
     // ==========================================
     // SELECT ROLL
@@ -88,39 +84,39 @@ function attribute_step_update(cc)
     if (right && !click_used)
     {
         for (var i = 0; i < attr_count; i++)
-        {
-            var attr = global.ATTRIBUTES[i];
+{
+    var attr = global.ATTRIBUTES[i];
+    var r = get_attribute_rect(i);
 
-            var col = i mod cols;
-            var row = floor(i / cols);
+    if (!point_in_rectangle(
+        mx, my,
+        r.x, r.y,
+        r.x + r.w,
+        r.y + r.h))
+    {
+        continue;
+    }
 
-            var x1 = attr_start_x + col * (attr_w + col_spacing);
-            var y1 = attr_y + row * 90;
+    if (!variable_struct_exists(cc.assigned, attr))
+        continue;
 
-            if (!point_in_rectangle(mx, my, x1, y1, x1 + attr_w, y1 + 20))
-                continue;
+    push_history(cc);
 
-            if (!variable_struct_exists(cc.assigned, attr))
-                continue;
+    var old_roll = cc.assigned[$ attr];
 
-            // 🔥 NEW METHOD RULE: SNAPSHOT FIRST ALWAYS
-            push_history(cc);
+    variable_struct_remove(cc.assigned, attr);
 
-            var old_roll = cc.assigned[$ attr];
+    if (is_real(old_roll))
+        array_push(cc.roll_pool, old_roll);
 
-            variable_struct_remove(cc.assigned, attr);
+    sanitize_roll_pool(cc);
 
-            if (is_real(old_roll))
-                array_push(cc.roll_pool, old_roll);
+    cc.selected_roll_index = -1;
+    cc.selected_roll_value = undefined;
 
-            sanitize_roll_pool(cc);
-
-            cc.selected_roll_index = -1;
-            cc.selected_roll_value = undefined;
-
-            click_used = true;
-            break;
-        }
+    click_used = true;
+    break;
+}
     }
 
     // ==========================================
@@ -129,34 +125,84 @@ function attribute_step_update(cc)
     if (left && !click_used)
     {
         for (var i = 0; i < attr_count; i++)
+{
+    var attr = global.ATTRIBUTES[i];
+    var r = get_attribute_rect(i);
+
+    if (!point_in_rectangle(
+        mx, my,
+        r.x, r.y,
+        r.x + r.w,
+        r.y + r.h))
+    {
+        continue;
+    }
+
+    if (!variable_struct_exists(cc.assigned, attr))
+    {
+        assign_roll(cc, attr);
+    }
+    else
+    {
+        swap_roll_with_attribute(cc, attr);
+    }
+
+    click_used = true;
+    break;
+}
+    }
+	
+	// ==========================================
+// SPECIES BONUS SELECTION
+// ==========================================
+if (left && !click_used)
+{
+    
+
+   var bonus_x = 1400;
+var bonus_y = 220;
+
+for (var i = 0; i < array_length(global.ATTRIBUTES); i++)
+{
+    var attr = global.ATTRIBUTES[i];
+
+    var yy = bonus_y + 50 + i * 20;
+
+    if (point_in_rectangle(
+        mx, my,
+        bonus_x,
+        yy,
+        bonus_x + 180,
+        yy + 18))
+    {
+
+        // remove bonus
+        if (variable_struct_exists(cc.species_bonus_map, attr))
         {
-            var attr = global.ATTRIBUTES[i];
+            variable_struct_remove(
+                cc.species_bonus_map,
+                attr
+            );
 
-            var col = i mod cols;
-            var row = floor(i / cols);
+            cc.species_bonus_remaining++;
 
-            var x1 = attr_start_x + col * (attr_w + col_spacing);
-            var y1 = attr_y + row * 90;
+            click_used = true;
+            break;
+        }
 
-            if (!point_in_rectangle(mx, my, x1, y1, x1 + attr_w, y1 + 20))
-                continue;
+        // add bonus
+        if (cc.species_bonus_remaining > 0)
+        {
+            cc.species_bonus_map[$ attr] = true;
 
-            // 🔥 CRITICAL RULE:
-            // DO NOT call assign/swap blindly unless THEY snapshot internally
-
-            if (!variable_struct_exists(cc.assigned, attr))
-            {
-                assign_roll(cc, attr);
-            }
-            else
-            {
-                swap_roll_with_attribute(cc, attr);
-            }
+            cc.species_bonus_remaining--;
 
             click_used = true;
             break;
         }
     }
+}
+}
 
     // ==========================================
     // CONFIRM BUTTON (UNCHANGED LOGIC)

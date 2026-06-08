@@ -1,12 +1,22 @@
 function assign_roll(cc, attr)
 {
+	
+	
+	show_debug_message(
+    "ASSIGN | attr=" + string(attr) +
+    " selected=" + string(cc.selected_roll_index) +
+    " pool_size=" + string(array_length(cc.roll_pool))
+);
+
     if (!is_struct(cc)) return;
     if (cc.selected_roll_index < 0) return;
     if (!is_array(cc.roll_pool)) return;
 
     var idx = cc.selected_roll_index;
     if (idx >= array_length(cc.roll_pool)) return;
-
+	show_debug_message(
+    "USING INDEX " + string(idx)
+);
     var new_roll = cc.roll_pool[idx];
     if (!is_real(new_roll)) return;
 

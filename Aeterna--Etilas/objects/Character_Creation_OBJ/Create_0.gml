@@ -3,8 +3,8 @@
 // ===============================
 Species_Data_SCR();
 Attribute_data();
-
-
+get_all_knowledge_tables();
+show_debug_message("Character Creation Create Event");
 
 show_debug_message("INIT DATA COMPLETE");
 
@@ -88,14 +88,28 @@ global.char_creation = {
 
 	
 	
-
-    generation: {
+	generation:
+    {
+        // purchases
         tables: [],
         skills: [],
         talents: [],
+
+        // generation resources
         cdt_bonus: 0,
-        gold_bonus: 0
+        gold_bonus: 0,
+
+        // table tracking
+        fixed_tables: [],
+        choice_tables: [],
+        purchased_tables: [],
+
+        table_choices_remaining: 0
+		
+		
+		
     },
+
 
 
     // -------------------------------

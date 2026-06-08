@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"skills_data",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"skills_data",
+  "parent":{
+    "name":"****SCR_IN_FOCUS****",
+    "path":"folders/Scripts/****SCR_IN_FOCUS****.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

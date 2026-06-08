@@ -27,7 +27,7 @@ function draw_species_select(step)
 	var sc_box_w = 380;
 	var sc_box_h = 120;
 
-	draw_set_color(make_color_rgb(20, 20, 20));
+	draw_set_color(c_black);
 	draw_rectangle(sc_box_x, sc_box_y, sc_box_x + sc_box_w, sc_box_y + sc_box_h, false);
 
 	draw_set_color(c_white);

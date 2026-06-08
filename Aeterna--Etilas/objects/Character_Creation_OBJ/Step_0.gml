@@ -1,4 +1,7 @@
 
+// Step Event
+show_debug_message("STEP RUNNING");
+
 var cc = global.char_creation;
 
 if (!is_struct(cc)) exit;

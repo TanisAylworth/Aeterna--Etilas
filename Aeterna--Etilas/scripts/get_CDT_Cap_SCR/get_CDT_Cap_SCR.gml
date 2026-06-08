@@ -20,6 +20,8 @@ function get_cdt_cap(cc)
     }
 
     var toughness = get_final_attribute(cc, "Toughness");
+	
+	var toughness_bonus = toughness
 
     return base_cdt + toughness;
 }

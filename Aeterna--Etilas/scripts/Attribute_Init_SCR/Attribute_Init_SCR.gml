@@ -2,12 +2,27 @@ function attribute_step_init(cc)
 {
     if (!is_struct(cc)) return;
 
-    if (variable_struct_exists(cc, "attribute_initialized") && cc.attribute_initialized)
+    if (variable_struct_exists(cc, "attribute_initialized")
+    && cc.attribute_initialized)
+    {
         return;
+    }
 
-    global.ATTRIBUTES = [
-        "Strength","Dexterity","Endurance","Reflexes","Intelligence",
-        "Perception","Willpower","Charm","Toughness","Leadership"
+    // ==========================================
+    // ATTRIBUTE LIST
+    // ==========================================
+    global.ATTRIBUTES =
+    [
+        "Strength",
+        "Dexterity",
+        "Endurance",
+        "Reflexes",
+        "Intelligence",
+        "Perception",
+        "Willpower",
+        "Charm",
+        "Toughness",
+        "Leadership"
     ];
 
     // ==========================================
@@ -17,15 +32,12 @@ function attribute_step_init(cc)
     cc.assigned = {};
 
     cc.base_pool = generate_roll_pool();
-
-    // roll_pool is the authoritative working copy
     cc.roll_pool = array_copy_simple(cc.base_pool);
 
-    // optional: only if you truly need it globally consistent
     sanitize_roll_pool(cc);
 
     // ==========================================
-    // UI / SELECTION STATE
+    // UI STATE
     // ==========================================
     cc.selected_roll_index = -1;
     cc.selected_roll_value = undefined;
@@ -33,12 +45,44 @@ function attribute_step_init(cc)
     cc.species_bonus_map = {};
     cc.species_bonus_remaining = 0;
 
-    cc.confirm_btn = { w: 260, h: 60, x: 0, y: 0 };
+    cc.confirm_btn =
+    {
+        w : 260,
+        h : 60,
+        x : 0,
+        y : 0
+    };
 
     cc.ready_to_confirm = false;
     cc.undo_version = 2;
 
+    // ==========================================
+    // SPECIES BONUS SETUP
+    // ==========================================
+    if (!is_undefined(cc.locked_species)
+    && variable_struct_exists(global, "species_data")
+    && variable_struct_exists(global.species_data, cc.locked_species))
+    {
+        var species = global.species_data[$ cc.locked_species];
+
+        if (variable_struct_exists(species, "creation")
+        && variable_struct_exists(species.creation, "attribute_adjustments"))
+        {
+            var adj = species.creation.attribute_adjustments;
+
+            if (adj.type == "choice")
+            {
+                cc.species_bonus_remaining = adj.count;
+            }
+        }
+    }
+
+    // ==========================================
+    // FINISH
+    // ==========================================
     cc.attribute_initialized = true;
 
-    show_debug_message("ATTRIBUTE INIT COMPLETE (DERIVED POOL MODE)");
+    show_debug_message("ATTRIBUTE INIT COMPLETE");
+    show_debug_message("Species = " + string(cc.locked_species));
+    show_debug_message("Bonus Choices = " + string(cc.species_bonus_remaining));
 }

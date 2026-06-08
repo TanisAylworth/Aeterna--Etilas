@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"get_CDT_bonus",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"get_CDT_bonus",
+  "parent":{
+    "name":"****SCR_IN_FOCUS****",
+    "path":"folders/Scripts/****SCR_IN_FOCUS****.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}
