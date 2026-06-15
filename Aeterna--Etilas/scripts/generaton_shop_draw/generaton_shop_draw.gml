@@ -3,9 +3,46 @@ function generation_shop_draw(step)
     var cc = global.char_creation;
     var L = generation_layout(cc);
 
+var tables_x  = L.center_x - L.panel_spacing;
+var skills_x  = L.center_x;
+var talents_x = L.center_x + L.panel_spacing;
+
+var yy = L.top_y;
+
+
+// =====================================
+    // SAFETY
+    // =====================================
+
+    if (!variable_struct_exists(cc, "selected_table"))
+        cc.selected_table = "";
+
+    if (!variable_struct_exists(cc, "selected_skill"))
+        cc.selected_skill = "";
+
+    if (!variable_struct_exists(cc, "skill_ranks"))
+        cc.skill_ranks = {};
+		
+	if (!variable_struct_exists(cc, "hovered_table"))
+    cc.hovered_table = "";
+
+if (!variable_struct_exists(cc, "hovered_skill"))
+    cc.hovered_skill = "";	
+		
+		
 show_debug_message(
     "GEN EXISTS: "
     + string(variable_struct_exists(cc, "generation"))
+);
+
+show_debug_message(
+    "HAS SELECTED TABLE: " +
+    string(variable_struct_exists(cc, "selected_table"))
+);
+
+show_debug_message(
+    "HAS GENERATION INIT: " +
+    string(variable_struct_exists(cc, "generation_initialized"))
 );
 
 var all_tables = get_all_knowledge_tables();
@@ -324,6 +361,8 @@ for (var i = 0; i < array_length(tables); i++)
     var table = tables[i];
 
     var row_y = start_y + (i * 36);
+	
+	
 
     var is_fixed =
         array_index_of(
@@ -342,6 +381,32 @@ for (var i = 0; i < array_length(tables); i++)
             cc.generation.purchased_tables,
             table
         ) != -1;
+		
+		
+		var btn_x = tables_x - 120;
+var btn_y = row_y;
+var btn_w = 240;
+var btn_h = 30;
+
+if (!variable_struct_exists(cc, "hovered_table"))
+{
+    cc.hovered_table = "";
+}
+
+if (cc.hovered_table == table)
+{
+    draw_set_color(c_yellow);
+
+    draw_rectangle(
+        btn_x - 2,
+        btn_y - 2,
+        btn_x + btn_w + 2,
+        btn_y + btn_h + 2,
+        false
+    );
+
+    draw_set_color(c_white);
+}
 
     var btn_x = tables_x - 120;
     var btn_y = row_y;
@@ -432,12 +497,176 @@ draw_set_color(c_white);
 
 		    var rank = get_skill_rank(cc, skill_name);
 
-		    draw_text(
-		        x,
-		        y + i * 25,
-		        skill_name + " (" + string(rank) + ")"
-		    );
+		    var draw_y = yy + 50 + i * 25;
+
+if (cc.hovered_skill == skill_name)
+{
+    draw_set_color(c_yellow);
+
+    draw_rectangle(
+        skills_x - 125,
+        draw_y - 2,
+        skills_x + 120,
+        draw_y + 18,
+        false
+    );
+
+    draw_set_color(c_white);
+}
+
+draw_text(
+    skills_x - 120,
+    draw_y,
+    skill_name + " (" + string(rank) + ")"
+);
 		}
+    }
+}
+
+if (variable_struct_exists(cc, "hovered_skill"))
+{
+    if (cc.hovered_skill != "")
+    {
+        if (variable_global_exists("skill_data"))
+        {
+            if (variable_struct_exists(global.skill_data, cc.hovered_skill))
+            {
+                var skill = global.skill_data[$ cc.hovered_skill];
+				
+				var attr_name = skill.check.attribute;
+
+var attr_value =
+    get_final_attribute(
+        cc,
+        attr_name
+    );
+
+var skill_mod =
+    skill.check.modifier;
+
+var rank =
+    get_skill_rank(
+        cc,
+        skill.name
+    );
+
+var total_check =
+    attr_value +
+    skill_mod +
+    rank;
+	
+	var check_text =
+    "Check: " +
+    string(total_check) +
+    " (" +
+    attr_name;
+	
+	
+	if (skill_mod >= 0)
+{
+    check_text +=
+        " +" +
+        string(skill_mod);
+}
+else
+{
+    check_text +=
+        " " +
+        string(skill_mod);
+}
+
+var check_text =
+    "Check: " +
+    string(total_check) +
+    " (" +
+    attr_name + " " +
+    string(attr_value);
+
+if (skill_mod >= 0)
+{
+    check_text += " + Mod +" + string(skill_mod) +" ";
+}
+else
+{
+    check_text += " + Mod " + string(skill_mod) + " ";
+}
+
+check_text +=
+    "+ Rank " +
+    string(rank) +
+    ")";
+
+                var mx = device_mouse_x_to_gui(0);
+                var my = device_mouse_y_to_gui(0);
+
+                var tooltip_text =
+				    skill.name + "\n\n" +
+				    "Table: " + skill.table + "\n" +
+				    check_text + "\n" +
+				    "Difficulty: " +
+				    skill_difficulty_name(skill.difficulty) +
+				    "\n\n" +
+				    skill.description;
+
+                var tooltip_w = 350;
+
+                var tooltip_h =
+                    string_height_ext(
+                        tooltip_text,
+                        20,
+                        tooltip_w - 20
+                    ) + 20;
+
+                var box_x = mx + 16;
+                var box_y = my + 16;
+
+                var gui_w = display_get_gui_width();
+                var gui_h = display_get_gui_height();
+
+                if (box_x + tooltip_w > gui_w)
+                {
+                    box_x = mx - tooltip_w - 16;
+                }
+
+                if (box_y + tooltip_h > gui_h)
+                {
+                    box_y = my - tooltip_h - 16;
+                }
+
+                // Filled background
+draw_set_color(c_black);
+
+draw_rectangle(
+    box_x,
+    box_y,
+    box_x + tooltip_w,
+    box_y + tooltip_h,
+    false
+);
+
+// White border
+draw_set_color(c_white);
+
+draw_rectangle(
+    box_x,
+    box_y,
+    box_x + tooltip_w,
+    box_y + tooltip_h,
+    true
+);
+
+                // Text
+                draw_set_color(c_white);
+
+                draw_text_ext(
+                    box_x + 10,
+                    box_y + 10,
+                    tooltip_text,
+                    20,
+                    tooltip_w - 20
+                );
+            }
+        }
     }
 }
 	

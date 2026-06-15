@@ -7,7 +7,13 @@ function generation_shop_init(cc)
     {
         if (cc.generation_initialized) exit;
     }
+if (!variable_struct_exists(cc, "hovered_table"))
+    cc.hovered_table = "";
 
+	show_debug_message(
+    "INIT FLAG: " +
+    string(variable_struct_exists(cc, "generation_initialized"))
+);
     var sp = cc.locked_species;
     // =====================================================
     // SAFE SPECIES FETCH
@@ -22,17 +28,51 @@ function generation_shop_init(cc)
 	
 	
 	
-	if (!variable_struct_exists(cc, "skill_ranks"))
-    cc.skill_ranks = {};
+	 // NEW FIELDS FIRST
+    if (!variable_struct_exists(cc, "skill_ranks"))
+        cc.skill_ranks = {};
 
-if (!variable_struct_exists(cc, "skill_points_remaining"))
-    cc.skill_points_remaining = STARTING_SKILL_POINTS;
+   if (!variable_struct_exists(cc, "hovered_skill"))
+    cc.hovered_skill = "";
+	
+	if (!variable_global_exists("SKILL_SIMPLE"))
+{
+    skill_constants_init();
+}
 
-if (!variable_struct_exists(cc, "selected_table"))
-    cc.selected_table = "";
+if (!variable_global_exists("skill_data"))
+{
+    skills_data();
+}
 
-if (!variable_struct_exists(cc, "selected_skill"))
-    cc.selected_skill = "";
+
+
+    if (!variable_struct_exists(cc, "selected_table"))
+        cc.selected_table = "";
+
+    if (!variable_struct_exists(cc, "selected_skill"))
+        cc.selected_skill = "";
+		
+		
+		if (!variable_global_exists("knowledge_table_data"))
+			{
+			    knowledge_tables_data();
+			}
+			
+			if (!variable_global_exists("skill_data"))
+{
+    skills_data();
+}
+
+
+
+
+    // THEN EARLY EXIT
+    if (variable_struct_exists(cc, "generation_initialized"))
+    {
+        if (cc.generation_initialized)
+            exit;
+    }
 
     // =====================================================
     // NORMALIZED DATA HELPERS
@@ -112,7 +152,7 @@ if (!variable_struct_exists(cc, "selected_skill"))
         table_choices_remaining: 0
     };
 	
-	cc.selected_knowledge_table = "";
+	cc.selected_table = "";
 
     // =====================================================
     // SAFE DEFAULTS

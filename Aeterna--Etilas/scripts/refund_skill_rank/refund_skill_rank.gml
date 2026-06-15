@@ -1,18 +1,16 @@
-function refund_skill_rank(cc, skill_name)
+function skill_sell_rank(cc, skill)
 {
-    var rank = get_skill_rank(cc, skill_name);
+    if (!variable_struct_exists(cc.skills, skill))
+        return;
 
-    if (rank <= 0)
-        return false;
+    var current = cc.skills[$ skill];
 
-    var cost = get_skill_slot_cost(cc, skill_name);
+    if (current <= 0)
+        return;
 
-    cc.skill_ranks[$ skill_name] = rank - 1;
+    cc.skills[$ skill] = current - 1;
+    cc.skill_points_remaining++;
 
-    if (rank - 1 <= 0)
-        variable_struct_remove(cc.skill_ranks, skill_name);
-
-    cc.skill_points_remaining += cost;
-
-    return true;
+    if (cc.skills[$ skill] <= 0)
+        variable_struct_remove(cc.skills, skill);
 }

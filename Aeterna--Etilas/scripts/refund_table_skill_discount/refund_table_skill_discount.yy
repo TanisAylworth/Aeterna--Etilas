@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"refund_table_skill_discount",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"refund_table_skill_discount",
+  "parent":{
+    "name":"****SCR_IN_FOCUS****",
+    "path":"folders/Scripts/****SCR_IN_FOCUS****.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

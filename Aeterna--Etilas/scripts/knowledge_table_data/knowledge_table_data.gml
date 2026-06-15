@@ -1,9 +1,36 @@
-function knowledge_table_data(){
-
-global.knowledge_table_data[$ "Survival"] =
+function knowledge_tables_data()
 {
-    description :
-        "Knowledge of wilderness survival and living off the land."
-};
+    global.knowledge_table_data = {};
 
+    global.knowledge_table_data[$ "Survival"] =
+    {
+        skills :
+        [
+            "Animal Handling",
+            "Tracking",
+            "Foraging",
+            "Navigation"
+        ],
+
+        talents :
+        [
+            "Woodsman",
+            "Beast Friend"
+        ]
+    };
+
+    global.knowledge_table_data[$ "Arcane"] =
+    {
+        skills :
+        [
+            "Spellcraft",
+            "Runes",
+            "Alchemy"
+        ],
+
+        talents :
+        [
+            "Mystic Insight"
+        ]
+    };
 }

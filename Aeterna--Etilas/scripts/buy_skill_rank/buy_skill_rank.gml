@@ -1,15 +1,17 @@
-function buy_skill_rank(cc, skill_name)
+function skill_buy_rank(cc, skill)
 {
-    var cost = get_skill_slot_cost(cc, skill_name);
+    if (cc.skill_points_remaining <= 0)
+        return;
 
-    if (cc.skill_points_remaining < cost)
-        return false;
+    var current = 0;
 
-    var rank = get_skill_rank(cc, skill_name);
+    if (variable_struct_exists(cc.skills, skill))
+        current = cc.skills[$ skill];
 
-    cc.skill_ranks[$ skill_name] = rank + 1;
+    // Optional cap
+    if (current >= 5)
+        return;
 
-    cc.skill_points_remaining -= cost;
-
-    return true;
+    cc.skills[$ skill] = current + 1;
+    cc.skill_points_remaining--;
 }
