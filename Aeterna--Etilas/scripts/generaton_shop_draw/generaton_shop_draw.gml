@@ -433,11 +433,11 @@ if (cc.hovered_table == table)
     }
     else if (is_choice)
     {
-        draw_set_color(c_yellow);
+        draw_set_color(c_lime);
     }
     else if (is_purchased)
     {
-        draw_set_color(c_aqua);
+        draw_set_color(c_olive);
     }
     else if (hovered)
     {
@@ -498,27 +498,24 @@ draw_set_color(c_white);
 		    var rank = get_skill_rank(cc, skill_name);
 
 		    var draw_y = yy + 50 + i * 25;
-
+draw_set_color(c_white);
 if (cc.hovered_skill == skill_name)
 {
     draw_set_color(c_yellow);
 
-    draw_rectangle(
-        skills_x - 125,
-        draw_y - 2,
-        skills_x + 120,
-        draw_y + 18,
-        false
-    );
+    
 
-    draw_set_color(c_white);
+    
 }
+
 
 draw_text(
     skills_x - 120,
     draw_y,
     skill_name + " (" + string(rank) + ")"
 );
+
+draw_set_color(c_white);
 		}
     }
 }
