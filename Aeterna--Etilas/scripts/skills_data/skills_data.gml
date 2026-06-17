@@ -1,38 +1,89 @@
 function skills_data(){
 global.skill_data = {};
 
+
+#region General
 global.skill_data[$ "Animal Handling"] =
 {
     name : "Animal Handling",
 
-    table : "Survival",
+    table : "General",
 
     check :
-    {
-        attribute : "Willpower",
-        modifier : -1
-    },
+		{
+		    mode : "best",
+
+		    attributes :
+		    [
+		        {
+		            attribute : "Willpower",
+		            modifier : -1
+		        }
+		    ]
+		},
 
     difficulty : global.SKILL_SIMPLE,
 
     description :
-        "A skill for the care and maintenance of animals. Penalties to the roll are based on the creature's RA to the caretaker. Used in calming or handling an otherwise unruly creature."
+        "A skill for the care and maintenance of animals. Penalties to the roll are based on the creature's RA to the caretaker, and the animal's ruliness. Used in calming or handling an otherwise unruly creature."
 };
 
-global.skill_data[$ "Tracking"] =
+global.skill_data[$ "Sailing"] =
 {
-    name : "Tracking",
-    table : "Survival",
+    name : "Sailing",
+    table : "General",
 
     check :
-    {
-        attribute : "Perception",
-        modifier : 0
-    },
+		{
+		    mode : "best",
+
+		    attributes :
+		    [
+		        {
+		            attribute : "Endurance",
+		            modifier : -2
+		        }
+		    ]
+		},
 
     difficulty : global.SKILL_SIMPLE,
 
     description :
-        "Follow tracks and signs left behind by creatures."
+        "A skill for one’s ability to handle tasks aboard a ship. Setting rigging, climbing masts, and rowing are all difficult tasks for the uninitiated. Penalties are based on sailing conditions and time frame."
 };
+
+
+global.skill_data[$ "Bribery"] =
+{
+    name : "Bribery",
+    table : "General",
+
+    check :
+		{
+		    mode : "best",
+
+		    attributes :
+		    [
+		        {
+		            attribute : "Charm",
+		            modifier : -2
+		        },
+
+		        {
+		            attribute : "Perception",
+		            modifier : -2
+		        }
+		    ]
+		},
+
+    difficulty : global.SKILL_SIMPLE,
+
+    description :
+        "A skill for offering bribes to sway the decision making process of a group or individuals. Note this is not a catch all. Penalties are based on RA of the target."
+};
+
+
+#endregion
+
+
 }

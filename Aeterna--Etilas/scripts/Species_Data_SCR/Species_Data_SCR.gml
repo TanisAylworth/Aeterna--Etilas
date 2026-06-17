@@ -63,7 +63,7 @@ function Species_Data_SCR()
                 choices: {
                     count: 3,
                     options: [
-                        "Professional",
+						"Professional",
                         "Laborer",
                         "Clerical",
                         "Roguery",

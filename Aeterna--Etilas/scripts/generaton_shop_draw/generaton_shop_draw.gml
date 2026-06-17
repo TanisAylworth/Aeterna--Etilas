@@ -530,76 +530,111 @@ if (variable_struct_exists(cc, "hovered_skill"))
             {
                 var skill = global.skill_data[$ cc.hovered_skill];
 				
-				var attr_name = skill.check.attribute;
-
-var attr_value =
-    get_final_attribute(
+				var info =
+    get_skill_check_result(
         cc,
-        attr_name
+        skill
     );
+	
+	
+	
+	var rank =
+    get_skill_rank(
+        cc,
+        skill.name
+    );
+	
+	var attr_list = "";
 
-var skill_mod =
-    skill.check.modifier;
+var checks =
+    get_skill_check_nodes(skill);
 
-var rank =
+for (var i = 0; i < array_length(checks); i++)
+{
+    var node = checks[i];
+
+    attr_list +=
+        node.attribute;
+
+    if (node.modifier >= 0)
+    {
+        attr_list +=
+            " +" +
+            string(node.modifier);
+    }
+    else
+    {
+        attr_list +=
+            " " +
+            string(node.modifier);
+    }
+
+    if (i < array_length(checks) - 1)
+    {
+        attr_list += "\n";
+    }
+}
+
+var total_check =
+    info.total + rank;
+
+
+
+
+
+	
+	var rank =
     get_skill_rank(
         cc,
         skill.name
     );
 
 var total_check =
-    attr_value +
-    skill_mod +
-    rank;
-	
-	var check_text =
-    "Check: " +
-    string(total_check) +
-    " (" +
-    attr_name;
-	
-	
-	if (skill_mod >= 0)
-{
-    check_text +=
-        " +" +
-        string(skill_mod);
-}
-else
-{
-    check_text +=
-        " " +
-        string(skill_mod);
-}
+    info.total + rank;
 
 var check_text =
     "Check: " +
     string(total_check) +
     " (" +
-    attr_name + " " +
-    string(attr_value);
-
-if (skill_mod >= 0)
+    info.attribute +
+    " " +
+    string(
+        get_final_attribute(
+            cc,
+            info.attribute
+        )
+    );
+	
+if (info.modifier >= 0)
 {
-    check_text += " + Mod +" + string(skill_mod) +" ";
+    check_text +=
+        " + Mod +" +
+        string(info.modifier);
 }
 else
 {
-    check_text += " + Mod " + string(skill_mod) + " ";
-}
+    check_text +=
+        " + Mod " +
+        string(info.modifier);
+}	
+	
+
+
 
 check_text +=
-    "+ Rank " +
+    " + Rank " +
     string(rank) +
     ")";
 
                 var mx = device_mouse_x_to_gui(0);
                 var my = device_mouse_y_to_gui(0);
 
-                var tooltip_text =
+                tooltip_text =
 				    skill.name + "\n\n" +
 				    "Table: " + skill.table + "\n" +
-				    check_text + "\n" +
+				    check_text + "\n\n" +
+				    "Attributes:\n" +
+				    attr_list + "\n\n" +
 				    "Difficulty: " +
 				    skill_difficulty_name(skill.difficulty) +
 				    "\n\n" +

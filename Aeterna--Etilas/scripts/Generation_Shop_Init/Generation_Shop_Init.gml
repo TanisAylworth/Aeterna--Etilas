@@ -222,7 +222,17 @@ if (!variable_global_exists("skill_data"))
                     species.creation.knowledge_tables.fixed
                 );
         }
-
+		// Always grant General
+if (array_index_of(
+        cc.generation.fixed_tables,
+        "General"
+    ) == -1)
+{
+    array_push(
+        cc.generation.fixed_tables,
+        "General"
+    );
+}
         // -------------------------
         // table choices
         // -------------------------

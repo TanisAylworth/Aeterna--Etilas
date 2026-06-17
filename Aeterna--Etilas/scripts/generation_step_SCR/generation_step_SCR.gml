@@ -448,14 +448,34 @@ show_debug_message(
 			    if (left_click)
             {
                 var rank = get_skill_rank(cc, skill_name);
-                var cost = 1;
+                var owns_table =
+(
+    array_contains(
+        cc.generation.fixed_tables,
+        cc.selected_table
+    )
+)
+||
+(
+    array_contains(
+        cc.generation.choice_tables,
+        cc.selected_table
+    )
+)
+||
+(
+    array_contains(
+        cc.generation.purchased_tables,
+        cc.selected_table
+    )
+);
 
-				if (!array_contains(
-				    cc.generation.purchased_tables,
-				    cc.selected_table))
-				{
-				    cost = 2;
-				}
+var cost = 1;
+
+if (!owns_table)
+{
+    cost = 2;
+}
 
 				if (cc.generation_slots_remaining >= cost)
 				{
@@ -473,14 +493,34 @@ show_debug_message(
             {
                 var rank = get_skill_rank(cc, skill_name);
 
-                var cost = 1;
+                var owns_table =
+(
+    array_contains(
+        cc.generation.fixed_tables,
+        cc.selected_table
+    )
+)
+||
+(
+    array_contains(
+        cc.generation.choice_tables,
+        cc.selected_table
+    )
+)
+||
+(
+    array_contains(
+        cc.generation.purchased_tables,
+        cc.selected_table
+    )
+);
 
-			if (!array_contains(
-			    cc.generation.purchased_tables,
-			    cc.selected_table))
-			{
-			    cost = 2;
-			}
+var cost = 1;
+
+if (!owns_table)
+{
+    cost = 2;
+}
 
 			if (rank > 0)
 			{

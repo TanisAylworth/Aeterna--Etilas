@@ -1,9 +1,9 @@
 {
   "$GMScript":"v1",
-  "%Name":"Script48",
+  "%Name":"get_skill_check_nodes",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"Script48",
+  "name":"get_skill_check_nodes",
   "parent":{
     "name":"****SCR_IN_FOCUS****",
     "path":"folders/Scripts/****SCR_IN_FOCUS****.yy",

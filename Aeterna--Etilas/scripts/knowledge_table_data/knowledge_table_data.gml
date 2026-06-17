@@ -2,6 +2,23 @@ function knowledge_tables_data()
 {
     global.knowledge_table_data = {};
 
+global.knowledge_table_data[$ "General"] =
+    {
+        skills :
+        [
+            "Animal Handling",
+            "Sailing",
+            "Bribery"
+        ],
+
+        talents :
+        [
+            "Woodsman",
+            "Beast Friend"
+        ]
+    };
+
+
     global.knowledge_table_data[$ "Survival"] =
     {
         skills :
