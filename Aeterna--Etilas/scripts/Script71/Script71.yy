@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"Script71",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"Script71",
+  "parent":{
+    "name":"****SCR_IN_FOCUS****",
+    "path":"folders/Scripts/****SCR_IN_FOCUS****.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

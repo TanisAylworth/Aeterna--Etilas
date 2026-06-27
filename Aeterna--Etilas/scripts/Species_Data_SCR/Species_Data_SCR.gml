@@ -36,7 +36,7 @@ function Species_Data_SCR()
 
             abilities: [],
             negatives: [],
-            traits: ["medium", "universal"],
+            traits: ["tiny", "universal"],
 
             hit_locations: {
                 data: {
