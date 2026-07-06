@@ -42,14 +42,14 @@ function generation_shop_draw()
     var col_gap = 40;          // Reduced gap
     var yy = 320;
 
-    var tables_x = L.center_x - col_w - col_gap;   // Center-left
-    var skills_x = L.center_x + 30;                // Slightly right of center
-    var talents_x = L.center_x + col_w + col_gap;  // Far right
+    var tables_x = L.center_x - col_w - col_gap - 200;   // Center-left
+    var skills_x = L.center_x;                // Slightly right of center
+    var talents_x = L.center_x + col_w + col_gap + 200;  // Far right
 
     // Main Columns
     draw_tables_column(cc, L, tables_x);           // Pass tables_x if needed
     draw_skills_column(cc, L, skills_x);           // Pass skills_x if needed
-
+	draw_set_halign(fa_center);   // Reset alignment before drawing Talents
     draw_set_color(c_white);
     draw_text(talents_x, yy, "TALENTS");
 

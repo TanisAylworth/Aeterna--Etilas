@@ -9,29 +9,54 @@ function handle_specialization_popup(cc, L, mx, my, clicked)
     for (var i = 0; i < array_length(cc.pending_specializations); i++)
     {
         var row_y = popup_y + 75 + (i * 42);
-        
+       
         if (point_in_rectangle(mx, my, popup_x + 20, row_y - 8, popup_x + popup_w - 20, row_y + 28))
         {
             var base_skill = string_replace_all(cc.pending_skill, " (X)", "");
             var spec = cc.pending_specializations[i];
             var full_skill_name = base_skill + " (" + spec + ")";
 
-            // === CHARGE THE NORMAL COST ===
-            var owns_table = table_is_owned(cc, cc.selected_table);
-            var cost = owns_table ? 1 : 2;
-
-            if (cc.generation_slots_remaining >= cost)
+            // Check if already exists
+            if (variable_struct_exists(cc.skill_ranks, full_skill_name))
             {
-                cc.generation_slots_remaining -= cost;
-                set_skill_rank(cc, full_skill_name, 1);
-                
-                show_debug_message("Specialization purchased: " + full_skill_name + " (Cost: " + string(cost) + ")");
-            }
-            else
-            {
-                show_debug_message("Not enough slots for specialization");
+                cc.specialization_popup = false;
+                cc.pending_skill = "";
+                cc.pending_specializations = [];
+                return true;
             }
 
+            // === CONSUME FREE SLOT ONLY WHEN CHOOSING THE SPEC ===
+            var consumed_free_slot = false;
+            if (variable_struct_exists(cc, "locked_species"))
+            {
+                var species = global.species_data[$ cc.locked_species];
+                if (variable_struct_exists(species.creation.knowledge_skills, "choices"))
+                {
+                    var remaining = species.creation.knowledge_skills.choices.count;
+                    if (remaining > 0)
+                    {
+                        species.creation.knowledge_skills.choices.count--;
+                        consumed_free_slot = true;
+                        
+                        // Track this specialization as a free slot skill
+                        if (!variable_struct_exists(cc.free_slot_ranks, full_skill_name))
+                            cc.free_slot_ranks[$ full_skill_name] = 0;
+                        cc.free_slot_ranks[$ full_skill_name]++;
+                    }
+                }
+            }
+
+            // If no free slot was used, charge normal points
+            if (!consumed_free_slot)
+            {
+                var owns_table = table_is_owned(cc, cc.selected_table);
+                var cost = owns_table ? 1 : 2;
+                if (cc.generation_slots_remaining >= cost)
+                    cc.generation_slots_remaining -= cost;
+            }
+
+            set_skill_rank(cc, full_skill_name, 1);
+            
             // Cleanup
             cc.specialization_popup = false;
             cc.pending_skill = "";
@@ -88,24 +113,25 @@ function handle_cdt_gold_controls(cc, L, mx, my, clicked)
     }
 }
 
-function handle_table_list(cc, L, mx, my, clicked)
+function handle_table_list(cc, L, mx, my, clicked, tables_x = undefined)
 {
-    var col_w = 250;
-    var tables_x = L.center_x - col_w - 90;
+    if (tables_x == undefined)
+        {tables_x = L.center_x - 280 - 40 - 200;} // Match your draw function offset
+
+
     var start_y = 400; 
     var tables = get_all_knowledge_tables();
 
     // Confirm / Lock Button
     var confirm_x = tables_x - 120;
-    var confirm_y = start_y + (array_length(tables) * 36) + 20;   // Better alignment with draw
-    var confirm_w = 240;
-    var confirm_h = 30;
+    var confirm_y = start_y + (array_length(tables) * 36) + 5;
+    var confirm_w = 240, confirm_h = 30;
 
     if (clicked && point_in_rectangle(mx, my, confirm_x, confirm_y, confirm_x + confirm_w, confirm_y + confirm_h))
     {
         cc.generation.tables_locked = !cc.generation.tables_locked;
         if (cc.generation.tables_locked)
-            cc.selected_table = "";   // Clear selection when locking
+            cc.selected_table = "";
         return;
     }
 
@@ -175,66 +201,101 @@ function handle_table_click(cc, table)
 
 function handle_skill_list(cc, L, mx, my, clicked, right_clicked)
 {
-    if (!variable_struct_exists(global.knowledge_table_data, cc.selected_table))
+    if (cc.selected_table == "" || !cc.generation.tables_locked)
         return;
 
-    var table = global.knowledge_table_data[$ cc.selected_table];
-    var skills_x = L.center_x;
-    var display_y_start = 370;
+    var table_data = global.knowledge_table_data[$ cc.selected_table];
+    var display_y = 370;
     var row_h = 25;
     var col_width = 260;
     var max_rows_per_col = 18;
 
-    var current_row = 0;
+    var all_entries = [];
+    var seen = {};
 
-    // Handle base skills + their specializations
-    for (var i = 0; i < array_length(table.skills); i++)
+    // Build the same list as drawing
+    if (variable_struct_exists(cc, "locked_species"))
     {
-        var skill_name = table.skills[i];                    // e.g. "Riding (X)"
-        var base_skill = string_replace_all(skill_name, " (X)", "");
-
-        var col = current_row div max_rows_per_col;
-        var row = current_row mod max_rows_per_col;
-        var x1 = (skills_x - 140) + (col * col_width);
-        var y1 = display_y_start + (row * row_h);
-        var x2 = x1 + 240;
-        var y2 = y1 + row_h;
-
-        // Click on Parent Skill
-        if (point_in_rectangle(mx, my, x1, y1, x2, y2))
+        var species = global.species_data[$ cc.locked_species];
+        if (variable_struct_exists(species, "creation") && variable_struct_exists(species.creation, "fixed_skills"))
         {
-            cc.hovered_skill = skill_name;
-            if (clicked) attempt_skill_rank_up(cc, skill_name, base_skill, table);
-            if (right_clicked) attempt_skill_rank_down(cc, skill_name, base_skill, table);
-            return;
+            var fixed = species.creation.fixed_skills;
+            for (var i = 0; i < array_length(fixed); i++)
+            {
+                var f = fixed[i];
+                if (!variable_struct_exists(seen, f.name))
+                {
+                    array_push(all_entries, { name: f.name, rank: f.rank, is_fixed: true });
+                    seen[$ f.name] = true;
+                }
+            }
         }
+    }
 
-        current_row++;
-
-        // Handle Specializations (full rows, no indent)
+    for (var i = 0; i < array_length(table_data.skills); i++)
+    {
+        var skill_name = table_data.skills[i];
+        if (!variable_struct_exists(seen, skill_name))
+        {
+            array_push(all_entries, { name: skill_name, is_specialization: false });
+            seen[$ skill_name] = true;
+        }
+        var base_skill = string_replace_all(skill_name, " (X)", "");
         var keys = variable_struct_get_names(cc.skill_ranks);
         for (var k = 0; k < array_length(keys); k++)
         {
             var key = keys[k];
-            if (string_pos(base_skill + " (", key) == 1)   // Is a specialization
+            if (string_pos(base_skill, key) > 0 && !variable_struct_exists(seen, key))
             {
-                var spec_col = current_row div max_rows_per_col;
-                var spec_row = current_row mod max_rows_per_col;
-                var spec_x1 = (skills_x - 140) + (spec_col * col_width);
-                var spec_y1 = display_y_start + (spec_row * row_h);
-                var spec_x2 = spec_x1 + 240;
-                var spec_y2 = spec_y1 + row_h;
-
-                if (point_in_rectangle(mx, my, spec_x1, spec_y1, spec_x2, spec_y2))
-                {
-                    cc.hovered_skill = key;
-                    if (clicked) attempt_skill_rank_up(cc, key, key, table);
-                    if (right_clicked) attempt_skill_rank_down(cc, key, key, table);
-                    return;
-                }
-
-                current_row++;
+                array_push(all_entries, { name: key, is_specialization: true });
+                seen[$ key] = true;
             }
+        }
+    }
+
+    // Hit detection
+    for (var i = 0; i < array_length(all_entries); i++)
+    {
+        var entry = all_entries[i];
+        var col = i div max_rows_per_col;
+        var row = i mod max_rows_per_col;
+      
+        var draw_x = (L.center_x - 210) + (col * col_width);
+        var draw_y = display_y + (row * row_h);
+
+        if (point_in_rectangle(mx, my, draw_x, draw_y, draw_x + 230, draw_y + 22))
+        {
+			cc.hovered_skill = entry.name;
+            if (clicked)
+            {
+                if (entry.is_specialization)
+                {
+                    attempt_skill_rank_up(cc, entry.name, "", cc.selected_table);
+                }
+                else
+                {
+                    // Improved lookup
+                    var skill_data = global.skill_data[$ entry.name];
+                    if (!skill_data)
+                        skill_data = global.skill_data[$ string_replace_all(entry.name, " (X)", "")];
+
+                    if (skill_data && variable_struct_exists(skill_data, "specialization") && skill_data.specialization.required)
+                    {
+                        // ONLY OPEN POPUP — DO NOT CONSUME FREE SLOT HERE
+                        cc.pending_skill = entry.name;
+                        cc.pending_specializations = skill_data.specialization.choices;
+                        cc.specialization_popup = true;
+                        show_debug_message("OPENING SPECIALIZATION POPUP for: " + entry.name);
+                    }
+                    else
+                    {
+                        attempt_skill_rank_up(cc, entry.name, string_replace_all(entry.name, " (X)", ""), cc.selected_table);
+                    }
+                }
+            }
+            else if (right_clicked)
+                attempt_skill_rank_down(cc, entry.name);
+            return;
         }
     }
 }
@@ -242,63 +303,88 @@ function handle_skill_list(cc, L, mx, my, clicked, right_clicked)
 // ===================================================================
 function attempt_skill_rank_up(cc, skill_key, base_skill, table)
 {
-    var owns_table = table_is_owned(cc, cc.selected_table);
-    var cost = owns_table ? 1 : 2;
-
-    if (cc.generation_slots_remaining < cost)
-        return;
-
     var current_rank = get_skill_rank(cc, skill_key);
 
-    // Try to find the skill data - it might be stored as "Riding (X)"
-    var lookup_key = base_skill;
-    if (!variable_struct_exists(global.skill_data, lookup_key))
+    // === FREE SKILL SLOTS FIRST ===
+    if (variable_struct_exists(cc, "locked_species"))
     {
-        lookup_key = skill_key;                    // Try "Riding (X)"
-    }
-
-    if (!variable_struct_exists(global.skill_data, lookup_key))
-    {
-        // Normal rank up as fallback
-        cc.generation_slots_remaining -= cost;
-        set_skill_rank(cc, skill_key, current_rank + 1);
-        return;
-    }
-
-    var skill = global.skill_data[$ lookup_key];
-
-    // === SPECIALIZATION CHECK ===
-    if (string_pos(" (X)", skill_key) > 0 || string_pos(" (X)", lookup_key) > 0)  // This is a base specialization skill
-    {
-        if (variable_struct_exists(skill, "specialization") && 
-            skill.specialization.required && 
-            current_rank == 0)
+        var species = global.species_data[$ cc.locked_species];
+        if (variable_struct_exists(species.creation.knowledge_skills, "choices"))
         {
-            show_debug_message("→ OPENING SPECIALIZATION POPUP for " + base_skill);
-            
-            cc.pending_skill = base_skill;
-            cc.pending_specializations = skill.specialization.choices;
-            cc.specialization_popup = true;
-            
-            return;   // Do NOT spend points yet
+            var remaining = species.creation.knowledge_skills.choices.count;
+            if (remaining > 0)
+            {
+                // Check if this is a specialization base skill
+                var lookup = string_replace_all(skill_key, " (X)", "");
+                var skill_data = global.skill_data[$ skill_key] || global.skill_data[$ lookup];
+
+                if (skill_data && variable_struct_exists(skill_data, "specialization") && skill_data.specialization.required && current_rank == 0)
+                {
+                    // ONLY OPEN POPUP — DO NOT CONSUME FREE SLOT HERE
+                    cc.pending_skill = skill_key;
+                    cc.pending_specializations = skill_data.specialization.choices;
+                    cc.specialization_popup = true;
+                    show_debug_message("Opened specialization popup for: " + skill_key);
+                    return;
+                }
+
+                // ================== NORMAL FREE SLOT USAGE ==================
+                species.creation.knowledge_skills.choices.count--;
+                
+                // === ADD THIS BLOCK ===
+                if (!variable_struct_exists(cc.free_slot_ranks, skill_key))
+                    cc.free_slot_ranks[$ skill_key] = 0;
+                cc.free_slot_ranks[$ skill_key]++;
+
+                set_skill_rank(cc, skill_key, current_rank + 1);
+              
+                show_debug_message("Used free skill slot for: " + skill_key);
+                return;
+            }
         }
     }
 
-    // Normal rank up
+    // Fall back to character points
+    var owns_table = table_is_owned(cc, cc.selected_table);
+    var cost = owns_table ? 1 : 2;
+    if (cc.generation_slots_remaining < cost)
+        return;
+
     cc.generation_slots_remaining -= cost;
     set_skill_rank(cc, skill_key, current_rank + 1);
 }
 
 // ===================================================================
-function attempt_skill_rank_down(cc, skill_key, base_skill, table)
+function attempt_skill_rank_down(cc, skill_key)
 {
     var current_rank = get_skill_rank(cc, skill_key);
     if (current_rank <= 0) return;
 
-    var owns_table = table_is_owned(cc, cc.selected_table);
-    var cost = owns_table ? 1 : 2;
+    var free_ranks = variable_struct_exists(cc.free_slot_ranks, skill_key) ? cc.free_slot_ranks[$ skill_key] : 0;
 
-    cc.generation_slots_remaining += cost;
+    if (current_rank > free_ranks)
+    {
+        // Refund character point rank first
+        cc.generation_slots_remaining++;
+    }
+    else if (free_ranks > 0)
+    {
+        // Refund free slot rank last
+        cc.free_slot_ranks[$ skill_key]--;
+        if (cc.free_slot_ranks[$ skill_key] <= 0)
+            variable_struct_remove(cc.free_slot_ranks, skill_key);
+
+        // Refund free slot back to the pool
+        if (variable_struct_exists(cc, "locked_species"))
+        {
+            var species = global.species_data[$ cc.locked_species];
+            if (variable_struct_exists(species.creation.knowledge_skills, "choices"))
+            {
+                species.creation.knowledge_skills.choices.count++;
+            }
+        }
+    }
+
     set_skill_rank(cc, skill_key, current_rank - 1);
 }
 
@@ -389,7 +475,7 @@ function draw_tables_column(cc, L, tables_x = undefined)
 
     // Confirm / Lock Button
     var confirm_x = tables_x - 120;
-    var confirm_y = start_y + (array_length(tables) * 36) + 20;
+    var confirm_y = start_y + (array_length(tables) * 36) + 5;
     var confirm_w = 240;
     var confirm_h = 30;
    
@@ -481,21 +567,51 @@ function draw_skills_column(cc, L, skills_x = undefined)
     var my = device_mouse_y_to_gui(0);
 
     var all_entries = [];
+    var seen = {}; // Prevent duplicates
 
+    // Fixed skills from species
+    if (variable_struct_exists(cc, "locked_species"))
+    {
+        var species = global.species_data[$ cc.locked_species];
+        if (variable_struct_exists(species, "creation") && variable_struct_exists(species.creation, "fixed_skills"))
+        {
+            var fixed = species.creation.fixed_skills;
+            for (var i = 0; i < array_length(fixed); i++)
+            {
+                var f = fixed[i];
+                if (!variable_struct_exists(seen, f.name))
+                {
+                    array_push(all_entries, { 
+                        name: f.name, 
+                        rank: f.rank, 
+                        is_fixed: true 
+                    });
+                    seen[$ f.name] = true;
+                }
+            }
+        }
+    }
+
+    // Table skills and specializations
     for (var i = 0; i < array_length(table_data.skills); i++)
     {
         var skill_name = table_data.skills[i];
-        array_push(all_entries, { name: skill_name, is_specialization: false });
+        if (!variable_struct_exists(seen, skill_name))
+        {
+            array_push(all_entries, { name: skill_name, is_specialization: false });
+            seen[$ skill_name] = true;
+        }
 
         var base_skill = string_replace_all(skill_name, " (X)", "");
         var keys = variable_struct_get_names(cc.skill_ranks);
-        
+      
         for (var k = 0; k < array_length(keys); k++)
         {
             var key = keys[k];
-            if (string_pos(base_skill, key) > 0)
+            if (string_pos(base_skill, key) > 0 && !variable_struct_exists(seen, key))
             {
                 array_push(all_entries, { name: key, is_specialization: true });
+                seen[$ key] = true;
             }
         }
     }
@@ -507,13 +623,19 @@ function draw_skills_column(cc, L, skills_x = undefined)
         var col = i div max_rows_per_col;
         var row = i mod max_rows_per_col;
         
-        var draw_x = (skills_x - 140) + (col * col_width);
+        var draw_x = (skills_x - 210) + (col * col_width);
         var draw_y = display_y + (row * row_h);
-
-        var is_hovered = (cc.hovered_skill == entry.name);
+		
+	
+		
+                var is_hovered = (cc.hovered_skill == entry.name);
 
         if (is_hovered)
             draw_set_color(c_yellow);
+        else if (variable_struct_exists(entry, "is_fixed") && entry.is_fixed)
+            draw_set_color(c_green);
+        else if (variable_struct_exists(cc.free_slot_ranks, entry.name) && cc.free_slot_ranks[$ entry.name] > 0)
+            draw_set_color(c_aqua);           // ← This makes free slot skills blue
         else if (entry.is_specialization)
             draw_set_color(c_ltgray);
         else
@@ -533,17 +655,30 @@ function draw_skills_column(cc, L, skills_x = undefined)
         else
         {
             var base_skill = string_replace_all(entry.name, " (X)", "");
-            var rank = get_skill_rank(cc, base_skill);
-            
+            var rank = variable_struct_exists(entry, "rank") ? entry.rank : get_skill_rank(cc, base_skill);
+           
             if (string_pos(" (X)", entry.name) > 0)
                 draw_text(draw_x, draw_y, entry.name);
             else
                 draw_text(draw_x, draw_y, entry.name + " (" + string(rank) + ")");
         }
 
+        // Hover
         if (point_in_rectangle(mx, my, draw_x, draw_y, draw_x + 240, draw_y + 25))
             cc.hovered_skill = entry.name;
     }
+
+    // Free Skill Slots (at the bottom)
+    var remaining = 0;
+    if (variable_struct_exists(cc, "locked_species"))
+    {
+        var species = global.species_data[$ cc.locked_species];
+        if (variable_struct_exists(species.creation.knowledge_skills, "choices"))
+            remaining = species.creation.knowledge_skills.choices.count;
+    }
+
+    draw_set_color(c_white);
+    draw_text(skills_x - 80, + 340, "Free Skill Slots: " + string(remaining));
 }
 
 
@@ -628,7 +763,7 @@ function get_current_cdt(cc)
 function handle_locked_table_selection(cc, L, mx, my, clicked)
 {
     var col_w = 250;
-    var tables_x = L.center_x - col_w - 90;
+    var tables_x = L.center_x - 280 - 40 - 200;
     var start_y = 400;
     var tables = get_all_knowledge_tables();
 
@@ -659,104 +794,147 @@ function handle_locked_table_selection(cc, L, mx, my, clicked)
 
 function draw_skill_tooltip(cc)
 {
-    if (!variable_struct_exists(cc, "hovered_skill") || cc.hovered_skill == "") 
+    if (!variable_struct_exists(cc, "hovered_skill") || cc.hovered_skill == "")
         return;
-        
-    if (!variable_global_exists("skill_data") || !variable_struct_exists(global.skill_data, cc.hovered_skill))
+      
+    var hovered_key = cc.hovered_skill;
+    var base_key = hovered_key;
+  
+    // Extract base skill name
+    if (string_pos(":", hovered_key) > 0)
+    {
+        var parts = string_split(hovered_key, ":");
+        base_key = parts[0] + " (X)";
+    }
+    else if (string_pos(" (", hovered_key) > 0)
+    {
+        var parts = string_split(hovered_key, " (");
+        base_key = parts[0] + " (X)";
+    }
+
+    if (!variable_global_exists("skill_data") || !variable_struct_exists(global.skill_data, base_key))
         return;
 
-    var skill = global.skill_data[$ cc.hovered_skill];
+    var skill = global.skill_data[$ base_key];
     var mx = device_mouse_x_to_gui(0);
     var my = device_mouse_y_to_gui(0);
     var char_size = get_character_size(cc);
 
-    var tooltip_text = skill.name + "\n\n";
-    
+    var tooltip_text = hovered_key + "\n\n";
+
     if (variable_struct_exists(skill, "table"))
         tooltip_text += "Table: " + skill.table + "\n";
 
-    var info = get_skill_check_result(cc, skill);
-    var rank = get_skill_rank(cc, skill.name);
-    var total_check = (variable_struct_exists(info, "total") ? info.total : 0) + rank;
-
-    var check_line = "Check: " + string(total_check) + " (" + 
-        (variable_struct_exists(info, "attribute") ? info.attribute : "None") + " " +
-        string(get_final_attribute(cc, info.attribute));
-
-    if (variable_struct_exists(info, "modifier"))
+       if (variable_struct_exists(skill, "check") && variable_struct_exists(skill.check, "mode"))
     {
-        if (info.modifier >= 0)
-            check_line += " + Mod +" + string(info.modifier);
-        else
-            check_line += " + Mod " + string(info.modifier);
+        var mode = skill.check.mode;
+        var mode_text = mode;
+        
+        if (mode == "all") mode_text = "All Attributes";
+        else if (mode == "best") mode_text = "Best Attribute";
+        else if (mode == "size" || mode == "size_dependent") mode_text = "Size Dependent Attribute";
+        
+        tooltip_text += "Mode: " + mode_text + "\n";
     }
 
-    check_line += " + Rank " + string(rank) + ")";
+    var rank = get_skill_rank(cc, hovered_key);
 
-    tooltip_text += check_line + "\n\n";
+    // === CHECKS ===
+    var is_all_mode = false;
+    if (variable_struct_exists(skill, "check") && skill.check.mode == "all")
+        is_all_mode = true;
 
-    tooltip_text += "Attributes:\n";
-
-    var checks = get_skill_check_nodes(skill, cc);
-    var is_size_skill = false;
-    if (variable_struct_exists(skill, "check") && variable_struct_exists(skill.check, "mode"))
+    var is_size_mode = false;
+    if (variable_struct_exists(skill, "check"))
     {
         var mode = skill.check.mode;
         if (mode == "size" || mode == "size_dependent")
-            is_size_skill = true;
+            is_size_mode = true;
     }
 
-    var relevant_shown = false;
+    var info = undefined; // Safety
 
-    for (var i = 0; i < array_length(checks); i++)
+            if (is_all_mode)
     {
-        var node = checks[i];
-        var attr = variable_struct_exists(node, "attribute") ? node.attribute : "Unknown";
-        var mod_val = variable_struct_exists(node, "modifier") ? node.modifier : 0;
+        tooltip_text += "Checks:\n";
+        var checks = get_skill_check_nodes(skill, cc);
+        for (var i = 0; i < array_length(checks); i++)
+        {
+            var node = checks[i];
+            var attr = variable_struct_exists(node, "attribute") ? node.attribute : "Unknown";
+            var mod_val = variable_struct_exists(node, "modifier") ? node.modifier : 0;
+            var base_value = get_final_attribute(cc, attr);
+            var final_value = base_value + mod_val + rank;
+           
+            var line = attr + " Check: " + string(final_value) + " (" + attr + " " + string(base_value);
+            if (mod_val != 0)
+            {
+                if (mod_val >= 0) line += " + Mod +" + string(mod_val);
+                else line += " + Mod " + string(mod_val);
+            }
+            line += " + Rank " + string(rank) + ")";
+            tooltip_text += line + "\n";
+        }
+    }
+    else
+    {
+        // Single check (original style)
+        var info = get_skill_check_result(cc, skill);
+        var total_check = (variable_struct_exists(info, "total") ? info.total : 0) + rank;
+
+        var check_line = "Check: " + string(total_check) + " (" +
+            (variable_struct_exists(info, "attribute") ? info.attribute : "None") + " " +
+            string(get_final_attribute(cc, info.attribute));
+
+        if (variable_struct_exists(info, "modifier"))
+        {
+            if (info.modifier >= 0)
+                check_line += " + Mod +" + string(info.modifier);
+            else
+                check_line += " + Mod " + string(info.modifier);
+        }
+
+        check_line += " + Rank " + string(rank) + ")";
+        tooltip_text += check_line + "\n\n";
+    }
+
+    tooltip_text += "Attributes:\n";
+  
+    if (!is_undefined(info) && variable_struct_exists(info, "attribute"))
+    {
+        var attr = info.attribute;
+        var mod_val = variable_struct_exists(info, "modifier") ? info.modifier : 0;
         var attr_value = get_final_attribute(cc, attr);
-        
-        var line = "   " + attr;
+      
+        var line = " " + attr;
         if (mod_val != 0)
         {
             if (mod_val >= 0) line += " +" + string(mod_val);
             else line += " " + string(mod_val);
         }
-        line += " (" + string(attr_value) + ")";
-        
-        if (attr == info.attribute)
-            line += "  ← CURRENT";
-        
-        // STRICT: Only show the matching size category
-        if (!is_size_skill || string_lower(attr) == char_size)
-        {
-            tooltip_text += line + "\n";
-            relevant_shown = true;
-        }
+        line += " (" + string(attr_value) + ") ← CURRENT";
+        tooltip_text += line + "\n";
+    }
+    else
+    {
+        tooltip_text += " No attribute data\n";
     }
 
-    if (is_size_skill && !relevant_shown && variable_struct_exists(info, "attribute"))
+    if (is_size_mode)
     {
-        tooltip_text += "   " + info.attribute + " (" + string(get_final_attribute(cc, info.attribute)) + ")  ← CURRENT\n";
-    }
-
-    if (is_size_skill)
-    {
-        tooltip_text += "\n(Note: This skill changes based on creature size)";
         tooltip_text += "\n(Size Category: " + string_upper(char_size) + ")";
     }
 
     tooltip_text += "\nDifficulty: " + (variable_struct_exists(skill, "difficulty") ? skill_difficulty_name(skill.difficulty) : "Standard") + "\n\n";
-    
+  
     if (variable_struct_exists(skill, "description"))
         tooltip_text += skill.description;
 
-    // Drawing
+    // Drawing (same as before)
     var tooltip_w = 400;
     var tooltip_h = string_height_ext(tooltip_text, 20, tooltip_w - 30) + 40;
-
     var box_x = mx + 24;
     var box_y = my + 24;
-
     if (box_x + tooltip_w > display_get_gui_width())
         box_x = mx - tooltip_w - 24;
     if (box_y + tooltip_h > display_get_gui_height() - 20)
@@ -778,9 +956,8 @@ function draw_skill_tooltip(cc)
 
 function draw_specialization_popup(cc, L)
 {
-    if (!variable_struct_exists(cc, "pending_specializations") || array_length(cc.pending_specializations) == 0)
-        return;
-
+    if (!variable_struct_exists(cc, "pending_specializations")) return;
+	
     var popup_w = 360;
     var popup_h = 90 + (array_length(cc.pending_specializations) * 42);
     var popup_x = L.center_x - popup_w * 0.5;
@@ -810,6 +987,13 @@ function draw_specialization_popup(cc, L)
     for (var i = 0; i < array_length(cc.pending_specializations); i++)
     {
         var choice = cc.pending_specializations[i];
+                // Skip if already purchased
+        var full_key1 = string_replace_all(cc.pending_skill, " (X)", "") + ":" + choice;
+        var full_key2 = string_replace_all(cc.pending_skill, " (X)", "") + " (" + choice + ")";
+        
+        if (variable_struct_exists(cc.skill_ranks, full_key1) || variable_struct_exists(cc.skill_ranks, full_key2))
+            continue;
+
         var row_y = popup_y + 75 + (i * 42);
         
         var hovered = point_in_rectangle(mx, my, popup_x + 20, row_y - 8, popup_x + popup_w - 20, row_y + 28);

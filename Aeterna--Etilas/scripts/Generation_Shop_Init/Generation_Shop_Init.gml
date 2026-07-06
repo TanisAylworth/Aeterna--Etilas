@@ -13,7 +13,11 @@ function generation_shop_init(cc)
     if (!variable_struct_exists(cc, "pending_skill"))        cc.pending_skill = "";
     if (!variable_struct_exists(cc, "pending_specializations")) cc.pending_specializations = [];
     if (!variable_struct_exists(cc, "specialization_popup")) cc.specialization_popup = false;
-
+	    // Free slot tracking
+    if (!variable_struct_exists(cc, "free_slot_skills"))
+        cc.free_slot_skills = [];
+	if (!variable_struct_exists(cc, "free_slot_ranks"))
+        cc.free_slot_ranks = {};
     if (!variable_global_exists("SKILL_SIMPLE"))      skill_constants_init();
     if (!variable_global_exists("skill_data"))        skills_data();
     if (!variable_global_exists("knowledge_table_data")) knowledge_tables_data();

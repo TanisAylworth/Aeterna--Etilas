@@ -16,7 +16,6 @@ function get_skill_check_result(cc, skill)
     switch (check.mode)
     {
         case "best":
-            // Best of multiple attributes
             var nodes = get_skill_check_nodes(skill, cc);
             var best_value = -999;
             var best_attr = "None";
@@ -25,7 +24,7 @@ function get_skill_check_result(cc, skill)
             for (var i = 0; i < array_length(nodes); i++)
             {
                 var node = nodes[i];
-                var attr = variable_struct_exists(node, "attribute") ? node.attribute : "None";
+                var attr = node.attribute;
                 var _mod = variable_struct_exists(node, "modifier") ? node.modifier : 0;
                 var value = get_final_attribute(cc, attr) + _mod;
                 
@@ -37,15 +36,31 @@ function get_skill_check_result(cc, skill)
                 }
             }
             
-            result.total = best_value;
+            result.total = best_value;   // Do NOT add rank here
             result.attribute = best_attr;
             result.modifier = best_mod;
             result.is_best = true;
             break;
 
+        case "all":
+            var total = 0;
+            var nodes = get_skill_check_nodes(skill, cc);
+            
+            for (var i = 0; i < array_length(nodes); i++)
+            {
+                var node = nodes[i];
+                var attr = node.attribute;
+                var _mod = variable_struct_exists(node, "modifier") ? node.modifier : 0;
+                total += get_final_attribute(cc, attr) + _mod;
+            }
+            
+            result.total = total;   // Do NOT add rank here
+            result.attribute = "Multiple";
+            result.modifier = 0;
+            break;
+
         case "size":
         case "size_dependent":
-            // Size-based check
             if (variable_struct_exists(check, "size_attributes"))
             {
                 var size_data = check.size_attributes[$ char_size];
@@ -54,17 +69,6 @@ function get_skill_check_result(cc, skill)
                     result.attribute = size_data.attribute;
                     result.modifier = variable_struct_exists(size_data, "modifier") ? size_data.modifier : 0;
                     result.total = get_final_attribute(cc, result.attribute) + result.modifier;
-                }
-                else
-                {
-                    // Fallback to medium if size not found
-                    size_data = check.size_attributes[$ "medium"];
-                    if (is_struct(size_data))
-                    {
-                        result.attribute = size_data.attribute;
-                        result.modifier = variable_struct_exists(size_data, "modifier") ? size_data.modifier : 0;
-                        result.total = get_final_attribute(cc, result.attribute) + result.modifier;
-                    }
                 }
             }
             break;

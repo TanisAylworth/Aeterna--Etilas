@@ -5,6 +5,7 @@ function generation_step_update(cc)
     var my = device_mouse_y_to_gui(0);
     var clicked = mouse_check_button_pressed(mb_left);
     var right_clicked = mouse_check_button_pressed(mb_right);
+	show_debug_message("Mouse GUI: " + string(mx) + ", " + string(my));
 
     // === CLEAR HOVERS EVERY FRAME ===
     cc.hovered_table = "";
