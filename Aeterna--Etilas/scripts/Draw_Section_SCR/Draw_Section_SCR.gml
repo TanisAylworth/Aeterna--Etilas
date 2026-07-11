@@ -48,6 +48,39 @@ function scr_ui_draw_section(tx, ty, title, data)
         }
         return ty;
     }
+	
+	if (title == "Talents" && is_struct(data))
+    {
+        var fixed = variable_struct_exists(data, "fixed") ? data.fixed : [];
+        var choice_count = 0;
+
+        if (variable_struct_exists(data, "choices"))
+        {
+            var c = data.choices;
+            if (is_struct(c) && variable_struct_exists(c, "count"))
+                choice_count = c.count;
+        }
+
+        if (array_length(fixed) > 0)
+        {
+            for (var i = 0; i < array_length(fixed); i++)
+            {
+                draw_text(tx + 10, ty, "- " + string(fixed[i]));
+                ty += line;
+            }
+        }
+        else if (choice_count > 0)
+        {
+            draw_text(tx + 10, ty, "Choose " + string(choice_count) + " Talents");
+            ty += line;
+        }
+        else
+        {
+            draw_text(tx + 10, ty, "- None");
+            ty += line;
+        }
+        return ty;
+    }
 
     // =====================================================
     // ATTRIBUTE ADJUSTMENTS - Clean

@@ -1,12 +1,15 @@
 function attribute_step_init(cc)
 {
     if (!is_struct(cc)) return;
-
-    if (variable_struct_exists(cc, "attribute_initialized")
-    && cc.attribute_initialized)
-    {
+    if (variable_struct_exists(cc, "attribute_initialized") && cc.attribute_initialized)
         return;
-    }
+
+    // ... your existing init code ...
+
+    // DO NOT SET locked_species HERE
+    // Remove any line that does cc.locked_species = something
+
+    
 
     // ==========================================
     // ATTRIBUTE LIST
@@ -56,27 +59,7 @@ function attribute_step_init(cc)
     cc.ready_to_confirm = false;
     cc.undo_version = 2;
 
-    // ==========================================
-    // SPECIES BONUS SETUP
-    // ==========================================
-    if (!is_undefined(cc.locked_species)
-    && variable_struct_exists(global, "species_data")
-    && variable_struct_exists(global.species_data, cc.locked_species))
-    {
-        var species = global.species_data[$ cc.locked_species];
-
-        if (variable_struct_exists(species, "creation")
-        && variable_struct_exists(species.creation, "attribute_adjustments"))
-        {
-            var adj = species.creation.attribute_adjustments;
-
-            if (adj.type == "choice")
-            {
-                cc.species_bonus_remaining = adj.count;
-            }
-        }
-    }
-
+    
     // ==========================================
     // FINISH
     // ==========================================
@@ -85,4 +68,6 @@ function attribute_step_init(cc)
     show_debug_message("ATTRIBUTE INIT COMPLETE");
     show_debug_message("Species = " + string(cc.locked_species));
     show_debug_message("Bonus Choices = " + string(cc.species_bonus_remaining));
+	cc.attribute_initialized = true;
+    show_debug_message("ATTRIBUTE INIT COMPLETE for species: " + string(cc.locked_species));
 }

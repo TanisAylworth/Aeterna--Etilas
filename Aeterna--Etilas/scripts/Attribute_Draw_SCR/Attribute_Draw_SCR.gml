@@ -1,6 +1,8 @@
 
 function attribute_step_draw(cc)
 {
+	
+	show_debug_message("Current locked species: " + string(cc.locked_species));
     // =====================================================
     // VALIDATION
     // =====================================================
@@ -110,120 +112,94 @@ function attribute_step_draw(cc)
         draw_text(x1 + 5, y1 + 2, string(roll_pool[i]));
     }
 
-    // =====================================================
+            // =====================================================
     // ATTRIBUTES DRAW
     // =====================================================
     draw_set_halign(fa_center);
-
-   draw_text_colour(
-    screen_w * 0.5,
-    L.top_y - 50,
-    "ATTRIBUTES",
-    c_white, c_white, c_white, c_white, 1
-);
-
+    draw_text_colour(
+        screen_w * 0.5,
+        L.top_y - 50,
+        "ATTRIBUTES",
+        c_white, c_white, c_white, c_white, 1
+    );
     draw_set_halign(fa_left);
 
     for (var i = 0; i < attr_count; i++)
     {
         var attr = global.ATTRIBUTES[i];
-
         var r = get_attribute_rect(i);
+        var x1 = r.x;
+        var y1 = r.y;
+        var x2 = r.x + r.w;
+        var y2 = r.y + r.h;
 
-		var x1 = r.x;
-		var y1 = r.y;
-		var x2 = r.x + r.w;
-		var y2 = r.y + r.h;
-
-        var base = 0;
+        var base = is_real(cc.assigned[$ attr]) ? cc.assigned[$ attr] : 0;
         var species_bonus = 0;
-        var choice_bonus = 0;
+        var choice_bonus = variable_struct_exists(cc.species_bonus_map, attr) ? 1 : 0;
 
-        if (is_real(cc.assigned[$ attr]))
-            base = cc.assigned[$ attr];
-
-		var sp = cc.locked_species;
-
-		if (!is_undefined(sp)
-		&& variable_struct_exists(global.species_data, sp))
-		{
-		    var data = global.species_data[$ sp];
-
-		    if (variable_struct_exists(data, "stats")
-		    && variable_struct_exists(data.stats, "attributes"))
-		    {
-		        var attrs = data.stats.attributes;
-
-		        if (variable_struct_exists(attrs, attr))
-		        {
-		            species_bonus = attrs[$ attr];
-		        }
-		        else if (variable_struct_exists(attrs, string_lower(attr)))
-		        {
-		            species_bonus = attrs[$ string_lower(attr)];
-		        }
-		    }
-		}
-		
-		if (variable_struct_exists(cc.species_bonus_map, attr))
-		{
-		    choice_bonus = 1;
-		}
+                // === SPECIES BONUS ===
+        var species_bonus = 0;
+        var sp = cc.locked_species;
+        if (!is_undefined(sp) && variable_struct_exists(global.species_data, sp))
+        {
+            var data = global.species_data[$ sp];
+            if (variable_struct_exists(data, "stats") && variable_struct_exists(data.stats, "attributes"))
+            {
+                var attrs = data.stats.attributes;
+                
+                show_debug_message("Species: " + sp + " | Looking for: " + attr);
+                show_debug_message("Available attributes: " + string(variable_struct_get_names(attrs)));
+                
+                if (variable_struct_exists(attrs, attr))
+                {
+                    species_bonus = attrs[$ attr];
+                    show_debug_message("Found exact match: " + string(species_bonus));
+                }
+                else if (variable_struct_exists(attrs, string_lower(attr)))
+                {
+                    species_bonus = attrs[$ string_lower(attr)];
+                    show_debug_message("Found lowercase match: " + string(species_bonus));
+                }
+                else
+                {
+                    show_debug_message("No match found for " + attr);
+                }
+            }
+        }
 
         var final_val = base + species_bonus + choice_bonus;
 
         var hover = point_in_rectangle(mx, my, x1, y1, x2, y2);
+        var is_assigned = is_real(cc.assigned[$ attr]);
+        var has_species_bonus = species_bonus != 0;
+        var has_choice_bonus = choice_bonus > 0;
 
-        var is_assigned =
-    variable_struct_exists(cc.assigned, attr)
-    && is_real(cc.assigned[$ attr]);
-        var has_bonus = variable_struct_exists(cc.species_bonus_map, attr);
-
+        // Color logic
         if (hover)
-        {
-            if (is_assigned && has_bonus) draw_set_color(make_color_rgb(120,255,120));
-            else if (is_assigned) draw_set_color(c_ltgray);
-            else if (has_bonus) draw_set_color(c_aqua);
-            else draw_set_color(c_yellow);
-        }
+            draw_set_color(c_yellow);
+        else if (has_species_bonus || has_choice_bonus)
+            draw_set_color(c_aqua);
+        else if (is_assigned)
+            draw_set_color(c_green);
         else
-        {
-            if (is_assigned) draw_set_color(c_green);
-            else if (has_bonus) draw_set_color(c_aqua);
-            else draw_set_color(c_white);
-        }
+            draw_set_color(c_white);
 
         draw_rectangle(x1, y1, x2, y2, false);
 
-// ======================================
-// Attribute Value (BLACK)
-// ======================================
-draw_set_color(c_black);
+        // Text
+        draw_set_color(c_black);
+        draw_text(x1 + 5, y1 + 2, attr + ": " + string(final_val));
 
-draw_text(
-    x1 + 5,
-    y1 + 2,
-    attr + ": " + string(final_val)
-);
-
-// ======================================
-// Derived Effects (WHITE)
-// ======================================
-draw_set_color(c_white);
-
-if (variable_struct_exists(global.attribute_data, attr))
-{
-    var effects = global.attribute_data[$ attr](final_val);
-
-    for (var j = 0; j < array_length(effects); j++)
-    {
-        draw_text(
-            x1 + 5,
-            y1 + 25 + j * 25,
-            effects[j]
-        );
-    }
-}
+        // Derived effects
+        draw_set_color(c_white);
+        if (variable_struct_exists(global.attribute_data, attr))
+        {
+            var effects = global.attribute_data[$ attr](final_val);
+            for (var j = 0; j < array_length(effects); j++)
+            {
+                draw_text(x1 + 5, y1 + 25 + j * 25, effects[j]);
+            }
+        }
     }
 
    // =====================================================

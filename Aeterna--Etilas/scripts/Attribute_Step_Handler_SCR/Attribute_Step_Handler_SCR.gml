@@ -202,44 +202,49 @@ for (var i = 0; i < array_length(global.ATTRIBUTES); i++)
         }
     }
 }
-}
 
-    // ==========================================
-    // CONFIRM BUTTON (UNCHANGED LOGIC)
-    // ==========================================
-    var vw = display_get_gui_width();
-    var vh = display_get_gui_height();
-
-    cc.confirm_btn.x = (vw - cc.confirm_btn.w) * 0.5;
-    cc.confirm_btn.y = vh - 100;
-
-    var b = cc.confirm_btn;
-
-    if (point_in_rectangle(mx, my, b.x, b.y, b.x + b.w, b.y + b.h))
+// CONFIRM BUTTON
+    if (global.char_creation.locked_species != undefined)
     {
-        if (left && !click_used)
+        var btn_w = cc.confirm_btn.w;
+        var btn_h = cc.confirm_btn.h;
+        var btn_x = (screen_w - btn_w) * 0.5;
+        var btn_y = screen_h - 100;
+        cc.confirm_btn.x = btn_x;
+        cc.confirm_btn.y = btn_y;
+
+        var hover_btn = point_in_rectangle(mx, my, btn_x, btn_y, btn_x + btn_w, btn_y + btn_h);
+
+        var ready = true;
+        for (var i = 0; i < array_length(global.ATTRIBUTES); i++)
         {
-            var ready = true;
-
-            for (var i = 0; i < attr_count; i++)
+            if (!is_real(cc.assigned[$ global.ATTRIBUTES[i]]))
             {
-                var attr = global.ATTRIBUTES[i];
-
-                if (!variable_struct_exists(cc.assigned, attr))
-                {
-                    ready = false;
-                    break;
-                }
+                ready = false;
+                break;
             }
+        }
+        if (array_length(cc.roll_pool) > 0) ready = false;
+        if (cc.species_bonus_remaining > 0) ready = false;
 
-            if (array_length(cc.roll_pool) > 0)
-                ready = false;
+        draw_set_color(!ready ? c_dkgray : (hover_btn ? c_lime : c_green));
+        draw_rectangle(btn_x, btn_y, btn_x + btn_w, btn_y + btn_h, false);
+        draw_set_color(c_white);
+        draw_set_halign(fa_center);
+        draw_set_valign(fa_middle);
+        draw_text(btn_x + btn_w * 0.5, btn_y + btn_h * 0.5, "CONFIRM ATTRIBUTES");
+        draw_set_halign(fa_left);
+        draw_set_valign(fa_top);
 
-            if (cc.species_bonus_remaining > 0)
-                ready = false;
-
-            if (ready)
-                go_to_next_step(cc);
+        // ONLY CONFIRM IF READY - DO NOT CHANGE SPECIES
+        if (hover_btn && mouse_check_button_pressed(mb_left) && ready)
+        {
+            // Go to next screen
+            // Do NOT set locked_species here
+            show_debug_message("Confirmed attributes for: " + string(cc.locked_species));
         }
     }
+
 }
+
+}        

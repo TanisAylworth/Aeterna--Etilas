@@ -1740,11 +1740,11 @@ add_species("xiba_xida", {
                 dexterity: -1,
                 endurance: 0,
                 reflexes: 0,
-                intelligence: 0,
+                intelligence: -1,
                 perception: 0,
                 willpower: 0,
                 charm: -1,
-                toughness: 0,
+                toughness: 3,
                 leadership: 0
             },
             abilities: [],

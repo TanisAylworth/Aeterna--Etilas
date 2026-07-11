@@ -62,20 +62,24 @@ function draw_species_select(step)
         {
             hovered_species = species_id;
 
-            if (mouse_check_button_pressed(mb_left))
+                        if (mouse_check_button_pressed(mb_left))
             {
-                var cc = global.char_creation;
-                cc.locked_species = species_id;
-                cc.species_bonus_map = {};
-                cc.species_bonus_remaining = 0;
+                // Use global directly to avoid scoping issues
+                global.char_creation.locked_species = species_id;
+                global.char_creation.species_bonus_map = {};
+                global.char_creation.species_bonus_remaining = 0;
 
                 var data = global.species_data[$ species_id];
-                var adj = data.creation.attribute_adjustments;
-
-                if (variable_struct_exists(adj, "choices"))
+                if (variable_struct_exists(data, "creation") && variable_struct_exists(data.creation, "attribute_adjustments"))
                 {
-                    cc.species_bonus_remaining = adj.choices;
+                    var adj = data.creation.attribute_adjustments;
+                    if (variable_struct_exists(adj, "choices"))
+                    {
+                        global.char_creation.species_bonus_remaining = adj.choices;
+                    }
                 }
+
+                show_debug_message("Species locked: " + species_id);
             }
         }
 
