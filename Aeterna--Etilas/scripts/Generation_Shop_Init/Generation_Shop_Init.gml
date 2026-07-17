@@ -23,7 +23,6 @@ function generation_shop_init(cc)
     if (!variable_global_exists("knowledge_table_data")) knowledge_tables_data();
 	
 	
-	
 	// =====================================================
 	// GENERATION HOVER (Critical for Draw Event)
 	// =====================================================
@@ -87,19 +86,69 @@ function generation_shop_init(cc)
         if (variable_struct_exists(species.creation.knowledge_tables, "choices"))
             cc.generation.table_choices_remaining = species.creation.knowledge_tables.choices.count;
     }
-
+	
+	
+	    // =====================================================
+    // LOAD FIXED SPECIES SKILLS
     // =====================================================
-    // SLOT CALCULATION
-    // =====================================================
-    var base_slots = cc.steps[cc.step_index].slots_base;
-    var int_bonus = get_final_attribute(cc, "Intelligence");
-    cc.generation_slots_total = base_slots + max(0, int_bonus);
-    cc.generation_slots_remaining = cc.generation_slots_total;
+    if (!is_undefined(species) && variable_struct_exists(species.creation, "knowledge_skills"))
+    {
+        var skill_data = species.creation.knowledge_skills;
+        if (variable_struct_exists(skill_data, "fixed"))
+        {
+            // Persistent fixed skills tracking (struct)
+            if (!variable_struct_exists(cc, "fixed_skills"))
+                cc.fixed_skills = {};
 
+            var fixed_skills = skill_data.fixed;
+            for (var i = 0; i < array_length(fixed_skills); i++)
+            {
+                var s = fixed_skills[i];
+                var skill_name = s.name;
+                var rank = variable_struct_exists(s, "rank") ? s.rank : 1;
+               
+                // Add to skill ranks
+                if (!variable_struct_exists(cc.skill_ranks, skill_name))
+                    cc.skill_ranks[$ skill_name] = rank;
+                else
+                    cc.skill_ranks[$ skill_name] = max(cc.skill_ranks[$ skill_name], rank);
+               
+                // Add to free slot tracking
+                if (!array_contains(cc.free_slot_skills, skill_name))
+                    array_push(cc.free_slot_skills, skill_name);
+               
+                // Store initial fixed rank
+                cc.fixed_skills[$ skill_name] = rank;
+               
+                show_debug_message("Added fixed species skill: " + skill_name + " (Rank " + string(rank) + ")");
+            }
+        }
+    }
+
+    
+// =====================================================
+// SLOT CALCULATION DEBUG
+// =====================================================
+
+var test_int = get_final_attribute(cc, "Intelligence");
+
+show_debug_message("=== SLOT DEBUG ===");
+show_debug_message("Base INT: " + string(cc.assigned.Intelligence));
+show_debug_message("Final INT: " + string(test_int));
+show_debug_message("Species: " + string(cc.locked_species));
+
+cc.generation_slots_total = get_intelligence_slots(cc);
+cc.generation_slots_remaining = cc.generation_slots_total;
+
+show_debug_message("POINT TOTAL: " + string(cc.generation_slots_total));
 	    // Make sure tables_locked exists
     if (!variable_struct_exists(cc.generation, "tables_locked"))
         cc.generation.tables_locked = false;
 
     cc.generation_initialized = true;
     show_debug_message("=== GENERATION SHOP INITIALIZED SUCCESSFULLY ===");
+	
+	
+	            
+	
 }

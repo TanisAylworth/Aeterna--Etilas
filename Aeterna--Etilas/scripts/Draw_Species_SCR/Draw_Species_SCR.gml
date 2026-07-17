@@ -56,18 +56,18 @@ function draw_species_select(step)
         var xx = list_x + (col * col_width);
         var yy = start_y + (row * (box_h + spacing));
 
-        var is_hovered = point_in_rectangle(mx, my, xx, yy, xx + box_w, yy + box_h);
+                var is_hovered = point_in_rectangle(mx, my, xx, yy, xx + box_w, yy + box_h);
 
         if (is_hovered)
         {
             hovered_species = species_id;
 
-                        if (mouse_check_button_pressed(mb_left))
+            if (mouse_check_button_pressed(mb_left))
             {
-                // Use global directly to avoid scoping issues
-                global.char_creation.locked_species = species_id;
-                global.char_creation.species_bonus_map = {};
-                global.char_creation.species_bonus_remaining = 0;
+                var cc = global.char_creation;
+                cc.locked_species = species_id;
+                cc.species_bonus_map = {};
+                cc.species_bonus_remaining = 0;
 
                 var data = global.species_data[$ species_id];
                 if (variable_struct_exists(data, "creation") && variable_struct_exists(data.creation, "attribute_adjustments"))
@@ -75,7 +75,7 @@ function draw_species_select(step)
                     var adj = data.creation.attribute_adjustments;
                     if (variable_struct_exists(adj, "choices"))
                     {
-                        global.char_creation.species_bonus_remaining = adj.choices;
+                        cc.species_bonus_remaining = adj.choices;
                     }
                 }
 

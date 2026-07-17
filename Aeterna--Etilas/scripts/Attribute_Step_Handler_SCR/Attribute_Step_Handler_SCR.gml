@@ -4,7 +4,8 @@ function attribute_step_update(cc)
 
     var mx = device_mouse_x_to_gui(0);
     var my = device_mouse_y_to_gui(0);
-
+    var screen_w = display_get_gui_width();
+    var screen_h = display_get_gui_height();
     var left  = mouse_check_button_pressed(mb_left);
     var right = mouse_check_button_pressed(mb_right);
 
@@ -203,9 +204,12 @@ for (var i = 0; i < array_length(global.ATTRIBUTES); i++)
     }
 }
 
-// CONFIRM BUTTON
+    // CONFIRM BUTTON
     if (global.char_creation.locked_species != undefined)
     {
+        var screen_w = display_get_gui_width();
+        var screen_h = display_get_gui_height();
+
         var btn_w = cc.confirm_btn.w;
         var btn_h = cc.confirm_btn.h;
         var btn_x = (screen_w - btn_w) * 0.5;
@@ -236,12 +240,11 @@ for (var i = 0; i < array_length(global.ATTRIBUTES); i++)
         draw_set_halign(fa_left);
         draw_set_valign(fa_top);
 
-        // ONLY CONFIRM IF READY - DO NOT CHANGE SPECIES
+        // CLICK DETECTION
         if (hover_btn && mouse_check_button_pressed(mb_left) && ready)
         {
-            // Go to next screen
-            // Do NOT set locked_species here
             show_debug_message("Confirmed attributes for: " + string(cc.locked_species));
+            go_to_next_step(cc);
         }
     }
 

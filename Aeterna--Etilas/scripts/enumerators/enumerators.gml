@@ -9,4 +9,12 @@ function enumerators(){
     Huge
 }
 
+
+enum SKILL_DIFFICULTY
+{
+    SIMPLE,
+    INTERMEDIATE,
+    ADVANCED
+}
+
 }

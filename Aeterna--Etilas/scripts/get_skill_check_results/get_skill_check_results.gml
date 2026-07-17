@@ -1,17 +1,26 @@
 function get_skill_check_result(cc, skill)
 {
     var result = {
-        total: 0,
-        attribute: "None",
-        modifier: 0,
-        is_best: false
-    };
+    total: 0,
+    attribute: "None",
+    modifier: 0,
+    is_best: false,
+    can_attempt: true
+};
     
     if (!variable_struct_exists(skill, "check"))
         return result;
         
     var check = skill.check;
     var char_size = get_character_size(cc);
+	
+	var trained = variable_struct_exists(cc.skill_ranks, skill.name);
+
+	if (!trained && skill.difficulty == SKILL_DIFFICULTY.ADVANCED)
+	{
+	    result.can_attempt = false;
+	    return result;
+	}
 
     switch (check.mode)
     {

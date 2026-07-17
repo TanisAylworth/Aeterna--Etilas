@@ -17,8 +17,10 @@ function get_final_attribute(cc, attr)
         {
             var attrs = sp.stats.attributes;
 
-            if (variable_struct_exists(attrs, attr))
-                species_bonus = attrs[$ attr];
+            var key = string_lower(attr);
+
+			if (variable_struct_exists(attrs, key))
+			    species_bonus = attrs[$ key];
         }
     }
 
