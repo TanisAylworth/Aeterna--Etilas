@@ -1,6 +1,8 @@
 // ===============================
 // INIT GLOBAL DATA FIRST
 // ===============================
+randomize();
+
 Species_Data_SCR();
 Attribute_data();
 get_all_knowledge_tables();

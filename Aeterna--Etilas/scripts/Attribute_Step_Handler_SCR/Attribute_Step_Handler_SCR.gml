@@ -160,8 +160,10 @@ if (left && !click_used)
 {
     
 
-   var bonus_x = 1400;
-var bonus_y = 220;
+   var L = get_attribute_layout();
+
+var bonus_x = L.right_x + 120;
+var bonus_y = L.top_y;
 
 for (var i = 0; i < array_length(global.ATTRIBUTES); i++)
 {

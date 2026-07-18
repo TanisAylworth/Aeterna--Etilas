@@ -150,7 +150,7 @@ function draw_species_select(step)
     ty = scr_ui_draw_section(tx, ty, "Skills", selected.creation.knowledge_skills);
     ty = scr_ui_draw_section(tx, ty, "Talents", selected.creation.knowledge_talents);
     ty = scr_ui_draw_section(tx, ty, "Abilities", selected.stats.abilities);
-    ty = scr_ui_draw_section(tx, ty, "Negatives", selected.stats.negatives);
+	ty = scr_ui_draw_section(tx, ty, "Negatives", selected.stats.negatives);
     ty = scr_ui_draw_section(tx, ty, "Hit Locations", selected.stats.hit_locations);
     ty = scr_ui_draw_section(tx, ty, "Traits", selected.stats.traits);
 
