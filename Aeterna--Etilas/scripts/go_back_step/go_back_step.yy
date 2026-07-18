@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"go_back_step",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"go_back_step",
+  "parent":{
+    "name":"MISC_SCR",
+    "path":"folders/Scripts/MISC_SCR.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

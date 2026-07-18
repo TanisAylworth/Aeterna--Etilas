@@ -3,7 +3,6 @@
 
 
 var cc = global.char_creation;
-
 if (!is_struct(cc)) exit;
 if (!variable_struct_exists(cc, "steps")) exit;
 

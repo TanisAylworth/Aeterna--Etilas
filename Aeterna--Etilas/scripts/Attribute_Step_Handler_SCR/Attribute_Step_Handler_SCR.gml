@@ -6,6 +6,11 @@ function attribute_step_update(cc)
     var my = device_mouse_y_to_gui(0);
     var screen_w = display_get_gui_width();
     var screen_h = display_get_gui_height();
+	var back_x = 40;
+	var back_y = screen_h - 100;
+
+	var back_w = 160;
+	var back_h = 60;
     var left  = mouse_check_button_pressed(mb_left);
     var right = mouse_check_button_pressed(mb_right);
 
@@ -250,6 +255,27 @@ for (var i = 0; i < array_length(global.ATTRIBUTES); i++)
         }
     }
 
+}
+
+
+
+
+if (mouse_check_button_pressed(mb_left))
+{
+    if (point_in_rectangle(
+        mx,
+        my,
+        back_x,
+        back_y,
+        back_x + back_w,
+        back_y + back_h))
+    {
+        if (array_length(cc.step_history) > 0)
+        {
+            go_back_step(cc);
+            exit;
+        }
+    }
 }
 
 }        

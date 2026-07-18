@@ -80,6 +80,7 @@
     {"id":{"name":"get_skill_check_results","path":"scripts/get_skill_check_results/get_skill_check_results.yy",},},
     {"id":{"name":"get_skill_rank","path":"scripts/get_skill_rank/get_skill_rank.yy",},},
     {"id":{"name":"get_tables_SCR","path":"scripts/get_tables_SCR/get_tables_SCR.yy",},},
+    {"id":{"name":"go_back_step","path":"scripts/go_back_step/go_back_step.yy",},},
     {"id":{"name":"go_to_next_step","path":"scripts/go_to_next_step/go_to_next_step.yy",},},
     {"id":{"name":"knowledge_table_data","path":"scripts/knowledge_table_data/knowledge_table_data.yy",},},
     {"id":{"name":"Label_Format_SCR","path":"scripts/Label_Format_SCR/Label_Format_SCR.yy",},},

@@ -1,6 +1,8 @@
 function generation_shop_draw()
 {
     var cc = global.char_creation;
+	var mx = device_mouse_x_to_gui(0);
+var my = device_mouse_y_to_gui(0);
    
     if (!variable_struct_exists(cc, "generation")) return;
    
@@ -59,4 +61,77 @@ function generation_shop_draw()
         draw_specialization_popup(cc, L);
 
     draw_set_color(c_white);
+	
+	
+	// =====================================
+// BACK BUTTON
+// =====================================
+
+
+var back_x = 40;
+	var back_y = display_get_gui_height() - 100;
+
+	var back_w = 160;
+	var back_h = 60;
+	var can_back = array_length(cc.step_history) > 0;
+
+
+var hover_back = point_in_rectangle(
+    mx,
+    my,
+    back_x,
+    back_y,
+    back_x + back_w,
+    back_y + back_h
+);
+
+
+if (!can_back)
+{
+    draw_set_color(c_dkgray);
+}
+else if (hover_back)
+{
+    draw_set_color(c_lime);
+}
+else
+{
+    draw_set_color(c_gray);
+}
+
+
+draw_rectangle(
+    back_x,
+    back_y,
+    back_x + back_w,
+    back_y + back_h,
+    false
+);
+
+
+// Border
+draw_set_color(c_white);
+
+draw_rectangle(
+    back_x,
+    back_y,
+    back_x + back_w,
+    back_y + back_h,
+    true
+);
+
+
+// Text
+draw_set_halign(fa_center);
+draw_set_valign(fa_middle);
+
+draw_text(
+    back_x + back_w * 0.5,
+    back_y + back_h * 0.5,
+    "BACK"
+);
+
+
+draw_set_halign(fa_left);
+draw_set_valign(fa_top);
 }

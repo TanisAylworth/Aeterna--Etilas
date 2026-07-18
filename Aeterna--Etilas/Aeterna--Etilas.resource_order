@@ -56,6 +56,7 @@
     {"name":"get_skill_check_results","order":27,"path":"scripts/get_skill_check_results/get_skill_check_results.yy",},
     {"name":"get_skill_rank","order":16,"path":"scripts/get_skill_rank/get_skill_rank.yy",},
     {"name":"get_tables_SCR","order":10,"path":"scripts/get_tables_SCR/get_tables_SCR.yy",},
+    {"name":"go_back_step","order":19,"path":"scripts/go_back_step/go_back_step.yy",},
     {"name":"go_to_next_step","order":4,"path":"scripts/go_to_next_step/go_to_next_step.yy",},
     {"name":"knowledge_table_data","order":13,"path":"scripts/knowledge_table_data/knowledge_table_data.yy",},
     {"name":"Label_Format_SCR","order":17,"path":"scripts/Label_Format_SCR/Label_Format_SCR.yy",},

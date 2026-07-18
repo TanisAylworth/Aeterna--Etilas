@@ -1,5 +1,9 @@
 function go_to_next_step(cc)
 {
+	array_push(
+    cc.step_history,
+    cc.step_index
+);
     cc.step_index++;
 	show_debug_message("CURRENT STEP: " + cc.steps[cc.step_index].id);
     show_debug_message("STEP INDEX NOW: " + string(cc.step_index));

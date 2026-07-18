@@ -5,6 +5,8 @@ function draw_species_select(step)
     var panel_w = 420;
     var panel_x = vw - panel_w;
     var panel_y = 0;
+	
+	
 
     draw_set_color(make_color_rgb(20, 20, 20));
     draw_rectangle(panel_x, panel_y, panel_x + panel_w, panel_y + vh, false);
@@ -172,4 +174,11 @@ function draw_species_select(step)
         draw_set_halign(fa_left);
         draw_set_valign(fa_top);
     }
+	
+	
+	
+	
+	
+	
+	
 }

@@ -20,7 +20,7 @@ global.char_creation = {
     // -------------------------------
     step_index: 0,
     last_step_id: "",
-
+	step_history: [0, 1, 2],
     steps: [
 
         {
