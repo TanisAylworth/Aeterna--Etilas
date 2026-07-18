@@ -10,7 +10,9 @@ show_debug_message("Character Creation Create Event");
 
 show_debug_message("INIT DATA COMPLETE");
 
-
+display_set_gui_size(1920, 1080);
+window_set_size(1280,720);
+window_set_showborder(true);
 // ===============================
 // CHARACTER CREATION STATE
 // ===============================
