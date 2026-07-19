@@ -2,7 +2,6 @@
 // INIT GLOBAL DATA FIRST
 // ===============================
 randomize();
-
 Species_Data_SCR();
 Attribute_data();
 get_all_knowledge_tables();
@@ -11,8 +10,10 @@ show_debug_message("Character Creation Create Event");
 show_debug_message("INIT DATA COMPLETE");
 
 display_set_gui_size(1920, 1080);
-window_set_size(1280,720);
+window_set_size(1920,1080);
 window_set_showborder(true);
+
+
 // ===============================
 // CHARACTER CREATION STATE
 // ===============================
@@ -89,8 +90,8 @@ global.char_creation = {
     generation_initialized: false,
     generation_slots_total: 0,
     generation_slots_remaining: 0,
-
-	
+	fixed_skills: {},
+	free_skill_ranks: {},
 	
 	generation:
     {

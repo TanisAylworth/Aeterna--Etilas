@@ -322,35 +322,56 @@ function handle_skill_list(cc, L, mx, my, clicked, right_clicked)
 function attempt_skill_rank_up(cc, skill_key, base_skill, table)
 {
     var current_rank = get_skill_rank(cc, skill_key);
-    // First purchase sets rank 0
+
     if (current_rank == 0 && !variable_struct_exists(cc.skill_ranks, skill_key))
     {
         current_rank = 0;
     }
 
+    // Determine normal skill cost
+    var owns_table = table_is_owned(cc, table);
+    var cost = owns_table ? 1 : 2;
+
+
     // === FREE SKILL SLOTS FIRST ===
     if (variable_struct_exists(cc, "locked_species"))
     {
         var species = global.species_data[$ cc.locked_species];
+
         if (variable_struct_exists(species.creation.knowledge_skills, "choices"))
         {
             var remaining = species.creation.knowledge_skills.choices.count;
-            if (remaining > 0)
-            {
-                species.creation.knowledge_skills.choices.count--;
-                cc.generation_slots_remaining -= cost;
 
-				if (!variable_struct_exists(cc.skill_ranks, skill_key))
-				    set_skill_rank(cc, skill_key, 0);
-				else
-				    set_skill_rank(cc, skill_key, current_rank + 1);
-             
-                if (!array_contains(cc.free_slot_skills, skill_key))
-                    array_push(cc.free_slot_skills, skill_key);
-             
-                show_debug_message("Used free skill slot for: " + skill_key);
-                return;
-            }
+            if (remaining > 0)
+{
+    species.creation.knowledge_skills.choices.count--;
+
+    if (!variable_struct_exists(cc.skill_ranks, skill_key))
+        set_skill_rank(cc, skill_key, 0);
+    else
+        set_skill_rank(cc, skill_key, current_rank + 1);
+
+
+    // TRACK FREE RANK
+    if (!variable_struct_exists(cc.free_skill_ranks, skill_key))
+    {
+        cc.free_skill_ranks[$ skill_key] = 1;
+    }
+    else
+    {
+        cc.free_skill_ranks[$ skill_key]++;
+    }
+
+
+    show_debug_message(
+        "Free rank added: "
+        + skill_key
+        + " total free ranks: "
+        + string(cc.free_skill_ranks[$ skill_key])
+    );
+
+    return;
+}
         }
     }
 
@@ -383,7 +404,8 @@ function attempt_skill_rank_down(cc, skill_key)
     var current_rank = get_skill_rank(cc, skill_key);
     if (!variable_struct_exists(cc.skill_ranks, skill_key))
     return;
-
+	if (!variable_struct_exists(cc, "free_skill_ranks"))
+    cc.free_skill_ranks = {};
     // Check if this skill is fixed
     var initial_fixed_rank = variable_struct_exists(cc.fixed_skills, skill_key) ? cc.fixed_skills[$ skill_key] : 0;
     if (initial_fixed_rank > 0 && current_rank <= initial_fixed_rank)
@@ -395,30 +417,38 @@ function attempt_skill_rank_down(cc, skill_key)
     // For additional ranks in fixed skills, treat as normal point purchase
         // For additional ranks in fixed skills, treat as normal point purchase
         // For additional ranks in fixed skills, treat as normal point purchase
-    var is_free_slot_skill = array_contains(cc.free_slot_skills, skill_key) && current_rank <= initial_fixed_rank;
-    if (is_free_slot_skill)
+    var has_free_rank =
+    variable_struct_exists(cc.free_skill_ranks, skill_key)
+    &&
+    cc.free_skill_ranks[$ skill_key] > 0;
+
+if (has_free_rank)
     {
-        // Refund one rank as a free slot
-        set_skill_rank(cc, skill_key, current_rank - 1);
-       
-        // If rank reaches 0, remove from free slot tracking
-        if (current_rank - 1 <= 0)
+    // Remove one free rank
+    set_skill_rank(cc, skill_key, current_rank - 1);
+
+    cc.free_skill_ranks[$ skill_key]--;
+
+    // Remove empty tracking entry
+    if (cc.free_skill_ranks[$ skill_key] <= 0)
+    {
+        variable_struct_remove(
+            cc.free_skill_ranks,
+            skill_key
+        );
+    }
+
+    // Return free skill choice
+    if (variable_struct_exists(cc, "locked_species"))
+    {
+        var species = global.species_data[$ cc.locked_species];
+
+        if (variable_struct_exists(species.creation.knowledge_skills, "choices"))
         {
-            var index = array_index_of(cc.free_slot_skills, skill_key);
-            if (index != -1)
-                array_delete(cc.free_slot_skills, index, 1);
-        }
-       
-        // Refund one free slot count
-        if (variable_struct_exists(cc, "locked_species"))
-        {
-            var species = global.species_data[$ cc.locked_species];
-            if (variable_struct_exists(species.creation.knowledge_skills, "choices"))
-            {
-                species.creation.knowledge_skills.choices.count++;
-            }
+            species.creation.knowledge_skills.choices.count++;
         }
     }
+}
     else
 {
     // Normal character point refund
@@ -673,7 +703,10 @@ function draw_skills_column(cc, L, skills_x = undefined)
         var draw_x = (skills_x - 210) + (col * col_width);
         var draw_y = display_y + (row * row_h);
 		
-		        
+		        var has_free_rank =
+    variable_struct_exists(cc.free_skill_ranks, entry.name)
+    &&
+    cc.free_skill_ranks[$ entry.name] > 0;
 		
                 var is_hovered = (cc.hovered_skill == entry.name);
                  var is_fixed = variable_struct_exists(cc.fixed_skills, entry.name);
@@ -684,6 +717,10 @@ function draw_skills_column(cc, L, skills_x = undefined)
             draw_set_color(c_green);           // Fixed skills (including specs)
         else if (variable_struct_exists(cc.free_slot_ranks, entry.name) && cc.free_slot_ranks[$ entry.name] > 0)
             draw_set_color(c_aqua);
+		else if (has_free_rank)
+		{
+		    draw_set_color(c_lime);
+		}
         else if (entry.is_specialization)
             draw_set_color(c_ltgray);
         else
@@ -734,6 +771,28 @@ function draw_skills_column(cc, L, skills_x = undefined)
 
     draw_set_color(c_white);
     draw_text(skills_x - 80, + 340, "Free Skill Slots: " + string(remaining));
+	
+	// =====================================
+// FREE SKILL SLOT TOOLTIP
+// =====================================
+
+if (point_in_rectangle(
+    mx,
+    my,
+    x - 300,
+    y - 10,
+    x - 60,
+    y + 10
+))
+{
+    set_tooltip(
+        "Free skill slots can be used to purchase any skill, " +
+        "even if you do not have access to that skill's table. " +
+        "Each free slot grants one skill rank.",
+        mx + 16,
+        my + 16
+    );
+}
 }
 
 

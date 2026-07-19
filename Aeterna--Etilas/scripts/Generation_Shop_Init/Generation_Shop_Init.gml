@@ -21,6 +21,11 @@ function generation_shop_init(cc)
     if (!variable_global_exists("SKILL_SIMPLE"))      skill_constants_init();
     if (!variable_global_exists("skill_data"))        skills_data();
     if (!variable_global_exists("knowledge_table_data")) knowledge_tables_data();
+	if (!variable_struct_exists(cc, "free_skill_ranks"))
+    cc.free_skill_ranks = {};
+
+if (!variable_struct_exists(cc, "fixed_skills"))
+    cc.fixed_skills = {};
 	
 	
 	// =====================================================
