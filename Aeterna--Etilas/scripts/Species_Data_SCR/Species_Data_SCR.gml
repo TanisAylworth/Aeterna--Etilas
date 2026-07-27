@@ -8,7 +8,7 @@ function Species_Data_SCR()
     "galish",
     "galheston",
     "galgaharad",
-    "galnim",
+    //"galnim",
     "xiba_xida",
     "xiba_xisu",
     "votalli_ctai",
@@ -38,7 +38,7 @@ function Species_Data_SCR()
         name: "Muttish Human",
         description: "Prolific and universal. They are everywhere and do everything well enough. Muttish Humans lack a specific nation or homeland due to their mixed origins, but their versatility allows them to thrive anywhere. As their name suggests, they are mutts of various human species and cultures. Their build and appearance range wildly across the human spectrum, with no standout physical traits. While they lack specialized advantages, their adaptability and well-rounded nature make them the most common and flexible of all human peoples.",
         stats: {
-            cdt: 6,
+            cdt: 8,
             attributes: {
                 strength: 0,
                 dexterity: 0,
@@ -97,7 +97,7 @@ function Species_Data_SCR()
         name: "Holdstadtish Human",
         description: "Men that make up the western portion of Etilas. These people have a culture of strict honor and valor. They are warriors through and through, with a very military-oriented society and deep respect for warfare.Holdstadtish society values discipline, courage, and martial excellence above all else. Their rigid code of honor governs nearly every aspect of life, from personal conduct to national politics. While this makes them formidable soldiers and steadfast allies, it can also make them rigid and uncompromising in their worldview.",
         stats: {
-            cdt: 8,
+            cdt: 10,
             attributes: {
                 strength: 2,
                 endurance: 2,
@@ -165,11 +165,11 @@ function Species_Data_SCR()
                 strength: -1,
                 dexterity: 1,
                 endurance: 0,
-                reflexes: 0,
+                reflexes: 1,
                 intelligence: 2,
-                perception: 0,
+                perception: 1,
                 willpower: -1,
-                charm: 0,
+                charm: 1,
                 toughness: -1,
                 leadership: 0
             },
@@ -192,11 +192,14 @@ function Species_Data_SCR()
             attribute_adjustments: {
                 type: "fixed",
                 values: {
-                    intelligence: 2,
-                    dexterity: 1,
                     strength: -1,
-                    toughness: -1,
-                    willpower: -1
+                dexterity: 1,
+                reflexes: 1,
+                intelligence: 2,
+                perception: 1,
+                willpower: -1,
+                charm: 1,
+                toughness: -1,
                 }
             },
             knowledge_tables: {
@@ -220,13 +223,13 @@ function Species_Data_SCR()
         stats: {
             cdt: 8,
             attributes: {
-                strength: 0,
+                strength: 1,
                 dexterity: 1,
-                endurance: 1,
+                endurance: 3,
                 reflexes: 0,
-                intelligence: -1,
+                intelligence: -2,
                 perception: 0,
-                willpower: 0,
+                willpower: 1,
                 charm: -1,
                 toughness: 1,
                 leadership: -1
@@ -250,12 +253,14 @@ function Species_Data_SCR()
             attribute_adjustments: {
                 type: "fixed",
                 values: {
-                    dexterity: 1,
-                    toughness: 1,
-                    endurance: 1,
-                    charm: -1,
-                    leadership: -1,
-                    intelligence: -1
+                    strength: 1,
+                dexterity: 1,
+                endurance: 3,
+                intelligence: -2,
+                willpower: 1,
+                charm: -1,
+                toughness: 1,
+                leadership: -1
                 }
             },
             knowledge_tables: {
@@ -279,16 +284,16 @@ function Species_Data_SCR()
         stats: {
             cdt: 6,
             attributes: {
-                strength: -1,
-                dexterity: 2,
-                endurance: 0,
-                reflexes: 1,
+                strength: -2,
+                dexterity: 4,
+                endurance: -2,
+                reflexes: 4,
                 intelligence: 0,
-                perception: 0,
-                willpower: -1,
-                charm: 1,
-                toughness: -1,
-                leadership: -1
+                perception: 3,
+                willpower: -3,
+                charm: 2,
+                toughness: -2,
+                leadership: -3
             },
             abilities: ["Nature Meld"],
             negatives: ["Fickle", "Untrustworthy"],
@@ -309,13 +314,15 @@ function Species_Data_SCR()
             attribute_adjustments: {
                 type: "fixed",
                 values: {
-                    dexterity: 2,
-                    reflexes: 1,
-                    charm: 1,
-                    strength: -1,
-                    toughness: -1,
-                    leadership: -1,
-                    willpower: -1
+                    strength: -2,
+                dexterity: 4,
+                endurance: -2,
+                reflexes: 4,
+                perception: 3,
+                willpower: -3,
+                charm: 2,
+                toughness: -2,
+                leadership: -3
                 }
             },
             knowledge_tables: {
@@ -337,18 +344,18 @@ function Species_Data_SCR()
         name: "GalHeston",
         description: "The GalHeston tribe of the Galish is predominantly made of older members of Galish society and they believe it is wise to uphold their treaties with the other races in Etilas. They are often viewed as more trustworthy but they seem oblivious to the danger being caused by their cousins the Galgaharad.",
         stats: {
-            cdt: 4,
+            cdt: 6,
             attributes: {
-                strength: -1,
-                dexterity: 0,
-                endurance: 0,
-                reflexes: 1,
-                intelligence: 1,
-                perception: -2,
-                willpower: 2,
-                charm: 0,
-                toughness: -1,
-                leadership: 0
+                strength: -2,
+                dexterity: 4,
+                endurance: -3,
+                reflexes: 4,
+                intelligence: 2,
+                perception: 3,
+                willpower: -1,
+                charm: 2,
+                toughness: -3,
+                leadership: -4
             },
             abilities: ["Nature Meld"],
             negatives: ["Fickle"],
@@ -369,12 +376,16 @@ function Species_Data_SCR()
             attribute_adjustments: {
                 type: "fixed",
                 values: {
-                    intelligence: 1,
-                    reflexes: 1,
-                    willpower: 2,
-                    strength: -1,
-                    perception: -2,
-                    toughness: -1
+                    strength: -2,
+                dexterity: 4,
+                endurance: -3,
+                reflexes: 4,
+                intelligence: 2,
+                perception: 3,
+                willpower: -1,
+                charm: 2,
+                toughness: -3,
+                leadership: -4
                 }
             },
             knowledge_tables: {
@@ -399,15 +410,15 @@ function Species_Data_SCR()
             cdt: 6,
             attributes: {
                 strength: 0,
-                dexterity: 2,
-                endurance: -1,
-                reflexes: 2,
-                intelligence: 0,
-                perception: 2,
-                willpower: -2,
-                charm: -2,
-                toughness: -1,
-                leadership: 0
+                dexterity: 3,
+                endurance: 0,
+                reflexes: 3,
+                intelligence: -3,
+                perception: 4,
+                willpower: -4,
+                charm: 0,
+                toughness: -2,
+                leadership: -4
             },
             abilities: ["Nature Meld"],
             negatives: ["Fickle", "Untrustworthy"],
@@ -428,13 +439,14 @@ function Species_Data_SCR()
             attribute_adjustments: {
                 type: "fixed",
                 values: {
-                    dexterity: 2,
-                    reflexes: 2,
-                    perception: 2,
-                    willpower: -2,
-                    charm: -2,
-                    toughness: -1,
-                    endurance: -1
+                
+                dexterity: 3,
+                reflexes: 3,
+                intelligence: -3,
+                perception: 4,
+                willpower: -4,
+                toughness: -2,
+                leadership: -4
                 }
             },
             knowledge_tables: {
@@ -452,42 +464,42 @@ function Species_Data_SCR()
         }
     });
 
-    add_species("galnim", {
-        name: "Galnim",
-        description: "These People are a new race to Etilas and are the half breeds of Humans and Galish. They share the best of both races including the Galish’s Infravision and the Human’s ubiquity, however their ties to the Galish still hold some of the negative connotations.",
-        stats: {
-            cdt: 6, // Average - will be overridden by parent CDT in creation
-            attributes: {}, // Combined from parents
-            abilities: ["Half Breed"],
-            negatives: ["Half Breed", "Despised"],
-            traits: ["hideable_features", "long_lived", "infravision", "stunty"],
-            hit_locations: {
-                data: {
-                    head: [1],
-                    torso: [2,3,4],
-                    left_arm: [5],
-                    right_arm: [6],
-                    left_leg: [7,8],
-                    right_leg: [9,10]
-                },
-                order: ["head","torso","right_arm","left_arm","left_leg","right_leg"]
-            }
-        },
-        creation: {
-            attribute_adjustments: {
-                type: "parent_combined"
-            },
-            knowledge_tables: {
-                type: "parent_combined",
-                count: 1
-            },
-            knowledge_skills: {
-                type: "parent_combined",
-                count: 1
-            },
-			knowledge_talents: { fixed: ["None"], choices: { count: 0, options: [] } }
-        }
-    });
+   //add_species("galnim", {
+   //     name: "Galnim",
+   //     description: "These People are a new race to Etilas and are the half breeds of Humans and Galish. They share the best of both races including the Galish’s Infravision and the Human’s ubiquity, however their ties to the Galish still hold some of the negative connotations.",
+   //     stats: {
+   //         cdt: 6, // Average - will be overridden by parent CDT in creation
+   //         attributes: {}, // Combined from parents
+   //         abilities: ["Half Breed"],
+   //         negatives: ["Half Breed", "Despised"],
+   //         traits: ["hideable_features", "long_lived", "infravision", "stunty"],
+   //         hit_locations: {
+   //             data: {
+   //                 head: [1],
+   //                 torso: [2,3,4],
+   //                 left_arm: [5],
+   //                 right_arm: [6],
+   //                 left_leg: [7,8],
+   //                 right_leg: [9,10]
+   //             },
+   //             order: ["head","torso","right_arm","left_arm","left_leg","right_leg"]
+   //         }
+   //     },
+   //     creation: {
+   //         attribute_adjustments: {
+   //             type: "parent_combined"
+   //         },
+   //         knowledge_tables: {
+   //             type: "parent_combined",
+   //             count: 1
+   //         },
+   //         knowledge_skills: {
+   //             type: "parent_combined",
+   //             count: 1
+   //         },
+	//		knowledge_talents: { fixed: ["None"], choices: { count: 0, options: [] } }
+   //     }
+   // });
 
 add_species("xiba_xida", {
         name: "Xi Da",
@@ -495,16 +507,16 @@ add_species("xiba_xida", {
         stats: {
             cdt: 6,
             attributes: {
-                strength: 0,
-                dexterity: 2,
+                strength: -4,
+                dexterity: 6,
                 endurance: -2,
-                reflexes: 1,
+                reflexes: 4,
                 intelligence: 0,
                 perception: 2,
                 willpower: 0,
                 charm: 0,
                 toughness: 0,
-                leadership: -1
+                leadership: -3
             },
             abilities: ["Screech", "Echolocation"],
             negatives: ["Blind"],
@@ -525,11 +537,12 @@ add_species("xiba_xida", {
             attribute_adjustments: {
                 type: "fixed",
                 values: {
-                    dexterity: 2,
-                    perception: 2,
-                    reflexes: 1,
-                    endurance: -2,
-                    leadership: -1
+                    strength: -4,
+                dexterity: 6,
+                endurance: -2,
+                reflexes: 4,
+                perception: 2,
+                leadership: -3
                 }
             },
             knowledge_tables: {
@@ -553,15 +566,15 @@ add_species("xiba_xida", {
         stats: {
             cdt: 6,
             attributes: {
-                strength: 1,
-                dexterity: -1,
+                strength: 2,
+                dexterity: 2,
                 endurance: 2,
-                reflexes: -1,
-                intelligence: 0,
+                reflexes: 2,
+                intelligence: -2,
                 perception: 0,
-                willpower: 0,
-                charm: 0,
-                toughness: 0,
+                willpower: 2,
+                charm: -3,
+                toughness: 2,
                 leadership: 0
             },
             abilities: ["Screech", "Echolocation"],
@@ -583,10 +596,14 @@ add_species("xiba_xida", {
             attribute_adjustments: {
                 type: "fixed",
                 values: {
-                    strength: 1,
-                    endurance: 2,
-                    dexterity: -1,
-                    reflexes: -1
+                    strength: 2,
+                dexterity: 2,
+                endurance: 2,
+                reflexes: 2,
+                intelligence: -2,
+                willpower: 2,
+                charm: -3,
+                toughness: 2,
                 }
             },
             knowledge_tables: {
@@ -608,18 +625,17 @@ add_species("xiba_xida", {
         name: "C’Tai",
         description: "These Vo’Tali are nothing less than impressive. Each standing heads over a full grown man and built with muscle and covered in a thick protective scale hide. These creatures are formidable warriors with the ferocity of pure natural instinct.",
         stats: {
-            cdt: 10,
+            cdt: 14,
             attributes: {
-                strength: 3,
-                dexterity: -1,
-                endurance: 0,
-                reflexes: 0,
-                intelligence: -5,
+                strength: 6,
+                dexterity: -4,
+                endurance: 4,
+                reflexes: -2,
+                intelligence: -6,
                 perception: 1,
-                willpower: 0,
-                charm: -1,
-                toughness: 2,
-                leadership: 0
+                charm: -4,
+                toughness: 6,
+                leadership: -4
             },
             abilities: ["Scaled"],
             negatives: ["Slaves to Shamans"],
@@ -640,12 +656,16 @@ add_species("xiba_xida", {
             attribute_adjustments: {
                 type: "fixed",
                 values: {
-                    strength: 3,
-                    toughness: 2,
-                    perception: 1,
-                    dexterity: -1,
-                    charm: -1,
-                    intelligence: -5
+                   strength: 6,
+                dexterity: -4,
+                endurance: 4,
+                reflexes: -2,
+                intelligence: -6,
+                perception: 1,
+                willpower: 0,
+                charm: -4,
+                toughness: 6,
+                leadership: -4
                 }
             },
             knowledge_tables: {
@@ -669,12 +689,12 @@ add_species("xiba_xida", {
         stats: {
             cdt: 4,
             attributes: {
-                strength: -2,
-                dexterity: 4,
+                strength: -4,
+                dexterity: 6,
                 endurance: -2,
-                reflexes: 4,
+                reflexes: 6,
                 intelligence: 0,
-                perception: 2,
+                perception: 4,
                 willpower: -2,
                 charm: -2,
                 toughness: -2,
@@ -699,14 +719,14 @@ add_species("xiba_xida", {
             attribute_adjustments: {
                 type: "fixed",
                 values: {
-                    dexterity: 4,
-                    reflexes: 4,
-                    perception: 2,
-                    strength: -2,
-                    toughness: -2,
-                    endurance: -2,
-                    willpower: -2,
-                    charm: -2
+                    strength: -4,
+                dexterity: 6,
+                endurance: -2,
+                reflexes: 6,
+                perception: 4,
+                willpower: -2,
+                charm: -2,
+                toughness: -2,
                 }
             },
             knowledge_tables: {
@@ -728,15 +748,15 @@ add_species("xiba_xida", {
         name: "Lowlind Gnome",
         description: "These Gnomes are well known for their ability to innovate and create machines and feats of engineering. They own the territory of Gold Vale which is a merchant utopia of crafts and inventions.",
         stats: {
-            cdt: 4,
+            cdt: 6,
             attributes: {
                 strength: -2,
                 dexterity: 1,
-                endurance: 0,
+                endurance: 1,
                 reflexes: 0,
-                intelligence: 2,
+                intelligence: 4,
                 perception: 0,
-                willpower: 0,
+                willpower: -4,
                 charm: 0,
                 toughness: 0,
                 leadership: 0
@@ -760,10 +780,11 @@ add_species("xiba_xida", {
             attribute_adjustments: {
                 type: "fixed",
                 values: {
-                    intelligence: 2,
-                    dexterity: 1,
                     strength: -2,
-                    toughness: -1
+                dexterity: 1,
+                endurance: 1,
+                intelligence: 4,
+                willpower: -4,
                 }
             },
             knowledge_tables: {
@@ -784,18 +805,18 @@ add_species("xiba_xida", {
         name: "HigLand Gnome",
         description: "These Gnomes evolved to live underground meaning they are much smaller than their average size usually in the lower percentile however their eyes can see in the dark almost perfectly.",
         stats: {
-            cdt: 4,
+            cdt: 6,
             attributes: {
-                strength: -2,
+                strength: 1,
                 dexterity: 1,
                 endurance: 1,
                 reflexes: 1,
-                intelligence: 1,
-                perception: 0,
+                intelligence: 2,
+                perception: -2,
                 willpower: 0,
                 charm: -3,
                 toughness: 0,
-                leadership: 0
+                leadership: -2
             },
             abilities: ["Dark Vision", "Underground GPS"],
             negatives: [],
@@ -816,11 +837,14 @@ add_species("xiba_xida", {
             attribute_adjustments: {
                 type: "fixed",
                 values: {
-                    dexterity: 1,
-                    endurance: 1,
-                    reflexes: 1,
-                    intelligence: 1,
-                    charm: -3
+                    strength: 1,
+                dexterity: 1,
+                endurance: 1,
+                reflexes: 1,
+                intelligence: 2,
+                perception: -2,
+                charm: -3,
+                leadership: -2
                 }
             },
             knowledge_tables: {
@@ -841,17 +865,17 @@ add_species("xiba_xida", {
         name: "Lagrundun",
         description: "These Duren are extremely reclusive and are borderline racist. They despise other races for no real reason other than not being Duren. They are short standing at max 5ft but are strong and stout and industrious.",
         stats: {
-            cdt: 8,
+            cdt: 10,
             attributes: {
-                strength: 2,
+                strength: 3,
                 dexterity: -1,
-                endurance: 2,
-                reflexes: -1,
-                intelligence: 0,
+                endurance: 3,
+                reflexes: -2,
+                intelligence: -2,
                 perception: 0,
                 willpower: 0,
                 charm: -4,
-                toughness: 2,
+                toughness: 4,
                 leadership: 0
             },
             abilities: ["Dark Vision", "Stoneborn"],
@@ -873,12 +897,13 @@ add_species("xiba_xida", {
             attribute_adjustments: {
                 type: "fixed",
                 values: {
-                    strength: 2,
-                    toughness: 2,
-                    endurance: 2,
-                    dexterity: -1,
-                    reflexes: -1,
-                    charm: -4
+                    strength: 3,
+                dexterity: -1,
+                endurance: 3,
+                reflexes: -2,
+                intelligence: -2,
+                charm: -4,
+                toughness: 4,
                 }
             },
             knowledge_tables: {
@@ -959,12 +984,12 @@ add_species("xiba_xida", {
             cdt: 8,
             attributes: {
                 strength: 0,
-                dexterity: 1,
-                endurance: 0,
-                reflexes: 1,
-                intelligence: 0,
-                perception: 0,
-                willpower: -1,
+                dexterity: 2,
+                endurance: 2,
+                reflexes: 2,
+                intelligence: -3,
+                perception: 2,
+                willpower: -2,
                 charm: 0,
                 toughness: 0,
                 leadership: 0
@@ -988,10 +1013,13 @@ add_species("xiba_xida", {
             attribute_adjustments: {
                 type: "fixed",
                 values: {
-                    dexterity: 1,
-                    reflexes: 1,
-                    willpower: -1,
-                    toughness: -1
+                
+                dexterity: 2,
+                endurance: 2,
+                reflexes: 2,
+                intelligence: -3,
+                perception: 2,
+                willpower: -2,
                 }
             },
             knowledge_tables: {
@@ -1012,18 +1040,18 @@ add_species("xiba_xida", {
         name: "Feldlindish",
         description: "These Skireen are much smaller than the other two but make up for in their size with incredible speeds. They suffer the same wanderlust as their cousins but also sport an exotically colored plumage.",
         stats: {
-            cdt: 4,
+            cdt: 6,
             attributes: {
-                strength: -4,
-                dexterity: 4,
+                strength: -6,
+                dexterity: 8,
                 endurance: -4,
-                reflexes: 6,
-                intelligence: 0,
-                perception: 4,
-                willpower: -4,
-                charm: 2,
+                reflexes: 8,
+                intelligence: -2,
+                perception: 6,
+                willpower: -8,
+                charm: 6,
                 toughness: -6,
-                leadership: 0
+                leadership: -6
             },
             abilities: ["Flight", "Eagle Eyes", "Twitch Reflexes", "Agile Flyer"],
             negatives: ["Bird Bones", "Beautiful Plumage"],
@@ -1044,14 +1072,16 @@ add_species("xiba_xida", {
             attribute_adjustments: {
                 type: "fixed",
                 values: {
-                    dexterity: 4,
-                    reflexes: 6,
-                    perception: 4,
-                    charm: 2,
-                    strength: -4,
-                    toughness: -6,
-                    willpower: -4,
-                    endurance: -4
+                    strength: -6,
+                dexterity: 8,
+                endurance: -4,
+                reflexes: 8,
+                intelligence: -2,
+                perception: 6,
+                willpower: -8,
+                charm: 6,
+                toughness: -6,
+                leadership: -6
                 }
             },
             knowledge_tables: {
@@ -1077,7 +1107,7 @@ add_species("xiba_xida", {
         stats: {
             cdt: 4,
             attributes: {
-                strength: -2,
+                strength: -4,
                 dexterity: 2,
                 endurance: 0,
                 reflexes: 2,
@@ -1110,7 +1140,7 @@ add_species("xiba_xida", {
                     dexterity: 2,
                     reflexes: 2,
                     perception: 3,
-                    strength: -2,
+                    strength: -4,
                     toughness: -2,
                     willpower: -3,
                     charm: -2
@@ -1138,11 +1168,11 @@ add_species("xiba_xida", {
         stats: {
             cdt: 4,
             attributes: {
-                strength: -2,
+                strength: -4,
                 dexterity: 2,
                 endurance: 3,
                 reflexes: 2,
-                intelligence: -2,
+                intelligence: -4,
                 perception: 3,
                 willpower: -3,
                 charm: -2,
@@ -1168,14 +1198,15 @@ add_species("xiba_xida", {
             attribute_adjustments: {
                 type: "fixed",
                 values: {
-                    dexterity: 2,
-                    reflexes: 2,
-                    endurance: 3,
-                    perception: 3,
-                    strength: -2,
-                    toughness: -2,
-                    willpower: -3,
-                    charm: -2
+                    strength: -4,
+                dexterity: 2,
+                endurance: 3,
+                reflexes: 2,
+                intelligence: -4,
+                perception: 3,
+                willpower: -3,
+                charm: -2,
+                toughness: -2,
                 }
             },
             knowledge_tables: {
@@ -1200,7 +1231,7 @@ add_species("xiba_xida", {
         stats: {
             cdt: 4,
             attributes: {
-                strength: 2,
+                strength: -2,
                 dexterity: 2,
                 endurance: 0,
                 reflexes: 2,
@@ -1230,7 +1261,7 @@ add_species("xiba_xida", {
             attribute_adjustments: {
                 type: "fixed",
                 values: {
-                    strength: 2,
+                    strength: -2,
                     dexterity: 2,
                     reflexes: 2,
                     perception: 3,
@@ -1261,7 +1292,7 @@ add_species("xiba_xida", {
         stats: {
             cdt: 4,
             attributes: {
-                strength: 0,
+                strength: -2,
                 dexterity: 2,
                 endurance: -2,
                 reflexes: 2,
@@ -1291,6 +1322,7 @@ add_species("xiba_xida", {
             attribute_adjustments: {
                 type: "fixed",
                 values: {
+					strength: -2,
                     dexterity: 2,
                     reflexes: 2,
                     perception: 3,
@@ -1383,16 +1415,16 @@ add_species("xiba_xida", {
         name: "Orc",
         description: "These stunted pig folk are universally a bad sign. They are shorter than the average man but incredibly durable and strong.",
         stats: {
-            cdt: 8,
+            cdt: 10,
             attributes: {
-                strength: 2,
+                strength: 4,
                 dexterity: -2,
-                endurance: 2,
+                endurance: 4,
                 reflexes: 0,
-                intelligence: -2,
-                perception: 0,
+                intelligence: -4,
+                perception: -2,
                 willpower: 0,
-                charm: -2,
+                charm: -4,
                 toughness: 2,
                 leadership: 0
             },
@@ -1415,12 +1447,13 @@ add_species("xiba_xida", {
             attribute_adjustments: {
                 type: "fixed",
                 values: {
-                    strength: 2,
-                    toughness: 2,
-                    endurance: 2,
-                    dexterity: -2,
-                    intelligence: -2,
-                    charm: -2
+                    strength: 4,
+                dexterity: -2,
+                endurance: 4,
+                intelligence: -4,
+                perception: -2,
+                charm: -4,
+                toughness: 2,
                 }
             },
             knowledge_tables: {
@@ -1441,18 +1474,18 @@ add_species("xiba_xida", {
         name: "Hobs",
         description: "These are Half Breed creatures between Orcs and something else. Hobs are generally abused by both sides of the family and thus are very tough and used to taking beatings.",
         stats: {
-            cdt: 10,
+            cdt: 14,
             attributes: {
-                strength: 0,
+                strength: 2,
                 dexterity: -2,
-                endurance: 0,
+                endurance: 6,
                 reflexes: -2,
-                intelligence: 0,
-                perception: 0,
+                intelligence: -2,
+                perception: -2,
                 willpower: 4,
                 charm: -4,
-                toughness: 4,
-                leadership: 0
+                toughness: 6,
+                leadership: -6
             },
             abilities: ["Rough and Tumble"],
             negatives: ["Ugly", "Submissive"],
@@ -1473,10 +1506,16 @@ add_species("xiba_xida", {
             attribute_adjustments: {
                 type: "fixed",
                 values: {
-                    toughness: 4,
-                    willpower: 2,
-                    charm: -4,
-                    reflexes: -2
+                    strength: 2,
+                dexterity: -2,
+                endurance: 6,
+                reflexes: -2,
+                intelligence: -2,
+                perception: -2,
+                willpower: 4,
+                charm: -4,
+                toughness: 6,
+                leadership: -6
                 }
             },
             knowledge_tables: {
@@ -1498,16 +1537,16 @@ add_species("xiba_xida", {
         name: "Orrol",
         description: "These are half breeds between trolls and orcs. They are massive troll-sized orc hybrids that have the best qualities of both parent. They have the strength and build of an orc and the size and stealth of a troll.",
         stats: {
-            cdt: 10,
+            cdt: 12,
             attributes: {
-                strength: 3,
-                dexterity: 2,
-                endurance: 0,
-                reflexes: 0,
-                intelligence: -2,
+                strength: 5,
+                dexterity: 3,
+                endurance: 1,
+                reflexes: 1,
+                intelligence: -3,
                 perception: 2,
-                willpower: -2,
-                charm: -4,
+                willpower: -4,
+                charm: -6,
                 toughness: 2,
                 leadership: 0
             },
@@ -1530,13 +1569,15 @@ add_species("xiba_xida", {
             attribute_adjustments: {
                 type: "fixed",
                 values: {
-                    strength: 3,
-                    dexterity: 2,
-                    perception: 2,
-                    toughness: 2,
-                    charm: -4,
-                    willpower: -2,
-                    intelligence: -2
+                    strength: 5,
+                dexterity: 3,
+                endurance: 1,
+                reflexes: 1,
+                intelligence: -3,
+                perception: 2,
+                willpower: -4,
+                charm: -6,
+                toughness: 2,
                 }
             },
             knowledge_tables: {
@@ -1558,16 +1599,16 @@ add_species("xiba_xida", {
         name: "Gnoll",
         description: "Gnolls are large bipedal hyena like beings of pure narcissism. They are raised in brutal abusive family units where the dominant parent rules with an iron fist.",
         stats: {
-            cdt: 10,
+            cdt: 12,
             attributes: {
-                strength: 2,
-                dexterity: 2,
-                endurance: 0,
-                reflexes: 2,
+                strength: 6,
+                dexterity: 4,
+                endurance: -2,
+                reflexes: 4,
                 intelligence: 0,
                 perception: 0,
-                willpower: -2,
-                charm: -2,
+                willpower: -4,
+                charm: -6,
                 toughness: 0,
                 leadership: 0
             },
@@ -1590,11 +1631,12 @@ add_species("xiba_xida", {
             attribute_adjustments: {
                 type: "fixed",
                 values: {
-                    strength: 2,
-                    dexterity: 2,
-                    reflexes: 2,
-                    willpower: -2,
-                    charm: -2
+                    strength: 6,
+                dexterity: 4,
+                endurance: -2,
+                reflexes: 4,
+                willpower: -4,
+                charm: -6,
                 }
             },
             knowledge_tables: {
@@ -1616,7 +1658,7 @@ add_species("xiba_xida", {
         name: "Nezumi",
         description: "These creatures hail from far west. They are small rat like humanoids which has won them no degree of discrimination. Most of the Nezumi that have crossed now live in poverty and are more or less forced to be criminals.",
         stats: {
-            cdt: 4,
+            cdt: 6,
             attributes: {
                 strength: -2,
                 dexterity: 2,
@@ -1684,9 +1726,9 @@ add_species("xiba_xida", {
                 intelligence: 0,
                 perception: 2,
                 willpower: -2,
-                charm: -2,
+                charm: 0,
                 toughness: 0,
-                leadership: 0
+                leadership: -4
             },
             abilities: ["Evolution"],
             negatives: [],
@@ -1707,12 +1749,12 @@ add_species("xiba_xida", {
             attribute_adjustments: {
                 type: "fixed",
                 values: {
-                    dexterity: 3,
-                    reflexes: 3,
-                    perception: 2,
                     strength: -3,
-                    willpower: -2,
-                    charm: -2
+                dexterity: 3,
+                reflexes: 3,
+                perception: 2,
+                willpower: -2,
+                leadership: -4
                 }
             },
             knowledge_tables: {
@@ -1734,16 +1776,16 @@ add_species("xiba_xida", {
         name: "Minos",
         description: "These creatures are intelligent and have societies much like the Gnolls. They are massive bull man hybrids known for their incredible strength and durability.",
         stats: {
-            cdt: 12,
+            cdt: 14,
             attributes: {
-                strength: 4,
-                dexterity: -1,
-                endurance: 0,
-                reflexes: 0,
-                intelligence: -1,
+                strength: 8,
+                dexterity: -4,
+                endurance: 3,
+                reflexes: -2,
+                intelligence: -2,
                 perception: 0,
                 willpower: 0,
-                charm: -1,
+                charm: -3,
                 toughness: 3,
                 leadership: 0
             },
@@ -1766,11 +1808,13 @@ add_species("xiba_xida", {
             attribute_adjustments: {
                 type: "fixed",
                 values: {
-                    strength: 4,
-                    toughness: 3,
-                    dexterity: -1,
-                    charm: -1,
-                    intelligence: -1
+                    strength: 8,
+                dexterity: -4,
+                endurance: 3,
+                reflexes: -2,
+                intelligence: -2,
+                charm: -3,
+                toughness: 3,
                 }
             },
             knowledge_tables: {
@@ -1857,13 +1901,13 @@ add_species("xiba_xida", {
             cdt: 6,
             attributes: {
                 strength: 1,
-                dexterity: 2,
+                dexterity: 3,
                 endurance: -2,
-                reflexes: 2,
+                reflexes: 3,
                 intelligence: 0,
                 perception: 2,
-                willpower: -1,
-                charm: 2,
+                willpower: -3,
+                charm: 3,
                 toughness: -3,
                 leadership: -1
             },
@@ -1887,14 +1931,15 @@ add_species("xiba_xida", {
             attribute_adjustments: {
                 type: "fixed",
                 values: {
-                    dexterity: 2,
-                    reflexes: 2,
-                    perception: 2,
-                    charm: 2,
                     strength: 1,
-                    toughness: -3,
-                    willpower: -1,
-                    leadership: -1
+                dexterity: 3,
+                endurance: -2,
+                reflexes: 3,
+                perception: 2,
+                willpower: -3,
+                charm: 3,
+                toughness: -3,
+                leadership: -1
                 }
             },
             knowledge_tables: {

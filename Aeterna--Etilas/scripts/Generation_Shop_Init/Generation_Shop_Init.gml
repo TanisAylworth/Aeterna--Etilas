@@ -27,7 +27,6 @@ function generation_shop_init(cc)
 if (!variable_struct_exists(cc, "fixed_skills"))
     cc.fixed_skills = {};
 	
-	
 	// =====================================================
 	// GENERATION HOVER (Critical for Draw Event)
 	// =====================================================

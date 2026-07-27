@@ -5,28 +5,49 @@ function Attribute_data(){
 global.attribute_data = {
 
     Strength: function(val) {
-		
-		if (val >= 10) {
-			
-	        car  = 40 + ((val - 10) * 20);
-	        dmg  = floor((val - 10) / 2);
-			
+    var car = 0;
+    var dmg = 0;
 
-	    } else {
+    // Damage bonus (unchanged by size)
+    if (val >= 10) {
+        dmg = floor((val - 10) / 2);
+    } else {
+        dmg = ceil((val - 10) / 2);
+    }
+    if (val <= 0) dmg = 0;
 
-	        // different scaling for low stats
-	        car  = 40 - ((10 - val) * 5); // negative penalty
-	        dmg  = ceil((val - 10) / 2); // less harsh damage penalty
-	    }
-		if(val <= 0){
-			car  = 0;
-	        dmg  = 0;
-		}
-        return [
-            "Carry Capacity: " + string(car) +" lbs",
-            "Strength Damage Bonus: " + string(floor(dmg))
-        ];
-    },
+    // === SIZE-SPECIFIC CARRY CAPACITY ===
+    var size = get_size_category(global.char_creation);
+
+    switch (size) {
+        case SIZE_CATEGORY.Tiny:
+            car = 20 + ((val - 10) * 5);
+            break;
+        case SIZE_CATEGORY.Small:
+            car = 30 + ((val - 10) * 10);
+            break;
+        case SIZE_CATEGORY.Medium:
+            car = 40 + ((val - 10) * 20);
+            break;
+        case SIZE_CATEGORY.Large:
+            car = 60 + ((val - 10) * 30);
+            break;
+        case SIZE_CATEGORY.Huge:
+            car = 80 + ((val - 10) * 40);
+            break;
+        default:
+            car = 40 + ((val - 10) * 20); // fallback Medium
+    }
+
+    // Floor so we never show fractions
+    car = floor(car);
+    if (car < 0) car = 0; // optional safety
+
+    return [
+        "Carry Capacity: " + string(car) + " lbs",
+        "Strength Damage Bonus: " + string(floor(dmg))
+    ];
+},
 
     Dexterity: function(val) {
 		if (val >= 10) {

@@ -22,7 +22,18 @@ global.skill_data[$ "Animal Handling"] = {
     description: "A skill for the care and maintenance of animals. Penalties to the roll are based on the creature's RA to the caretaker, and the animal's unruliness. Used in calming or handling an otherwise unruly creature."
 };
 
-
+global.skill_data[$ "Listen"] = {
+    name: "Listen",
+    table: "General",
+    check: {
+        mode: "best",
+        attributes: [
+            { attribute: "Perception", modifier: 0 }
+        ]
+    },
+    difficulty: global.SKILL_INTERMEDIATE,
+    description: "A skill for using special techniques to hear sounds or discern speech through walls or over long distances."
+};
 
 global.skill_data[$ "Running"] = {
     name: "Running",
@@ -149,7 +160,18 @@ global.skill_data[$ "Observation"] = {
     description: "A skill for using Intelligence to deduce information from a scene. A method used in detecting out of place small details be it scratches on the floor or a person of interest in a crowd."
 };
 
-
+global.skill_data[$ "Spot"] = {
+    name: "Spot",
+    table: "General",
+    check: {
+        mode: "best",
+        attributes: [
+            { attribute: "Perception", modifier: 0 }
+        ]
+    },
+    difficulty: global.SKILL_INTERMEDIATE,
+    description: "A skill for noticing minute details of importance. Such as trip wires or pressure plates."
+};
 
 global.skill_data[$ "Rope Use"] = {
     name: "Rope Use",
@@ -313,7 +335,18 @@ global.skill_data[$ "Agriculture"] = {
     description: "Knowledge of the cultivation of plants, and processes to assist in their crop yield and cures for common plant based ailments."
 };
 
-
+global.skill_data[$ "Appraisal"] = {
+    name: "Appraisal",
+    table: "Professional",
+    check: {
+        mode: "best",
+        attributes: [
+            { attribute: "Intelligence", modifier: 0 }
+        ]
+    },
+    difficulty: global.SKILL_INTERMEDIATE,
+    description: "A skill for identifying the value of an item."
+};
 global.skill_data[$ "Animal Training"] = {
     name: "Animal Training",
     table: "Professional",
@@ -327,8 +360,8 @@ global.skill_data[$ "Animal Training"] = {
     description: "A skill for the training of animals to respond to key words to perform certain actions. This functions as the Teaching skill but for non-intelligent creatures."
 };
 
-global.skill_data[$ "Husbandry"] = {
-    name: "Husbandry",
+global.skill_data[$ "Animal Husbandry"] = {
+    name: "Animal Husbandry",
     table: "Professional",
     check: {
         mode: "best",
@@ -383,24 +416,24 @@ global.skill_data[$ "Blacksmithing"] = {
         ]
     },
     difficulty: global.SKILL_ADVANCED,
-    description: "A skill for knowing how to and being able to smith objects from metal. This is not weapon or armor smithing but making mundane objects. All attributes are tested. The total DoS or DoF will yield the crafted item's quality."
+    description: "A skill for knowing how to and being able to smith objects from metal. All attributes are tested. The total DoS or DoF will yield the crafted item's quality."
 };
 
-global.skill_data[$ "Xiba Ball"] = {
-    name: "Xiba Ball",
-    table: "Professional",
-    check: {
-        mode: "all",
-        attributes: [
-            { attribute: "Dexterity", modifier: -2 },
-            { attribute: "Reflexes", modifier: -2 },
-            { attribute: "Endurance", modifier: -4 },
-            { attribute: "Perception", modifier: -1 }
-        ]
-    },
-    difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill for playing the game Xiba Ball. A cultural favorite of the Xiba involving kicking a leather ball through a ring suspended in the center of a ring. Each attribute is tested separately and the totaled degrees of success or failure are compared to the opponent."
-};
+//global.skill_data[$ "Xiba Ball"] = {
+//    name: "Xiba Ball",
+//    table: "Professional",
+//    check: {
+//        mode: "all",
+//        attributes: [
+//            { attribute: "Dexterity", modifier: -2 },
+//            { attribute: "Reflexes", modifier: -2 },
+//            { attribute: "Endurance", modifier: -4 },
+//            { attribute: "Perception", modifier: -1 }
+//        ]
+//    },
+//    difficulty: global.SKILL_INTERMEDIATE,
+//    description: "A skill for playing the game Xiba Ball. A cultural favorite of the Xiba involving kicking a leather ball through a ring suspended in the center of a ring. Each attribute is tested separately and the totaled degrees of success or failure are compared to the opponent."
+//};
 
 global.skill_data[$ "Leather Working"] = {
     name: "Leather Working",
@@ -467,19 +500,6 @@ global.skill_data[$ "Gem Cutting"] = {
     description: "A skill for the shaping and setting of gems."
 };
 
-global.skill_data[$ "Grooming"] = {
-    name: "Grooming",
-    table: "Professional",
-    check: {
-        mode: "best",
-        attributes: [
-            { attribute: "Dexterity", modifier: 0 }
-        ]
-    },
-    difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill for the cutting and styling of hair."
-};
-
 global.skill_data[$ "Cartography"] = {
     name: "Cartography",
     table: "Professional",
@@ -493,18 +513,6 @@ global.skill_data[$ "Cartography"] = {
     description: "Intermediate for the generation of simple small-scale maps. Advanced for the generation of highly detailed large-scale maps."
 };
 
-global.skill_data[$ "Gold Casting"] = {
-    name: "Gold Casting",
-    table: "Professional",
-    check: {
-        mode: "best",
-        attributes: [
-            { attribute: "Intelligence", modifier: -1 }
-        ]
-    },
-    difficulty: global.SKILL_ADVANCED,
-    description: "A skill for working with and coating or casting objects in gold."
-};
 
 global.skill_data[$ "Lock Smith"] = {
     name: "Lock Smith",
@@ -517,19 +525,6 @@ global.skill_data[$ "Lock Smith"] = {
     },
     difficulty: global.SKILL_ADVANCED,
     description: "A skill for the creation of locking mechanisms. Gives advantage on open lock tests and can be used to set the DC of an open locks test."
-};
-global.skill_data[$ "Weaponsmithing"] = {
-    name: "Weaponsmithing",
-    table: "Professional",
-    check: {
-        mode: "best",
-        attributes: [
-            { attribute: "Strength", modifier: 0 },
-            { attribute: "Intelligence", modifier: -2 }
-        ]
-    },
-    difficulty: global.SKILL_ADVANCED,
-    description: "A skill for knowing how to shape and craft weapons. Every 5 degrees of success grants 1 quality that you can apply to a weapon made this way. Each ranking quality such as masterwork requires the previous."
 };
 
 global.skill_data[$ "Shipwright"] = {
@@ -554,8 +549,8 @@ global.skill_data[$ "Brewing"] = {
             { attribute: "Intelligence", modifier: 0 }
         ]
     },
-    difficulty: global.SKILL_ADVANCED,   // Advanced for alcohol
-    description: "Intermediate for the brewing of coffee and Tea but Advanced for Alcohol."
+    difficulty: global.SKILL_INTERMEDIATE,   // Advanced for alcohol
+    description: "A skill for brewing tintcures, coffees, and other useful liquid substances."
 };
 
 global.skill_data[$ "Carpentry"] = {
@@ -571,31 +566,9 @@ global.skill_data[$ "Carpentry"] = {
     description: "A skill for the using of tools to shape wood or construct buildings or other goods."
 };
 
-global.skill_data[$ "Cheesemaking"] = {
-    name: "Cheesemaking",
-    table: "Professional",
-    check: {
-        mode: "best",
-        attributes: [
-            { attribute: "Intelligence", modifier: 0 }
-        ]
-    },
-    difficulty: global.SKILL_ADVANCED,
-    description: "A skill for the knowledge of the creation of cheese."
-};
 
-global.skill_data[$ "Cobbling"] = {
-    name: "Cobbling",
-    table: "Professional",
-    check: {
-        mode: "best",
-        attributes: [
-            { attribute: "Dexterity", modifier: 0 }
-        ]
-    },
-    difficulty: global.SKILL_ADVANCED,
-    description: "Intermediate for minor repairs. Advanced for the creation of whole new shoes."
-};
+
+
 
 
 global.skill_data[$ "Geology"] = {
@@ -669,18 +642,7 @@ global.skill_data[$ "Doctoring"] = {
 // =====================================================
 
 
-global.skill_data[$ "Armorer"] = {
-    name: "Armorer",
-    table: "Professional",
-    check: {
-        mode: "best",
-        attributes: [
-            { attribute: "Strength", modifier: -2 }
-        ]
-    },
-    difficulty: global.SKILL_ADVANCED,
-    description: "A skill for maintaining and repairing armor."
-};
+
 
 global.skill_data[$ "Bowyer/Fletcher"] = {
     name: "Bowyer/Fletcher",
@@ -708,7 +670,18 @@ global.skill_data[$ "Massage"] = {
     description: "A skill for relaxing tight muscles and easing pain. Can be used to deaden the effects of light wounds on an affected limb."
 };
 
-
+global.skill_data[$ "Jewelry"] = {
+    name: "Cooking",
+    table: "Professional",
+    check: {
+        mode: "best",
+        attributes: [
+            { attribute: "Dexterity", modifier: -2 }
+        ]
+    },
+    difficulty: global.SKILL_SIMPLE,
+    description: "A skill for crafting with precious stones or metals."
+};
 
 global.skill_data[$ "Cooking"] = {
     name: "Cooking",
@@ -808,18 +781,7 @@ global.skill_data[$ "Smelting"] = {
     description: "A skill for the proper methodology of turning ore to usable material."
 };
 
-global.skill_data[$ "Begging"] = {
-    name: "Begging",
-    table: "Laborer",
-    check: {
-        mode: "best",
-        attributes: [
-            { attribute: "Charm", modifier: 0 }
-        ]
-    },
-    difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill for showing one’s harmless nature or panhandling skill."
-};
+
 
 global.skill_data[$ "Foraging"] = {
     name: "Foraging",
@@ -1036,18 +998,7 @@ global.skill_data[$ "Taunting"] = {
     description: "A skill to influence hostiles to attack you instead of an ally."
 };
 
-global.skill_data[$ "Tracking"] = {
-    name: "Tracking",
-    table: "Warfare",
-    check: {
-        mode: "best",
-        attributes: [
-            { attribute: "Perception", modifier: -2 }
-        ]
-    },
-    difficulty: global.SKILL_ADVANCED,
-    description: "A skill to find and follow evidence that something has been here."
-};
+
 
 global.skill_data[$ "Weakness Identification"] = {
     name: "Weakness Identification",
@@ -1071,8 +1022,8 @@ global.skill_data[$ "Firearms Use"] = {
             { attribute: "Dexterity", modifier: 0 }
         ]
     },
-    difficulty: global.SKILL_INTERMEDIATE,
-    description: "Skill for firing firearms. See NRPG Guns for rules."
+    difficulty: global.SKILL_ADVANCED,
+    description: "Skill for firing firearms."
 };
 
 global.skill_data[$ "Maintenance"] = {
@@ -1190,19 +1141,6 @@ global.skill_data[$ "Mediation"] = {
     description: "A skill for acting as an impartial party between two groups."
 };
 
-global.skill_data[$ "Occult"] = {
-    name: "Occult",
-    table: "Clerical",
-    check: {
-        mode: "best",
-        attributes: [
-            { attribute: "Willpower", modifier: 0 }
-        ]
-    },
-    difficulty: global.SKILL_ADVANCED,
-    description: "A skill covering the knowledge of other worldly beings and their habits and methods of contact."
-};
-
 global.skill_data[$ "Teaching"] = {
     name: "Teaching",
     table: "Clerical",
@@ -1312,6 +1250,19 @@ global.skill_data[$ "Lore (X)"] = {
     description: "A skill for knowledge covering a specific topic."
 };
 
+global.skill_data[$ "Law"] = {
+    name: "Law",
+    table: "Clerical",
+    check: {
+        mode: "best",
+        attributes: [
+            { attribute: "Intelligence", modifier: -4 }
+        ]
+    },
+    difficulty: global.SKILL_ADVANCED,
+    description: "A skill for understanding and utilizing the written law to argue fault."
+};
+
 global.skill_data[$ "Religion"] = {
     name: "Religion",
     table: "Clerical",
@@ -1338,18 +1289,7 @@ global.skill_data[$ "Verbal Concealment"] = {
     description: "A skill for hiding speech allowing casters to say incantations without need of verbal elements."
 };
 
-global.skill_data[$ "Appraisal"] = {
-    name: "Appraisal",
-    table: "Clerical",
-    check: {
-        mode: "best",
-        attributes: [
-            { attribute: "Intelligence", modifier: 0 }
-        ]
-    },
-    difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill for identifying the value of an item."
-};
+
 
 global.skill_data[$ "Necrology"] = {
     name: "Necrology",
@@ -1463,18 +1403,7 @@ global.skill_data[$ "Intuition"] = {
     description: "A skill for discerning social cues as well as drawing meaning from texts one cannot read or simply guessing how something should work."
 };
 
-global.skill_data[$ "Listen"] = {
-    name: "Listen",
-    table: "Roguery",
-    check: {
-        mode: "best",
-        attributes: [
-            { attribute: "Perception", modifier: 0 }
-        ]
-    },
-    difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill for using special techniques to hear sounds or discern speech through walls or over long distances."
-};
+
 
 global.skill_data[$ "Signaling"] = {
     name: "Signaling",
@@ -1514,19 +1443,6 @@ global.skill_data[$ "Appraisal"] = {
     },
     difficulty: global.SKILL_INTERMEDIATE,
     description: "A skill for identifying the value of an item."
-};
-
-global.skill_data[$ "Investigation"] = {
-    name: "Investigation",
-    table: "Roguery",
-    check: {
-        mode: "best",
-        attributes: [
-            { attribute: "Perception", modifier: 0 }
-        ]
-    },
-    difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill for identifying patterns and reading reports."
 };
 
 global.skill_data[$ "Begging"] = {
@@ -1658,7 +1574,7 @@ global.skill_data[$ "Tumbling"] = {
         ]
     },
     difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill for rolling out of danger be it falling, or avoiding an attack. Grants a +1 to dodge rolls per rank, can negate 5ft of fall damage per degree of success."
+    description: "A skill for rolling out of danger be it falling, or avoiding an attack. Can be used to dodge, can negate 5ft of fall damage per degree of success."
 };
 
 global.skill_data[$ "Venom Handling"] = {
@@ -1753,20 +1669,6 @@ global.skill_data[$ "Sneak"] = {
     description: "A skill for moving unseen."
 };
 
-global.skill_data[$ "Climb Walls"] = {
-    name: "Climb Walls",
-    table: "Roguery",
-    check: {
-        mode: "best",
-        attributes: [
-            { attribute: "Dexterity", modifier: -2 },
-            { attribute: "Strength", modifier: -2 }
-        ]
-    },
-    difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill for scaling sheer surfaces."
-};
-
 global.skill_data[$ "Decipher"] = {
     name: "Decipher",
     table: "Roguery",
@@ -1820,31 +1722,7 @@ global.skill_data[$ "Streetwise"] = {
     description: "A skill for knowing where to find things that would be considered illegal, or avoiding traffic, or knowing good spots to lay low."
 };
 
-global.skill_data[$ "Tracking"] = {
-    name: "Tracking",
-    table: "Roguery",
-    check: {
-        mode: "best",
-        attributes: [
-            { attribute: "Perception", modifier: -2 }
-        ]
-    },
-    difficulty: global.SKILL_ADVANCED,
-    description: "A skill to find and follow evidence that something has been here."
-};
 
-global.skill_data[$ "Acrobatics"] = {
-    name: "Acrobatics",
-    table: "Roguery",
-    check: {
-        mode: "best",
-        attributes: [
-            { attribute: "Dexterity", modifier: -2 }
-        ]
-    },
-    difficulty: global.SKILL_SIMPLE,
-    description: "A skill to perform rolls and jumps."
-};
 
 global.skill_data[$ "Escape Artist"] = {
     name: "Escape Artist",
@@ -1859,22 +1737,6 @@ global.skill_data[$ "Escape Artist"] = {
     description: "A skill for manipulating the body to squeeze through or out of areas it normally could not."
 };
 
-global.skill_data[$ "Weapon Skill (X)"] = {
-    name: "Weapon Skill",
-    table: "Roguery",
-    specialization: {
-        required: true,
-        choices: ["Knives", "Daggers", "Swords", "Axes", "Clubs", "Polearms"]
-    },
-    check: {
-        mode: "best",
-        attributes: [
-            { attribute: "Dexterity", modifier: 0 }
-        ]
-    },
-    difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill for tracking prowess with a weapon type."
-};
 
 global.skill_data[$ "Deception"] = {
     name: "Deception",
@@ -1889,18 +1751,7 @@ global.skill_data[$ "Deception"] = {
     description: "A skill for hiding the subtle ticks involved with lying about information."
 };
 
-global.skill_data[$ "Direction Sense"] = {
-    name: "Direction Sense",
-    table: "Roguery",
-    check: {
-        mode: "best",
-        attributes: [
-            { attribute: "Perception", modifier: -2 }
-        ]
-    },
-    difficulty: global.SKILL_SIMPLE,
-    description: "A skill for telling direction based on environment or other methods."
-};
+
 #endregion
 
 #region Arcane
@@ -1925,8 +1776,8 @@ global.skill_data[$ "Occult (X)"] = {
     description: "A skill for knowing the taboo acts of either Daemonology, Necromancy, or Druidry. This skill is used predominantly with rituals from these focuses."
 };
 
-global.skill_data[$ "Ancient History"] = {
-    name: "Ancient History",
+global.skill_data[$ "Arcane History"] = {
+    name: "Arcane History",
     table: "Arcane",
     check: {
         mode: "best",
@@ -1935,7 +1786,7 @@ global.skill_data[$ "Ancient History"] = {
         ]
     },
     difficulty: global.SKILL_ADVANCED,
-    description: "A skill for knowing late history or events of a given location or famous figure."
+    description: "A skill for knowing events of great import relating to the history of the arcane and its development."
 };
 
 global.skill_data[$ "Astrology"] = {
@@ -2008,7 +1859,7 @@ global.skill_data[$ "Lore (X)"] = {
     table: "Arcane",
     specialization: {
         required: true,
-        choices: [] // Add specific topics as needed
+        choices: ["Arcane Words", "Daemons", "Druidry", "Necromancy", "Aspects", "Runecraft", "Aspects"] // Add specific topics as needed
     },
     check: {
         mode: "best",
@@ -2032,6 +1883,22 @@ global.skill_data[$ "Emergency Discharge"] = {
     difficulty: global.SKILL_ADVANCED,
     description: "A skill that can be used in the event of a catastrophic failure during a spell cast. This test is done at a penalty equal to the DoF of the Spellcraft test. Each DoS reduces damage from the vented spell’s feedback by 1."
 };
+
+global.skill_data[$ "Runecraft"] = {
+    name: "Runecraft",
+    table: "Arcane",
+    check: {
+        mode: "all",
+        attributes: [
+            { attribute: "Dexterity", modifier: -2 },
+			{ attribute: "Intelligence", modifier: -2 },
+			{ attribute: "Endurance", modifier: -2 }
+        ]
+    },
+    difficulty: global.SKILL_ADVANCED,
+    description: "A skill for the creation and use of arcane runes."
+};
+
 #endregion
 
 #region Survival
@@ -2056,24 +1923,81 @@ global.skill_data[$ "Water Find (X)"] = {
     description: "A skill for using special survival knowledge to find drinkable water in a given environment."
 };
 
-global.skill_data[$ "Sailing"] = {
-    name: "Sailing",
+global.skill_data[$ "Firebuilding"] = {
+    name: "Firebuilding",
     table: "Survival",
     check: {
         mode: "best",
         attributes: [
-            { attribute: "Endurance", modifier: -2 }
+            { attribute: "Dexterity", modifier: -2 },
+            { attribute: "Intelligence", modifier: -2 }
+        ]
+    },
+    difficulty: global.SKILL_ADVANCED,
+    description: "A skill for starting fires in the worst conditions with little to no equipment."
+};
+
+global.skill_data[$ "Primitive Crafts"] = {
+    name: "Primitive Crafts",
+    table: "Survival",
+    check: {
+        mode: "all",
+        attributes: [
+            { attribute: "Dexterity", modifier: -2 },
+            { attribute: "Intelligence", modifier: -2 }
         ]
     },
     difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill for one’s ability to handle tasks aboard a ship. Setting rigging, climbing masts, and rowing are all difficult tasks for the uninitiated. Penalties are based on sailing conditions and time frame."
+    description: "A skill for fabricating improvised tools and weapons."
 };
+
+
+global.skill_data[$ "Hunting"] = {
+    name: "Hunting",
+    table: "Survival",
+    check: {
+        mode: "all",
+        attributes: [
+            { attribute: "Perception", modifier: -2 },
+            { attribute: "Reflexes", modifier: -2 }
+        ]
+    },
+    difficulty: global.SKILL_INTERMEDIATE,
+    description: "A skill for stalking and chasing game."
+};
+
+global.skill_data[$ "Foraging"] = {
+    name: "Foraging",
+    table: "Survival",
+    check: {
+        mode: "Best",
+        attributes: [
+            { attribute: "Perception", modifier: -2 }
+        ]
+    },
+    difficulty: global.SKILL_INTERMEDIATE,
+    description: "A skill for finding and gathering plants. May or may not be edible."
+};
+
+global.skill_data[$ "Herbalism"] = {
+    name: "Herbalism",
+    table: "Survival",
+    check: {
+        mode: "best",
+        attributes: [
+            { attribute: "Intelligence", modifier: -2 }
+        ]
+    },
+    difficulty: global.SKILL_ADVANCED,
+    description: "A skill for the identification and collection of plants. Can be used to gather medical herbs or toxic plants or ones fit for eating. Using herbal poultice increases natural healing factor by 1. More advanced remedies can provide higher bonuses."
+};
+
 global.skill_data[$ "Weapon Skill (X)"] = {
     name: "Weapon Skill",
     table: "Survival",
     specialization: {
         required: true,
-        choices: ["Knives", "Daggers", "Swords", "Axes", "Clubs", "Polearms"]
+        choices: ["Knives", "Daggers", "Spears", "Small Bows", "Clubs", "Grenade", "Improvised"]
     },
     check: {
         mode: "best",
@@ -2095,19 +2019,6 @@ global.skill_data[$ "Weather Sense"] = {
     },
     difficulty: global.SKILL_INTERMEDIATE,
     description: "A skill for determining upcoming weather events."
-};
-
-global.skill_data[$ "Trapping"] = {
-    name: "Trapping",
-    table: "Survival",
-    check: {
-        mode: "best",
-        attributes: [
-            { attribute: "Dexterity", modifier: -1 }
-        ]
-    },
-    difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill for laying traps."
 };
 
 global.skill_data[$ "Streetwise"] = {
@@ -2209,18 +2120,6 @@ global.skill_data[$ "Danger Sense"] = {
     description: "A skill that gives an impending sense of danger upon success if such a threat is present. Can disclose the actual danger of a perceived threat in terms of difficulty. Penalties are based on the creature’s deception or stealth."
 };
 
-global.skill_data[$ "Direction Sense"] = {
-    name: "Direction Sense",
-    table: "Survival",
-    check: {
-        mode: "best",
-        attributes: [
-            { attribute: "Perception", modifier: -2 }
-        ]
-    },
-    difficulty: global.SKILL_SIMPLE,
-    description: "A skill for telling direction based on environment or other methods."
-};
 
 global.skill_data[$ "Distance Sense"] = {
     name: "Distance Sense",
@@ -2258,6 +2157,87 @@ global.skill_data[$ "Debate"] = {
     difficulty: global.SKILL_INTERMEDIATE,
     description: "An advanced form of Persuasion used in argumentation to confound or convince a target. Penalties are based on previous situations with the target."
 };
+
+global.skill_data[$ "Begging"] = {
+    name: "Begging",
+    table: "Social",
+    check: {
+        mode: "best",
+        attributes: [
+            { attribute: "Charm", modifier: 0 }
+        ]
+    },
+    difficulty: global.SKILL_INTERMEDIATE,
+    description: "A skill for showing one’s harmless nature or panhandling skill."
+};
+
+
+global.skill_data[$ "Seduction"] = {
+    name: "Seduction",
+    table: "Social",
+    check: {
+        mode: "best",
+        attributes: [
+            { attribute: "Charm", modifier: -4 }
+        ]
+    },
+    difficulty: global.SKILL_INTERMEDIATE,
+    description: "A skill for flirting, charming, or romantic manipulation."
+};
+
+global.skill_data[$ "Command"] = {
+    name: "Command",
+    table: "Social",
+    check: {
+        mode: "best",
+        attributes: [
+            { attribute: "Leadership", modifier: -1 }
+        ]
+    },
+    difficulty: global.SKILL_INTERMEDIATE,
+    description: "A skill for influencing soldiery to obey specific orders or instructions."
+};
+
+global.skill_data[$ "Empathy"] = {
+    name: "Empathy",
+    table: "Social",
+    check: {
+        mode: "best",
+        attributes: [
+            { attribute: "Charm", modifier: -2 }
+        ]
+    },
+    difficulty: global.SKILL_INTERMEDIATE,
+    description: "A skill for determinging feelings and judging intent."
+};
+
+global.skill_data[$ "Oration"] = {
+    name: "Oration",
+    table: "Social",
+    check: {
+        mode: "best",
+        attributes: [
+            { attribute: "Charm", modifier: 0 }
+        ]
+    },
+    difficulty: global.SKILL_INTERMEDIATE,
+    description: "A skill for speaking publically."
+};
+
+global.skill_data[$ "Interrogation"] = {
+    name: "Interrogation",
+    table: "Social",
+    check: {
+        mode: "best",
+        attributes: [
+            { attribute: "Willpower", modifier: -4 },
+			{ attribute: "Charm", modifier: -2 },
+        ]
+    },
+    difficulty: global.SKILL_INTERMEDIATE,
+    description: "A skill for psrying information from individuals through pain or coercion."
+};
+
 global.skill_data[$ "Bribery"] = {
     name: "Bribery",
     table: "Social",

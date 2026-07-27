@@ -68,6 +68,7 @@
     {"id":{"name":"get_assigned","path":"scripts/get_assigned/get_assigned.yy",},},
     {"id":{"name":"Get_Attribute_Adjustments_SCR","path":"scripts/Get_Attribute_Adjustments_SCR/Get_Attribute_Adjustments_SCR.yy",},},
     {"id":{"name":"Get_attribute_Layout","path":"scripts/Get_attribute_Layout/Get_attribute_Layout.yy",},},
+    {"id":{"name":"get_carry_capacity","path":"scripts/get_carry_capacity/get_carry_capacity.yy",},},
     {"id":{"name":"get_CDT_bonus","path":"scripts/get_CDT_bonus/get_CDT_bonus.yy",},},
     {"id":{"name":"get_CDT_Cap_SCR","path":"scripts/get_CDT_Cap_SCR/get_CDT_Cap_SCR.yy",},},
     {"id":{"name":"Get_Creation_Options_SCR","path":"scripts/Get_Creation_Options_SCR/Get_Creation_Options_SCR.yy",},},

@@ -8,7 +8,10 @@ function attribute_step_update(cc)
     var screen_h = display_get_gui_height();
 	var back_x = 40;
 	var back_y = screen_h - 100;
-
+    // Layout (same as Draw)
+    var L = get_attribute_layout();
+    var bonus_x = L.right_x + 120;
+    var bonus_y = L.top_y;
 	var back_w = 160;
 	var back_h = 60;
     var left  = mouse_check_button_pressed(mb_left);
@@ -38,9 +41,9 @@ function attribute_step_update(cc)
     // ==========================================
     // CONFIG
     // ==========================================
-    var roll_w = 60;
-    var roll_h = 20;
-    var roll_spacing = 10;
+       var roll_w = 70;
+    var roll_h = 36;
+    var roll_spacing = 12;
 
    
 
@@ -158,58 +161,45 @@ function attribute_step_update(cc)
 }
     }
 	
-	// ==========================================
-// SPECIES BONUS SELECTION
-// ==========================================
-if (left && !click_used)
-{
-    
-
-   var L = get_attribute_layout();
-
-var bonus_x = L.right_x + 120;
-var bonus_y = L.top_y;
-
-for (var i = 0; i < array_length(global.ATTRIBUTES); i++)
-{
-    var attr = global.ATTRIBUTES[i];
-
-    var yy = bonus_y + 50 + i * 20;
-
-    if (point_in_rectangle(
-        mx, my,
-        bonus_x,
-        yy,
-        bonus_x + 180,
-        yy + 18))
+    // ==========================================
+    // SPECIES BONUS SELECTION (matches new panel)
+    // ==========================================
+        // ==========================================
+    // SPECIES BONUS SELECTION (matches new spacing)
+    // ==========================================
+    if (left && !click_used)
     {
+        var panel_x = bonus_x;
+        var panel_y = bonus_y;
+        var panel_w = 240;
+        var row_h = 28;
+        var row_spacing = 6;
 
-        // remove bonus
-        if (variable_struct_exists(cc.species_bonus_map, attr))
+        for (var i = 0; i < array_length(global.ATTRIBUTES); i++)
         {
-            variable_struct_remove(
-                cc.species_bonus_map,
-                attr
-            );
+            var attr = global.ATTRIBUTES[i];
+            var yy = panel_y + 70 + i * (row_h + row_spacing);
 
-            cc.species_bonus_remaining++;
-
-            click_used = true;
-            break;
+            if (point_in_rectangle(mx, my, panel_x + 10, yy, panel_x + panel_w - 10, yy + row_h))
+            {
+                if (variable_struct_exists(cc.species_bonus_map, attr))
+                {
+                    variable_struct_remove(cc.species_bonus_map, attr);
+                    cc.species_bonus_remaining++;
+                    click_used = true;
+                    break;
+                }
+                if (cc.species_bonus_remaining > 0)
+                {
+                    cc.species_bonus_map[$ attr] = true;
+                    cc.species_bonus_remaining--;
+                    click_used = true;
+                    break;
+                }
+            }
         }
-
-        // add bonus
-        if (cc.species_bonus_remaining > 0)
-        {
-            cc.species_bonus_map[$ attr] = true;
-
-            cc.species_bonus_remaining--;
-
-            click_used = true;
-            break;
-        }
-    }
-}
+    
+    
 
     // CONFIRM BUTTON
     if (global.char_creation.locked_species != undefined)

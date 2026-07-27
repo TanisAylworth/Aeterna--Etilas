@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"get_carry_capacity",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"get_carry_capacity",
+  "parent":{
+    "name":"ATTRIBUTE_GENERATION",
+    "path":"folders/Scripts/ATTRIBUTE_GENERATION.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

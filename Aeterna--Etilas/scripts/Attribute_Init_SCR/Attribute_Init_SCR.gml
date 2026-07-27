@@ -3,7 +3,8 @@ function attribute_step_init(cc)
     if (!is_struct(cc)) return;
     if (variable_struct_exists(cc, "attribute_initialized") && cc.attribute_initialized)
         return;
-
+	
+	display_set_gui_size(1920, 1080);
 
     // ==========================================
     // ATTRIBUTE LIST
@@ -59,11 +60,6 @@ function attribute_step_init(cc)
     // ==========================================
     cc.attribute_initialized = true;
 
-    show_debug_message("ATTRIBUTE INIT COMPLETE");
-    show_debug_message("Species = " + string(cc.locked_species));
-    show_debug_message("Bonus Choices = " + string(cc.species_bonus_remaining));
-	cc.attribute_initialized = true;
-    show_debug_message("ATTRIBUTE INIT COMPLETE for species: " + string(cc.locked_species));
 	
 	
 	    // ==========================================

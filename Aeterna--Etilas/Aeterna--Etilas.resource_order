@@ -45,6 +45,7 @@
     {"name":"get_assigned","order":15,"path":"scripts/get_assigned/get_assigned.yy",},
     {"name":"Get_Attribute_Adjustments_SCR","order":6,"path":"scripts/Get_Attribute_Adjustments_SCR/Get_Attribute_Adjustments_SCR.yy",},
     {"name":"Get_attribute_Layout","order":20,"path":"scripts/Get_attribute_Layout/Get_attribute_Layout.yy",},
+    {"name":"get_carry_capacity","order":21,"path":"scripts/get_carry_capacity/get_carry_capacity.yy",},
     {"name":"get_CDT_bonus","order":11,"path":"scripts/get_CDT_bonus/get_CDT_bonus.yy",},
     {"name":"get_CDT_Cap_SCR","order":9,"path":"scripts/get_CDT_Cap_SCR/get_CDT_Cap_SCR.yy",},
     {"name":"Get_Creation_Options_SCR","order":1,"path":"scripts/Get_Creation_Options_SCR/Get_Creation_Options_SCR.yy",},
