@@ -65,7 +65,8 @@ function attribute_step_draw(cc)
     var bonus_x = L.right_x + 120;
     var bonus_y = L.top_y;
 
-
+	
+    
 
         // =====================================================
     // ROLL POOL DRAW (Matching box style)
@@ -115,14 +116,47 @@ function attribute_step_draw(cc)
 
         draw_rectangle(x1, y1, x2, y2, true);
 
-        // Number
+                // Number (or editing text)
         draw_set_halign(fa_center);
         draw_set_valign(fa_middle);
         draw_set_color(c_white);
-        draw_text(x1 + roll_w * 0.5, y1 + roll_h * 0.5, string(roll_pool[i]));
+
+        if (cc.manual_roll_mode && cc.editing_roll_index == i)
+        {
+            // Only show the editing string + cursor
+            draw_text(x1 + roll_w * 0.5, y1 + roll_h * 0.5, cc.editing_roll_string + "|");
+        }
+        else
+        {
+            // Normal value
+            draw_text(x1 + roll_w * 0.5, y1 + roll_h * 0.5, string(roll_pool[i]));
+        }
+
         draw_set_halign(fa_left);
         draw_set_valign(fa_top);
     }
+	
+	// Manual Rolls toggle button
+    var man_w = 140;
+    var man_h = 32;
+    var man_x = roll_start_x + roll_total_w + 20;
+    var man_y = roll_y;
+
+    var hover_man = point_in_rectangle(mx, my, man_x, man_y, man_x + man_w, man_y + man_h);
+
+    draw_set_color(cc.manual_roll_mode ? make_color_rgb(60, 40, 20) : make_color_rgb(30, 30, 30));
+    draw_rectangle(man_x, man_y, man_x + man_w, man_y + man_h, false);
+
+    draw_set_color(hover_man ? c_yellow : (cc.manual_roll_mode ? c_orange : c_gray));
+    draw_rectangle(man_x, man_y, man_x + man_w, man_y + man_h, true);
+
+    draw_set_halign(fa_center);
+    draw_set_valign(fa_middle);
+    draw_set_color(c_white);
+    draw_text(man_x + man_w * 0.5, man_y + man_h * 0.5, cc.manual_roll_mode ? "Done" : "Manual Rolls");
+    draw_set_halign(fa_left);
+    draw_set_valign(fa_top);
+	
 
         // =====================================================
     // ATTRIBUTES DRAW (More spacing + centered text)

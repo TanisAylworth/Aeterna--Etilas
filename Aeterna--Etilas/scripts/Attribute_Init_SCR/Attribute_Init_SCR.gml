@@ -79,4 +79,11 @@ function attribute_step_init(cc)
             }
         }
     }
+	
+	
+	// MANUAL ROLLS
+	
+	cc.manual_roll_mode = false;
+    cc.editing_roll_index = -1;
+    cc.editing_roll_string = "";
 }

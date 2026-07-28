@@ -69,18 +69,29 @@ function handle_specialization_popup(cc, L, mx, my, clicked)
 
 function handle_cdt_gold_controls(cc, L, mx, my, clicked)
 {
-    var btn_y = L.top_y + 55;
-    var half_w = L.panel_w * 0.5;
+    var panel_w = 220;
+    var gap = 40;
+    var cdt_x = L.center_x - panel_w - gap * 0.5;
+    var gold_x = L.center_x + gap * 0.5;
+    var panel_y = 110;
 
-    // CDT
-    var cdt_x = L.center_x - L.panel_spacing;
-    cc.generation_hover.cdt_minus = point_in_rectangle(mx, my, cdt_x - half_w, btn_y, cdt_x - L.btn_gap, btn_y + L.btn_h);
-    cc.generation_hover.cdt_plus  = point_in_rectangle(mx, my, cdt_x + L.btn_gap, btn_y, cdt_x + half_w, btn_y + L.btn_h);
+    var btn_y = panel_y + 60;
+    var btn_w = 50;
+    var btn_h = 28;
 
-    // Gold
-    var gold_x = L.center_x + L.panel_spacing;
-    cc.generation_hover.gold_minus = point_in_rectangle(mx, my, gold_x - half_w, btn_y, gold_x - L.btn_gap, btn_y + L.btn_h);
-    cc.generation_hover.gold_plus  = point_in_rectangle(mx, my, gold_x + L.btn_gap, btn_y, gold_x + half_w, btn_y + L.btn_h);
+    // CDT button positions
+    var cdt_minus_x = cdt_x + 30;
+    var cdt_plus_x  = cdt_x + panel_w - 30 - btn_w;
+
+    // Gold button positions
+    var gold_minus_x = gold_x + 30;
+    var gold_plus_x  = gold_x + panel_w - 30 - btn_w;
+
+    // Hover detection
+    cc.generation_hover.cdt_minus  = point_in_rectangle(mx, my, cdt_minus_x, btn_y, cdt_minus_x + btn_w, btn_y + btn_h);
+    cc.generation_hover.cdt_plus   = point_in_rectangle(mx, my, cdt_plus_x,  btn_y, cdt_plus_x  + btn_w, btn_y + btn_h);
+    cc.generation_hover.gold_minus = point_in_rectangle(mx, my, gold_minus_x, btn_y, gold_minus_x + btn_w, btn_y + btn_h);
+    cc.generation_hover.gold_plus  = point_in_rectangle(mx, my, gold_plus_x,  btn_y, gold_plus_x  + btn_w, btn_y + btn_h);
 
     if (!clicked) return;
 
@@ -92,7 +103,7 @@ function handle_cdt_gold_controls(cc, L, mx, my, clicked)
     }
     if (cc.generation_hover.cdt_plus && cc.generation_slots_remaining > 0)
     {
-        var current_cdt = get_current_cdt(cc); // assume you have or can make this
+        var current_cdt = get_current_cdt(cc);
         if (current_cdt + 1 <= get_cdt_cap(cc))
         {
             cc.generation.cdt_bonus++;
@@ -116,16 +127,21 @@ function handle_cdt_gold_controls(cc, L, mx, my, clicked)
 function handle_table_list(cc, L, mx, my, clicked, tables_x = undefined)
 {
     if (tables_x == undefined)
-        {tables_x = L.center_x - 280 - 40 - 200;} // Match your draw function offset
+        tables_x = L.center_x - 520;   // same as Draw
 
+    var yy = 320;
+    var btn_w = 260;
+    var btn_h = 34;
+    var row_gap = 8;
+    var start_y = yy + 80;
 
-    var start_y = 400; 
     var tables = get_all_knowledge_tables();
 
     // Confirm / Lock Button
-    var confirm_x = tables_x - 120;
-    var confirm_y = start_y + (array_length(tables) * 36) + 5;
-    var confirm_w = 240, confirm_h = 30;
+    var confirm_x = tables_x - 130;
+    var confirm_y = start_y + array_length(tables) * (btn_h + row_gap) + 12;
+    var confirm_w = 260;
+    var confirm_h = 36;
 
     if (clicked && point_in_rectangle(mx, my, confirm_x, confirm_y, confirm_x + confirm_w, confirm_y + confirm_h))
     {
@@ -146,9 +162,8 @@ function handle_table_list(cc, L, mx, my, clicked, tables_x = undefined)
     for (var i = 0; i < array_length(tables); i++)
     {
         var table = tables[i];
-        var btn_x = tables_x - 120;
-        var btn_y = start_y + (i * 36);
-        var btn_w = 240, btn_h = 30;
+        var btn_x = tables_x - 130;
+        var btn_y = start_y + i * (btn_h + row_gap);
 
         if (!point_in_rectangle(mx, my, btn_x, btn_y, btn_x + btn_w, btn_y + btn_h))
             continue;
@@ -203,17 +218,28 @@ function handle_skill_list(cc, L, mx, my, clicked, right_clicked)
 {
     if (cc.selected_table == "" || !cc.generation.tables_locked)
         return;
-	        
+
+    if (!variable_struct_exists(global.knowledge_table_data, cc.selected_table))
+        return;
+
     var table_data = global.knowledge_table_data[$ cc.selected_table];
+
+    // ===== MATCH THE DRAW VALUES EXACTLY =====
+    var skills_x = L.center_x;
+    var col_width = 280;
+    var max_rows_per_col = 16;
+    var row_h = 26;
+    var row_gap = 6;
+    var box_w = 260;
     var display_y = 370;
-    var row_h = 25;
-    var col_width = 260;
-    var max_rows_per_col = 18;
+    var total_cols = 2;
+    var start_x = skills_x - (total_cols * col_width) * 0.5 + 10;
 
-        var all_entries = [];
-    var seen = {}; // Prevent duplicates
+    // ===== BUILD THE SAME LIST AS DRAW =====
+    var all_entries = [];
+    var seen = {};
 
-        // Fixed skills from species (only if they belong to the current table)
+    // Fixed skills from species
     if (variable_struct_exists(cc, "locked_species"))
     {
         var species = global.species_data[$ cc.locked_species];
@@ -225,7 +251,6 @@ function handle_skill_list(cc, L, mx, my, clicked, right_clicked)
                 var f = fixed[i];
                 if (!variable_struct_exists(seen, f.name))
                 {
-                    // Only add if it's in the current table
                     if (array_contains(table_data.skills, f.name) || array_contains(table_data.skills, string_replace_all(f.name, " (X)", "")))
                     {
                         array_push(all_entries, {
@@ -241,7 +266,7 @@ function handle_skill_list(cc, L, mx, my, clicked, right_clicked)
         }
     }
 
-    // Table skills and specializations (only if not fixed)
+    // Table skills + specializations
     for (var i = 0; i < array_length(table_data.skills); i++)
     {
         var skill_name = table_data.skills[i];
@@ -257,63 +282,59 @@ function handle_skill_list(cc, L, mx, my, clicked, right_clicked)
 
         var base_skill = string_replace_all(skill_name, " (X)", "");
         var keys = variable_struct_get_names(cc.skill_ranks);
+
         for (var k = 0; k < array_length(keys); k++)
         {
             var key = keys[k];
             if (string_pos(base_skill, key) > 0 && !variable_struct_exists(seen, key))
             {
-                array_push(all_entries, {
-                    name: key,
-                    is_specialization: true,
-                    is_fixed: false
-                });
+                array_push(all_entries, { name: key, is_specialization: true });
                 seen[$ key] = true;
             }
         }
     }
 
-        // Hit detection
+    // ===== CLICK / HOVER DETECTION =====
     for (var i = 0; i < array_length(all_entries); i++)
     {
         var entry = all_entries[i];
         var col = i div max_rows_per_col;
         var row = i mod max_rows_per_col;
-     
-        var draw_x = (L.center_x - 210) + (col * col_width);
-        var draw_y = display_y + (row * row_h);
-        if (point_in_rectangle(mx, my, draw_x, draw_y, draw_x + 230, draw_y + 22))
+
+        var draw_x = start_x + col * col_width;
+        var draw_y = display_y + row * (row_h + row_gap);
+
+        if (point_in_rectangle(mx, my, draw_x, draw_y, draw_x + box_w, draw_y + row_h))
         {
             cc.hovered_skill = entry.name;
+
             if (clicked)
             {
-                if (entry.is_specialization)
+                // Your existing rank-up / specialization popup logic here
+                // (keep whatever you already had for left-click)
+
+                var skill_data = global.skill_data[$ entry.name];
+                if (!skill_data)
+                    skill_data = global.skill_data[$ string_replace_all(entry.name, " (X)", "")];
+
+                if (skill_data && variable_struct_exists(skill_data, "specialization") && skill_data.specialization.required)
                 {
-                    attempt_skill_rank_up(cc, entry.name, "", cc.selected_table);
+                    // Only open popup — do NOT consume free slot here
+                    cc.pending_skill = entry.name;
+                    cc.pending_specializations = skill_data.specialization.choices;
+                    cc.specialization_popup = true;
                 }
                 else
                 {
-                    // Improved lookup
-                    var skill_data = global.skill_data[$ entry.name];
-                    if (!skill_data)
-                        skill_data = global.skill_data[$ string_replace_all(entry.name, " (X)", "")];
-                    if (skill_data && variable_struct_exists(skill_data, "specialization") && skill_data.specialization.required)
-                    {
-                        cc.pending_skill = entry.name;
-                        cc.pending_specializations = skill_data.specialization.choices;
-                        cc.specialization_popup = true;
-                        show_debug_message("OPENING SPECIALIZATION POPUP for: " + entry.name);
-                    }
-                    else
-                    {
-                        attempt_skill_rank_up(cc, entry.name, string_replace_all(entry.name, " (X)", ""), cc.selected_table);
-                    }
+                    attempt_skill_rank_up(cc, entry.name, string_replace_all(entry.name, " (X)", ""), cc.selected_table);
                 }
             }
-                        else if (right_clicked)
+            else if (right_clicked)
             {
-                // Allow the call - block only in attempt_skill_rank_down
                 attempt_skill_rank_down(cc, entry.name);
             }
+
+            return; // stop after first hit
         }
     }
 }
@@ -467,36 +488,101 @@ if (has_free_rank)
 
 function draw_cdt_gold_panels(cc, L)
 {
-    var title_y = L.top_y;
-    var cost_y = L.top_y + 22;
-    var btn_y = L.top_y + 55;
-    var value_y = L.top_y + 95;
-    var half_w = L.panel_w * 0.5;
+    var panel_w = 220;
+    var panel_h = 170;
+    var gap = 40;
+
+    var cdt_x = L.center_x - panel_w - gap * 0.5;
+    var gold_x = L.center_x + gap * 0.5;
+    var panel_y = 110;
+
+    // =========================================
+    // CDT PANEL
+    // =========================================
+    draw_set_color(make_color_rgb(18, 18, 18));
+    draw_rectangle(cdt_x, panel_y, cdt_x + panel_w, panel_y + panel_h, false);
+
+    draw_set_color(c_gray);
+    draw_rectangle(cdt_x, panel_y, cdt_x + panel_w, panel_y + panel_h, true);
+
+    draw_set_halign(fa_center);
+    draw_set_color(c_white);
+    draw_text(cdt_x + panel_w * 0.5, panel_y + 10, "CDT");
+
+    draw_set_color(c_ltgray);
+    draw_text(cdt_x + panel_w * 0.5, panel_y + 34, "1 Point  =  +1 CDT");
+
+    // +/- buttons
+    var btn_y = panel_y + 60;
+    var btn_w = 50;
+    var btn_h = 28;
+    var minus_x = cdt_x + 30;
+    var plus_x  = cdt_x + panel_w - 30 - btn_w;
+
+    // Minus
+    draw_set_color(cc.generation_hover.cdt_minus ? make_color_rgb(60, 50, 20) : make_color_rgb(35, 35, 35));
+    draw_rectangle(minus_x, btn_y, minus_x + btn_w, btn_y + btn_h, false);
+    draw_set_color(cc.generation_hover.cdt_minus ? c_yellow : c_gray);
+    draw_rectangle(minus_x, btn_y, minus_x + btn_w, btn_y + btn_h, true);
+    draw_set_color(c_white);
+    draw_text(minus_x + btn_w * 0.5, btn_y + 5, "-");
+
+    // Plus
+    draw_set_color(cc.generation_hover.cdt_plus ? make_color_rgb(60, 50, 20) : make_color_rgb(35, 35, 35));
+    draw_rectangle(plus_x, btn_y, plus_x + btn_w, btn_y + btn_h, false);
+    draw_set_color(cc.generation_hover.cdt_plus ? c_yellow : c_gray);
+    draw_rectangle(plus_x, btn_y, plus_x + btn_w, btn_y + btn_h, true);
+    draw_set_color(c_white);
+    draw_text(plus_x + btn_w * 0.5, btn_y + 5, "+");
+
+    // Values
+    draw_set_color(c_aqua);
+    draw_text(cdt_x + panel_w * 0.5, panel_y + 100, "Bonus: +" + string(cc.generation.cdt_bonus));
+    draw_set_color(c_white);
+    draw_text(cdt_x + panel_w * 0.5, panel_y + 122, "Current: " + string(get_current_cdt(cc)));
+    draw_set_color(c_ltgray);
+    draw_text(cdt_x + panel_w * 0.5, panel_y + 140, "Limit: " + string(get_cdt_cap(cc)));
+
+    // =========================================
+    // GOLD PANEL
+    // =========================================
+    draw_set_color(make_color_rgb(18, 18, 18));
+    draw_rectangle(gold_x, panel_y, gold_x + panel_w, panel_y + panel_h, false);
+
+    draw_set_color(c_gray);
+    draw_rectangle(gold_x, panel_y, gold_x + panel_w, panel_y + panel_h, true);
 
     draw_set_color(c_white);
-    draw_set_halign(fa_center);
+    draw_text(gold_x + panel_w * 0.5, panel_y + 10, "GOLD");
 
-    // CDT Panel
-    var cdt_x = L.center_x - L.panel_spacing;
-    draw_text(cdt_x, title_y, "CDT");
-    draw_text(cdt_x, cost_y, "Cost: 1 Slot → +1 CDT");
+    draw_set_color(c_ltgray);
+    draw_text(gold_x + panel_w * 0.5, panel_y + 34, "1 Point  =  +20 Gold");
 
-    draw_button_pair(cdt_x, btn_y, half_w, L.btn_gap, L.btn_h,
-        cc.generation_hover.cdt_minus, cc.generation_hover.cdt_plus);
+    // +/- buttons
+    minus_x = gold_x + 30;
+    plus_x  = gold_x + panel_w - 30 - btn_w;
 
-    draw_text(cdt_x, value_y, "Bonus: +" + string(cc.generation.cdt_bonus));
-    draw_text(cdt_x, value_y + 40, "Current CDT: " + string(get_current_cdt(cc)));
-    draw_text(cdt_x, value_y + 60, "Limit: " + string(get_cdt_cap(cc)));
+    // Minus
+    draw_set_color(cc.generation_hover.gold_minus ? make_color_rgb(60, 50, 20) : make_color_rgb(35, 35, 35));
+    draw_rectangle(minus_x, btn_y, minus_x + btn_w, btn_y + btn_h, false);
+    draw_set_color(cc.generation_hover.gold_minus ? c_yellow : c_gray);
+    draw_rectangle(minus_x, btn_y, minus_x + btn_w, btn_y + btn_h, true);
+    draw_set_color(c_white);
+    draw_text(minus_x + btn_w * 0.5, btn_y + 5, "-");
 
-    // GOLD Panel
-    var gold_x = L.center_x + L.panel_spacing;
-    draw_text(gold_x, title_y, "GOLD");
-    draw_text(gold_x, cost_y, "Cost: 1 Slot → +20 Gold");
+    // Plus
+    draw_set_color(cc.generation_hover.gold_plus ? make_color_rgb(60, 50, 20) : make_color_rgb(35, 35, 35));
+    draw_rectangle(plus_x, btn_y, plus_x + btn_w, btn_y + btn_h, false);
+    draw_set_color(cc.generation_hover.gold_plus ? c_yellow : c_gray);
+    draw_rectangle(plus_x, btn_y, plus_x + btn_w, btn_y + btn_h, true);
+    draw_set_color(c_white);
+    draw_text(plus_x + btn_w * 0.5, btn_y + 5, "+");
 
-    draw_button_pair(gold_x, btn_y, half_w, L.btn_gap, L.btn_h,
-        cc.generation_hover.gold_minus, cc.generation_hover.gold_plus);
+    // Value
+    draw_set_color(c_aqua);
+    draw_text(gold_x + panel_w * 0.5, panel_y + 110, "Starting Gold: " + string(cc.generation.gold_bonus));
 
-    draw_text(gold_x, value_y, "Starting Gold: " + string(cc.generation.gold_bonus));
+    draw_set_halign(fa_left);
 }
 
 function draw_button_pair(x, y, half_w, gap, h, hover_minus, hover_plus)
@@ -524,29 +610,100 @@ function draw_button_pair(x, y, half_w, gap, h, hover_minus, hover_plus)
 function draw_tables_column(cc, L, tables_x = undefined)
 {
     if (tables_x == undefined)
-        tables_x = L.center_x - 340;   // fallback
+        tables_x = L.center_x - 340;
 
     var yy = 320;
-   
-    draw_set_halign(fa_center);
-    draw_set_color(c_white);
-    draw_text(tables_x, yy, "KNOWLEDGE TABLES");
-   
-    draw_set_halign(fa_left);
-    draw_text(tables_x - 110, yy + 25, "Free Choices Remaining: " + string(cc.generation.table_choices_remaining));
-    draw_text(tables_x - 110, yy + 45, "Extra Tables Cost 2 Slots");
+    var btn_w = 260;
+    var btn_h = 34;
+    var row_gap = 8;
 
     var tables = get_all_knowledge_tables();
     var start_y = yy + 80;
-    var btn_w = 240;
-    var btn_h = 30;
 
-    // Confirm / Lock Button
-    var confirm_x = tables_x - 120;
-    var confirm_y = start_y + (array_length(tables) * 36) + 5;
-    var confirm_w = 240;
-    var confirm_h = 30;
-   
+    // ===== OUTER PANEL =====
+    var panel_x = tables_x - 145;
+    var panel_y = yy - 15;
+    var panel_w = 290;
+    var panel_h = 80 + array_length(tables) * (btn_h + row_gap) + 60;   // auto height
+
+    // Background
+    draw_set_color(make_color_rgb(18, 18, 18));
+    draw_rectangle(panel_x, panel_y, panel_x + panel_w, panel_y + panel_h + 30, false);
+
+    // Border
+    draw_set_color(c_gray);
+    draw_rectangle(panel_x, panel_y, panel_x + panel_w, panel_y + panel_h + 30, true);
+
+    // Header
+    draw_set_halign(fa_center);
+    draw_set_color(c_white);
+    draw_text(tables_x, yy, "KNOWLEDGE TABLES");
+
+    // Info lines
+    draw_set_halign(fa_left);
+    draw_set_color(c_ltgray);
+    draw_text(tables_x - 130, yy + 28, "Free Choices: " + string(cc.generation.table_choices_remaining));
+    draw_text(tables_x - 130, yy + 48, "Extra Tables cost 2 slots");
+
+    // ===== TABLE LIST =====
+    for (var i = 0; i < array_length(tables); i++)
+    {
+        var table = tables[i];
+        var btn_x = tables_x - 130;
+        var btn_y = start_y + i * (btn_h + row_gap);
+
+        var is_fixed     = array_index_of(cc.generation.fixed_tables, table) != -1;
+        var is_choice    = array_index_of(cc.generation.choice_tables, table) != -1;
+        var is_purchased = array_index_of(cc.generation.purchased_tables, table) != -1;
+        var hovered      = (cc.hovered_table == table);
+
+        // Background
+        if (is_fixed)
+            draw_set_color(make_color_rgb(20, 55, 25));
+        else if (is_choice)
+            draw_set_color(make_color_rgb(25, 55, 35));
+        else if (is_purchased)
+            draw_set_color(make_color_rgb(40, 45, 20));
+        else if (hovered)
+            draw_set_color(make_color_rgb(50, 50, 30));
+        else
+            draw_set_color(make_color_rgb(30, 30, 30));
+
+        draw_rectangle(btn_x, btn_y, btn_x + btn_w, btn_y + btn_h, false);
+
+        // Border
+        if (hovered)
+            draw_set_color(c_yellow);
+        else if (is_fixed)
+            draw_set_color(c_lime);
+        else if (is_choice)
+            draw_set_color(c_aqua);
+        else if (is_purchased)
+            draw_set_color(c_olive);
+        else
+            draw_set_color(c_gray);
+
+        draw_rectangle(btn_x, btn_y, btn_x + btn_w, btn_y + btn_h, true);
+
+        // Text
+        draw_set_color(c_white);
+        var suffix = "";
+        if (is_fixed)
+            suffix = " (Fixed)";
+        else if (is_choice)
+            suffix = " (Choice)";
+        else if (is_purchased)
+            suffix = " (Bought)";
+
+        draw_text(btn_x + 12, btn_y + 8, table + suffix);
+    }
+
+    // ===== CONFIRM / LOCK BUTTON =====
+    var confirm_x = tables_x - 130;
+    var confirm_y = start_y + array_length(tables) * (btn_h + row_gap) + 12;
+    var confirm_w = 260;
+    var confirm_h = 36;
+
     var confirm_hover = point_in_rectangle(
         device_mouse_x_to_gui(0), device_mouse_y_to_gui(0),
         confirm_x, confirm_y, confirm_x + confirm_w, confirm_y + confirm_h
@@ -556,52 +713,46 @@ function draw_tables_column(cc, L, tables_x = undefined)
     if (variable_struct_exists(cc.generation, "tables_locked"))
         is_locked = cc.generation.tables_locked;
 
-    draw_set_color(is_locked ? 
-        (confirm_hover ? c_lime : c_green) : 
-        (confirm_hover ? c_gray : c_dkgray));
-   
-    draw_rectangle(confirm_x, confirm_y, confirm_x + confirm_w, confirm_y + confirm_h, false);
-   
-    draw_set_color(c_white);
-    draw_text(confirm_x + 10, confirm_y + 7, 
-        is_locked ? "UNLOCK TABLES" : "CONFIRM TABLES");
-
-    // Table List
-    for (var i = 0; i < array_length(tables); i++)
+    // Background
+    if (is_locked)
     {
-        var table = tables[i];
-        var btn_x = tables_x - 120;
-        var btn_y = start_y + (i * 36);
-
-        var is_fixed     = array_index_of(cc.generation.fixed_tables, table) != -1;
-        var is_choice    = array_index_of(cc.generation.choice_tables, table) != -1;
-        var is_purchased = array_index_of(cc.generation.purchased_tables, table) != -1;
-       
-        var hovered = false;
-        if (variable_struct_exists(cc, "hovered_table"))
-            hovered = (cc.hovered_table == table);
-
-        if (is_fixed)        draw_set_color(c_green);
-        else if (is_choice)  draw_set_color(c_lime);
-        else if (is_purchased) draw_set_color(c_olive);
-        else if (hovered)    draw_set_color(c_gray);
-        else                 draw_set_color(c_dkgray);
-
-        draw_rectangle(btn_x, btn_y, btn_x + btn_w, btn_y + btn_h, false);
-
-        if (hovered)
-        {
-            draw_set_color(c_yellow);
-            draw_rectangle(btn_x-2, btn_y-2, btn_x+btn_w+2, btn_y+btn_h+2, true);
-        }
-
-        draw_set_color(c_white);
-        var suffix = is_fixed ? " (Fixed)" : 
-                    (is_choice ? " (Choice)" : 
-                    (is_purchased ? " (Purchased)" : ""));
-        
-        draw_text(btn_x + 8, btn_y + 7, table + suffix);
+        if (confirm_hover)
+            draw_set_color(make_color_rgb(40, 90, 40));
+        else
+            draw_set_color(make_color_rgb(25, 60, 25));
     }
+    else
+    {
+        if (confirm_hover)
+            draw_set_color(make_color_rgb(60, 60, 30));
+        else
+            draw_set_color(make_color_rgb(40, 40, 25));
+    }
+
+    draw_rectangle(confirm_x, confirm_y, confirm_x + confirm_w, confirm_y + confirm_h, false);
+
+    // Border
+    if (confirm_hover)
+        draw_set_color(c_yellow);
+    else if (is_locked)
+        draw_set_color(c_lime);
+    else
+        draw_set_color(c_gray);
+
+    draw_rectangle(confirm_x, confirm_y, confirm_x + confirm_w, confirm_y + confirm_h, true);
+
+    // Text
+    draw_set_halign(fa_center);
+    draw_set_valign(fa_middle);
+    draw_set_color(c_white);
+
+    if (is_locked)
+        draw_text(confirm_x + confirm_w * 0.5, confirm_y + confirm_h * 0.5, "UNLOCK TABLES");
+    else
+        draw_text(confirm_x + confirm_w * 0.5, confirm_y + confirm_h * 0.5, "CONFIRM TABLES");
+
+    draw_set_halign(fa_left);
+    draw_set_valign(fa_top);
 }
 
 // ===================================================================
@@ -610,14 +761,54 @@ function draw_skills_column(cc, L, skills_x = undefined)
     if (skills_x == undefined)
         skills_x = L.center_x;
 
+    var mx = device_mouse_x_to_gui(0);
+    var my = device_mouse_y_to_gui(0);
+
+    // ===== LAYOUT =====
+    var col_width = 280;
+    var max_rows_per_col = 16;
+    var row_h = 26;
+    var row_gap = 6;
+    var box_w = 260;
+
+    // Outer panel sized to content
+    var panel_w = col_width * 2 + 40;
+    var panel_x = skills_x - panel_w * 0.5;
+    var panel_y = 305;
+    var panel_h = 600;
+
+    // Background
+    draw_set_color(make_color_rgb(18, 18, 18));
+    draw_rectangle(panel_x, panel_y, panel_x + panel_w, panel_y + panel_h, false);
+
+    // Border
+    draw_set_color(c_gray);
+    draw_rectangle(panel_x, panel_y, panel_x + panel_w, panel_y + panel_h, true);
+
+    // Header
     draw_set_halign(fa_center);
     draw_set_color(c_white);
-    draw_text(skills_x, 320, "SKILLS");
+    draw_text(skills_x, 318, "SKILLS");
 
+    // Free Skill slots
+    var remaining = 0;
+    if (variable_struct_exists(cc, "locked_species"))
+    {
+        var species = global.species_data[$ cc.locked_species];
+        if (variable_struct_exists(species.creation.knowledge_skills, "choices"))
+            remaining = species.creation.knowledge_skills.choices.count;
+    }
+    draw_set_color(c_aqua);
+    draw_text(skills_x, 342, "Free SkillSlots: " + string(remaining));
+    draw_set_halign(fa_left);
+
+    // Early exits
     if (cc.selected_table == "" || !cc.generation.tables_locked)
     {
+        draw_set_halign(fa_center);
         draw_set_color(c_ltgray);
-        draw_text(skills_x, 370, "(Lock tables first, then select a table)");
+        draw_text(skills_x, 380, "(Lock tables first, then select a table)");
+        draw_set_halign(fa_left);
         return;
     }
 
@@ -626,18 +817,12 @@ function draw_skills_column(cc, L, skills_x = undefined)
 
     var table_data = global.knowledge_table_data[$ cc.selected_table];
     var display_y = 370;
-    var row_h = 25;
-    var col_width = 260;
-    var max_rows_per_col = 18;
 
-    draw_set_halign(fa_left);
-    var mx = device_mouse_x_to_gui(0);
-    var my = device_mouse_y_to_gui(0);
-
+    // ===== BUILD LIST =====
     var all_entries = [];
-    var seen = {}; // Prevent duplicates
+    var seen = {};
 
-                    // Fixed skills from species (only if they belong to the current table)
+    // Fixed skills
     if (variable_struct_exists(cc, "locked_species"))
     {
         var species = global.species_data[$ cc.locked_species];
@@ -649,7 +834,6 @@ function draw_skills_column(cc, L, skills_x = undefined)
                 var f = fixed[i];
                 if (!variable_struct_exists(seen, f.name))
                 {
-                    // Only add if it's in the current table
                     if (array_contains(table_data.skills, f.name) || array_contains(table_data.skills, string_replace_all(f.name, " (X)", "")))
                     {
                         array_push(all_entries, {
@@ -664,24 +848,24 @@ function draw_skills_column(cc, L, skills_x = undefined)
             }
         }
     }
-    // Table skills and specializations
+
+    // Table skills + specializations
     for (var i = 0; i < array_length(table_data.skills); i++)
     {
         var skill_name = table_data.skills[i];
         if (!variable_struct_exists(seen, skill_name))
         {
-            array_push(all_entries, { 
-                name: skill_name, 
+            array_push(all_entries, {
+                name: skill_name,
                 is_specialization: false,
-                is_fixed: false   // Add this
+                is_fixed: false
             });
             seen[$ skill_name] = true;
         }
-       
 
         var base_skill = string_replace_all(skill_name, " (X)", "");
         var keys = variable_struct_get_names(cc.skill_ranks);
-      
+
         for (var k = 0; k < array_length(keys); k++)
         {
             var key = keys[k];
@@ -693,34 +877,62 @@ function draw_skills_column(cc, L, skills_x = undefined)
         }
     }
 
-    // Draw all entries
+    // ===== DRAW ENTRIES (centered under title) =====
+    var total_cols = 2;
+    var start_x = skills_x - (total_cols * col_width) * 0.5 + 10;
+
     for (var i = 0; i < array_length(all_entries); i++)
     {
         var entry = all_entries[i];
         var col = i div max_rows_per_col;
         var row = i mod max_rows_per_col;
-        
-        var draw_x = (skills_x - 210) + (col * col_width);
-        var draw_y = display_y + (row * row_h);
-		
-		        var has_free_rank =
-    variable_struct_exists(cc.free_skill_ranks, entry.name)
-    &&
-    cc.free_skill_ranks[$ entry.name] > 0;
-		
-                var is_hovered = (cc.hovered_skill == entry.name);
-                 var is_fixed = variable_struct_exists(cc.fixed_skills, entry.name);
 
+        var draw_x = start_x + col * col_width;
+        var draw_y = display_y + row * (row_h + row_gap);
+
+        var has_free_rank = variable_struct_exists(cc.free_skill_ranks, entry.name)
+            && cc.free_skill_ranks[$ entry.name] > 0;
+        var is_hovered = (cc.hovered_skill == entry.name);
+        var is_fixed = variable_struct_exists(cc.fixed_skills, entry.name)
+            || (variable_struct_exists(entry, "is_fixed") && entry.is_fixed);
+
+        // Background
+        if (is_hovered)
+            draw_set_color(make_color_rgb(60, 55, 25));
+        else if (is_fixed)
+            draw_set_color(make_color_rgb(20, 50, 25));
+        else if (variable_struct_exists(cc.free_slot_ranks, entry.name) && cc.free_slot_ranks[$ entry.name] > 0)
+            draw_set_color(make_color_rgb(20, 50, 60));
+        else if (has_free_rank)
+            draw_set_color(make_color_rgb(25, 55, 30));
+        else
+            draw_set_color(make_color_rgb(28, 28, 28));
+
+        draw_rectangle(draw_x, draw_y, draw_x + box_w, draw_y + row_h, false);
+
+        // Border
         if (is_hovered)
             draw_set_color(c_yellow);
         else if (is_fixed)
-            draw_set_color(c_green);           // Fixed skills (including specs)
+            draw_set_color(c_lime);
         else if (variable_struct_exists(cc.free_slot_ranks, entry.name) && cc.free_slot_ranks[$ entry.name] > 0)
             draw_set_color(c_aqua);
-		else if (has_free_rank)
-		{
-		    draw_set_color(c_lime);
-		}
+        else if (has_free_rank)
+            draw_set_color(c_lime);
+        else
+            draw_set_color(c_dkgray);
+
+        draw_rectangle(draw_x, draw_y, draw_x + box_w, draw_y + row_h, true);
+
+        // Text
+        if (is_hovered)
+            draw_set_color(c_yellow);
+        else if (is_fixed)
+            draw_set_color(c_lime);
+        else if (variable_struct_exists(cc.free_slot_ranks, entry.name) && cc.free_slot_ranks[$ entry.name] > 0)
+            draw_set_color(c_aqua);
+        else if (has_free_rank)
+            draw_set_color(c_lime);
         else if (entry.is_specialization)
             draw_set_color(c_ltgray);
         else
@@ -735,64 +947,30 @@ function draw_skills_column(cc, L, skills_x = undefined)
                 display_name = parts[1];
             }
             var rank = get_skill_rank(cc, entry.name);
-            draw_text(draw_x, draw_y, display_name + " (" + string(rank) + ")");
+            draw_text(draw_x + 6, draw_y + 3, display_name + " (" + string(rank) + ")");
         }
-                else
+        else
         {
             var base_skill = string_replace_all(entry.name, " (X)", "");
             var rank = get_skill_rank(cc, base_skill);
-          
+
             if (rank == 0)
             {
                 if (variable_struct_exists(cc.skill_ranks, base_skill))
-                    draw_text(draw_x, draw_y, entry.name + " (0)");  // Trained at 0
+                    draw_text(draw_x + 6, draw_y + 3, entry.name + " (0)");
                 else
-                    draw_text(draw_x, draw_y, entry.name + " (U)");  // Untrained
+                    draw_text(draw_x + 6, draw_y + 3, entry.name + " (U)");
             }
             else if (string_pos(" (X)", entry.name) > 0)
-                draw_text(draw_x, draw_y, entry.name);
+                draw_text(draw_x + 6, draw_y + 3, entry.name);
             else
-                draw_text(draw_x, draw_y, entry.name + " (" + string(rank) + ")");
+                draw_text(draw_x + 6, draw_y + 3, entry.name + " (" + string(rank) + ")");
         }
 
         // Hover
-        if (point_in_rectangle(mx, my, draw_x, draw_y, draw_x + 240, draw_y + 25))
+        if (point_in_rectangle(mx, my, draw_x, draw_y, draw_x + box_w, draw_y + row_h))
             cc.hovered_skill = entry.name;
     }
-
-    // Free Skill Slots (at the bottom)
-    var remaining = 0;
-    if (variable_struct_exists(cc, "locked_species"))
-    {
-        var species = global.species_data[$ cc.locked_species];
-        if (variable_struct_exists(species.creation.knowledge_skills, "choices"))
-            remaining = species.creation.knowledge_skills.choices.count;
-    }
-
-    draw_set_color(c_white);
-    draw_text(skills_x - 80, + 340, "Free Skill Slots: " + string(remaining));
-	
-	// =====================================
-// FREE SKILL SLOT TOOLTIP
-// =====================================
-
-if (point_in_rectangle(
-    mx,
-    my,
-    x - 300,
-    y - 10,
-    x - 60,
-    y + 10
-))
-{
-    set_tooltip(
-        "Free skill slots can be used to purchase any skill, " +
-        "even if you do not have access to that skill's table. " +
-        "Each free slot grants one skill rank.",
-        mx + 16,
-        my + 16
-    );
-}
 }
 
 
@@ -876,17 +1054,20 @@ function get_current_cdt(cc)
 
 function handle_locked_table_selection(cc, L, mx, my, clicked)
 {
-    var col_w = 250;
-    var tables_x = L.center_x - 280 - 40 - 200;
-    var start_y = 400;
+    var tables_x = L.center_x - 520;   // same as Draw
+    var yy = 320;
+    var btn_w = 260;
+    var btn_h = 34;
+    var row_gap = 8;
+    var start_y = yy + 80;
+
     var tables = get_all_knowledge_tables();
 
     for (var i = 0; i < array_length(tables); i++)
     {
         var table = tables[i];
-        var btn_x = tables_x - 120;
-        var btn_y = start_y + (i * 36);
-        var btn_w = 240, btn_h = 30;
+        var btn_x = tables_x - 130;
+        var btn_y = start_y + i * (btn_h + row_gap);
 
         if (point_in_rectangle(mx, my, btn_x, btn_y, btn_x + btn_w, btn_y + btn_h))
         {

@@ -54,7 +54,78 @@ function attribute_step_update(cc)
     var roll_start_x = (screen_w - roll_total_w) * 0.5;
     var roll_y = 80;
 
-   
+       // Toggle manual mode
+    if (left && !click_used)
+    {
+        var man_w = 140;
+        var man_h = 32;
+        var man_x = roll_start_x + roll_total_w + 20;
+        var man_y = roll_y;
+
+        if (point_in_rectangle(mx, my, man_x, man_y, man_x + man_w, man_y + man_h))
+        {
+            if (cc.manual_roll_mode)
+            {
+                // Finish editing any open box
+                if (cc.editing_roll_index != -1)
+                {
+                    var num = real(cc.editing_roll_string);
+                    if (is_real(num))
+                        cc.roll_pool[cc.editing_roll_index] = clamp(floor(num), 1, 20); // safety range
+                    cc.editing_roll_index = -1;
+                    cc.editing_roll_string = "";
+                }
+                cc.manual_roll_mode = false;
+            }
+            else
+            {
+                cc.manual_roll_mode = true;
+            }
+            click_used = true;
+        }
+    }
+
+    // Click a roll box while in manual mode → start editing
+    if (cc.manual_roll_mode && left && !click_used)
+    {
+        for (var i = 0; i < roll_count; i++)
+        {
+            var x1 = roll_start_x + i * (roll_w + roll_spacing);
+            var y1 = roll_y;
+            if (point_in_rectangle(mx, my, x1, y1, x1 + roll_w, y1 + roll_h))
+            {
+                // Save previous edit if any
+                if (cc.editing_roll_index != -1)
+                {
+                    var num = real(cc.editing_roll_string);
+                    if (is_real(num))
+                        cc.roll_pool[cc.editing_roll_index] = clamp(floor(num), 1, 20);
+                }
+                cc.editing_roll_index = i;
+                cc.editing_roll_string = string(cc.roll_pool[i]);
+                keyboard_string = cc.editing_roll_string;
+                click_used = true;
+                break;
+            }
+        }
+    }
+
+    // Typing while editing
+    if (cc.manual_roll_mode && cc.editing_roll_index != -1)
+    {
+        cc.editing_roll_string = keyboard_string;
+
+        // Confirm with Enter
+        if (keyboard_check_pressed(vk_enter))
+        {
+            var num = real(cc.editing_roll_string);
+            if (is_real(num))
+                cc.roll_pool[cc.editing_roll_index] = clamp(floor(num), 1, 20);
+            cc.editing_roll_index = -1;
+            cc.editing_roll_string = "";
+            keyboard_string = "";
+        }
+    }
 
     // ==========================================
     // SELECT ROLL
