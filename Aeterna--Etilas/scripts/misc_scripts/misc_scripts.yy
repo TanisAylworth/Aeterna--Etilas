@@ -1,9 +1,9 @@
 {
   "$GMScript":"v1",
-  "%Name":"skill_cost",
+  "%Name":"misc_scripts",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"skill_cost",
+  "name":"misc_scripts",
   "parent":{
     "name":"****SCR_IN_FOCUS****",
     "path":"folders/Scripts/****SCR_IN_FOCUS****.yy",

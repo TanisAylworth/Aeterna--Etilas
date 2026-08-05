@@ -26,7 +26,10 @@ var my = device_mouse_y_to_gui(0);
     draw_set_halign(fa_center);
     draw_set_valign(fa_top);
 
-    var L = generation_layout(cc);
+    var L = {
+    center_x: display_get_gui_width() * 0.5,
+    center_y: display_get_gui_height() * 0.5
+};
 
     draw_text(L.center_x, 40, "CHARACTER GENERATION");
     draw_text(L.center_x, 70, "Remaining Character Points: "
@@ -44,19 +47,24 @@ var my = device_mouse_y_to_gui(0);
     var col_gap = 40;          // Reduced gap
     var yy = 320;
 
-    var tables_x = L.center_x - col_w - col_gap - 200;   // Center-left
-    var skills_x = L.center_x;                // Slightly right of center
-    var talents_x = L.center_x + col_w + col_gap + 200;  // Far right
-
+    var tables_x = L.center_x;   // Center-left
+    var skills_x = L.center_x - col_w - col_gap - 300;                // Slightly right of center
+    var talents_x = L.center_x + col_w + col_gap + 300;  // Far right
+	generation_layout(L);
     // Main Columns
-    draw_tables_column(cc, L, tables_x);           // Pass tables_x if needed
-    draw_skills_column(cc, L, skills_x);           // Pass skills_x if needed
+	var lay = generation_layout(L);
+
+	draw_skills_column(cc, L, lay.skills_x);
+	draw_tables_column(cc, L, lay.tables_x);
+	draw_talents_column(cc, L, lay.talents_x);
+
+		draw_talent_tooltip(cc);
+	draw_skill_tooltip(cc);
 	draw_set_halign(fa_center);   // Reset alignment before drawing Talents
     draw_set_color(c_white);
-    draw_text(talents_x, yy, "TALENTS");
+    
 
     // Tooltips and Popups
-    draw_skill_tooltip(cc);
     if (variable_struct_exists(cc, "specialization_popup") && cc.specialization_popup)
         draw_specialization_popup(cc, L);
 
@@ -134,4 +142,6 @@ draw_text(
 
 draw_set_halign(fa_left);
 draw_set_valign(fa_top);
+
+
 }

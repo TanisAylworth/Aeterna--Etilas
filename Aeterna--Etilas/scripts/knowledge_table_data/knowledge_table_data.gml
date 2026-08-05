@@ -31,8 +31,11 @@ global.knowledge_table_data[$ "General"] =
 
         talents :
         [
-            "Woodsman",
-            "Beast Friend"
+            "Alertness", 
+			"Durable", 
+			"Fitness", 
+			"Armor Training (Light)", 
+			"Armor Focus"
         ]
     };
 	#endregion
@@ -71,8 +74,9 @@ global.knowledge_table_data[$ "General"] =
 
         talents :
         [
-            "Woodsman",
-            "Beast Friend"
+            "Musical Lore (X)", 
+			"Musical Talent (X)", 
+			"Steady Hands"
         ]
     };
 #endregion
@@ -101,7 +105,12 @@ global.knowledge_table_data[$ "Warfare"] =
 
         talents :
         [
-            "Mystic Insight"
+            "Awareness", "Blind Fighting", "Close-Quarters Fighting", "Display Weapon Prowess",
+    "Natural Fighting", "Wild Fighting", "Weapon Style (X)", "Turtle", "Rage",
+    "Weapon Improvisation", "Martial Training", "Multi-Attack", "Weapon Mastery (X)",
+    "Two Weapon Fighting", "Push", "Grapple", "Disarm", "Trip", "Throw", "Sunder",
+    "Ambush", "Two Weapon Defense", "Checking", "Dextrous Defense",
+    "Armor Training (Medium)", "Armor Training (Heavy)", "Marksmanship"
         ]
     };
 	#endregion
@@ -127,7 +136,7 @@ global.knowledge_table_data[$ "Warfare"] =
 
         talents :
         [
-            "Mystic Insight"
+      
         ]
     };
 	#endregion
@@ -156,7 +165,8 @@ global.knowledge_table_data[$ "Warfare"] =
 
         talents :
         [
-            "Mystic Insight"
+            "Read and Write (X)", "Record Keeper", "Photographic Memory", "Efficient Organizer",
+    "Numerate", "Merchant Ledger", "Auditor", "Cultural Scribe"
         ]
     };
 	#endregion
@@ -199,7 +209,8 @@ global.knowledge_table_data[$ "Warfare"] =
 
         talents :
         [
-            "Mystic Insight"
+            "Blind Fighting", "Close-Quarters Fighting", "Street Fighting", "Canting",
+    "Backstab", "Sneak Attack", "Awareness", "Quick Poisoner"
         ]
     };
 	#endregion
@@ -224,7 +235,7 @@ global.knowledge_table_data[$ "Warfare"] =
 
         talents :
         [
-            "Mystic Insight"
+            
         ]
     };
 	#endregion
@@ -241,7 +252,7 @@ global.knowledge_table_data[$ "Warfare"] =
 
         talents :
         [
-            "Mystic Insight"
+            
         ]
     };
 #endregion
@@ -272,8 +283,8 @@ global.knowledge_table_data[$ "Warfare"] =
 
         talents :
         [
-            "Woodsman",
-            "Beast Friend"
+            "Forager", "Trailblazer", "Shelter", "Weather Sense",
+    "Hunter's Patience", "Fire Starter", "Improvised"
         ]
     };
 #endregion
@@ -296,7 +307,8 @@ global.knowledge_table_data[$ "Warfare"] =
 
         talents :
         [
-            "Mystic Insight"
+            "Spell Weaving", "Sub Aspect Mastery (X)", "Arcane Conduit", "Arcane Dispersal",
+    "Efficient Channeler", "Spell Shaping", "Overcharge", "Mental Codex", "Arcane Reservoir"
         ]
     };
 	#endregion

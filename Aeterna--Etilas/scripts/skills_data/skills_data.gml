@@ -19,7 +19,7 @@ global.skill_data[$ "Animal Handling"] = {
         ]
     },
     difficulty: global.SKILL_SIMPLE,
-    description: "A skill for the care and maintenance of animals. Penalties to the roll are based on the creature's RA to the caretaker, and the animal's unruliness. Used in calming or handling an otherwise unruly creature."
+    description: "This skill is checked whenever interacting with an animal. The check is penalized by the animal's Reaction Adjustment towards you or the party. Degrees of success improve the Reaction Adjustment of the animal to the user or the party. Degrees of failure reduce the Reaction Adjustment to the user or the party. A positive Reaction Adjustment will allow for handling the animal, whereas a negative Reaction Adjustment will cause panic or angry responses."
 };
 
 global.skill_data[$ "Listen"] = {
@@ -32,7 +32,7 @@ global.skill_data[$ "Listen"] = {
         ]
     },
     difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill for using special techniques to hear sounds or discern speech through walls or over long distances."
+    description: "This skill is checked whenever the user wishes to hear anything would otherwise be difficult to passively perceive. Degrees of Success determines clarity of interpretation, whereas Degrees of Failure mean nothing of use was heard. Functions as the auditory Perception skill."
 };
 
 global.skill_data[$ "Running"] = {
@@ -45,12 +45,8 @@ global.skill_data[$ "Running"] = {
         ]
     },
     difficulty: global.SKILL_SIMPLE,
-    description: "A skill for maintaining top speed for an extended period of time."
+    description: "This skill is checked whenever the user has been running at their top speed for an extended period of time. Normally a creature can run for a number of consecutive minutes equal to their fatigue limit prior to sustaining a level of fatigue. This skill allows a test to be made to ignore that level of fatigue. Degrees of Success nullify the fatigue. Degrees of Failure incur the fatigue as normal. Extreme Successes restore a level of fatigue. Extreme Failure incur two levels of fatigue instead."
 };
-
-
-
-
 
 global.skill_data[$ "Dancing"] = {
     name: "Dancing",
@@ -62,10 +58,8 @@ global.skill_data[$ "Dancing"] = {
         ]
     },
     difficulty: global.SKILL_SIMPLE,
-    description: "A skill for the artful display of dancing. Penalties are based on dancing conditions such as surface and lighting."
+    description: "This skill is checked whenever the user attempts a dancing routine or performance. This skill is considered a dodge skill and may be tested as a defensive option. Otherwise, Degrees of Success show the quality of the dancing performance, whereas Degrees of Failure shows the poor dancing performance."
 };
-
-
 
 global.skill_data[$ "Carousing"] = {
     name: "Carousing",
@@ -78,7 +72,7 @@ global.skill_data[$ "Carousing"] = {
         ]
     },
     difficulty: global.SKILL_SIMPLE,
-    description: "A skill for competitive drinking, feasting, and participating in revelry. Useful for holding your liquor, winning drinking contests, and socializing in taverns and festivals."
+    description: "This skill is checked whenever the user is attempting to over eat, or drink, and still hold their liquor. In a sense this is a general competitive eating and drinking skill. Degrees of Success show the ease at which the challenges are faced, whilst Degrees of Failure show failure in maintaining one's self after too much food or drink. Extreme Successes could show a complete lack of any negative sensations, whereas Extreme Failures could be vomiting or blacked out drunk."
 };
 
 global.skill_data[$ "Etiquette"] = {
@@ -91,7 +85,7 @@ global.skill_data[$ "Etiquette"] = {
         ]
     },
     difficulty: global.SKILL_SIMPLE,
-    description: "A skill for providing appropriate cultural actions during interactions to show respect."
+    description: "This skill is checked whenever the user attempts to show levels of respect or courtesy during an encounter. Degrees of Success improve the Reaction Adjustment of the encounter by an equal degree, and Degrees of Failure reduce the Reaction Adjustment of the encounter by an equal degree. Extreme Successes could greatly improve the standing of the user or the party with the encounter party. Extreme failures could cause immediate negative actions."
 };
 
 global.skill_data[$ "Firebuilding w/ Kit"] = {
@@ -105,7 +99,7 @@ global.skill_data[$ "Firebuilding w/ Kit"] = {
         ]
     },
     difficulty: global.SKILL_SIMPLE,
-    description: "A skill for starting fires assuming you have a tinder box or firebuilding kit."
+    description: "This skill is checked whenever the user attempts to light a fire and are using a fire building kit. Degrees of success shows the ease of lighting the fire. Degrees of failure shows the difficulty in starting the fire. Extreme Successes could save a use of the fire or have it be lit in a fraction of the time. Whereas, Degrees of Failure could waste uses or render the kit ruined."
 };
 
 global.skill_data[$ "Fire Control"] = {

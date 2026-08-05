@@ -1,9 +1,9 @@
 {
   "$GMScript":"v1",
-  "%Name":"sanitize_roll_pool",
+  "%Name":"attribute_helpers",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"sanitize_roll_pool",
+  "name":"attribute_helpers",
   "parent":{
     "name":"ATTRIBUTE_GENERATION",
     "path":"folders/Scripts/ATTRIBUTE_GENERATION.yy",

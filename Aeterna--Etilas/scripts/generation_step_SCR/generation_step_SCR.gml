@@ -1,6 +1,10 @@
 function generation_step_update(cc)
 {
-    var L = generation_layout(cc);
+    var L = {
+    center_x: display_get_gui_width() * 0.5,
+    center_y: display_get_gui_height() * 0.5
+};
+
     var mx = device_mouse_x_to_gui(0);
     var my = device_mouse_y_to_gui(0);
 	var screen_h = display_get_gui_height();
@@ -15,6 +19,7 @@ function generation_step_update(cc)
 
     // === CLEAR HOVERS EVERY FRAME ===
     cc.hovered_table = "";
+	cc.hovered_talent = "";
     cc.hovered_skill = "";
 
     // Force initialization if needed
@@ -40,20 +45,13 @@ function generation_step_update(cc)
     // =================================================
     handle_cdt_gold_controls(cc, L, mx, my, clicked);
 
-    // =================================================
-    // TABLE LIST INTERACTION
-    // =================================================
-    handle_table_list(cc, L, mx, my, clicked);
 
-    // =================================================
-    // SKILL LIST INTERACTION (Only when tables are locked)
-    // =================================================
-    if (cc.selected_table != "" && variable_struct_exists(cc.generation, "tables_locked") && cc.generation.tables_locked)
-    {
-        handle_skill_list(cc, L, mx, my, clicked, right_clicked);
-    }
-	
-	
+
+    var lay = generation_layout(L);
+
+handle_table_list(cc, L, mx, my, clicked, lay.tables_x);
+handle_skill_list(cc, L, mx, my, clicked, right_clicked, lay.skills_x);
+handle_talent_list(cc, L, mx, my, clicked, right_clicked, lay.talents_x);
 	
 	if (mouse_check_button_pressed(mb_left))
 {

@@ -4,14 +4,14 @@ function draw_species_select(step)
     var vh = display_get_gui_height();
     var panel_w = 420;
     var panel_x = vw - panel_w;
-    var panel_y = 0;
+    var panel_y = 1;
 	
 	
 
-    draw_set_color(make_color_rgb(20, 20, 20));
-    draw_rectangle(panel_x, panel_y, panel_x + panel_w, panel_y + vh, false);
     draw_set_color(c_black);
-    draw_rectangle(panel_x, panel_y, panel_x + panel_w, panel_y + vh, true);
+    draw_rectangle(panel_x, panel_y, panel_x + panel_w, panel_y + vh -1, false);
+    draw_set_color(c_white);
+    draw_rectangle(panel_x, panel_y, panel_x + panel_w, panel_y + vh -1, true);
 
     // Help panel
     var sc_box_x = 20;
@@ -167,7 +167,9 @@ function draw_species_select(step)
 
         draw_set_color(hovering ? c_lime : c_green);
         draw_rectangle(btn_x, btn_y, btn_x + btn_w, btn_y + btn_h, false);
-        draw_set_color(c_white);
+        draw_set_color(c_lime);
+		draw_rectangle(btn_x, btn_y, btn_x + btn_w, btn_y + btn_h, true);
+		    draw_set_color(c_white);
         draw_set_halign(fa_center);
         draw_set_valign(fa_middle);
         draw_text(btn_x + btn_w * 0.5, btn_y + btn_h * 0.5, "CONFIRM SPECIES");

@@ -80,13 +80,13 @@ function Species_Data_SCR()
             },
             knowledge_skills: {
                 choices: {
-                    count: 6,
+                    count: 8,
                     options: []
                 }
             },
             knowledge_talents: {
                 choices: {
-                    count: 1,
+                    count: 2,
                     options: []
                 }
             }
@@ -143,18 +143,20 @@ function Species_Data_SCR()
             },
             knowledge_skills: {
                 fixed: [
-                    { name: "Etiquette", rank: 1 },
-                    { name: "Tactics", rank: 2 }
+                    { name: "Etiquette", rank: 2 },
+                    { name: "Tactics", rank: 2 },
+                    { name: "Running", rank: 0 },
+                    { name: "Maintenance", rank: 1 },
+                    { name: "Lore (Holdstadt)", rank: 1 },
                 ],
                 choices: { count: 0, options: [] }
             },
             knowledge_talents: {
-                fixed: ["None"],
+                fixed: ["Martial Training"],
                 choices: { count: 0, options: [] }
             }
         }
     });
-
 
     add_species("corintish_human", {
         name: "Corintish Human",
@@ -208,12 +210,15 @@ function Species_Data_SCR()
             },
             knowledge_skills: {
                 fixed: [
-                    { name: "Read and Write (Common)", rank: 3 },
-                    { name: "Ancient History", rank: 3 }
+                    { name: "Ancient History", rank: 1 },
+					{ name: "Lore (Corinth)", rank: 1 },
+					{ name: "Lore (Etilas)", rank: 1 },
+					{ name: "Artistic Ability (Painting)", rank: 2 },
+					{ name: "Intuition", rank: 2 },
                 ],
                 choices: { count: 0, options: [] }
             },
-			knowledge_talents: { fixed: ["None"], choices: { count: 0, options: [] } }
+			knowledge_talents: { fixed: ["Read and Write (Common)"], choices: { count: 0, options: [] } }
         }
     });
 
@@ -994,7 +999,7 @@ add_species("xiba_xida", {
                 toughness: 0,
                 leadership: 0
             },
-            abilities: ["Thick Feathers", "Flight"],
+            abilities: ["Thick Feathers", "Winged"],
             negatives: ["Bird Bones"],
             traits: ["talons_and_beak"],
             hit_locations: {
@@ -1053,7 +1058,7 @@ add_species("xiba_xida", {
                 toughness: -6,
                 leadership: -6
             },
-            abilities: ["Flight", "Eagle Eyes", "Twitch Reflexes", "Agile Flyer"],
+            abilities: ["Winged", "Keen Eyes", "Twitch Reflexes", "Agile Flyer"],
             negatives: ["Bird Bones", "Beautiful Plumage"],
             traits: ["talons_and_beak", "no_molting"],
             hit_locations: {
@@ -1791,7 +1796,7 @@ add_species("xiba_xida", {
             },
             abilities: [],
             negatives: ["Brassen Horde"],
-            traits: ["scent", "carnivorous", "gore"],
+            traits: ["scent", "carnivorous", "gore", "giant"],
             hit_locations: {
                 data: {
                     head: [1],
@@ -1851,7 +1856,7 @@ add_species("xiba_xida", {
             },
             abilities: ["Nature Meld", "Shape Change", "Lullaby", "Glamour", "Nature Empathy"],
             negatives: ["Whimsical", "Distrust"],
-            traits: ["flight", "minute", "true_sight"],
+            traits: ["Winged", "minute", "true_sight"],
             hit_locations: {
                 data: {
                     head: [1],

@@ -20,9 +20,25 @@ function generation_shop_init(cc)
         cc.free_slot_ranks = {};
     if (!variable_global_exists("SKILL_SIMPLE"))      skill_constants_init();
     if (!variable_global_exists("skill_data"))        skills_data();
+    talent_data();
+
+show_debug_message("talent_data type: " + string(typeof(global.talent_data)));
+show_debug_message("Keys:");
+
+var keys = variable_struct_get_names(global.talent_data);
+for (var i = 0; i < array_length(keys); i++)
+{
+    show_debug_message("  - " + keys[i]);
+}
     if (!variable_global_exists("knowledge_table_data")) knowledge_tables_data();
 	if (!variable_struct_exists(cc, "free_skill_ranks"))
     cc.free_skill_ranks = {};
+	if (!variable_struct_exists(cc, "talent_ranks"))
+    cc.talent_ranks = {};
+if (!variable_struct_exists(cc, "free_slot_talents"))
+    cc.free_slot_talents = [];
+if (!variable_struct_exists(cc, "hovered_talent"))
+    cc.hovered_talent = "";
 
 if (!variable_struct_exists(cc, "fixed_skills"))
     cc.fixed_skills = {};
@@ -153,6 +169,5 @@ show_debug_message("POINT TOTAL: " + string(cc.generation_slots_total));
     show_debug_message("=== GENERATION SHOP INITIALIZED SUCCESSFULLY ===");
 	
 	
-	            
-	
+
 }
