@@ -19,7 +19,7 @@ global.skill_data[$ "Animal Handling"] = {
         ]
     },
     difficulty: global.SKILL_SIMPLE,
-    description: "This skill is checked whenever interacting with an animal. The check is penalized by the animal's Reaction Adjustment towards you or the party. Degrees of success improve the Reaction Adjustment of the animal to the user or the party. Degrees of failure reduce the Reaction Adjustment to the user or the party. A positive Reaction Adjustment will allow for handling the animal, whereas a negative Reaction Adjustment will cause panic or angry responses."
+    description: "This skill is checked whenever interacting with an animal. The check is Modified by the animal's Reaction Adjustment towards you or the party. Degrees of success improve the Reaction Adjustment of the animal to the user or the party. Degrees of failure reduce the Reaction Adjustment to the user or the party. A positive Reaction Adjustment will allow for handling the animal, whereas a negative Reaction Adjustment will cause panic or angry responses. This skill is Modified by the handling difficulty of the creature in question noted as its Temprament."
 };
 
 global.skill_data[$ "Listen"] = {
@@ -32,7 +32,7 @@ global.skill_data[$ "Listen"] = {
         ]
     },
     difficulty: global.SKILL_INTERMEDIATE,
-    description: "This skill is checked whenever the user wishes to hear anything would otherwise be difficult to passively perceive. Degrees of Success determines clarity of interpretation, whereas Degrees of Failure mean nothing of use was heard. Functions as the auditory Perception skill."
+    description: "This skill is checked whenever the user wishes to hear anything would otherwise be difficult to passively perceive. Degrees of Success determines clarity of interpretation, whereas Degrees of Failure mean nothing of use was heard. Functions as the auditory Perception skill. Modified by surrounding noise, and materials being listened through."
 };
 
 global.skill_data[$ "Running"] = {
@@ -45,7 +45,7 @@ global.skill_data[$ "Running"] = {
         ]
     },
     difficulty: global.SKILL_SIMPLE,
-    description: "This skill is checked whenever the user has been running at their top speed for an extended period of time. Normally a creature can run for a number of consecutive minutes equal to their fatigue limit prior to sustaining a level of fatigue. This skill allows a test to be made to ignore that level of fatigue. Degrees of Success nullify the fatigue. Degrees of Failure incur the fatigue as normal. Extreme Successes restore a level of fatigue. Extreme Failure incur two levels of fatigue instead."
+    description: "This skill is checked whenever the user has been running at their top speed for an extended period of time. Normally a creature can run for a number of consecutive minutes equal to their fatigue limit prior to sustaining a level of fatigue. This skill allows a test to be made to ignore that level of fatigue. Degrees of Success nullify the fatigue. Degrees of Failure incur the fatigue as normal. Extreme Successes restore a level of fatigue. Extreme Failure incur two levels of fatigue instead. Modified by terrain, weather, or surroundings."
 };
 
 global.skill_data[$ "Dancing"] = {
@@ -58,7 +58,7 @@ global.skill_data[$ "Dancing"] = {
         ]
     },
     difficulty: global.SKILL_SIMPLE,
-    description: "This skill is checked whenever the user attempts a dancing routine or performance. This skill is considered a dodge skill and may be tested as a defensive option. Otherwise, Degrees of Success show the quality of the dancing performance, whereas Degrees of Failure shows the poor dancing performance."
+    description: "This skill is checked whenever the user attempts a dancing routine or performance. This skill is considered a dodge skill and may be tested as a defensive option. Otherwise, Degrees of Success show the quality of the dancing performance, whereas Degrees of Failure shows the poor dancing performance. Modified by surroundings such as crowds, or loose terrain."
 };
 
 global.skill_data[$ "Carousing"] = {
@@ -72,7 +72,7 @@ global.skill_data[$ "Carousing"] = {
         ]
     },
     difficulty: global.SKILL_SIMPLE,
-    description: "This skill is checked whenever the user is attempting to over eat, or drink, and still hold their liquor. In a sense this is a general competitive eating and drinking skill. Degrees of Success show the ease at which the challenges are faced, whilst Degrees of Failure show failure in maintaining one's self after too much food or drink. Extreme Successes could show a complete lack of any negative sensations, whereas Extreme Failures could be vomiting or blacked out drunk."
+    description: "This skill is checked whenever the user is attempting to over eat, or drink, and still hold their liquor. In a sense this is a general competitive eating and drinking skill. Degrees of Success show the ease at which the challenges are faced, whilst Degrees of Failure show failure in maintaining one's self after too much food or drink. Extreme Successes could show a complete lack of any negative sensations, whereas Extreme Failures could be vomiting or blacked out drunk. Modified by size of the meals and amount of drink."
 };
 
 global.skill_data[$ "Etiquette"] = {
@@ -85,7 +85,7 @@ global.skill_data[$ "Etiquette"] = {
         ]
     },
     difficulty: global.SKILL_SIMPLE,
-    description: "This skill is checked whenever the user attempts to show levels of respect or courtesy during an encounter. Degrees of Success improve the Reaction Adjustment of the encounter by an equal degree, and Degrees of Failure reduce the Reaction Adjustment of the encounter by an equal degree. Extreme Successes could greatly improve the standing of the user or the party with the encounter party. Extreme failures could cause immediate negative actions."
+    description: "This skill is checked whenever the user attempts to show levels of respect or courtesy during an encounter. Degrees of Success improve the Reaction Adjustment of the encounter by an equal degree, and Degrees of Failure reduce the Reaction Adjustment of the encounter by an equal degree. Extreme Successes could greatly improve the standing of the user or the party with the encounter party. Extreme failures could cause immediate negative actions. Modified by the existing Reaction Adjustment of the other party, and the difficulty of their culture's etiquette."
 };
 
 global.skill_data[$ "Firebuilding w/ Kit"] = {
@@ -99,7 +99,7 @@ global.skill_data[$ "Firebuilding w/ Kit"] = {
         ]
     },
     difficulty: global.SKILL_SIMPLE,
-    description: "This skill is checked whenever the user attempts to light a fire and are using a fire building kit. Degrees of success shows the ease of lighting the fire. Degrees of failure shows the difficulty in starting the fire. Extreme Successes could save a use of the fire or have it be lit in a fraction of the time. Whereas, Degrees of Failure could waste uses or render the kit ruined."
+    description: "This skill is checked whenever the user attempts to light a fire and are using a fire building kit. Degrees of success shows the ease of lighting the fire. Degrees of failure shows the difficulty in starting the fire. Extreme Successes could save a use of the fire or have it be lit in a fraction of the time. Whereas, Degrees of Failure could waste uses or render the kit ruined. Modified by weather, surroundings, and material."
 };
 
 global.skill_data[$ "Fire Control"] = {
@@ -112,7 +112,7 @@ global.skill_data[$ "Fire Control"] = {
         ]
     },
     difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill for maximizing or minimizing damage caused by a raging flame."
+    description: "This skill is checked whenever the user is attempting to manipulate an already started fire. The intent can be to diminish, enlarge, or direct the path and size of the flames. Degrees of Success grant positive effects to the desired outcome. Degrees of Failure result in opposite results to the desired outcome. Modified by terrain types, weather, and difficulty of manipulation."
 };
 
 global.skill_data[$ "Caching"] = {
@@ -125,7 +125,7 @@ global.skill_data[$ "Caching"] = {
         ]
     },
     difficulty: global.SKILL_SIMPLE,
-    description: "A skill for hiding something for safe keeping. Unlike Hide, caching is long term. Specifically refers to items. Also required for relocating the object at a later date."
+    description: "This skill is checked when the user is attempting to store something at a specific location and does not want passerby's to notice it. Degrees of Success are checked against the other party's Passive Perception if they aren't looking for anything, Active if they are looking for something, or Spot if they have it. Degrees of Failure means the caching is easily visible although some unattentive individuals may miss it. Modified by surroundings, and terrain. Note that the user must beat this skill's Degrees of Success to relocate the cached item latter."
 };
 
 global.skill_data[$ "Navigation"] = {
@@ -138,7 +138,7 @@ global.skill_data[$ "Navigation"] = {
         ]
     },
     difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill for finding one’s location and determining the correct direction to follow to reach a destination."
+    description: "This skill is checked whenever the user is attempting to plot a path from one location to the other. Degrees of Success ensure the path is sound. Degrees of Failure means the path is slower than anticipated. Extreme Success results in finding short cuts and reducing travel time. Extreme Failure results in becoming lost and ending up in random locations. This skill may be checked Safely or Sporadicaly. Safe checks are done once to plot a fixed course that will guarentee a travel length and time assuming no intervention. Sporadic travel paths allow multiple checks at intervals to either stay on course or possible become lost or find unexpected paths. Modified by Surroundings, Terrain, and Weather."
 };
 
 global.skill_data[$ "Observation"] = {
@@ -151,7 +151,7 @@ global.skill_data[$ "Observation"] = {
         ]
     },
     difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill for using Intelligence to deduce information from a scene. A method used in detecting out of place small details be it scratches on the floor or a person of interest in a crowd."
+    description: "This skill is tested whenever the user wishes to use logical deduction to perceive. By plotting logical outcomes of events within a space the user can use their Intelligence as a form of Perception. Degrees of Success and Failure function as normal Active Perception checks. Modified by Surroundings, and Weather."
 };
 
 global.skill_data[$ "Spot"] = {
@@ -164,7 +164,7 @@ global.skill_data[$ "Spot"] = {
         ]
     },
     difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill for noticing minute details of importance. Such as trip wires or pressure plates."
+    description: "This skill is tested whenever the user attempts to notice anything in a given area. Spot checks are used in place of Active Perception and do not suffer the penalities due to a hidden item's size. This is a contested check against the hidden object's Degrees of Success. Modified by Surroundings, Terrain, and Weather."
 };
 
 global.skill_data[$ "Rope Use"] = {
@@ -177,7 +177,7 @@ global.skill_data[$ "Rope Use"] = {
         ]
     },
     difficulty: global.SKILL_SIMPLE,
-    description: "A skill for the proper application of rope for various purposes."
+    description: "This skill is checked whenever the user attempt to utilize rope for a specific purpose. Degrees of Success amount to the strength and quality of the knots created with this skill. Consider each Degree of Success as 1 point of strength as if employed by a Medium creature for the purposes of lifting and dragging. If a creature is tied up their attempts to break free are in contest with this skill. Degrees of Failure result in a failed knot. Extreme Failures result in a 'False Knot' which act like proper knots until weight or contest is applied to them. Modified by Material, and Surroundings."
 };
 
 global.skill_data[$ "Singing"] = {
@@ -190,7 +190,7 @@ global.skill_data[$ "Singing"] = {
         ]
     },
     difficulty: global.SKILL_SIMPLE,
-    description: "A skill for performing vocally. Can be used for Bardic Performances."
+    description: "This skill is tested whenever the user attempts to perform vocally. Degrees of Success result in positive reactions from the crowd. Degrees of Failure result in negative reactions from the crowd. Can be used a Bardic Performance skill. Modified by the crowd's Reaction Adjustment."
 };
 
 global.skill_data[$ "Riding (X)"] = {
@@ -198,7 +198,7 @@ global.skill_data[$ "Riding (X)"] = {
     table: "General",
     specialization: {
         required: true,
-        choices: ["Horses", "Camels", "Dogs", "Boars", "Goats", "Swamp Crocs"]
+        choices: ["Equine", "Canine", "Feline", "Bovine", "Caprine", "Porcine", "Cervine", "Ursine", "Pachyderm", "Reptilian", "Amphibian", "Arachnid", "Insectoid", "Crustacean"]
     },
     check: {
         mode: "best",
@@ -207,7 +207,7 @@ global.skill_data[$ "Riding (X)"] = {
         ]
     },
     difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill for riding various mounts."
+    description: "This skill is a specialization skill. This skill is checked whenever the user attempts to perform any mounted action other than a Simple Action Move during their turn. Additionally it is checked if the mount is hit, the rider is hit, or any change in status such as Prone, Free Falling, or other positional state occurs to either the Rider or the Mount. Degrees of Success ensure the Rider remains mounted for the duration of the action or status. Degrees of Failure result in the Rider being dismounted by either a disobedient animal or user error. Dismounted riders take 1 die of fall damage for a creature their size whenever they are dismounted unintentionally. If the creature being ridden is taller than 10ft at the shoulder the damage increases by 1 die of fall damager per 10ft as if the rider was falling. Modified by Surroundings, Weather, and Terrain. Can be used a Defensive Action Dodge Skill if the user is currently mounted."
 };
 
 global.skill_data[$ "Whistling"] = {
@@ -220,7 +220,7 @@ global.skill_data[$ "Whistling"] = {
         ]
     },
     difficulty: global.SKILL_SIMPLE,
-    description: "A skill for producing tones using one’s lips. Can be used for Bardic Performances."
+    description: "This skill is checked when the user attempts to produce tones and sounds utilizing their body as a wind instrument for the purposes of engaging with a crowd. Degrees of Success result in positive responses from the Crowd. Degrees of Failure result in negative responses from the crowd. Modified by Surroundings, and Terrain. Can be used as a Bardic Performance skill."
 };
 
 global.skill_data[$ "First Aid"] = {
@@ -234,7 +234,7 @@ global.skill_data[$ "First Aid"] = {
         ]
     },
     difficulty: global.SKILL_SIMPLE,
-    description: "A skill for the rendering of immediate medical attention. Can staunch bleeding, and prolong the onset of death but does not stabilize. Provides a bonus to death saves equal to degrees of success."
+    description: "This skill is checked whenever the user attempts to treat immediate wounds. This skill counts as Receiving Aid for purposes of determining infection chance. Degrees of Success increase the target's Bleed Out threshold after receiving a Critical Wound equal to the Degrees of Success. This process can be repeated each turn until a more competent individual can stabilize the dying target. Degrees of Failure reduce the Bleed Out threshold by an equal amount. Modified by Surroundings, and Materials."
 };
 
 global.skill_data[$ "Local History"] = {
@@ -249,7 +249,7 @@ global.skill_data[$ "Local History"] = {
         ]
     },
     difficulty: global.SKILL_SIMPLE,
-    description: "A skill for gleaning or recalling recent events from eavesdropping or important contextual clues as to why something is important."
+    description: "This skill is checked whenever the user attempts to gather information on local happenings. Degrees of Success produce recent rumors gathered from the various sources in an area. Degrees of Success produce dubious rumors that may not be accurate. Extreme failures may result in shows of aggression from locals. Modified by local Reaction Adjustment."
 };
 
 global.skill_data[$ "Musical Instrument (X)"] = {
@@ -257,7 +257,7 @@ global.skill_data[$ "Musical Instrument (X)"] = {
     table: "General",
     specialization: {
         required: true,
-        choices: ["Lute", "Flute", "Lyre", "Drum", "Pan Flute", "Triangle"]
+        choices: ["Lute", "Lyre", "Harp", "Flute", "Whistle", "Recorder", "Horn", "Trumpet", "Bagpipes", "Fiddle", "Viol", "Mandolin", "Dulcimer", "Drum", "Tambourine", "Bells", "Chimes", "Cymbals", "Castanets", "Ocarina"]
     },
     check: {
         mode: "best",
@@ -266,10 +266,8 @@ global.skill_data[$ "Musical Instrument (X)"] = {
         ]
     },
     difficulty: global.SKILL_SIMPLE,
-    description: "A skill for playing musical instruments. Can be used for Bardic Performances."
+    description: "This skill is checked whenever the user attempts to play an instrument with intent to engage with a crowd. Degrees of Success result in positive responses from the crowd. Degrees of Failure result in negative responses from the crowd. Modified by Surroundings, and Instrument Quality."
 };
-
-
 
 global.skill_data[$ "Swimming"] = {
     name: "Swimming",
@@ -285,7 +283,7 @@ global.skill_data[$ "Swimming"] = {
         }
     },
     difficulty: global.SKILL_SIMPLE,
-    description: "A skill at maintaining positive buoyancy in the water. Success means you float. Failure means you sink and begin drowning. Endurance tests are made as if the creature is being suffocated. You receive a penalty to the swim check equal to the weight penalty of your gear."
+    description: "This skill is checked whenever the user attempts to move within a given liquid. Degrees of Success allow the user to move their Swim Speed as a Simple Action, or float. Degrees of Failure results in the inability to move and the user begins sinking. Being submerged in a liquid and requiring air to breathe results in the beginnings of Suffocation. Modified by Surroundings, Material, and Weather."
 };
 
 global.skill_data[$ "Climbing"] = {
@@ -302,7 +300,7 @@ global.skill_data[$ "Climbing"] = {
         }
     },
     difficulty: global.SKILL_SIMPLE,
-    description: "A skill for scaling terrain. This cannot be performed on sheer surfaces like walls."
+    description: "This skill is checked whenever the user attempts to scale a reasonable climbable surface. Degrees of Success allow the user to move at their Climb Speed as a simple action. Degrees of Failure result in the failing to move and an Endurance test or gain 1 level of fatigue. Extreme Failures result in slipping and falling. Modified by Surrounds, Terrain, and Weather."
 };
 
 
@@ -1674,19 +1672,6 @@ global.skill_data[$ "Decipher"] = {
     },
     difficulty: global.SKILL_INTERMEDIATE,
     description: "A skill for recognizing the intent behind a writ that you cannot read, and seeing potential penmanship quirks."
-};
-
-global.skill_data[$ "Spot"] = {
-    name: "Spot",
-    table: "Roguery",
-    check: {
-        mode: "best",
-        attributes: [
-            { attribute: "Perception", modifier: 0 }
-        ]
-    },
-    difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill for noticing minute details of importance. Such as trip wires or pressure plates."
 };
 
 global.skill_data[$ "Disable"] = {

@@ -1311,7 +1311,6 @@ var trained = skill_is_trained(cc, hovered_key);
     }
 
     tooltip_text += "Attributes:\n";
-  
     if (!is_undefined(info) && variable_struct_exists(info, "attribute"))
     {
         var attr = info.attribute;
