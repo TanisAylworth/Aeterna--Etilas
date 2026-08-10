@@ -160,7 +160,7 @@ function Species_Data_SCR()
 
     add_species("corintish_human", {
         name: "Corintish Human",
-        description: "These people inhabit the southern central region of Etilas just North of Sun’s Rise. These are scholarly people with a focus on the gathering and discovery of knowledge.",
+        description: "The Corintish inhabit the southern central region of Etilas, just north of Sun’s Rise. They are among the most educated people in the known world, with a culture built around the pursuit, preservation, and dissemination of knowledge. Their cities are filled with colleges, libraries, academies, and private schools, many of which have existed for generations. Learning is not reserved for a privileged few; literacy and education are deeply respected, and scholars, teachers, and researchers hold considerable social prestige.",
         stats: {
             cdt: 6,
             attributes: {
@@ -211,6 +211,7 @@ function Species_Data_SCR()
             knowledge_skills: {
                 fixed: [
                     { name: "Ancient History", rank: 1 },
+					{ name: "Local History", rank: 2 },
 					{ name: "Lore (Corinth)", rank: 1 },
 					{ name: "Lore (Etilas)", rank: 1 },
 					{ name: "Artistic Ability (Painting)", rank: 2 },
@@ -274,16 +275,17 @@ function Species_Data_SCR()
             },
             knowledge_skills: {
                 fixed: [
-                    { name: "Seamanship", rank: 1 },
+                    { name: "Sailing", rank: 1 },
+					{ name: "Sailing", rank: 1 },
                     { name: "Survival (Wastes)", rank: 3 }
                 ],
                 choices: { count: 0, options: [] }
             },
-			knowledge_talents: { fixed: ["None"], choices: { count: 0, options: [] } }
+			knowledge_talents: { fixed: ["Endurance", ""], choices: { count: 0, options: [] } }
         }
     });
 
-        add_species("galish", {
+    add_species("galish", {
         name: "Galish",
         description: "The Galish are a short bipedal nature attuned folk. They have slender and very angular frames, and stand about 4-4½ feet tall. Though they are slender they make up in bulk for speed. They are a fickle people and can hop from idea to idea nigh instantly and are incredibly quick to lose interest in things. As they age they become more disinterested with the world around them but with that comes a difference in temperament. They become more sagely and patient with thought.",
         stats: {

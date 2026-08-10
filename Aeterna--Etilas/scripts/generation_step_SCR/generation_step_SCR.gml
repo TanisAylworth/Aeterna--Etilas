@@ -71,4 +71,21 @@ handle_talent_list(cc, L, mx, my, clicked, right_clicked, lay.talents_x);
     }
 }
 	
+	
+	// Confirm generation → equipment
+var screen_w = display_get_gui_width();
+var screen_h = display_get_gui_height();
+var btn_w = 260;
+var btn_h = 60;
+var btn_x = (screen_w - btn_w) * 0.5;
+var btn_y = screen_h - 100;
+
+if (clicked
+    && cc.generation_slots_remaining <= 0
+    && point_in_rectangle(mx, my, btn_x, btn_y, btn_x + btn_w, btn_y + btn_h))
+{
+    show_debug_message("Generation confirmed → equipment");
+    go_to_next_step(cc);
+}
+	
 }

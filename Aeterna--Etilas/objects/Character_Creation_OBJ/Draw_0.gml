@@ -11,6 +11,7 @@ if (cc.step_index < 0 || cc.step_index >= array_length(cc.steps)) exit;
 
 var step = cc.steps[cc.step_index];
 
+
 switch (step.type)
 {
     case "single_select":
@@ -24,6 +25,10 @@ switch (step.type)
     case "generation_shop":
         generation_shop_draw(step);
         break;
+		
+	case "equipment_shop":
+	equipment_shop_draw(cc);
+	break;
 }
 
 // TOOLTIP

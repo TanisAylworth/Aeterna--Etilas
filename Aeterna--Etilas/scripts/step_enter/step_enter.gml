@@ -19,5 +19,9 @@ function step_enter(cc)
 		case "generation_shop":
             generation_shop_init(cc);
             break;
+			
+		case "equipment_shop":
+            equipment_shop_update(cc);
+            break;
     }
 }

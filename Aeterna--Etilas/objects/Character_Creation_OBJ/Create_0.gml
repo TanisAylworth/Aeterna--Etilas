@@ -54,8 +54,24 @@ global.char_creation = {
                 "gold"
             ],
 
+            next: "equpment"
+        },
+		
+		{
+            id: "equipment",
+            title: "Character Equipment",
+            type: "equipment_shop",
+
+            // generation config
+         
+
+            categories: [
+              
+            ],
+
             next: "finalize"
         },
+		
 
         {
             id: "finalize",

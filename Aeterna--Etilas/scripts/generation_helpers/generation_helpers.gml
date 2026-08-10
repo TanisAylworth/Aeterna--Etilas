@@ -2124,85 +2124,67 @@ function draw_talent_tooltip(cc)
         return;
 
     var talent = global.talent_data[$ cc.hovered_talent];
-    var desc = variable_struct_exists(talent, "description") ? talent.description : "No description.";
-
     var mx = device_mouse_x_to_gui(0);
     var my = device_mouse_y_to_gui(0);
 
-    // Layout
-    var padding = 10;
-    var max_width = 320;
-    var line_h = 18;
+    // ===== BUILD TEXT =====
+    var tooltip_text = cc.hovered_talent + "\n\n";
 
-    // Word-wrap the description
-    var lines = [];
-    var words = string_split(desc, " ");
-    var current = "";
-
-    for (var i = 0; i < array_length(words); i++)
-    {
-        var test = (current == "") ? words[i] : current + " " + words[i];
-        if (string_width(test) < max_width - padding * 2)
-        {
-            current = test;
-        }
-        else
-        {
-            if (current != "")
-                array_push(lines, current);
-            current = words[i];
-        }
-    }
-    if (current != "")
-        array_push(lines, current);
-
-    // Title line
-    var title = cc.hovered_talent;
+    // Type
     if (variable_struct_exists(talent, "ranked") && talent.ranked)
-        title += "  (Ranked)";
+        tooltip_text += "Type: Ranked\n";
     else
-        title += "  (Binary)";
+        tooltip_text += "Type: Unranked\n";
 
+    // Difficulty
+    var diff_name = "Unknown";
     if (variable_struct_exists(talent, "difficulty"))
     {
-        var diff_name = "Unknown";
-        if (talent.difficulty == global.SKILL_SIMPLE) diff_name = "Simple";
-        else if (talent.difficulty == global.SKILL_INTERMEDIATE) diff_name = "Intermediate";
-        else if (talent.difficulty == global.SKILL_ADVANCED) diff_name = "Advanced";
-        title += "  [" + diff_name + "]";
+        if (talent.difficulty == global.SKILL_SIMPLE)
+            diff_name = "SIMPLE";
+        else if (talent.difficulty == global.SKILL_INTERMEDIATE)
+            diff_name = "INTERMEDIATE";
+        else if (talent.difficulty == global.SKILL_ADVANCED)
+            diff_name = "ADVANCED";
     }
+    tooltip_text += "Difficulty: " + diff_name + "\n\n";
 
-    var box_w = max_width;
-    var box_h = padding * 2 + 22 + array_length(lines) * line_h;
+    // Description
+    if (variable_struct_exists(talent, "description"))
+        tooltip_text += talent.description;
+    else
+        tooltip_text += "No description.";
 
-    // Keep tooltip on screen
-    var box_x = mx + 16;
-    var box_y = my + 16;
+    // ===== SIZE (expands with content) =====
+    var tooltip_w = 360;
+    var line_sep = 20;
+    var pad = 15;
+    var tooltip_h = string_height_ext(tooltip_text, line_sep, tooltip_w - pad * 2) + pad * 2;
+
+    // Keep on screen
+    var box_x = mx + 20;
+    var box_y = my + 20;
     var gui_w = display_get_gui_width();
     var gui_h = display_get_gui_height();
 
-    if (box_x + box_w > gui_w - 8)
-        box_x = mx - box_w - 16;
-    if (box_y + box_h > gui_h - 8)
-        box_y = my - box_h - 16;
+    if (box_x + tooltip_w > gui_w - 8)
+        box_x = mx - tooltip_w - 20;
+    if (box_y + tooltip_h > gui_h - 8)
+        box_y = my - tooltip_h - 20;
+    if (box_y < 8)
+        box_y = 8;
+    if (box_x < 8)
+        box_x = 8;
 
-    // Background
+    // ===== DRAW =====
     draw_set_color(make_color_rgb(18, 18, 18));
-    draw_rectangle(box_x, box_y, box_x + box_w, box_y + box_h, false);
+    draw_rectangle(box_x, box_y, box_x + tooltip_w, box_y + tooltip_h, false);
 
-    // Border
     draw_set_color(c_gray);
-    draw_rectangle(box_x, box_y, box_x + box_w, box_y + box_h, true);
+    draw_rectangle(box_x, box_y, box_x + tooltip_w, box_y + tooltip_h, true);
 
-    // Title
     draw_set_halign(fa_left);
-    draw_set_color(c_yellow);
-    draw_text(box_x + padding, box_y + padding, title);
-
-    // Description lines
-    draw_set_color(c_ltgray);
-    for (var i = 0; i < array_length(lines); i++)
-    {
-        draw_text(box_x + padding, box_y + padding + 22 + i * line_h, lines[i]);
-    }
+    draw_set_valign(fa_top);
+    draw_set_color(c_white);
+    draw_text_ext(box_x + pad, box_y + pad, tooltip_text, line_sep, tooltip_w - pad * 2);
 }

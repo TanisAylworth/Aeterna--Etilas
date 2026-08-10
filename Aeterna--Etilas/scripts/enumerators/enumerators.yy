@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"enumerators",
   "parent":{
-    "name":"****SCR_IN_FOCUS****",
-    "path":"folders/Scripts/****SCR_IN_FOCUS****.yy",
+    "name":"Skills & Talents",
+    "path":"folders/Scripts/Skills & Talents.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

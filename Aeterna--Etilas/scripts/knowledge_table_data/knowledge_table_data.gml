@@ -65,7 +65,6 @@ global.knowledge_table_data[$ "General"] =
         "Appraisal",
         "Jewelry",
         "Lock Smith",
-        "Armorer",
         "Bowyer/Fletcher",
         "Massage",
         "Cooking",

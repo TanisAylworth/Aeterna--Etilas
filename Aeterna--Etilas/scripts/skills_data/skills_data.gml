@@ -324,7 +324,7 @@ global.skill_data[$ "Agriculture"] = {
         ]
     },
     difficulty: global.SKILL_INTERMEDIATE,
-    description: "Knowledge of the cultivation of plants, and processes to assist in their crop yield and cures for common plant based ailments."
+    description: "This skill is checked when the user attempts to interact with large scale crops in either a beneficial or negative means. Degrees of Success either improve crop yield or reduce crop yield. This is modified by crop complexity, terrain, weather, and surroundings."
 };
 
 global.skill_data[$ "Appraisal"] = {
@@ -337,8 +337,9 @@ global.skill_data[$ "Appraisal"] = {
         ]
     },
     difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill for identifying the value of an item."
+    description: "This skill is checked whenever the user attempts to determine the market worth of an item. Degrees of Success incurs an accurate price range for the item. Degrees of Failure results in an innaccurate estimate for the price range of an item."
 };
+	
 global.skill_data[$ "Animal Training"] = {
     name: "Animal Training",
     table: "Professional",
@@ -349,7 +350,7 @@ global.skill_data[$ "Animal Training"] = {
         ]
     },
     difficulty: global.SKILL_ADVANCED,
-    description: "A skill for the training of animals to respond to key words to perform certain actions. This functions as the Teaching skill but for non-intelligent creatures."
+    description: "This skill is checked whenever the user attempts to teach an animal how to obey a specific command. This is a joint tested skill where the animal makes an Intelligence test in addition to the results of this skill. Degrees of Success are totalled between both tests and the value is multiplied by 20 to give the resulting XP gain towards the task being trained. If the total is negative that much XP is lost instead."
 };
 
 global.skill_data[$ "Animal Husbandry"] = {
@@ -363,7 +364,7 @@ global.skill_data[$ "Animal Husbandry"] = {
         ]
     },
     difficulty: global.SKILL_ADVANCED,
-    description: "A skill for breeding animals of all kinds."
+    description: "This skill is checked whenever the user attempts to breed animals in their care. Degrees of Success ensure positive results. Degrees of Fialure result in complications."
 };
 
 global.skill_data[$ "Artistic Ability (X)"] = {
@@ -371,7 +372,7 @@ global.skill_data[$ "Artistic Ability (X)"] = {
     table: "Professional",
     specialization: {
         required: true,
-        choices: ["Painting", "Sculpting", "Carving"]
+        choices: ["Painting", "Drawing", "Sculpting", "Carving", "Engraving"]
     },
     check: {
         mode: "best",
@@ -380,7 +381,7 @@ global.skill_data[$ "Artistic Ability (X)"] = {
         ]
     },
     difficulty: global.SKILL_ADVANCED,
-    description: "A skill for the production of art through various mediums."
+    description: "This skill is checked whenever the user attempts to perform one of the specialized art forms from the list. Degrees of Succes illicit positive repsonses from the viewer. Degrees of Failure illicit negative responses from the viewer. Is also used in enchanting, ritual magic, and Rune Craft."
 };
 
 global.skill_data[$ "Bargain"] = {
@@ -393,7 +394,7 @@ global.skill_data[$ "Bargain"] = {
         ]
     },
     difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill for using one’s influence to reduce costs or increase profits. The check is modified by the Reaction Adjustment of the party. Success grants a favorable +1% per Degree of Success."
+    description: "This skill is checked whenever the user attempts to haggle prices up or down. This checked is contested against the opponent's appraisal skill. Degrees of Success result in a cost adjustment of 5% up or down depending on the desired outcome. Degrees of Failure result in a cost adjustment of 5% up or down depending on the opposite desired outcome. Modified by the other party's Reaction Adjustment."
 };
 
 global.skill_data[$ "Blacksmithing"] = {
@@ -408,7 +409,7 @@ global.skill_data[$ "Blacksmithing"] = {
         ]
     },
     difficulty: global.SKILL_ADVANCED,
-    description: "A skill for knowing how to and being able to smith objects from metal. All attributes are tested. The total DoS or DoF will yield the crafted item's quality."
+    description: "This skill is checked whenever the user attempts to work metal in any means. Degrees of Success result in higher quality crafts. Degrees of Failure result in lower quality crafts. Is used in Weapon Smithing, Armor Smithing, and Metal Crafting. Modified by Surroundings, and Materials."
 };
 
 //global.skill_data[$ "Xiba Ball"] = {
@@ -437,7 +438,7 @@ global.skill_data[$ "Leather Working"] = {
         ]
     },
     difficulty: global.SKILL_ADVANCED,
-    description: "A skill for the preparation and use of leather."
+    description: "This skill is tested whenever the user attempts to make crafts from Leather. Degrees of Success result in higher quality crafts. Degrees of Failure result in lower quality crafts. Used in Armor Crafting, and Leather Crafting. Modified by Surroundings, and Materials."
 };
 
 global.skill_data[$ "Pottery"] = {
@@ -450,7 +451,7 @@ global.skill_data[$ "Pottery"] = {
         ]
     },
     difficulty: global.SKILL_ADVANCED,
-    description: "A skill for crafting with clay and mud."
+    description: "This skill is used whenever the user attempts to make crafts from clay or mud. Degrees of Success result in higher quality products. Degrees of Failure result in lower quality products. Modified by Surroundings, and Materials."
 };
 
 global.skill_data[$ "Herbalism"] = {
@@ -463,24 +464,11 @@ global.skill_data[$ "Herbalism"] = {
         ]
     },
     difficulty: global.SKILL_ADVANCED,
-    description: "A skill for the identification and collection of plants. Can be used to gather medical herbs or toxic plants or ones fit for eating. Using herbal poultice increases natural healing factor by 1. More advanced remedies can provide higher bonuses."
+    description: "This skill is checked whenever the user attempts to collect and identify plants. Degrees of Success increase the yield and give an accurate identification of the plants collected. Degrees of Failure fails to identify the plant and reduces the collection yield. Modified by Surroundings, Target, and Weather."
 };
 
-global.skill_data[$ "Appraisal"] = {
-    name: "Appraisal",
-    table: "Professional",
-    check: {
-        mode: "best",
-        attributes: [
-            { attribute: "Intelligence", modifier: 0 }
-        ]
-    },
-    difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill for identifying the value of an item."
-};
-
-global.skill_data[$ "Gem Cutting"] = {
-    name: "Gem Cutting",
+global.skill_data[$ "Jewelry"] = {
+    name: "Jewelry",
     table: "Professional",
     check: {
         mode: "best",
@@ -489,7 +477,7 @@ global.skill_data[$ "Gem Cutting"] = {
         ]
     },
     difficulty: global.SKILL_ADVANCED,
-    description: "A skill for the shaping and setting of gems."
+    description: "This skill is checked whenever the user attempts to craft using gems or precious stones. Degrees of Success result in higher quality products. Degrees of Failure result in lower quality products. Used in Jeweling. Modified by Surroundings, and Materials."
 };
 
 global.skill_data[$ "Cartography"] = {
@@ -501,10 +489,9 @@ global.skill_data[$ "Cartography"] = {
             { attribute: "Intelligence", modifier: -2 }
         ]
     },
-    difficulty: global.SKILL_ADVANCED,
-    description: "Intermediate for the generation of simple small-scale maps. Advanced for the generation of highly detailed large-scale maps."
+    difficulty: global.SKILL_INTERMEDIATE,
+    description: "This skill is checked whenever the user attempts to maintain accurate maps of an area or region. Degrees of Success results in a quality map of the area. Degrees of Failure results in a lower quality map of the area. Modified by Surroundings, Materials, Terrain, and weather."
 };
-
 
 global.skill_data[$ "Lock Smith"] = {
     name: "Lock Smith",
@@ -516,7 +503,7 @@ global.skill_data[$ "Lock Smith"] = {
         ]
     },
     difficulty: global.SKILL_ADVANCED,
-    description: "A skill for the creation of locking mechanisms. Gives advantage on open lock tests and can be used to set the DC of an open locks test."
+    description: "This skill is tested whenever the user attempts to fabricate a locking mechanism. Degrees of Success results in a more difficult to pick lock. Degrees of Failure results in an easier to pick lock. This skill's DoS/DoF sets the penalty for the opposing Open Locks test. Modified by Surroundings, and Materials."
 };
 
 global.skill_data[$ "Shipwright"] = {
@@ -529,7 +516,7 @@ global.skill_data[$ "Shipwright"] = {
         ]
     },
     difficulty: global.SKILL_ADVANCED,
-    description: "A skill for repairing significant damage to and creating seaworthy vessels."
+    description: "This skill is checked whenever the user attempts to repair or construct any level of sea faring vessel. Degrees of Success results in a higher quality vessel. Degrees of Failure results in a lower quality of vessel. Modified by Type, Surroundings, Materials, and Weather."
 };
 
 global.skill_data[$ "Brewing"] = {
@@ -541,8 +528,8 @@ global.skill_data[$ "Brewing"] = {
             { attribute: "Intelligence", modifier: 0 }
         ]
     },
-    difficulty: global.SKILL_INTERMEDIATE,   // Advanced for alcohol
-    description: "A skill for brewing tintcures, coffees, and other useful liquid substances."
+    difficulty: global.SKILL_INTERMEDIATE,   
+    description: "This skill is checked whenever the user attempts to create tonics, beverages, or potions. Degrees of Success results in a successful craft. Degrees of Failure results in a failed craft. Modified by Surroundings, Material, and Type."
 };
 
 global.skill_data[$ "Carpentry"] = {
@@ -555,13 +542,8 @@ global.skill_data[$ "Carpentry"] = {
         ]
     },
     difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill for the using of tools to shape wood or construct buildings or other goods."
+    description: "This skill is tested whenever the user attempts to craft using wood. Degrees of Success result in higher quality products. Degrees of Failure result in lower quality products. Used in Construction, Wood Crafting, Weapon Crafting, and Armor Crafting. Modified by Surroundings, Type, and Materials."
 };
-
-
-
-
-
 
 global.skill_data[$ "Geology"] = {
     name: "Geology",
@@ -573,9 +555,8 @@ global.skill_data[$ "Geology"] = {
         ]
     },
     difficulty: global.SKILL_ADVANCED,
-    description: "A skill for prospecting and identifying valuable gems and stones or ore."
+    description: "This skill is checked whenever the user attempts to identify a gem or stone. Degrees of Success results in a positive identification. Degrees of Failure results in a failed identification. Modified by Item."
 };
-
 
 global.skill_data[$ "Stone Masonry"] = {
     name: "Stone Masonry",
@@ -587,7 +568,7 @@ global.skill_data[$ "Stone Masonry"] = {
         ]
     },
     difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill for the cutting and shaping of stone."
+    description: "This skill is checked whenever the user attempts to cut, shape, or build with stone. Degrees of Success results in a higher quality product. Degrees of Failure results in a lower quality product. Modified by Surroundings, Materials, and Weather."
 };
 
 global.skill_data[$ "Weaving"] = {
@@ -600,7 +581,7 @@ global.skill_data[$ "Weaving"] = {
         ]
     },
     difficulty: global.SKILL_ADVANCED,
-    description: "A skill for weaving various natural materials into a product."
+    description: "This skill is checked whenever the user attempts to craft using raw fibers that require weaving. Degrees of Success results in a higher quality product. Degrees of Failure results in a lower quality product. Modified by Surroundings, Material, and Item Difficulty."
 };
 
 global.skill_data[$ "Engineering"] = {
@@ -613,7 +594,7 @@ global.skill_data[$ "Engineering"] = {
         ]
     },
     difficulty: global.SKILL_ADVANCED,
-    description: "A skill for knowing the sciences of physics and mechanical function. Can be used to create contraptions to perform specific tasks or identify issues in like objects."
+    description: "This skill is checked whenever the user attempts to analize or craft an item requiring engineering such as clockwork machines, steam inventions, and cranes. Degrees of Success results in a higher quality product, or an understanding of how the item works. Degrees of Failure results in a lower quality product or a failure to understand how an item functions. Modified by Surroundings, and Item Type."
 };
 
 global.skill_data[$ "Doctoring"] = {
@@ -626,15 +607,8 @@ global.skill_data[$ "Doctoring"] = {
         ]
     },
     difficulty: global.SKILL_ADVANCED,
-    description: "A skill for providing intensive medical care including surgeries and life saving procedures. Can cure critical injuries."
+    description: "This skill is checked whenever the user attempts to perform medical care and treatment for Critical Injuries, or is providing care in camp. Degrees of Success increase the Natural Healing Rate of the target by 1. Extreme Successes increase the Nature Healing rate by 2. Degrees of Failure do not grant Natural Healing Rate bonuses. Extreme Failures results in the target receving a weapon wound from a cutting impliment in the hand of the individual. Can be tested to remove the permanent effects of Critical Injuries by making a test modified by the injury's difficulty. Modified by Surroundings, Supplies, and Weather."
 };
-
-// =====================================================
-// PROFESSIONAL TABLE - Final Batch
-// =====================================================
-
-
-
 
 global.skill_data[$ "Bowyer/Fletcher"] = {
     name: "Bowyer/Fletcher",
@@ -646,7 +620,7 @@ global.skill_data[$ "Bowyer/Fletcher"] = {
         ]
     },
     difficulty: global.SKILL_ADVANCED,
-    description: "A skill for making Bows and fletching arrows."
+    description: "This skill is checked whenever the user attempts to craft a Bow like item or Arrow like items. Degrees of Success results in a higher quality product. Degrees of Failure results in a lower quality product. Modified by Surroundsings, Materials, and Item Type."
 };
 
 global.skill_data[$ "Massage"] = {
@@ -659,20 +633,7 @@ global.skill_data[$ "Massage"] = {
         ]
     },
     difficulty: global.SKILL_ADVANCED,
-    description: "A skill for relaxing tight muscles and easing pain. Can be used to deaden the effects of light wounds on an affected limb."
-};
-
-global.skill_data[$ "Jewelry"] = {
-    name: "Cooking",
-    table: "Professional",
-    check: {
-        mode: "best",
-        attributes: [
-            { attribute: "Dexterity", modifier: -2 }
-        ]
-    },
-    difficulty: global.SKILL_SIMPLE,
-    description: "A skill for crafting with precious stones or metals."
+    description: "This is tested whenever the user attempts to use the Massage action in or out of combat. Degrees of Success results in the ability for the target to ignore the effects of a Light Wound they've sustained. The wound still exists but the penalties are ignored for 1 hour per Degree of Success. Degrees of Failure result in nothing. Extreme Success makes the ignorance time frame the entire day. Extreme Failure inflicts an additional Light Wound to the target."
 };
 
 global.skill_data[$ "Cooking"] = {
@@ -685,7 +646,7 @@ global.skill_data[$ "Cooking"] = {
         ]
     },
     difficulty: global.SKILL_SIMPLE,
-    description: "A skill for cooking food."
+    description: "This skill is checked whenever the user attempts to make a meal. Degrees of Success results in a higher quality product. Degrees of Failure results in a lower quality product. Each creature requires a number of Rations equal to (1 * (Size Category #)) each day. Cooked meals provide more Rations per Ration used than normal. If daily Ration consumption is not achieved. The party must make Endurance tests or gain 1 level of fatigue. In addition fatigue is not regenerated during sleep, and injuries do not heal naturally."
 };
 
 global.skill_data[$ "Toxicology"] = {
@@ -698,7 +659,7 @@ global.skill_data[$ "Toxicology"] = {
         ]
     },
     difficulty: global.SKILL_ADVANCED,
-    description: "A skill for identifying and handling toxic plants."
+    description: "This skill is checked whenever the user attempts to synthesize a toxic compound. Degrees of Success results in a synthesized dose of poison. Degrees of Failure results in a failure to synthesize a dose of poison. Extreme Successes doubles the number of doses created. Extreme Failures results in a self administration of the poison being synthesized. Modified by Item Type, Surroundings, Materials, and Weather."
 };
 
 
@@ -719,7 +680,7 @@ global.skill_data[$ "Fire Fighting"] = {
         ]
     },
     difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill for the extinguishing of raging deadly fires and how to navigate them safely."
+    description: "This skill is checked whenever the user attempts to put out or navigate safely within a fire. Degrees of Success results in a decrease in the fire's size by 1 category. Degrees of Failure results in an increase in the fire's size by 1 category. Extreme Successes results in the fire's size reducing by 2 size categories. Extreme Failures results in the fire's size increasing by 2 size categories. Modified by the fire's Size, Surroundings, Materials, and Weather. Making a successful check regardless of intent allows for travel through smoke filled areas without the suffocation effect."
 };
 
 global.skill_data[$ "Wagoneering"] = {
@@ -732,8 +693,9 @@ global.skill_data[$ "Wagoneering"] = {
         ]
     },
     difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill that tests the ability to maneuver wagons under stress."
+    description: "This skill is checked whenever the user attempts to handle or maneuver a drawn wheeled vehicle outside of the Move - Simple Action. Degrees of Success results in a controlled maneuver. Degrees of Failure results in a failure to maneuver. Modified by Animal Temprament, Surroundings, Terrain, and Weather."
 };
+
 global.skill_data[$ "Sailing"] = {
     name: "Sailing",
     table: "Laborer",
@@ -744,8 +706,9 @@ global.skill_data[$ "Sailing"] = {
         ]
     },
     difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill for one’s ability to handle tasks aboard a ship. Setting rigging, climbing masts, and rowing are all difficult tasks for the uninitiated. Penalties are based on sailing conditions and time frame."
+    description: "This skill is checked whenever the user attempts to maneuver or handle a seafaring vessel. Degrees of Success results in a successful maneuver. Degrees of Failure results in a failed maneuver. Modified by Surroundings, Vessel Characteristics, and Weather."
 };
+
 global.skill_data[$ "Mining"] = {
     name: "Mining",
     table: "Laborer",
@@ -757,7 +720,7 @@ global.skill_data[$ "Mining"] = {
         ]
     },
     difficulty: global.SKILL_SIMPLE,
-    description: "A skill for digging tunnels and extracting stone and ore."
+    description: "This skill is checked whenever the user attempts to dig through stone or collect ore. Degrees of Success  and a Height and Width equal to the size category of the user. Degrees of Failure results in no progress gained. Extreme Successes results in double the distance mined. Extreme Failures results the impliment being damaged as if it was striking itself with a Sundering Strike. Three Extreme Failures simultaneously results in a Cave In unless an Engineer succeeds a check to prevent it. In the event of collecting ore, Degrees of Success result in 1 unit of ore being collected per Degree of Success. Degrees of Failure result in no material being obtained. Modified by Terrain, Material, and Surroundings."
 };
 
 global.skill_data[$ "Smelting"] = {
@@ -770,10 +733,8 @@ global.skill_data[$ "Smelting"] = {
         ]
     },
     difficulty: global.SKILL_ADVANCED,
-    description: "A skill for the proper methodology of turning ore to usable material."
+    description: "This skill is checked whenever the user attempts to melt ore into usable metals. Degrees of Success results in the creation of a pure metallic ingot. Degrees of Failure results in a failure to craft a metallic ingot. Modified by Surroundings, Material, and Weather."
 };
-
-
 
 global.skill_data[$ "Foraging"] = {
     name: "Foraging",
@@ -785,7 +746,7 @@ global.skill_data[$ "Foraging"] = {
         ]
     },
     difficulty: global.SKILL_SIMPLE,
-    description: "A skill for gathering various potentially edible/useful plants."
+    description: "This skill is checked whenever the user attempts to find and harvest from plants within an area. Degrees of Success results in findings one bushel of Unknown plants per Degree of Success. Degrees of Failure results in the failure to find any usable plants. Modified by Surroundings, Terrain, and Weather. NOTE: This is not an identifying skill."
 };
 
 global.skill_data[$ "Hunting"] = {
@@ -798,7 +759,7 @@ global.skill_data[$ "Hunting"] = {
         ]
     },
     difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill for the stalking or ambush of prey."
+    description: "This skill is checked whenever the user attempts to find and kill prey animals in the area. Degrees of Success results in 1 Ration unit of meat being hunted per Degree of Success. Degrees of Failure results in no kill being scored. Extreme Failures result in a random encounter from the predator list for the area being hunted in. Modified by Terrain, Surroundings, and Weather."
 };
 
 global.skill_data[$ "Trapping"] = {
@@ -811,7 +772,7 @@ global.skill_data[$ "Trapping"] = {
         ]
     },
     difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill for laying traps."
+    description: "This skill is checked whenever the user attempts to set traps in a given area. Degrees of Success is the difficulty of spotting the trap. Degrees of Failure is the difficulty of spotting the trap. If the traps are baited there is a chance that an animal of the trap's size is caught in the trap. If this occurs meat Rations equal to the creature's size will be added to the party's inventory. Otherwise, this skill functions a defensive measure and encroaching enemies will need to spot the trap or it will activate on one of them before combat. Modified by Terrain, Materials, and Weather."
 };
 
 global.skill_data[$ "Tracking"] = {
@@ -824,7 +785,7 @@ global.skill_data[$ "Tracking"] = {
         ]
     },
     difficulty: global.SKILL_ADVANCED,
-    description: "A skill to find and follow evidence that something has been here."
+    description: "This skill is checked whenever the user attempts to follow the trail or marks left behind by something travelling through the area. Degrees of Success results in a positive track. Degrees of Failure results in losing the track. Modified by Terrain, Track Type, and Weather."
 };
 
 global.skill_data[$ "Fishing"] = {
@@ -837,7 +798,7 @@ global.skill_data[$ "Fishing"] = {
         ]
     },
     difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill for finding and catching fish."
+    description: "This skill is checked whenever the user attempts to catch a fish either by hand, spear, net, or rod. Degrees of Success results in the collection of meat Rations equal to (1 * (Degrees of Success#)). Degrees of Failure result in nothing. Extreme Failures result in a random predator encounter from the list of the terrain type being fished in. Modified by Terrain Type, Method, and Weather."
 };
 
 global.skill_data[$ "Logging"] = {
@@ -850,7 +811,7 @@ global.skill_data[$ "Logging"] = {
         ]
     },
     difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill for felling trees in a safe and orderly manner."
+    description: "This skill is checked whenever the user is attempting to collect wood. Degrees of Success adds 1 unit of usable wood per Degree of Success. Degrees of Failure results in the failure of collecting any wood. Extreme Failures results in a tree landing on the user dealing damage as if it were a normal strike. Modified by Terrain, Material, and Weather."
 };
 
 global.skill_data[$ "Harvesting"] = {
@@ -863,7 +824,7 @@ global.skill_data[$ "Harvesting"] = {
         ]
     },
     difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill for reaping fields and gathering crops."
+    description: "This skill is checked whenever the user attempts to collect a crop from an established field. Degrees of Success results in 1 unit of the field's produce being collected per Degree of Success. Degrees of Failure results in a failure to collect and useful product. Modified by Terrain, Plant Type, and Weather."
 };
 #endregion
 
