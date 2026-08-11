@@ -843,8 +843,9 @@ global.skill_data[$ "Leadership"] = {
         ]
     },
     difficulty: global.SKILL_ADVANCED,
-    description: "A skill for the control, organization, and direction of groups of followers. Each degree of success increases morale bonuses by 1. Every degree of failure reduces morale by 1."
+    description: "This skill is checked when the user attempts to control a larger body of individuals. This has additional applications during mass combat as this is a the primary skill for managing morale. Degrees of Success result in ashereance to commands. Degrees of Failure result in chaotic action and loss of control. Modified by Surroundsings, Morale, and Weather."
 };
+
 global.skill_data[$ "Intimidation"] = {
     name: "Intimidation",
     table: "Warfare",
@@ -856,8 +857,9 @@ global.skill_data[$ "Intimidation"] = {
         ]
     },
     difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill for influencing someone through physical presence."
+    description: "This skill is checked when the user attempts to pressure someone into compliance with a show of force. Degrees of Success influence the other party's decisions to be more in line with the desired outcome. Degrees of Failure results in a failure to persuade the target. Modified by target's Reaction Adjustment, and Surroundings."
 };
+
 global.skill_data[$ "Breathing Control"] = {
     name: "Breathing Control",
     table: "Warfare",
@@ -868,7 +870,7 @@ global.skill_data[$ "Breathing Control"] = {
         ]
     },
     difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill for controlling your breathing in stressful situations limiting your consumption."
+    description: "This skill is checked whenever the user attempts to control their intake of oxygen. Be it conserving air in air tight spaces or ignoring breathing checks under water. Degrees of Success result in the user not needing to breath for 1 round per Degree of Success even under stress. Degrees of Failure results in immediately incurring 1 degree of fatigue."
 };
 
 global.skill_data[$ "Signaling"] = {
@@ -882,7 +884,7 @@ global.skill_data[$ "Signaling"] = {
         ]
     },
     difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill for using vocal or tonal signals to inform others of specific information."
+    description: "This skill is checked when the user attempts to use sounds, visuals, or vocalizations to communicate a message to another group. Degrees of Success result in an effectivly seen, heard, or understood signal. Degrees of Failure results in a harder to see, hear, or understand signal. This is a contested skill against the other party's Perception. Modified by Surroundings, Terrain, and Weather."
 };
 
 global.skill_data[$ "Armor Optimization"] = {
@@ -891,11 +893,11 @@ global.skill_data[$ "Armor Optimization"] = {
     check: {
         mode: "best",
         attributes: [
-            { attribute: "Dexterity", modifier: -2 }
+            { attribute: "Dexterity", modifier: 4 }
         ]
     },
     difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill for moving your armor into a strike that would hit an exposed area. Make a test vs degree of success of the strike to intercept with a worn chosen armor piece instead of using the average DR."
+    description: "This skill is checked when the user attempts to use it as a defensive action option. In response to a called strike the user may check this skill as if it were another defensive option. This is a contested skill check against the target's attack. Degrees of Success mean you can place an armored part of the body in the path of the called strike causing the strike to hit that armored section rather than the less armored target. Degrees of Failure results in the opponent hitting their desired target. No Modifiers."
 };
 
 global.skill_data[$ "Charioteering"] = {
@@ -908,7 +910,7 @@ global.skill_data[$ "Charioteering"] = {
         ]
     },
     difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill for maneuvering chariots."
+    description: "This skill is checked whenever the user attempts to drive a chariot using any other action than the Move Simple Action. This skill is used as the vehicle's Dodge Defensive Action skill. This is either contested to avoid a strike or tested to perform a maneuver. Degrees of Success means a successful avoidance or maneuver. Degrees of Failure results in a failure to dodge an attack or a failed maneuver. Modified by Maneuver difficulty, Animal Temprament, Terrain, and Weather."
 };
 
 global.skill_data[$ "Dirty Tricks"] = {
