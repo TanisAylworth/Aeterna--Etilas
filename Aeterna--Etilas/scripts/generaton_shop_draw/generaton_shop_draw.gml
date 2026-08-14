@@ -3,7 +3,7 @@ function generation_shop_draw()
     var cc = global.char_creation;
 	var mx = device_mouse_x_to_gui(0);
 var my = device_mouse_y_to_gui(0);
-   
+	draw_generation_help_box();
     if (!variable_struct_exists(cc, "generation")) return;
    
     // Safety defaults

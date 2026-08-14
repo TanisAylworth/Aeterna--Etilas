@@ -4,7 +4,8 @@ function species_step_update(step)
 	show_debug_message("SPECIES UPDATE RUNNING");
     var mx = device_mouse_x_to_gui(0);
     var my = device_mouse_y_to_gui(0);
-
+if (keyboard_check_pressed(ord("R")))
+    species_random_select(cc);
     // =====================================================
 // SPECIES LIST LAYOUT (MUST MATCH DRAW)
 // =====================================================

@@ -10,11 +10,26 @@ function equipment_shop_draw(cc)
     equipment_step_init(cc);
     var lay = equipment_layout(L);
 
-    // Gold header
-    draw_set_halign(fa_center);
-    draw_set_color(c_aqua);
-    draw_text(L.center_x, 120, "Starting Gold: " + string(cc.equipment.gold));
-    draw_set_halign(fa_left);
+
+	// Gold panel
+	var gold_w = 220;
+	var gold_h = 50;
+	var gold_x = L.center_x - gold_w * 0.5;
+	var gold_y = 100;
+
+	draw_set_color(make_color_rgb(18, 18, 18));
+	draw_rectangle(gold_x, gold_y, gold_x + gold_w, gold_y + gold_h, false);
+
+	draw_set_color(c_gray);
+	draw_rectangle(gold_x, gold_y, gold_x + gold_w, gold_y + gold_h, true);
+
+	draw_set_halign(fa_center);
+	draw_set_valign(fa_middle);
+	draw_set_color(c_aqua);
+	draw_text(L.center_x, gold_y + gold_h * 0.5, "Starting Gold: " + string(cc.equipment.gold));
+	draw_set_halign(fa_left);
+	draw_set_valign(fa_top);
+    
 
     // Clear hover each frame (set again while drawing)
     cc.equipment.hovered_category = "";
@@ -44,4 +59,72 @@ function equipment_shop_draw(cc)
     draw_text(btn_x + btn_w * 0.5, btn_y + btn_h * 0.5, "CONFIRM EQUIPMENT");
     draw_set_halign(fa_left);
     draw_set_valign(fa_top);
+	
+	
+	// BACK button
+	var back_x = 40;
+    var back_y = display_get_gui_height() - 100;
+    var back_w = 160;
+    var back_h = 60;
+
+var can_back = array_length(cc.step_history) > 0;
+
+var hover_back = point_in_rectangle(
+    mx,
+    my,
+    back_x,
+    back_y,
+    back_x + back_w,
+    back_y + back_h
+);
+
+
+if (!can_back)
+{
+    draw_set_color(c_black);
+}
+else if (hover_back)
+{
+    draw_set_color(c_lime);
+}
+else
+{
+    draw_set_color(c_gray);
+}
+
+
+draw_rectangle(
+    back_x,
+    back_y,
+    back_x + back_w,
+    back_y + back_h,
+    false
+);
+
+
+// Border
+draw_set_color(c_white);
+
+draw_rectangle(
+    back_x,
+    back_y,
+    back_x + back_w,
+    back_y + back_h,
+    true
+);
+
+
+// Text
+draw_set_halign(fa_center);
+draw_set_valign(fa_middle);
+
+draw_text(
+    back_x + back_w * 0.5,
+    back_y + back_h * 0.5,
+    "BACK"
+);
+
+
+draw_set_halign(fa_left);
+draw_set_valign(fa_top);
 }

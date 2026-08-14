@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"Species_helpers",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"Species_helpers",
+  "parent":{
+    "name":"Species_SCR",
+    "path":"folders/Scripts/Species_SCR.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

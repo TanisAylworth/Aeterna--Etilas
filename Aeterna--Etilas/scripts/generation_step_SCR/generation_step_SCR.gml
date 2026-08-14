@@ -15,7 +15,9 @@ function generation_step_update(cc)
 	var back_h = 60;
     var clicked = mouse_check_button_pressed(mb_left);
     var right_clicked = mouse_check_button_pressed(mb_right);
-	show_debug_message("Mouse GUI: " + string(mx) + ", " + string(my));
+	
+	if (keyboard_check_pressed(ord("R")))
+    generation_random_spend(cc);
 
     // === CLEAR HOVERS EVERY FRAME ===
     cc.hovered_table = "";

@@ -70,6 +70,7 @@
     {"id":{"name":"Skill_Check_SCR","path":"scripts/Skill_Check_SCR/Skill_Check_SCR.yy",},},
     {"id":{"name":"skills_data","path":"scripts/skills_data/skills_data.yy",},},
     {"id":{"name":"Species_Data_SCR","path":"scripts/Species_Data_SCR/Species_Data_SCR.yy",},},
+    {"id":{"name":"Species_helpers","path":"scripts/Species_helpers/Species_helpers.yy",},},
     {"id":{"name":"Step_Complete_SCR","path":"scripts/Step_Complete_SCR/Step_Complete_SCR.yy",},},
     {"id":{"name":"step_enter","path":"scripts/step_enter/step_enter.yy",},},
     {"id":{"name":"Step_Species_SCR","path":"scripts/Step_Species_SCR/Step_Species_SCR.yy",},},

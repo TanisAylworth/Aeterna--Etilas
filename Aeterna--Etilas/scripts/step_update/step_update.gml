@@ -60,5 +60,10 @@ break;
         case "generation_shop":
             generation_step_update(cc);
         break;
+		
+		
+		case "equipment_shop":
+            equipment_shop_update(cc);
+        break;
     }
 }

@@ -21,7 +21,7 @@ function step_enter(cc)
             break;
 			
 		case "equipment_shop":
-            equipment_shop_update(cc);
+            equipment_step_init(cc);
             break;
     }
 }

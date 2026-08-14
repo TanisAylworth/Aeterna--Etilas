@@ -2188,3 +2188,165 @@ function draw_talent_tooltip(cc)
     draw_set_color(c_white);
     draw_text_ext(box_x + pad, box_y + pad, tooltip_text, line_sep, tooltip_w - pad * 2);
 }
+
+
+
+function draw_generation_help_box()
+{
+    var box_x = 20;
+    var box_y = 20;
+    var box_w = 360;
+
+    var text =
+        "GENERATION TIPS\n\n"
+        + "- Lock tables, then pick one to browse\n"
+        + "- Left click skill/talent = buy rank\n"
+        + "- Right click = refund rank\n"
+        + "- Owned tables cost 1 slot per rank\n"
+        + "- Unowned tables cost 2 slots\n"
+        + "- Free skill/talent slots spend first\n"
+        + "- CDT / Gold also use slots\n\n"
+        + "R = Random spend remaining points";
+
+    var pad = 12;
+    var line_sep = 18;
+    var box_h = string_height_ext(text, line_sep, box_w - pad * 2) + pad * 2;
+
+    draw_set_color(make_color_rgb(18, 18, 18));
+    draw_rectangle(box_x, box_y, box_x + box_w, box_y + box_h, false);
+    draw_set_color(c_gray);
+    draw_rectangle(box_x, box_y, box_x + box_w, box_y + box_h, true);
+
+    draw_set_halign(fa_left);
+    draw_set_valign(fa_top);
+    draw_set_color(c_ltgray);
+    draw_text_ext(box_x + pad, box_y + pad, text, line_sep, box_w - pad * 2);
+}
+
+
+
+function generation_random_spend(cc)
+{
+    if (!is_struct(cc)) return;
+    if (!variable_struct_exists(cc, "generation")) return;
+
+    // Prefer locked tables so skill/talent costs stay at 1
+    if (!cc.generation.tables_locked)
+        cc.generation.tables_locked = true;
+
+    var tables = get_all_knowledge_tables();
+    if (array_length(tables) == 0) return;
+
+    // Ensure a selected table
+    if (cc.selected_table == "" || cc.selected_table == undefined)
+        cc.selected_table = tables[irandom(array_length(tables) - 1)];
+
+    var safety = 200; // prevent infinite loops
+
+    while (cc.generation_slots_remaining > 0 && safety > 0)
+    {
+        safety--;
+
+        var roll = irandom(99);
+        var spent = false;
+
+        // 15% — CDT
+        if (roll < 15 && cc.generation_slots_remaining > 0)
+        {
+            var current_cdt = get_current_cdt(cc);
+            if (current_cdt + 1 <= get_cdt_cap(cc))
+            {
+                cc.generation.cdt_bonus++;
+                cc.generation_slots_remaining--;
+                spent = true;
+            }
+        }
+        // 15% — Gold
+        else if (roll < 30 && cc.generation_slots_remaining > 0)
+        {
+            cc.generation.gold_bonus += 20;
+            cc.generation_slots_remaining--;
+            spent = true;
+        }
+        // 15% — buy an extra table (if affordable)
+        else if (roll < 45 && cc.generation_slots_remaining >= 2)
+        {
+            var t = tables[irandom(array_length(tables) - 1)];
+            if (!table_is_owned(cc, t)
+                && array_index_of(cc.generation.fixed_tables, t) == -1)
+            {
+                array_push(cc.generation.purchased_tables, t);
+                cc.generation_slots_remaining -= 2;
+                refund_skill_table_discount(cc, t);
+                refund_talent_table_discount(cc, t);
+                spent = true;
+            }
+        }
+        // 35% — random skill rank on selected / random owned table
+        else if (roll < 80)
+        {
+            var skill_table = cc.selected_table;
+            if (!table_is_owned(cc, skill_table))
+            {
+                // pick a random owned table if possible
+                var owned = [];
+                for (var i = 0; i < array_length(tables); i++)
+                    if (table_is_owned(cc, tables[i]))
+                        array_push(owned, tables[i]);
+                if (array_length(owned) > 0)
+                    skill_table = owned[irandom(array_length(owned) - 1)];
+            }
+
+            if (variable_struct_exists(global.knowledge_table_data, skill_table))
+            {
+                var td = global.knowledge_table_data[$ skill_table];
+                if (variable_struct_exists(td, "skills") && array_length(td.skills) > 0)
+                {
+                    var sname = td.skills[irandom(array_length(td.skills) - 1)];
+                    var before = cc.generation_slots_remaining;
+                    // Skip required-spec bases for auto (popup would block)
+                    var sdata = global.skill_data[$ sname];
+                    if (sdata == undefined)
+                        sdata = global.skill_data[$ string_replace_all(sname, " (X)", "")];
+                    var is_spec_req = (sdata != undefined
+                        && variable_struct_exists(sdata, "specialization")
+                        && sdata.specialization.required);
+
+                    if (!is_spec_req)
+                    {
+                        attempt_skill_rank_up(cc, sname, string_replace_all(sname, " (X)", ""), skill_table);
+                        if (cc.generation_slots_remaining < before)
+                            spent = true;
+                    }
+                }
+            }
+        }
+        // 20% — random talent
+        else
+        {
+            var talent_table = cc.selected_table;
+            if (variable_struct_exists(global.knowledge_table_data, talent_table))
+            {
+                var td = global.knowledge_table_data[$ talent_table];
+                if (variable_struct_exists(td, "talents") && array_length(td.talents) > 0)
+                {
+                    var tname = td.talents[irandom(array_length(td.talents) - 1)];
+                    var before = cc.generation_slots_remaining;
+                    attempt_talent_rank_up(cc, tname, talent_table);
+                    if (cc.generation_slots_remaining < before)
+                        spent = true;
+                }
+            }
+        }
+
+        // If this roll couldn't spend, try a forced cheap skill next loop
+        if (!spent && cc.generation_slots_remaining > 0)
+        {
+            // last resort: gold is always valid
+            cc.generation.gold_bonus += 20;
+            cc.generation_slots_remaining--;
+        }
+    }
+
+    show_debug_message("Random spend done. Slots left: " + string(cc.generation_slots_remaining));
+}

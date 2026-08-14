@@ -36,7 +36,7 @@ function Species_Data_SCR()
     // Add new species easily here
     add_species("muttish_human", {
         name: "Muttish Human",
-        description: "Prolific and ubiquitous, Muttish Humans can be found throughout Etilas and beyond, thriving in nearly every environment and occupation. They possess no singular nation or homeland, having emerged from generations of intermingling between the many human peoples and cultures. As their name suggests, they are a mixture of countless human lineages, resulting in an enormous range of builds, features, and appearances with no defining physical characteristics of their own. Though they lack the specialized advantages of other human peoples, their versatility, adaptability, and well-rounded nature allow them to fit almost anywhere, making them the most common and flexible of all human peoples.",
+        description: "Prolific and ubiquitous, Muttish Humans can be found throughout Etilas and beyond, thriving in nearly every environment and occupation. They have no singular homeland, instead emerging from generations of intermingling between the many human peoples and cultures. Their varied ancestry gives them an enormous range of builds, features, and appearances, with no defining physical traits of their own. Though lacking the specialized advantages of other human peoples, their versatility and adaptability make them the most common and flexible of all humans.",
         stats: {
             cdt: 8,
             attributes: {
@@ -96,7 +96,7 @@ function Species_Data_SCR()
 
     add_species("holdstadtish_human", {
         name: "Holdstadtish Human",
-        description: "The Holdstadtish inhabit the western portion of Etilas. They are a people defined by strict honor, valor, and martial excellence, with a society deeply shaped by warfare and military tradition. From an early age, Holdstadtish are taught the virtues of discipline, courage, loyalty, and service. Their rigid code of honor governs nearly every aspect of life, from personal conduct and social standing to military affairs and national politics. A warrior's reputation is considered a reflection of both their character and their people, and acts of cowardice or dishonor can carry consequences long after the deed itself. This devotion to martial virtue has made the Holdstadtish formidable soldiers and steadfast allies, but their uncompromising adherence to tradition can also make them rigid in their beliefs and slow to accept those who do not share their values.",
+        description: "The Holdstadtish inhabit the western portion of Etilas and are defined by strict honor, valor, and martial excellence. Their society is deeply shaped by warfare, with discipline, courage, loyalty, and service instilled from an early age. Their rigid code of honor governs everything from personal conduct to national politics, and a warrior's reputation reflects upon both themselves and their people. This devotion has made them formidable soldiers and steadfast allies, but their adherence to tradition can also make them rigid and uncompromising toward those who do not share their values.",
         stats: {
             cdt: 10,
             attributes: {
@@ -161,7 +161,7 @@ function Species_Data_SCR()
 
     add_species("corintish_human", {
         name: "Corintish Human",
-        description: "The Corintish inhabit the southern central region of Etilas, just north of Sun’s Rise. They are among the most educated people in the known world, with a culture devoted to the pursuit, preservation, and dissemination of knowledge. Their cities are filled with colleges, libraries, academies, and private schools, many of which have existed for generations. Education is not reserved for the privileged. Literacy is widespread and learning is deeply respected throughout Corintish society, while scholars, teachers, and researchers enjoy considerable social prestige. The accumulation and sharing of knowledge is regarded not merely as a personal achievement, but as a responsibility to future generations.",
+        description: "The Corintish inhabit the southern central region of Etilas, just north of Sun’s Rise. They are among the most educated people in the known world, with a culture devoted to the pursuit and preservation of knowledge. Their cities are filled with colleges, libraries, and academies, and education is widely respected. Scholars, teachers, and researchers hold considerable social prestige, while the sharing of knowledge is viewed as a responsibility to future generations.",
         stats: {
             cdt: 6,
             attributes: {
@@ -226,7 +226,7 @@ function Species_Data_SCR()
 
     add_species("hoofskull", {
         name: "HoofSkull Human",
-        description: "These rough, dark skinned human people inhabit the recently conquered Minotaur capital, where generations of hardship have given way to unexpected prosperity. Their newfound wealth and influence have fostered a fierce sense of independence, and many now believe they have outgrown their place within Holdstadt. Though still formally subject to Holdstadt, calls for independence grow stronger with each passing year. Their history has also shaped their approach to warfare. Accustomed to fighting from disadvantageous positions, they have become exceptionally skilled at naval warfare, coastal raids, and ambushes. They favor patience, concealment, and striking an enemy where they least expect it rather than meeting superior forces in a straightforward battle.",
+        description: "These rough, dark-skinned humans inhabit the recently conquered Minotaur capital, where generations of hardship have given way to prosperity. Their newfound wealth has fostered a fierce sense of independence, with growing calls to break from Holdstadt. Their history has also shaped their warfare, making them skilled in naval combat, coastal raids, and ambushes. They favor patience, concealment, and striking from unexpected positions rather than meeting enemies head-on.",
         stats: {
             cdt: 8,
             attributes: {
@@ -289,7 +289,7 @@ function Species_Data_SCR()
 
     add_species("galish", {
         name: "Galish",
-        description: "The Galish are a short, bipedal, nature-attuned people with slender, sharply angular frames, standing between four and four and a half feet tall. Though slight in build, they possess surprising bulk and resilience, sacrificing speed for a sturdier physique. Galish are notoriously fickle, often leaping from one idea or interest to another with little warning and losing interest in pursuits almost as quickly as they discover them. This restlessness gradually fades with age; older Galish become increasingly detached from the world around them, yet this disinterest brings a calmer and more contemplative temperament. With age, they grow patient and sagely, preferring thoughtful consideration over the impulsiveness of their youth.",
+        description: "The Galish are short, bipedal, nature-attuned people with slender, angular frames, standing four to four and a half feet tall. Though slight, they possess surprising bulk and resilience. Galish are notoriously fickle, quickly jumping between interests and losing interest almost as fast. This restlessness fades with age, and older Galish become detached, patient, and contemplative, gaining the wisdom and temperament of a sage.",
         stats: {
             cdt: 6,
             attributes: {
@@ -353,7 +353,7 @@ function Species_Data_SCR()
 
     add_species("galheston", {
         name: "GalHeston",
-        description: "The GalHeston are a tribe of predominantly older Galish who believe strongly in honoring the treaties and agreements their people have made with the other races of Etilas. Their age and experience have earned them a reputation for wisdom, patience, and trustworthiness, and they are often regarded as reliable mediators and allies. However, their faith in diplomacy and their desire to preserve peace have left them seemingly oblivious to the growing danger posed by their cousins, the Galgaharad, whose actions increasingly threaten the stability of the region.",
+        description: "The GalHeston are a tribe of predominantly older Galish who strongly uphold their treaties with the other races of Etilas. Their age and experience have earned them a reputation for wisdom, patience, and trustworthiness, making them reliable mediators and allies. However, their faith in diplomacy has left them seemingly oblivious to the growing threat posed by their cousins, the GalGaHarad.",
         stats: {
             cdt: 6,
             attributes: {
@@ -419,7 +419,7 @@ function Species_Data_SCR()
 
     add_species("galgaharad", {
         name: "GalGaHarad",
-        description: "The GalGaHarad are a tribe composed predominantly of younger Galish who follow their charismatic leader, GalGaHarad Helminier. Helminier has publicly declared that the other sentient peoples of the realm are responsible for the suffering brought upon the Galish, claiming that their actions provoked the Goddess Nai and caused her to allow the invasion to occur. His teachings have found particular appeal among younger Galish, turning resentment and fear toward the other peoples of Etilas and creating a growing movement that rejects the treaties and coexistence upheld by their elders.",
+        description: "The GalGaHarad are a tribe of predominantly younger Galish who follow their charismatic leader, GalGaHarad Helminier. Helminier claims that the other peoples of the realm provoked the Goddess Nai and caused her to allow the invasion. His teachings have fueled resentment toward outsiders and inspired a growing movement that rejects the treaties and coexistence upheld by their elders.",
         stats: {
             cdt: 6,
             attributes: {
@@ -520,7 +520,7 @@ function Species_Data_SCR()
 
 add_species("xiba_xida", {
         name: "Xi Da",
-        description: "The Xi Da are the dark-furred Xiba who were the first of their people to leave the cave and, in doing so, “abandoned” the watch of the sun. Smaller than their cousins, the Xi Da possess wings that allow them to fly and have developed a far greater aptitude for interacting with other races. Their long separation from the cave has made them more accustomed to the wider world, allowing them to serve as traders, travelers, and intermediaries between the Xiba and the peoples beyond their ancestral home.",
+        description: "The Xi Da are dark-furred Xiba who were the first of their people to leave the cave, “abandoning” the watch of the sun. Smaller than their cousins, they possess wings and are far more adept at interacting with other races. Their long separation from the cave has made them accustomed to the wider world, allowing them to serve as traders, travelers, and intermediaries between the Xiba and other peoples.",
         stats: {
             cdt: 6,
             attributes: {
@@ -581,7 +581,7 @@ add_species("xiba_xida", {
 
 add_species("xiba_xisu", {
         name: "Xi Su",
-        description: "The Xi Su, often called Sun Bats, are the Xiba who claim to have raised the sun into the sky and now stand as its protectors. They are considerably larger and more powerful than their Xi Da cousins, with much lighter fur that reflects their close association with the sun. The Xi Su are deeply devoted to their sacred duty, regarding the protection of the sun and its resting place as both a religious obligation and a defining part of their identity.",
+        description: "The Xi Su, often called Sun Bats, are Xiba who claim to have raised the sun into the sky and now protect it. They are considerably larger and more powerful than their Xi Da cousins, with much lighter fur reflecting their association with the sun. They are deeply devoted to this sacred duty, viewing the protection of the sun and its resting place as both a religious obligation and a defining part of their identity.",
         stats: {
             cdt: 6,
             attributes: {
@@ -646,7 +646,7 @@ add_species("xiba_xisu", {
 	
 add_species("votalli_ctai", {
         name: "C’Tai",
-        description: "The Vo’Tali are nothing less than imposing. Each stands well above a full-grown man, their powerful frames covered in thick, protective scales that make them as formidable as they are resilient. They are fearsome warriors, combining immense physical strength with the raw ferocity of natural instinct. To face a Vo’Tali in battle is to contend with a creature seemingly built for violence, whose primal instincts make them relentless and dangerous opponents.",
+        description: "The Vo’Tali are imposing creatures, standing well above a full-grown man with powerful frames covered in thick, protective scales. They are fearsome warriors, combining immense strength with the raw ferocity of natural instinct. Their primal nature makes them relentless and dangerous opponents in battle.",
         stats: {
             cdt: 14,
             attributes: {
@@ -709,7 +709,7 @@ add_species("votalli_ctai", {
 
 add_species("votalli_ctal", {
         name: "C’Tal",
-        description: "The C'Tal are the smaller and more intelligent counterparts to their genetic cousins, possessing a temperament and way of life shaped by thought rather than instinct. Where their larger kin are renowned for their physical might and ferocity, the C'Tal serve as religious figures, shamans, and spiritual guides within their tribes. They are keepers of ancient traditions and knowledge, acting as healers, counselors, and interpreters of the natural and spiritual world. Their wisdom gives them considerable influence within their communities, where they are often trusted to guide their people through both everyday hardships and matters of faith.",
+        description: "The C'Tal are the smaller and more intelligent counterparts to their genetic cousins, shaped by thought rather than instinct. While their larger kin are known for physical might and ferocity, the C'Tal serve as religious figures, shamans, and spiritual guides. They preserve ancient traditions and knowledge, acting as healers, counselors, and interpreters of the natural and spiritual world. Their wisdom grants them considerable influence within their tribes.",
         stats: {
             cdt: 4,
             attributes: {
@@ -773,9 +773,9 @@ add_species("votalli_ctal", {
         }
     });
 
-    add_species("lowlind_gnome", {
+add_species("lowlind_gnome", {
         name: "Lowlind Gnome",
-        description: "These Gnomes are well known for their ability to innovate and create machines and feats of engineering. They own the territory of Gold Vale which is a merchant utopia of crafts and inventions.",
+        description: "These Gnomes stand at a vairance of 2' - 4' tall and are well known for their ability to innovate and create machines and feats of engineering. They own the territory of Gold Vale which is a merchant utopia of crafts and inventions.",
         stats: {
             cdt: 6,
             attributes: {
@@ -822,17 +822,20 @@ add_species("votalli_ctal", {
             },
             knowledge_skills: {
                 fixed: [
-                    { name: "Read and Write (X)", rank: 1 }
+                    { name: "Engineering", rank: 1 },
+					{ name: "Appraisal", rank: 1 },
+					{ name: "Diplomacy", rank: 1 },
+					{ name: "Firearm Use", rank: 1 },
                 ],
                 choices: { count: 0, options: [] }
             },
-			knowledge_talents: { fixed: ["None"], choices: { count: 0, options: [] } }
+			knowledge_talents: { fixed: ["Read and Write (Gnomish)", "Language (Gnomish)"], choices: { count: 0, options: [] } }
         }
     });
 
-    add_species("higland_gnome", {
+add_species("higland_gnome", {
         name: "HigLand Gnome",
-        description: "These Gnomes evolved to live underground meaning they are much smaller than their average size usually in the lower percentile however their eyes can see in the dark almost perfectly.",
+        description: "These Gnomes evolved to live deep underground, resulting in smaller bodies that typically fall within the lower range of Gnomish stature. Their compact size allows them to navigate the cramped tunnels and passages of their subterranean homes with ease. Their most notable adaptation is their exceptional eyesight, allowing them to see in near-total darkness with remarkable clarity. Accustomed to life without natural light, they are equally comfortable navigating the deepest caverns as they are the surface world.",
         stats: {
             cdt: 6,
             attributes: {
@@ -882,17 +885,21 @@ add_species("votalli_ctal", {
             },
             knowledge_skills: {
                 fixed: [
-                    { name: "Fast Talking", rank: 1 }
+                    { name: "Fast Talking", rank: 1 },
+					{ name: "Engineering", rank: 3 },
+					{ name: "Firearm Use", rank: 1 },
+					{ name: "Geology", rank: 1 },
+					{ name: "Mining", rank: 1 },
                 ],
                 choices: { count: 0, options: [] }
             },
-			knowledge_talents: { fixed: ["None"], choices: { count: 0, options: [] } }
+			knowledge_talents: { fixed: ["Read and Write (Gnomish)", "Language (Gnomish)"], choices: { count: 0, options: [] } }
         }
     });
 	
-	    add_species("durendim_lagrundun", {
+add_species("durendim_lagrundun", {
         name: "Lagrundun",
-        description: "These Duren are extremely reclusive and are borderline racist. They despise other races for no real reason other than not being Duren. They are short standing at max 5ft but are strong and stout and industrious.",
+        description: "These Duren are an extremely reclusive people, rarely welcoming outsiders into their communities and viewing other races with deep suspicion. Their distrust often borders on outright prejudice, with little justification beyond the simple belief that those who are not Duren are inherently lesser or unworthy of trust. Short and stout, rarely exceeding five feet in height, they possess surprising strength and endurance for their size. Despite their isolation, the Duren are highly industrious and take great pride in hard work, craftsmanship, and self-sufficiency.",
         stats: {
             cdt: 10,
             attributes: {
@@ -941,17 +948,19 @@ add_species("votalli_ctal", {
             },
             knowledge_skills: {
                 fixed: [
-                    { name: "Close Quarters Combat", rank: 1 }
+                    { name: "Weapon Skill (Axes)", rank: 3 },
+					{ name: "Blacksmithing", rank: 3 },
+					{ name: "Maintainence", rank: 1 },
                 ],
                 choices: { count: 0, options: [] }
             },
-			knowledge_talents: { fixed: ["None"], choices: { count: 0, options: [] } }
+			knowledge_talents: { fixed: ["Close Quarters Combat",], choices: { count: 0, options: [] } }
         }
     });
 
-    add_species("durendim_hagrundun", {
+add_species("durendim_hagrundun", {
         name: "Hagrundun",
-        description: "These Duren have accepted an Oath of Exile from the Mountain Homes and are now left on the surface world. They have an amazing Wanderlust and need to explore the over world.",
+        description: "These Duren have accepted an Oath of Exile from the Mountain Homes, forcing them to leave their subterranean homeland and live upon the surface world. Far from viewing their exile as a punishment, they have developed an intense wanderlust and a fascination with the world beyond the mountains. They eagerly explore unfamiliar lands, seeking new places, peoples, and experiences, though their sheltered upbringing often leaves them unprepared for the dangers of the surface.",
         stats: {
             cdt: 8,
             attributes: {
@@ -998,7 +1007,11 @@ add_species("votalli_ctal", {
             },
             knowledge_skills: {
                 fixed: [
-                    { name: "Survival (X)", rank: 1 }
+                    { name: "Navigation", rank: 1 },
+					{ name: "Weapon Skill (Axes)", rank: 3 },
+					{ name: "Blacksmithing", rank: 3 },
+					{ name: "Maintainence", rank: 1 },
+					{ name: "Diplomacy", rank: 1 },
                 ],
                 choices: { count: 0, options: [] }
             },
@@ -1006,9 +1019,9 @@ add_species("votalli_ctal", {
         }
     });
 
-    add_species("skireen_icelindish", {
+add_species("skireen_icelindish", {
         name: "IceLindish",
-        description: "These Skireen hail from the far frozen north. They have traveled a far distance to Etilas following their wanderlust and want for adventure. They are much more built then their cousins the Feldlindish.",
+        description: "These Skireen hail from the frozen far north, having traveled great distances to Etilas in pursuit of wanderlust and adventure. They are larger and more powerfully built than their Feldlindish cousins, shaped by the harsh environment of their northern homeland. Their love of exploration drives them to seek new lands, experiences, and challenges far from home.",
         stats: {
             cdt: 8,
             attributes: {
@@ -1057,17 +1070,21 @@ add_species("votalli_ctal", {
             },
             knowledge_skills: {
                 fixed: [
-                    { name: "Survival (Arctic)", rank: 1 }
+                    { name: "Survival (Arctic)", rank: 2 },
+					{ name: "Navigation", rank: 2 },
+					{ name: "Tracking", rank: 2 },
+					{ name: "Weapon Skill (Bows)", rank: 1 },
+					{ name: "Weapon SKill (Polearms)", rank: 2 },
                 ],
                 choices: { count: 0, options: [] }
             },
-			knowledge_talents: { fixed: ["None"], choices: { count: 0, options: [] } }
+			knowledge_talents: { fixed: ["Endurance", "Perception"], choices: { count: 0, options: [] } }
         }
     });
 
-    add_species("skireen_feldlindish", {
+add_species("skireen_feldlindish", {
         name: "Feldlindish",
-        description: "These Skireen are much smaller than the other two but make up for in their size with incredible speeds. They suffer the same wanderlust as their cousins but also sport an exotically colored plumage.",
+        description: "These Skireen are smaller than their cousins, but make up for their size with incredible speed and agility. They share the same wanderlust and love of adventure, traveling far from their homeland in search of new experiences. Their most striking feature is their exotic, brightly colored plumage, which sets them apart from the other Skireen.",
         stats: {
             cdt: 6,
             attributes: {
@@ -1119,9 +1136,13 @@ add_species("votalli_ctal", {
             },
             knowledge_skills: {
                 fixed: [
-                    { name: "Survival (X)", rank: 1 },
+                    { name: "Survival (Plains)", rank: 1 },
                     { name: "Hunting", rank: 1 },
-                    { name: "Spot", rank: 1 }
+                    { name: "Spot", rank: 1 },
+                    { name: "Tracking", rank: 1 },
+                    { name: "Weapon Skill (Bows)", rank: 2 },
+                    { name: "Weapon Skill (Polearms)", rank: 1 },
+					
                 ],
                 choices: { count: 0, options: [] }
             },
@@ -1130,9 +1151,9 @@ add_species("votalli_ctal", {
     });
 	
 	    // Goblin and subspecies
-    add_species("goblin", {
+add_species("goblin", {
         name: "Goblin",
-        description: "These small canine humanoids are prolific they inhabit all locations. They are not conventionally intelligent but are certainly crafty. They are very small standing at the tallest 3’.",
+        description: "These small canine humanoids are prolific, inhabiting nearly every environment and settlement. Standing no more than three feet tall, they lack conventional intelligence but more than compensate with remarkable cunning and resourcefulness. Their ability to improvise and exploit opportunities allows them to thrive almost anywhere.",
         stats: {
             cdt: 4,
             attributes: {
@@ -1181,19 +1202,21 @@ add_species("votalli_ctal", {
             },
             knowledge_skills: {
                 fixed: [
-                    { name: "Survival (Home Terrain)", rank: 1 },
-                    { name: "Ambush", rank: 1 },
-                    { name: "Hunting", rank: 1 }
+                    { name: "Sneak", rank: 1 },
+                    { name: "Hunting", rank: 1 },
+                    { name: "Tracking", rank: 1 },
+                    { name: "Weapon Skill (Unarmed)", rank: 2 },
+					
                 ],
-                choices: { count: 0, options: [] }
+                choices: { count: 1, options: ["Survival (X)"] }
             },
-			knowledge_talents: { fixed: ["None"], choices: { count: 0, options: [] } }
+			knowledge_talents: { fixed: ["Ambush"], choices: { count: 0, options: [] } }
         }
     });
 
-    add_species("waste_goblin", {
+add_species("waste_goblin", {
         name: "Waste Goblin",
-        description: "Goblins from the ash wastes of Holdstadt. They are much more enduring and have pallid grey skin. They have adapted to not needing much food or water, are avid diggers, and amazing ambush predators.",
+        description: "These Goblins hail from the Ash Wastes of Holdstadt, where harsh conditions have shaped them into exceptionally enduring survivors. Their pallid grey skin and efficient metabolism allow them to survive on little food or water, while their skill at digging provides shelter and hidden routes through the wastes. They are also formidable ambush predators, using the barren terrain and underground passages to conceal themselves before striking unsuspecting prey.",
         stats: {
             cdt: 4,
             attributes: {
@@ -1208,9 +1231,9 @@ add_species("votalli_ctal", {
                 toughness: -2,
                 leadership: 0
             },
-            abilities: ["Overwhelming Swarm", "Natural Camouflage", "Scent", "Burrow"],
+            abilities: ["Overwhelming Swarm", "Natural Camouflage"],
             negatives: ["Skittish", "Hated"],
-            traits: ["infravision", "tiny", "fang_and_claw"],
+            traits: ["infravision", "tiny", "fang_and_claw", "Scent", "Burrow"],
             hit_locations: {
                 data: {
                     head: [1],
@@ -1245,18 +1268,19 @@ add_species("votalli_ctal", {
             knowledge_skills: {
                 fixed: [
                     { name: "Survival (Waste)", rank: 1 },
-                    { name: "Ambush", rank: 1 },
-                    { name: "Hunting", rank: 1 }
+					{ name: "Hunting", rank: 1 },
+                    { name: "Tracking", rank: 1 },
+                    { name: "Weapon Skill (Unarmed)", rank: 2 },
                 ],
                 choices: { count: 0, options: [] }
             },
-			knowledge_talents: { fixed: ["None"], choices: { count: 0, options: [] } }
+			knowledge_talents: { fixed: ["Ambush"], choices: { count: 0, options: [] } }
         }
     });
 
-    add_species("forest_goblin", {
+add_species("forest_goblin", {
         name: "Forest Goblin",
-        description: "These goblins are green skinned and brown furred. They live in the canopies of trees and regularly use their height advantage to ambush unsuspecting passerbys.",
+        description: "These Goblins have green skin and brown fur, living among the canopies of dense forests. Agile and adept at moving through the treetops, they use their elevated position to conceal themselves and ambush unsuspecting travelers below. Their mastery of the canopy makes them elusive predators and dangerous inhabitants of the forest.",
         stats: {
             cdt: 4,
             attributes: {
@@ -1271,9 +1295,9 @@ add_species("votalli_ctal", {
                 toughness: -2,
                 leadership: 0
             },
-            abilities: ["Pack Tactics", "Natural Camouflage", "Scent"],
+            abilities: ["Pack Tactics", "Natural Camouflage"],
             negatives: ["Skittish"],
-            traits: ["infravision", "tiny", "fang_and_claw"],
+            traits: ["infravision", "tiny", "fang_and_claw", "Scent"],
             hit_locations: {
                 data: {
                     head: [1],
@@ -1305,19 +1329,21 @@ add_species("votalli_ctal", {
             knowledge_skills: {
                 fixed: [
                     { name: "Survival (Forest)", rank: 1 },
-                    { name: "Ambush", rank: 1 },
+                    { name: "Sneak", rank: 1 },
                     { name: "Hunting", rank: 1 },
+                    { name: "Tracking", rank: 1 },
+                    { name: "Weapon Skill (Unarmed)", rank: 2 },
                     { name: "Climbing", rank: 1 }
                 ],
                 choices: { count: 0, options: [] }
             },
-			knowledge_talents: { fixed: ["None"], choices: { count: 0, options: [] } }
+			knowledge_talents: { fixed: ["Ambush"], choices: { count: 0, options: [] } }
         }
     });
 
-    add_species("plains_goblin", {
+add_species("plains_goblin", {
         name: "Plains Goblin",
-        description: "These goblins are light brown skinned and furred. They are the most known goblin type for using tools. They build camps with palisades and use manufactured weapons.",
+        description: "These Goblins have light brown skin and fur and are the most renowned of their kind for their use of tools and crafted equipment. They build organized camps protected by palisades and make extensive use of manufactured weapons, demonstrating a level of ingenuity and organization uncommon among other Goblin peoples.",
         stats: {
             cdt: 4,
             attributes: {
@@ -1367,19 +1393,22 @@ add_species("votalli_ctal", {
             },
             knowledge_skills: {
                 fixed: [
-                    { name: "Intimidate", rank: 1 },
-                    { name: "Ambush", rank: 1 },
+                    { name: "Sneak", rank: 1 },
+                    { name: "Hunting", rank: 1 },
+                    { name: "Tracking", rank: 1 },
+                    { name: "Weapon Skill (Polearms)", rank: 0 },
+                    { name: "Weapon Skill (Bows)", rank: 0 },
                     { name: "Bargain", rank: 1 }
                 ],
                 choices: { count: 0, options: [] }
             },
-			knowledge_talents: { fixed: ["None"], choices: { count: 0, options: [] } }
+			knowledge_talents: { fixed: ["Ambush"], choices: { count: 0, options: [] } }
         }
     });
 
-    add_species("cave_goblin", {
+add_species("cave_goblin", {
         name: "Cave Goblin",
-        description: "These goblins are all but blind and have vestigial large white eyes and pale skin. They are amazing navigators and stone workers.",
+        description: "These Goblins are nearly blind, possessing large, white vestigial eyes and pale skin. Despite their poor vision, they are exceptional navigators, relying on other senses to navigate their surroundings. They are also skilled stoneworkers, with a particular talent for shaping and building with stone.",
         stats: {
             cdt: 4,
             attributes: {
@@ -1429,20 +1458,21 @@ add_species("votalli_ctal", {
             knowledge_skills: {
                 fixed: [
                     { name: "Survival (Cave)", rank: 1 },
-                    { name: "Ambush", rank: 1 },
-                    { name: "Hunting", rank: 1 },
-                    { name: "Blind Fighting", rank: 1 }
+                    { name: "Mining", rank: 1 },
+                    { name: "Navigation", rank: 1 },
+                    { name: "Artistic Ability (Sculpting)", rank: 1 },
+                    { name: "Weapon Skill (Unarmed)", rank: 2 },
                 ],
                 choices: { count: 0, options: [] }
             },
-			knowledge_talents: { fixed: ["None"], choices: { count: 0, options: [] } }
+			knowledge_talents: { fixed: ["Ambush", "Blind Fighting"], choices: { count: 0, options: [] } }
         }
     });
     // (I can add the other Goblin subspecies if you want them as separate entries)
 
-    add_species("orc", {
+add_species("orc", {
         name: "Orc",
-        description: "These stunted pig folk are universally a bad sign. They are shorter than the average man but incredibly durable and strong.",
+        description: "These stunted pig folk are universally regarded as a bad omen. Shorter than the average man, they possess remarkable strength and durability, making them surprisingly formidable despite their diminutive stature. Their appearance alone is often enough to inspire unease, and their arrival is rarely seen as a sign of good fortune.",
         stats: {
             cdt: 10,
             attributes: {
@@ -1457,9 +1487,9 @@ add_species("votalli_ctal", {
                 toughness: 2,
                 leadership: 0
             },
-            abilities: ["Scent", "Rough Hide"],
+            abilities: [],
             negatives: ["Filthy Pigs"],
-            traits: ["carnivorous", "stout", "tusked"],
+            traits: ["carnivorous", "stout", "tusked","Scent", "Rough Hide"],
             hit_locations: {
                 data: {
                     head: [1],
@@ -1476,7 +1506,7 @@ add_species("votalli_ctal", {
             attribute_adjustments: {
                 type: "fixed",
                 values: {
-                    strength: 4,
+                strength: 4,
                 dexterity: -2,
                 endurance: 4,
                 intelligence: -4,
@@ -1491,17 +1521,19 @@ add_species("votalli_ctal", {
             },
             knowledge_skills: {
                 fixed: [
-                    { name: "Survival", rank: 1 }
+                    { name: "Intimidation", rank: 1 },
+                    { name: "Weapon Skill (Unarmed)", rank: 1 },
+                    { name: "Cooking", rank: 1 },
                 ],
-                choices: { count: 0, options: [] }
+                choices: { count: 3, options: ["Weapon Skill (X)"] }
             },
-			knowledge_talents: { fixed: ["None"], choices: { count: 0, options: [] } }
+			knowledge_talents: { fixed: ["Endurance", "Grapple"], choices: { count: 0, options: [] } }
         }
     });
 
-    add_species("hobs", {
+add_species("hobs", {
         name: "Hobs",
-        description: "These are Half Breed creatures between Orcs and something else. Hobs are generally abused by both sides of the family and thus are very tough and used to taking beatings.",
+        description: "These Hobs are half-breeds born from Orcs and other peoples, often rejected and mistreated by both sides of their heritage. Their difficult upbringing has made them exceptionally tough and resilient, accustomed to hardship and physical abuse from an early age. Though often regarded with contempt, Hobs are survivors who endure punishment that would break others.",
         stats: {
             cdt: 14,
             attributes: {
@@ -1535,7 +1567,7 @@ add_species("votalli_ctal", {
             attribute_adjustments: {
                 type: "fixed",
                 values: {
-                    strength: 2,
+                strength: 2,
                 dexterity: -2,
                 endurance: 6,
                 reflexes: -2,
@@ -1553,18 +1585,18 @@ add_species("votalli_ctal", {
             },
             knowledge_skills: {
                 fixed: [
-                    { name: "Turtle", rank: 1 },
-                    { name: "Taunt", rank: 1 }
+                    { name: "Weapon Skill (Shield)", rank: 1 },
+                    { name: "Perception", rank: 3 },
                 ],
                 choices: { count: 0, options: [] }
             },
-			knowledge_talents: { fixed: ["None"], choices: { count: 0, options: [] } }
+			knowledge_talents: { fixed: ["Turtle", "Endurance"], choices: { count: 0, options: [] } }
         }
     });
 
-        add_species("orrol", {
+add_species("orrol", {
         name: "Orrol",
-        description: "These are half breeds between trolls and orcs. They are massive troll-sized orc hybrids that have the best qualities of both parent. They have the strength and build of an orc and the size and stealth of a troll.",
+        description: "These massive hybrids are the offspring of Trolls and Orcs, combining the strongest traits of both. They possess the powerful build and strength of an Orc alongside the immense size and surprising stealth of a Troll. Their formidable physique makes them natural hunters and warriors, capable of moving with an unsettling quietness despite their enormous stature.",
         stats: {
             cdt: 12,
             attributes: {
@@ -1579,9 +1611,9 @@ add_species("votalli_ctal", {
                 toughness: 2,
                 leadership: 0
             },
-            abilities: ["Black Fur", "Scent"],
+            abilities: ["Black Fur"],
             negatives: ["Oiled Coat", "Monstrous", "Smelly", "Dull"],
-            traits: ["large", "infravision"],
+            traits: ["large", "infravision", "Scent"],
             hit_locations: {
                 data: {
                     head: [1],
@@ -1616,17 +1648,18 @@ add_species("votalli_ctal", {
             knowledge_skills: {
                 fixed: [
                     { name: "Sneak", rank: 1 },
-                    { name: "Hide", rank: 1 }
+                    { name: "Hide", rank: 1 },
+                    { name: "Weapon Skill (Unarmed)", rank: 1 },
                 ],
                 choices: { count: 0, options: [] }
             },
-			knowledge_talents: { fixed: ["None"], choices: { count: 0, options: [] } }
+			knowledge_talents: { fixed: ["Ambush", "Sneak Attack", "Back Stab"], choices: { count: 0, options: [] } }
         }
     });
 
-    add_species("gnoll", {
+add_species("gnoll", {
         name: "Gnoll",
-        description: "Gnolls are large bipedal hyena like beings of pure narcissism. They are raised in brutal abusive family units where the dominant parent rules with an iron fist.",
+        description: "Gnolls are large, bipedal hyena-like beings defined by fierce narcissism and domineering personalities. They are raised within brutal family units where the strongest parent rules through fear and violence, teaching their young that dominance is the foundation of respect and survival. This upbringing produces a people who are fiercely self-centered, aggressive, and constantly driven to establish their superiority over others.",
         stats: {
             cdt: 12,
             attributes: {
@@ -1641,9 +1674,9 @@ add_species("votalli_ctal", {
                 toughness: 0,
                 leadership: 0
             },
-            abilities: ["Wicked Laugh", "Blood Scent"],
+            abilities: ["Wicked Laugh"],
             negatives: ["Hated", "Narcissist"],
-            traits: ["infravision", "fang_and_claw"],
+            traits: ["infravision", "fang_and_claw", "Blood Scent"],
             hit_locations: {
                 data: {
                     head: [1],
@@ -1674,18 +1707,19 @@ add_species("votalli_ctal", {
             },
             knowledge_skills: {
                 fixed: [
-                    { name: "Intimidate", rank: 1 },
+                    { name: "Intimidate", rank: 3 },
+                    { name: "Weapon Skill (Unarmed)", rank: 3 },
                     { name: "Taunt", rank: 1 }
                 ],
                 choices: { count: 0, options: [] }
             },
-			knowledge_talents: { fixed: ["None"], choices: { count: 0, options: [] } }
+			knowledge_talents: { fixed: ["Grapple"], choices: { count: 0, options: [] } }
         }
     });
 
-    add_species("nezumi", {
+add_species("nezumi", {
         name: "Nezumi",
-        description: "These creatures hail from far west. They are small rat like humanoids which has won them no degree of discrimination. Most of the Nezumi that have crossed now live in poverty and are more or less forced to be criminals.",
+        description: "These small, rat-like humanoids hail from the far west and have faced widespread discrimination since arriving in Etilas. Most Nezumi live in poverty, with prejudice and limited opportunities forcing many into lives of crime and survival on the fringes of society.",
         stats: {
             cdt: 6,
             attributes: {
@@ -1733,18 +1767,21 @@ add_species("votalli_ctal", {
             },
             knowledge_skills: {
                 fixed: [
-                    { name: "Awareness", rank: 1 },
-                    { name: "Stealth", rank: 1 }
+                    { name: "Sneak", rank: 1 },
+                    { name: "Hide", rank: 1 },
+                    { name: "Pick Pocket", rank: 1 },
+                    { name: "Open Locks", rank: 1 },
+                    { name: "Climbing", rank: 1 },
                 ],
                 choices: { count: 0, options: [] }
             },
-			knowledge_talents: { fixed: ["None"], choices: { count: 0, options: [] } }
+			knowledge_talents: { fixed: ["Awareness"], choices: { count: 0, options: [] } }
         }
     });
 
-    add_species("kobold", {
+add_species("kobold", {
         name: "Kobold",
-        description: "These small draconic reptiles are said to be ancestors of the great dragons of Etilas. They are small, cunning, and proud of their draconic heritage.",
+        description: "These small draconic reptiles are believed to be the ancestors of Etilas’s great dragons. Cunning and proud, they hold their draconic heritage in high regard despite their diminutive size. They are fiercely protective of their lineage and often consider themselves superior to other small reptilian peoples.",
         stats: {
             cdt: 4,
             attributes: {
@@ -1793,17 +1830,19 @@ add_species("votalli_ctal", {
             knowledge_skills: {
                 fixed: [
                     { name: "Mining", rank: 1 },
-                    { name: "Survival (Underground)", rank: 1 }
+                    { name: "Survival (Underground)", rank: 1 },
+                    { name: "Engineering", rank: 1 },
+                    { name: "Weapon Skill (Unarmed)", rank: 1 },
                 ],
                 choices: { count: 0, options: [] }
             },
-			knowledge_talents: { fixed: ["None"], choices: { count: 0, options: [] } }
+			knowledge_talents: { fixed: ["Close Quarters Fighting"], choices: { count: 0, options: [] } }
         }
     });
 
-    add_species("minos", {
+add_species("minos", {
         name: "Minos",
-        description: "These creatures are intelligent and have societies much like the Gnolls. They are massive bull man hybrids known for their incredible strength and durability.",
+        description: "These massive bull-headed humanoids are highly intelligent and possess organized societies thriving off of slavery where the strong rule the weak. Renowned for their incredible strength and durability, they are imposing figures capable of enduring tremendous punishment. Their size and physical power make them formidable warriors and laborers alike.",
         stats: {
             cdt: 14,
             attributes: {
@@ -1852,18 +1891,18 @@ add_species("votalli_ctal", {
             },
             knowledge_skills: {
                 fixed: [
-                    { name: "Rage", rank: 1 },
-                    { name: "Intimidation", rank: 1 }
+                    { name: "Intimidation", rank: 4 },
+                    { name: "Weapon Skill (Unarmed)", rank: 4 },
                 ],
-                choices: { count: 0, options: [] }
+                choices: { count: 1, options: ["Weapon Skill (X)"] }
             },
-			knowledge_talents: { fixed: ["None"], choices: { count: 0, options: [] } }
+			knowledge_talents: { fixed: ["Rage", "Push", "Throw"], choices: { count: 1, options: ["Rage (Power)"] } }
         }
     });
 
-    add_species("fae_fairy", {
+add_species("fae_fairy", {
         name: "Fairy",
-        description: "The Fairies are minute beings resembling humanoids with insect wings. Standing no more than 4 inches tall these creatures seem harmless but they are unnaturally strong and have a host of natural powers.",
+        description: "Fairies are minute humanoid beings with delicate insect-like wings, standing no more than four inches tall. Despite their harmless appearance, they possess unnatural strength and a wide array of innate powers that make them far more formidable than their size suggests. Their diminutive stature belies the considerable power they naturally command.",
         stats: {
             cdt: 2,
             attributes: {
@@ -1915,6 +1954,9 @@ add_species("votalli_ctal", {
             knowledge_skills: {
                 fixed: [
                     { name: "Lore (Nature)", rank: 3 },
+                    { name: "Herbalism", rank: 1 },
+                    { name: "Brewing", rank: 1 },
+                    { name: "Pick Pocket", rank: 2 },
                     { name: "Lore (Druidry)", rank: 2 }
                 ],
                 choices: { count: 0, options: [] }
@@ -1923,9 +1965,9 @@ add_species("votalli_ctal", {
         }
     });
 
-	    add_species("felinim", {
+add_species("felinim", {
         name: "Felinim",
-        description: "The Felinim originate from the Western Continent. They are renowned swordsman and avid pirates. They are agile and strong but are not very enduring. Their whimsical nature doesn’t make them good leaders though.",
+        description: "The Felinim originate from the Western Continent and are renowned swordsmen and avid pirates. Agile and strong but lacking endurance, they favor speed and precision in combat. Their whimsical and unpredictable nature makes them poor leaders, though it also contributes to their adventurous and independent spirit.",
         stats: {
             cdt: 6,
             attributes: {
@@ -1978,6 +2020,9 @@ add_species("votalli_ctal", {
             knowledge_skills: {
                 fixed: [
                     { name: "Intimidate", rank: 0 },
+                    { name: "Weapon Skill (Short Swords)", rank: 3 },
+                    { name: "Tumbling", rank: 0 },
+                    { name: "Sailing", rank: 2 },
                     { name: "Spot", rank: 2 }
                 ],
                 choices: { count: 0, options: [] }

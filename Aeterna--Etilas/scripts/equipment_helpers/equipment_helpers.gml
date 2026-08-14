@@ -14,13 +14,97 @@ function equipment_layout(L)
     };
 }
 
+function handle_equipment_column(cc, x, column_id, lay, mx, my, clicked, right_clicked)
+{
+    var panel_w = lay.col_w;
+    var panel_x = x - panel_w * 0.5;
+    var panel_y = lay.panel_y;
+    var btn_w = panel_w - 24;
+    var btn_x = panel_x + 12;
+
+    var showing_items = (cc.equipment.selected_column == column_id
+        && cc.equipment.selected_category != "");
+
+    if (showing_items)
+    {
+        // Back (click header area)
+        if (clicked && point_in_rectangle(mx, my, panel_x, panel_y, panel_x + panel_w, panel_y + 60))
+        {
+            cc.equipment.selected_category = "";
+            cc.equipment.selected_column = "";
+            return;
+        }
+
+        var items = get_equipment_items(column_id, cc.equipment.selected_category);
+        var row_h = 28;
+        var start_y = panel_y + 70;
+
+        for (var i = 0; i < array_length(items); i++)
+        {
+            var item = items[i];
+            var by = start_y + i * (row_h + 4);
+
+            if (!point_in_rectangle(mx, my, btn_x, by, btn_x + btn_w, by + row_h))
+                continue;
+
+            if (clicked)
+            {
+                // Buy
+                if (cc.equipment.gold >= item.cost)
+                {
+                    cc.equipment.gold -= item.cost;
+                    if (!variable_struct_exists(cc.equipment.owned, item.id))
+                        cc.equipment.owned[$ item.id] = 0;
+                    cc.equipment.owned[$ item.id]++;
+                }
+            }
+            else if (right_clicked)
+            {
+                // Sell one
+                if (variable_struct_exists(cc.equipment.owned, item.id)
+                    && cc.equipment.owned[$ item.id] > 0)
+                {
+                    cc.equipment.owned[$ item.id]--;
+                    cc.equipment.gold += item.cost;
+                    if (cc.equipment.owned[$ item.id] <= 0)
+                        variable_struct_remove(cc.equipment.owned, item.id);
+                }
+            }
+            return;
+        }
+        return;
+    }
+
+    // Categories
+    var cats = get_equipment_categories(column_id);
+    var row_h = 30;
+    var start_y = panel_y + 50;
+
+    for (var i = 0; i < array_length(cats); i++)
+    {
+        var cat = cats[i];
+        var by = start_y + i * (row_h + 6);
+
+        if (!point_in_rectangle(mx, my, btn_x, by, btn_x + btn_w, by + row_h))
+            continue;
+
+        if (clicked)
+        {
+            cc.equipment.selected_column = column_id;
+            cc.equipment.selected_category = cat;
+        }
+        return;
+    }
+	
+	
+}
 
 function get_equipment_categories(column)
 {
     switch (column)
     {
         case "weapons":
-            return ["Swords", "Axes", "Knives", "Daggers", "Clubs", "Polearms", "Bows", "Firearms"];
+            return ["Swords","Improvised","Flails","Whips","Axes", "Tools","Blunt","Polearms","Seige Engines", "Thrown","Crossbows", "Bows", "Firearms"];
         case "armor":
             return ["Light", "Medium", "Heavy", "Helmets", "Shields"];
         case "gear":

@@ -23,8 +23,9 @@ function draw_species_select(step)
     draw_set_color(c_white);
     draw_rectangle(sc_box_x, sc_box_y, sc_box_x + sc_box_w, sc_box_y + sc_box_h, true);
     draw_text(sc_box_x + 10, sc_box_y + 10, "SPECIES CONTROLS");
-    draw_text(sc_box_x + 10, sc_box_y + 35, "• Left Click Species = Select / Lock");
-    draw_text(sc_box_x + 10, sc_box_y + 55, "• Hover To View Summary");
+    draw_text(sc_box_x + 10, sc_box_y + 35, "- Left Click Species = Select / Lock");
+    draw_text(sc_box_x + 10, sc_box_y + 55, "- Hover To View Summary");
+    draw_text(sc_box_x + 10, sc_box_y + 75, "- (R) To Select Random Species");
 
     // =====================================================
     // SPECIES LIST - EVEN COLUMNS
