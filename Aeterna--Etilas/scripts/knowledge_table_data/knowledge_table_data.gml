@@ -181,7 +181,7 @@ global.knowledge_table_data[$ "Warfare"] =
         "Signaling",
         "Danger Sense",
         "Appraisal",
-            "Bribery",
+        "Bribery",
         "Prestidigitation",
         "Begging",
         "Camouflage",

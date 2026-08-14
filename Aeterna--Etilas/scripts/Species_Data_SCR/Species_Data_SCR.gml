@@ -36,7 +36,7 @@ function Species_Data_SCR()
     // Add new species easily here
     add_species("muttish_human", {
         name: "Muttish Human",
-        description: "Prolific and universal. They are everywhere and do everything well enough. Muttish Humans lack a specific nation or homeland due to their mixed origins, but their versatility allows them to thrive anywhere. As their name suggests, they are mutts of various human species and cultures. Their build and appearance range wildly across the human spectrum, with no standout physical traits. While they lack specialized advantages, their adaptability and well-rounded nature make them the most common and flexible of all human peoples.",
+        description: "Prolific and ubiquitous, Muttish Humans can be found throughout Etilas and beyond, thriving in nearly every environment and occupation. They possess no singular nation or homeland, having emerged from generations of intermingling between the many human peoples and cultures. As their name suggests, they are a mixture of countless human lineages, resulting in an enormous range of builds, features, and appearances with no defining physical characteristics of their own. Though they lack the specialized advantages of other human peoples, their versatility, adaptability, and well-rounded nature allow them to fit almost anywhere, making them the most common and flexible of all human peoples.",
         stats: {
             cdt: 8,
             attributes: {
@@ -85,7 +85,8 @@ function Species_Data_SCR()
                 }
             },
             knowledge_talents: {
-                choices: {
+                fixed: ["Language (Common)",],
+				choices: {
                     count: 2,
                     options: []
                 }
@@ -95,7 +96,7 @@ function Species_Data_SCR()
 
     add_species("holdstadtish_human", {
         name: "Holdstadtish Human",
-        description: "Men that make up the western portion of Etilas. These people have a culture of strict honor and valor. They are warriors through and through, with a very military-oriented society and deep respect for warfare.Holdstadtish society values discipline, courage, and martial excellence above all else. Their rigid code of honor governs nearly every aspect of life, from personal conduct to national politics. While this makes them formidable soldiers and steadfast allies, it can also make them rigid and uncompromising in their worldview.",
+        description: "The Holdstadtish inhabit the western portion of Etilas. They are a people defined by strict honor, valor, and martial excellence, with a society deeply shaped by warfare and military tradition. From an early age, Holdstadtish are taught the virtues of discipline, courage, loyalty, and service. Their rigid code of honor governs nearly every aspect of life, from personal conduct and social standing to military affairs and national politics. A warrior's reputation is considered a reflection of both their character and their people, and acts of cowardice or dishonor can carry consequences long after the deed itself. This devotion to martial virtue has made the Holdstadtish formidable soldiers and steadfast allies, but their uncompromising adherence to tradition can also make them rigid in their beliefs and slow to accept those who do not share their values.",
         stats: {
             cdt: 10,
             attributes: {
@@ -152,7 +153,7 @@ function Species_Data_SCR()
                 choices: { count: 0, options: [] }
             },
             knowledge_talents: {
-                fixed: ["Martial Training"],
+                fixed: ["Martial Training", "Language (Common)",],
                 choices: { count: 0, options: [] }
             }
         }
@@ -160,7 +161,7 @@ function Species_Data_SCR()
 
     add_species("corintish_human", {
         name: "Corintish Human",
-        description: "The Corintish inhabit the southern central region of Etilas, just north of Sun’s Rise. They are among the most educated people in the known world, with a culture built around the pursuit, preservation, and dissemination of knowledge. Their cities are filled with colleges, libraries, academies, and private schools, many of which have existed for generations. Learning is not reserved for a privileged few; literacy and education are deeply respected, and scholars, teachers, and researchers hold considerable social prestige.",
+        description: "The Corintish inhabit the southern central region of Etilas, just north of Sun’s Rise. They are among the most educated people in the known world, with a culture devoted to the pursuit, preservation, and dissemination of knowledge. Their cities are filled with colleges, libraries, academies, and private schools, many of which have existed for generations. Education is not reserved for the privileged. Literacy is widespread and learning is deeply respected throughout Corintish society, while scholars, teachers, and researchers enjoy considerable social prestige. The accumulation and sharing of knowledge is regarded not merely as a personal achievement, but as a responsibility to future generations.",
         stats: {
             cdt: 6,
             attributes: {
@@ -219,13 +220,13 @@ function Species_Data_SCR()
                 ],
                 choices: { count: 0, options: [] }
             },
-			knowledge_talents: { fixed: ["Read and Write (Common)"], choices: { count: 0, options: [] } }
+			knowledge_talents: { fixed: ["Read and Write (Common)", "Language (Common)",], choices: { count: 0, options: [] } }
         }
     });
 
     add_species("hoofskull", {
-        name: "HoofSkull",
-        description: "These people inhabit the recently taken Minotaur capital. After a prosperous rise from poverty they wish to declare themselves independent from Holdstadt and are adept at naval war and ambush.",
+        name: "HoofSkull Human",
+        description: "These rough, dark skinned human people inhabit the recently conquered Minotaur capital, where generations of hardship have given way to unexpected prosperity. Their newfound wealth and influence have fostered a fierce sense of independence, and many now believe they have outgrown their place within Holdstadt. Though still formally subject to Holdstadt, calls for independence grow stronger with each passing year. Their history has also shaped their approach to warfare. Accustomed to fighting from disadvantageous positions, they have become exceptionally skilled at naval warfare, coastal raids, and ambushes. They favor patience, concealment, and striking an enemy where they least expect it rather than meeting superior forces in a straightforward battle.",
         stats: {
             cdt: 8,
             attributes: {
@@ -276,18 +277,19 @@ function Species_Data_SCR()
             knowledge_skills: {
                 fixed: [
                     { name: "Sailing", rank: 1 },
-					{ name: "Sailing", rank: 1 },
+					{ name: "Hide", rank: 2 },
+					{ name: "Dirty Tricks", rank: 1 },
                     { name: "Survival (Wastes)", rank: 3 }
                 ],
                 choices: { count: 0, options: [] }
             },
-			knowledge_talents: { fixed: ["Endurance", ""], choices: { count: 0, options: [] } }
+			knowledge_talents: { fixed: ["Endurance", "Alertness", "Ambush", "Language (Common)",], choices: { count: 0, options: [] } }
         }
     });
 
     add_species("galish", {
         name: "Galish",
-        description: "The Galish are a short bipedal nature attuned folk. They have slender and very angular frames, and stand about 4-4½ feet tall. Though they are slender they make up in bulk for speed. They are a fickle people and can hop from idea to idea nigh instantly and are incredibly quick to lose interest in things. As they age they become more disinterested with the world around them but with that comes a difference in temperament. They become more sagely and patient with thought.",
+        description: "The Galish are a short, bipedal, nature-attuned people with slender, sharply angular frames, standing between four and four and a half feet tall. Though slight in build, they possess surprising bulk and resilience, sacrificing speed for a sturdier physique. Galish are notoriously fickle, often leaping from one idea or interest to another with little warning and losing interest in pursuits almost as quickly as they discover them. This restlessness gradually fades with age; older Galish become increasingly detached from the world around them, yet this disinterest brings a calmer and more contemplative temperament. With age, they grow patient and sagely, preferring thoughtful consideration over the impulsiveness of their youth.",
         stats: {
             cdt: 6,
             attributes: {
@@ -339,17 +341,19 @@ function Species_Data_SCR()
             knowledge_skills: {
                 fixed: [
                     { name: "Lore (Nature)", rank: 3 },
+                    { name: "Herbalism", rank: 1 },
+                    { name: "Tracking", rank: 1 },
                     { name: "Animal Handling", rank: 2 }
                 ],
                 choices: { count: 0, options: [] }
             },
-			knowledge_talents: { fixed: ["None"], choices: { count: 0, options: [] } }
+			knowledge_talents: { fixed: ["Language (Galish)",], choices: { count: 0, options: [] } }
         }
     });
 
     add_species("galheston", {
         name: "GalHeston",
-        description: "The GalHeston tribe of the Galish is predominantly made of older members of Galish society and they believe it is wise to uphold their treaties with the other races in Etilas. They are often viewed as more trustworthy but they seem oblivious to the danger being caused by their cousins the Galgaharad.",
+        description: "The GalHeston are a tribe of predominantly older Galish who believe strongly in honoring the treaties and agreements their people have made with the other races of Etilas. Their age and experience have earned them a reputation for wisdom, patience, and trustworthiness, and they are often regarded as reliable mediators and allies. However, their faith in diplomacy and their desire to preserve peace have left them seemingly oblivious to the growing danger posed by their cousins, the Galgaharad, whose actions increasingly threaten the stability of the region.",
         stats: {
             cdt: 6,
             attributes: {
@@ -402,17 +406,20 @@ function Species_Data_SCR()
             knowledge_skills: {
                 fixed: [
                     { name: "Diplomacy", rank: 2 },
+                    { name: "Meditate", rank: 2 },
+                    { name: "Leadership", rank: 6 },
+                    { name: "Ancient History", rank: 2 },
                     { name: "Survival (Forest)", rank: 3 }
                 ],
                 choices: { count: 0, options: [] }
             },
-			knowledge_talents: { fixed: ["None"], choices: { count: 0, options: [] } }
+			knowledge_talents: { fixed: ["Language (Common)", "Language (Galish)", ], choices: { count: 0, options: [] } }
         }
     });
 
     add_species("galgaharad", {
         name: "GalGaHarad",
-        description: "The GalGaHarad tribe of the Galish are predominantly younger Galish who follow their tribe leader GalGaHarad Helminier. He has made a public declaration that the other sentient beings of this realm are the reason that their Goddess Nai allowed the invasion to occur.",
+        description: "The GalGaHarad are a tribe composed predominantly of younger Galish who follow their charismatic leader, GalGaHarad Helminier. Helminier has publicly declared that the other sentient peoples of the realm are responsible for the suffering brought upon the Galish, claiming that their actions provoked the Goddess Nai and caused her to allow the invasion to occur. His teachings have found particular appeal among younger Galish, turning resentment and fear toward the other peoples of Etilas and creating a growing movement that rejects the treaties and coexistence upheld by their elders.",
         stats: {
             cdt: 6,
             attributes: {
@@ -462,12 +469,15 @@ function Species_Data_SCR()
             },
             knowledge_skills: {
                 fixed: [
-                    { name: "Wild Fighting", rank: 1 },
+                    { name: "Tactics", rank: 1 },
+                    { name: "Hide", rank: 1 },
+                    { name: "Sneak", rank: 1 },
+                    { name: "Tracking", rank: 1 },
                     { name: "Survival (Forest)", rank: 3 }
                 ],
                 choices: { count: 0, options: [] }
             },
-			knowledge_talents: { fixed: ["None"], choices: { count: 0, options: [] } }
+			knowledge_talents: { fixed: ["Wild Fighting", ], choices: { count: 0, options: [] } }
         }
     });
 
@@ -510,7 +520,7 @@ function Species_Data_SCR()
 
 add_species("xiba_xida", {
         name: "Xi Da",
-        description: "The Xi Da are the dark-furred Xiba who were the first to leave the cave and 'abandon' the sun’s watch. They are smaller than their cousins but can fly and are much more adept at interacting with other races.",
+        description: "The Xi Da are the dark-furred Xiba who were the first of their people to leave the cave and, in doing so, “abandoned” the watch of the sun. Smaller than their cousins, the Xi Da possess wings that allow them to fly and have developed a far greater aptitude for interacting with other races. Their long separation from the cave has made them more accustomed to the wider world, allowing them to serve as traders, travelers, and intermediaries between the Xiba and the peoples beyond their ancestral home.",
         stats: {
             cdt: 6,
             attributes: {
@@ -558,18 +568,20 @@ add_species("xiba_xida", {
             },
             knowledge_skills: {
                 fixed: [
-                    { name: "Artistic Ability (X)", rank: 3 },
-                    { name: "Bargain", rank: 2 }
+                    { name: "Artistic Ability (Sculpting)", rank: 3 },
+                    { name: "Bargain", rank: 2 },
+                    { name: "Appraisal", rank: 2 },
+                    { name: "Navigation", rank: 1 },
                 ],
                 choices: { count: 0, options: [] }
             },
-			knowledge_talents: { fixed: ["None"], choices: { count: 0, options: [] } }
+			knowledge_talents: { fixed: ["Language (Xiba), Language (Common)"], choices: { count: 0, options: [] } }
         }
     });
 
-    add_species("xiba_xisu", {
+add_species("xiba_xisu", {
         name: "Xi Su",
-        description: "The Xi Su are often called Sun bats and are the folk that reportedly claim to have raised the sun into the sky and now protect its resting place. They are much larger and more powerful and have much lighter fur colors.",
+        description: "The Xi Su, often called Sun Bats, are the Xiba who claim to have raised the sun into the sky and now stand as its protectors. They are considerably larger and more powerful than their Xi Da cousins, with much lighter fur that reflects their close association with the sun. The Xi Su are deeply devoted to their sacred duty, regarding the protection of the sun and its resting place as both a religious obligation and a defining part of their identity.",
         stats: {
             cdt: 6,
             attributes: {
@@ -620,17 +632,21 @@ add_species("xiba_xida", {
             knowledge_skills: {
                 fixed: [
                     { name: "Religion", rank: 3 },
-                    { name: "Blind Fighting", rank: 1 }
+                    { name: "Weapon Skill (Polearms)", rank: 3 },
+                    { name: "Lore (Sol)", rank: 1 },
+                    { name: "Lore (Xiba)", rank: 1 },
+                    { name: "Ancient History", rank: 1 },
+                    { name: "Intimidate", rank: 1 },
                 ],
                 choices: { count: 0, options: [] }
             },
-			knowledge_talents: { fixed: ["None"], choices: { count: 0, options: [] } }
+			knowledge_talents: { fixed: ["Blind Fighting", "Endurance"], choices: { count: 0, options: [] } }
         }
     });
 	
-	    add_species("votalli_ctai", {
+add_species("votalli_ctai", {
         name: "C’Tai",
-        description: "These Vo’Tali are nothing less than impressive. Each standing heads over a full grown man and built with muscle and covered in a thick protective scale hide. These creatures are formidable warriors with the ferocity of pure natural instinct.",
+        description: "The Vo’Tali are nothing less than imposing. Each stands well above a full-grown man, their powerful frames covered in thick, protective scales that make them as formidable as they are resilient. They are fearsome warriors, combining immense physical strength with the raw ferocity of natural instinct. To face a Vo’Tali in battle is to contend with a creature seemingly built for violence, whose primal instincts make them relentless and dangerous opponents.",
         stats: {
             cdt: 14,
             attributes: {
@@ -682,17 +698,18 @@ add_species("xiba_xida", {
             knowledge_skills: {
                 fixed: [
                     { name: "Survival (Swamp)", rank: 1 },
-                    { name: "Wild Fighting", rank: 1 }
+                    { name: "Weapon Skill (Unarmed)", rank: 4 },
+                    { name: "Hunting", rank: 3 },
                 ],
                 choices: { count: 0, options: [] }
             },
-			knowledge_talents: { fixed: ["None"], choices: { count: 0, options: [] } }
+			knowledge_talents: { fixed: ["Wild Fighting", "Endurance", "Rage", "Rage Power (Berserker)", "Grapple"], choices: { count: 0, options: [] } }
         }
     });
 
-    add_species("votalli_ctal", {
+add_species("votalli_ctal", {
         name: "C’Tal",
-        description: "These Vo’Tali are direct opposites of their genetic cousins. They are much smaller and much smarter, acting as religious figures and shamanic guides for tribes.",
+        description: "The C'Tal are the smaller and more intelligent counterparts to their genetic cousins, possessing a temperament and way of life shaped by thought rather than instinct. Where their larger kin are renowned for their physical might and ferocity, the C'Tal serve as religious figures, shamans, and spiritual guides within their tribes. They are keepers of ancient traditions and knowledge, acting as healers, counselors, and interpreters of the natural and spiritual world. Their wisdom gives them considerable influence within their communities, where they are often trusted to guide their people through both everyday hardships and matters of faith.",
         stats: {
             cdt: 4,
             attributes: {
@@ -742,12 +759,17 @@ add_species("xiba_xida", {
             },
             knowledge_skills: {
                 fixed: [
-                    { name: "Religion", rank: 1 },
+                    { name: "Religion", rank: 3 },
+                    { name: "Lore (Kithsai)", rank: 1 },
+                    { name: "Herbalism", rank: 2 },
+                    { name: "Oratory", rank: 1 },
+                    { name: "Deception", rank: 1 },
+                    { name: "Prestidigitation", rank: 1 },
                     { name: "Survival (Swamp)", rank: 1 }
                 ],
                 choices: { count: 0, options: [] }
             },
-			knowledge_talents: { fixed: ["None"], choices: { count: 0, options: [] } }
+			knowledge_talents: { fixed: ["Perception",], choices: { count: 0, options: [] } }
         }
     });
 
