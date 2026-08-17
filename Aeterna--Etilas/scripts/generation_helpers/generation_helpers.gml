@@ -483,6 +483,17 @@ function attempt_skill_rank_up(cc, skill_key, base_skill, table)
         }
     }
 
+	if (skill_is_species_choice_option(cc, skill_key)
+	    && cc.species_skill_choice_remaining > 0)
+	{
+	    // Spec base at 0 → open popup; spend on popup confirm
+	    // ...
+	    cc.species_skill_choice_remaining--;
+	    set_skill_rank(cc, skill_key, current_rank + 1);
+	    // track for refund if you need
+	    return;
+	}
+
     // Fall back to character points
     var owns_table = table_is_owned(cc, cc.selected_table);
     var cost = owns_table ? 1 : 2;
@@ -865,7 +876,17 @@ function draw_skills_column(cc, L, skills_x = undefined)
     }
     draw_set_color(c_aqua);
     draw_text(skills_x, 342, "Free Skill Slots: " + string(remaining));
-
+	if (cc.species_skill_choice_required > 0)
+	{
+	    draw_set_color(c_black);
+		draw_rectangle(skills_x - 140, 910, skills_x + 140, 950, false)
+		draw_set_color(c_white);
+		draw_rectangle(skills_x - 140, 910, skills_x + 140, 950, true)
+		draw_set_color(c_white);
+	    draw_text(skills_x, 920, "Species Skill Choices: "
+	        + string(cc.species_skill_choice_required - cc.species_skill_choice_remaining)
+	        + " / " + string(cc.species_skill_choice_required));
+	}
 	
 	// Current table
 draw_set_color(c_ltgray);
@@ -970,12 +991,18 @@ else
         var is_hovered = (cc.hovered_skill == entry.name);
         var is_fixed = variable_struct_exists(cc.fixed_skills, entry.name)
             || (variable_struct_exists(entry, "is_fixed") && entry.is_fixed);
+		var is_choice_opt = skill_is_species_choice_option(cc, entry.name);
+		var has_choice_left = (cc.species_skill_choice_remaining > 0);
 
         // Background
         if (is_hovered)
             draw_set_color(make_color_rgb(60, 55, 25));
         else if (is_fixed)
             draw_set_color(make_color_rgb(20, 50, 25));
+		else if (is_choice_opt && has_choice_left)
+		    draw_set_color(make_color_rgb(255, 105, 180)); // pink — still needs ranks
+		else if (is_choice_opt && !has_choice_left)
+		    draw_set_color(c_aqua); // fulfilled choice skill
         else if (variable_struct_exists(cc.free_slot_ranks, entry.name) && cc.free_slot_ranks[$ entry.name] > 0)
             draw_set_color(make_color_rgb(20, 50, 60));
         else if (has_free_rank)
@@ -2349,4 +2376,90 @@ function generation_random_spend(cc)
     }
 
     show_debug_message("Random spend done. Slots left: " + string(cc.generation_slots_remaining));
+}
+
+
+function get_species_skill_choices(cc)
+{
+    if (!variable_struct_exists(cc, "locked_species")) return undefined;
+    if (!variable_struct_exists(global.species_data, cc.locked_species)) return undefined;
+    var sp = global.species_data[$ cc.locked_species];
+    if (!variable_struct_exists(sp.creation, "knowledge_skills")) return undefined;
+    if (!variable_struct_exists(sp.creation.knowledge_skills, "choices")) return undefined;
+    return sp.creation.knowledge_skills.choices;
+}
+
+function get_species_talent_choices(cc)
+{
+    if (!variable_struct_exists(cc, "locked_species")) return undefined;
+    if (!variable_struct_exists(global.species_data, cc.locked_species)) return undefined;
+    var sp = global.species_data[$ cc.locked_species];
+    if (!variable_struct_exists(sp.creation, "knowledge_talents")) return undefined;
+    if (!variable_struct_exists(sp.creation.knowledge_talents, "choices")) return undefined;
+    return sp.creation.knowledge_talents.choices;
+}
+
+function name_matches_option(entry_name, option_name)
+{
+    var a = string_replace_all(entry_name, " (X)", "");
+    var b = string_replace_all(option_name, " (X)", "");
+    return (entry_name == option_name || a == b || entry_name == b || a == option_name);
+}
+
+function skill_is_species_choice_option(cc, skill_key)
+{
+    var ch = get_species_skill_choices(cc);
+    if (ch == undefined || !variable_struct_exists(ch, "options")) return false;
+    for (var i = 0; i < array_length(ch.options); i++)
+        if (name_matches_option(skill_key, ch.options[i]))
+            return true;
+    return false;
+}
+
+function talent_is_species_choice_option(cc, talent_key)
+{
+    var ch = get_species_talent_choices(cc);
+    if (ch == undefined || !variable_struct_exists(ch, "options")) return false;
+    for (var i = 0; i < array_length(ch.options); i++)
+        if (name_matches_option(talent_key, ch.options[i]))
+            return true;
+    return false;
+}
+
+function generation_init_species_choices(cc)
+{
+    if (variable_struct_exists(cc, "species_choices_initialized")
+        && cc.species_choices_initialized)
+        return;
+
+    cc.species_skill_choice_required = 0;
+    cc.species_skill_choice_remaining = 0;
+    cc.species_talent_choice_required = 0;
+    cc.species_talent_choice_remaining = 0;
+
+    if (variable_struct_exists(cc, "locked_species")
+        && variable_struct_exists(global.species_data, cc.locked_species))
+    {
+        var sp = global.species_data[$ cc.locked_species];
+
+        if (variable_struct_exists(sp.creation, "knowledge_skills")
+            && variable_struct_exists(sp.creation.knowledge_skills, "choices")
+            && variable_struct_exists(sp.creation.knowledge_skills.choices, "count"))
+        {
+            var n = sp.creation.knowledge_skills.choices.count;
+            cc.species_skill_choice_required = n;
+            cc.species_skill_choice_remaining = n;
+        }
+
+        if (variable_struct_exists(sp.creation, "knowledge_talents")
+            && variable_struct_exists(sp.creation.knowledge_talents, "choices")
+            && variable_struct_exists(sp.creation.knowledge_talents.choices, "count"))
+        {
+            var n = sp.creation.knowledge_talents.choices.count;
+            cc.species_talent_choice_required = n;
+            cc.species_talent_choice_remaining = n;
+        }
+    }
+
+    cc.species_choices_initialized = true;
 }

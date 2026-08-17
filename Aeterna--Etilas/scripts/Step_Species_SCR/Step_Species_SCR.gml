@@ -74,15 +74,14 @@ for (var i = 0; i < species_count; i++)
     // -----------------------------
     // CONFIRM BUTTON (ONLY AFTER SELECTION)
     // -----------------------------
-    if (!is_undefined(cc.locked_species))
+    if (cc.locked_species != undefined)
     {
         if (mouse_check_button_pressed(mb_left)
         && point_in_rectangle(mx, my, 1600, 900, 1850, 980))
-        {
-            cc.confirmed_species = cc.locked_species;
-            cc.species = cc.locked_species;
-
-            go_to_next_step(cc);
-        }
+	        {
+	        cc.confirmed_species = cc.locked_species;
+	        cc.species = cc.locked_species;
+	        go_to_next_step(cc);
+	    }
     }
 }

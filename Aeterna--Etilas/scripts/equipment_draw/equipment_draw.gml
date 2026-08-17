@@ -50,12 +50,24 @@ function equipment_shop_draw(cc)
     var my = device_mouse_y_to_gui(0);
     var hover = point_in_rectangle(mx, my, btn_x, btn_y, btn_x + btn_w, btn_y + btn_h);
 
-    draw_set_color(hover ? c_lime : c_green);
-    draw_rectangle(btn_x, btn_y, btn_x + btn_w, btn_y + btn_h, false);
-    draw_set_color(c_white);
+
+if (hover)
+    draw_set_color(make_color_rgb(40, 90, 40));
+else
+    draw_set_color(make_color_rgb(30, 70, 30));
+
+draw_rectangle(btn_x, btn_y, btn_x + btn_w, btn_y + btn_h, false);
+
+
+    if (hover)
+        draw_set_color(c_lime);          // bright green border on hover
+    else
+        draw_set_color(c_green);
+
     draw_rectangle(btn_x, btn_y, btn_x + btn_w, btn_y + btn_h, true);
     draw_set_halign(fa_center);
     draw_set_valign(fa_middle);
+	draw_set_color(c_white);
     draw_text(btn_x + btn_w * 0.5, btn_y + btn_h * 0.5, "CONFIRM EQUIPMENT");
     draw_set_halign(fa_left);
     draw_set_valign(fa_top);

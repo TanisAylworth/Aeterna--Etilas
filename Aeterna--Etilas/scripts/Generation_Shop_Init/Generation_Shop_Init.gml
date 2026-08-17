@@ -21,6 +21,18 @@ function generation_shop_init(cc)
     if (!variable_global_exists("SKILL_SIMPLE"))      skill_constants_init();
     if (!variable_global_exists("skill_data"))        skills_data();
     talent_data();
+	
+	
+	
+	
+	
+	var sch = get_species_skill_choices(cc);
+	cc.species_skill_choice_remaining = (sch != undefined) ? sch.count : 0;
+	cc.species_skill_choice_required  = cc.species_skill_choice_remaining;
+
+	var tch = get_species_talent_choices(cc);
+	cc.species_talent_choice_remaining = (tch != undefined) ? tch.count : 0;
+	cc.species_talent_choice_required  = cc.species_talent_choice_remaining;
 
 show_debug_message("talent_data type: " + string(typeof(global.talent_data)));
 show_debug_message("Keys:");

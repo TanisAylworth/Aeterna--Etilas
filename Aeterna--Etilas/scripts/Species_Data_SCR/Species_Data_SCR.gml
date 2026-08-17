@@ -14,7 +14,7 @@ function Species_Data_SCR()
     "votalli_ctai",
     "votalli_ctal",
     "lowlind_gnome",
-    "higland_gnome",
+    "higlind_gnome",
     "durendim_lagrundun",
     "durendim_hagrundun",
     "skireen_icelindish",
@@ -352,7 +352,7 @@ function Species_Data_SCR()
     });
 
     add_species("galheston", {
-        name: "GalHeston",
+        name: "GalHeston Galish",
         description: "The GalHeston are a tribe of predominantly older Galish who strongly uphold their treaties with the other races of Etilas. Their age and experience have earned them a reputation for wisdom, patience, and trustworthiness, making them reliable mediators and allies. However, their faith in diplomacy has left them seemingly oblivious to the growing threat posed by their cousins, the GalGaHarad.",
         stats: {
             cdt: 6,
@@ -418,7 +418,7 @@ function Species_Data_SCR()
     });
 
     add_species("galgaharad", {
-        name: "GalGaHarad",
+        name: "GalGaHarad Galish",
         description: "The GalGaHarad are a tribe of predominantly younger Galish who follow their charismatic leader, GalGaHarad Helminier. Helminier claims that the other peoples of the realm provoked the Goddess Nai and caused her to allow the invasion. His teachings have fueled resentment toward outsiders and inspired a growing movement that rejects the treaties and coexistence upheld by their elders.",
         stats: {
             cdt: 6,
@@ -519,7 +519,7 @@ function Species_Data_SCR()
    // });
 
 add_species("xiba_xida", {
-        name: "Xi Da",
+        name: "Xi-Da Xiba",
         description: "The Xi Da are dark-furred Xiba who were the first of their people to leave the cave, “abandoning” the watch of the sun. Smaller than their cousins, they possess wings and are far more adept at interacting with other races. Their long separation from the cave has made them accustomed to the wider world, allowing them to serve as traders, travelers, and intermediaries between the Xiba and other peoples.",
         stats: {
             cdt: 6,
@@ -580,8 +580,8 @@ add_species("xiba_xida", {
     });
 
 add_species("xiba_xisu", {
-        name: "Xi Su",
-        description: "The Xi Su, often called Sun Bats, are Xiba who claim to have raised the sun into the sky and now protect it. They are considerably larger and more powerful than their Xi Da cousins, with much lighter fur reflecting their association with the sun. They are deeply devoted to this sacred duty, viewing the protection of the sun and its resting place as both a religious obligation and a defining part of their identity.",
+        name: "Xi-Su Xiba",
+        description: "The Xi-Su, often called Sun Bats, are Xiba who claim to have raised Sol the current god of light. They are considerably larger and more powerful than their Xi Da cousins, with much lighter fur reflecting their association with the sun. They are deeply devoted to this sacred duty, viewing the protection of the sun and its resting place as both a religious obligation and a defining part of their identity.",
         stats: {
             cdt: 6,
             attributes: {
@@ -645,8 +645,8 @@ add_species("xiba_xisu", {
     });
 	
 add_species("votalli_ctai", {
-        name: "C’Tai",
-        description: "The Vo’Tali are imposing creatures, standing well above a full-grown man with powerful frames covered in thick, protective scales. They are fearsome warriors, combining immense strength with the raw ferocity of natural instinct. Their primal nature makes them relentless and dangerous opponents in battle.",
+        name: "C’Tai Votalli",
+        description: "These Vo’Tali are imposing creatures, standing well above a full-grown man with powerful frames covered in thick, protective scales. They are fearsome warriors, combining immense strength with the raw ferocity of natural instinct. Their primal nature makes them relentless and dangerous opponents in battle.",
         stats: {
             cdt: 14,
             attributes: {
@@ -708,8 +708,8 @@ add_species("votalli_ctai", {
     });
 
 add_species("votalli_ctal", {
-        name: "C’Tal",
-        description: "The C'Tal are the smaller and more intelligent counterparts to their genetic cousins, shaped by thought rather than instinct. While their larger kin are known for physical might and ferocity, the C'Tal serve as religious figures, shamans, and spiritual guides. They preserve ancient traditions and knowledge, acting as healers, counselors, and interpreters of the natural and spiritual world. Their wisdom grants them considerable influence within their tribes.",
+        name: "C’Tal Votalli",
+        description: "These Votalli are the smaller and more intelligent counterparts to their genetic cousins, shaped by thought rather than instinct. While their larger kin are known for physical might and ferocity, the C'Tal serve as religious figures, shamans, and spiritual guides. They preserve ancient traditions and knowledge, acting as healers, counselors, and interpreters of the natural and spiritual world. Their wisdom grants them considerable influence within their tribes.",
         stats: {
             cdt: 4,
             attributes: {
@@ -833,8 +833,8 @@ add_species("lowlind_gnome", {
         }
     });
 
-add_species("higland_gnome", {
-        name: "HigLand Gnome",
+add_species("higlind_gnome", {
+        name: "Higlind Gnome",
         description: "These Gnomes evolved to live deep underground, resulting in smaller bodies that typically fall within the lower range of Gnomish stature. Their compact size allows them to navigate the cramped tunnels and passages of their subterranean homes with ease. Their most notable adaptation is their exceptional eyesight, allowing them to see in near-total darkness with remarkable clarity. Accustomed to life without natural light, they are equally comfortable navigating the deepest caverns as they are the surface world.",
         stats: {
             cdt: 6,
@@ -898,7 +898,7 @@ add_species("higland_gnome", {
     });
 	
 add_species("durendim_lagrundun", {
-        name: "Lagrundun",
+        name: "Lagrundun Duren",
         description: "These Duren are an extremely reclusive people, rarely welcoming outsiders into their communities and viewing other races with deep suspicion. Their distrust often borders on outright prejudice, with little justification beyond the simple belief that those who are not Duren are inherently lesser or unworthy of trust. Short and stout, rarely exceeding five feet in height, they possess surprising strength and endurance for their size. Despite their isolation, the Duren are highly industrious and take great pride in hard work, craftsmanship, and self-sufficiency.",
         stats: {
             cdt: 10,
@@ -959,7 +959,7 @@ add_species("durendim_lagrundun", {
     });
 
 add_species("durendim_hagrundun", {
-        name: "Hagrundun",
+        name: "Hagrundun Duren",
         description: "These Duren have accepted an Oath of Exile from the Mountain Homes, forcing them to leave their subterranean homeland and live upon the surface world. Far from viewing their exile as a punishment, they have developed an intense wanderlust and a fascination with the world beyond the mountains. They eagerly explore unfamiliar lands, seeking new places, peoples, and experiences, though their sheltered upbringing often leaves them unprepared for the dangers of the surface.",
         stats: {
             cdt: 8,
@@ -1020,7 +1020,7 @@ add_species("durendim_hagrundun", {
     });
 
 add_species("skireen_icelindish", {
-        name: "IceLindish",
+        name: "IceLindish Skireen",
         description: "These Skireen hail from the frozen far north, having traveled great distances to Etilas in pursuit of wanderlust and adventure. They are larger and more powerfully built than their Feldlindish cousins, shaped by the harsh environment of their northern homeland. Their love of exploration drives them to seek new lands, experiences, and challenges far from home.",
         stats: {
             cdt: 8,
@@ -1083,7 +1083,7 @@ add_species("skireen_icelindish", {
     });
 
 add_species("skireen_feldlindish", {
-        name: "Feldlindish",
+        name: "Feldlindish Skireen",
         description: "These Skireen are smaller than their cousins, but make up for their size with incredible speed and agility. They share the same wanderlust and love of adventure, traveling far from their homeland in search of new experiences. Their most striking feature is their exotic, brightly colored plumage, which sets them apart from the other Skireen.",
         stats: {
             cdt: 6,

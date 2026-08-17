@@ -44,18 +44,25 @@ function scr_ui_draw_section(tx, ty, title, data)
         }
         return ty;
     }
+
+/////TALENTS/////////////
 	
-	
-	if (title == "Talents" && is_struct(data))
+if (title == "Talents" && is_struct(data))
 {
     var fixed = variable_struct_exists(data, "fixed") ? data.fixed : [];
     var choice_count = 0;
+    var choice_options = [];
 
     if (variable_struct_exists(data, "choices"))
     {
         var c = data.choices;
-        if (is_struct(c) && variable_struct_exists(c, "count"))
-            choice_count = c.count;
+        if (is_struct(c))
+        {
+            if (variable_struct_exists(c, "count"))
+                choice_count = c.count;
+            if (variable_struct_exists(c, "options") && is_array(c.options))
+                choice_options = c.options;
+        }
     }
 
     if (array_length(fixed) > 0)
@@ -66,12 +73,26 @@ function scr_ui_draw_section(tx, ty, title, data)
             ty += line;
         }
     }
-    else if (choice_count > 0)
+
+    if (choice_count > 0)
     {
-        draw_text(tx + 10, ty, "Choose " + string(choice_count) + " Talents");
-        ty += line;
+        if (array_length(choice_options) > 0)
+        {
+            draw_text(tx + 10, ty, "Choose " + string(choice_count) + " from:");
+            ty += line;
+            for (var i = 0; i < array_length(choice_options); i++)
+            {
+                draw_text(tx + 20, ty, "- " + string(choice_options[i]));
+                ty += line;
+            }
+        }
+        else
+        {
+            draw_text(tx + 10, ty, "Choose " + string(choice_count) + " Free Talent(s)");
+            ty += line;
+        }
     }
-    else
+    else if (array_length(fixed) == 0)
     {
         draw_text(tx + 10, ty, "- None");
         ty += line;
@@ -84,59 +105,106 @@ function scr_ui_draw_section(tx, ty, title, data)
     // SKILLS - Per-Item Hover
     // =====================================================
     if (title == "Skills" && is_struct(data))
+{
+    var fixed = variable_struct_exists(data, "fixed") ? data.fixed : [];
+    var choice_count = 0;
+    var choice_options = [];
+
+    if (variable_struct_exists(data, "choices"))
     {
-        var fixed = variable_struct_exists(data, "fixed") ? data.fixed : [];
-        var choice_count = 0;
-
-        if (variable_struct_exists(data, "choices"))
+        var c = data.choices;
+        if (is_struct(c))
         {
-            var c = data.choices;
-            if (is_struct(c) && variable_struct_exists(c, "count"))
+            if (variable_struct_exists(c, "count"))
                 choice_count = c.count;
+            if (variable_struct_exists(c, "options") && is_array(c.options))
+                choice_options = c.options;
         }
+    }
 
-                if (array_length(fixed) > 0)
+    if (array_length(fixed) > 0)
+    {
+        for (var i = 0; i < array_length(fixed); i++)
         {
-            for (var i = 0; i < array_length(fixed); i++)
+            var s = fixed[i];
+            var item_y = ty;
+            var rank_str = variable_struct_exists(s, "rank") ? " (Rank " + string(s.rank) + ")" : "";
+            draw_text(tx + 10, item_y, "- " + s.name + rank_str);
+
+            if (point_in_rectangle(mx, my, tx + 10, item_y - 2, tx + 300, item_y + line + 2))
             {
-                var s = fixed[i];
-                var item_y = ty;
-                var rank_str = variable_struct_exists(s, "rank") ? " (Rank " + string(s.rank) + ")" : "";
-                draw_text(tx + 10, item_y, "- " + s.name + rank_str);
-
-                if (point_in_rectangle(mx, my, tx + 10, item_y - 2, tx + 300, item_y + line + 2))
+                var lookup_name = string_replace_all(s.name, " (X)", "");
+                var skill_data = undefined;
+                if (variable_global_exists("skill_data"))
                 {
-                    var lookup_name = string_replace_all(s.name, " (X)", "");
-					var skill_data = undefined;
+                    if (variable_struct_exists(global.skill_data, s.name))
+                        skill_data = global.skill_data[$ s.name];
+                    else if (variable_struct_exists(global.skill_data, lookup_name))
+                        skill_data = global.skill_data[$ lookup_name];
+                }
+                var tooltip_text = (skill_data != undefined && variable_struct_exists(skill_data, "description"))
+                    ? skill_data.description
+                    : "No description available.";
+                set_tooltip(tooltip_text, mx + 16, my + 16);
+            }
+            ty += line;
+        }
+    }
 
-					if (variable_global_exists("skill_data"))
-					{
-					    if (variable_struct_exists(global.skill_data, s.name))
-					        skill_data = global.skill_data[$ s.name];
-					    else if (variable_struct_exists(global.skill_data, lookup_name))
-					        skill_data = global.skill_data[$ lookup_name];
-					}
-					var tooltip_text = skill_data && variable_struct_exists(skill_data, "description") ? skill_data.description : "No description available.";
+    if (choice_count > 0)
+    {
+        if (array_length(choice_options) > 0)
+        {
+            draw_text(tx + 10, ty, "Choose " + string(choice_count) + " free rank(s) from:");
+            ty += line;
+            for (var i = 0; i < array_length(choice_options); i++)
+            {
+                var opt_name = string(choice_options[i]);
+                var item_y = ty;
+                draw_text(tx + 20, item_y, "- " + opt_name);
+
+                // Optional hover tooltip for choice options
+                if (point_in_rectangle(mx, my, tx + 20, item_y - 2, tx + 300, item_y + line + 2))
+                {
+                    var lookup_name = string_replace_all(opt_name, " (X)", "");
+                    var skill_data = undefined;
+                    if (variable_global_exists("skill_data"))
+                    {
+                        if (variable_struct_exists(global.skill_data, opt_name))
+                            skill_data = global.skill_data[$ opt_name];
+                        else if (variable_struct_exists(global.skill_data, lookup_name))
+                            skill_data = global.skill_data[$ lookup_name];
+                    }
+                    var tooltip_text = (skill_data != undefined && variable_struct_exists(skill_data, "description"))
+                        ? skill_data.description
+                        : "No description available.";
                     set_tooltip(tooltip_text, mx + 16, my + 16);
                 }
                 ty += line;
             }
         }
-
-        if (choice_count > 0)
+        else
         {
-            draw_text(tx + 10, ty, "Choose " + string(choice_count) + " Free Skills");
+            draw_text(tx + 10, ty, "Choose " + string(choice_count) + " Free Skill(s)");
             ty += line;
         }
-        return ty;
     }
+
+    return ty;
+}
 
     // =====================================================
     // NEGATIVES - Per-Item Hover
     // =====================================================
     if (title == "Negatives" && is_array(data))
     {
-        for (var i = 0; i < array_length(data); i++)
+        if (array_length(data) == 0)
+        {
+            draw_text(tx + 10, ty, "- None");
+            return ty + line;
+        }
+		
+		for (var i = 0; i < array_length(data); i++)
         {
             var item_y = ty;
             draw_text(tx + 10, item_y, "- " + data[i]);
@@ -156,7 +224,13 @@ function scr_ui_draw_section(tx, ty, title, data)
     // =====================================================
     if (title == "Tables" && is_struct(data))
     {
-        if (variable_struct_exists(data, "fixed"))
+        if (array_length(data) == 0)
+        {
+            draw_text(tx + 10, ty, "- None");
+            return ty + line;
+        }
+		
+		if (variable_struct_exists(data, "fixed"))
         {
             var fixed = data.fixed;
             for (var i = 0; i < array_length(fixed); i++)
@@ -178,6 +252,12 @@ function scr_ui_draw_section(tx, ty, title, data)
     // =====================================================
     if (title == "Abilities" && is_array(data))
     {
+		
+		if (array_length(data) == 0)
+        {
+            draw_text(tx + 10, ty, "- None");
+            return ty + line;
+        }
         for (var i = 0; i < array_length(data); i++)
         {
             var item_y = ty;
@@ -199,7 +279,13 @@ function scr_ui_draw_section(tx, ty, title, data)
     // =====================================================
     if (title == "Traits" && is_array(data))
     {
-        for (var i = 0; i < array_length(data); i++)
+        
+		if (array_length(data) == 0)
+        {
+            draw_text(tx + 10, ty, "- None");
+            return ty + line;
+        }
+		for (var i = 0; i < array_length(data); i++)
         {
             var item_y = ty;
             draw_text(tx + 10, item_y, "- " + scr_fmt_label(data[i]));

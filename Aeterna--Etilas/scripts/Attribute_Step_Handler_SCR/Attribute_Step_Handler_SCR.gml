@@ -41,18 +41,21 @@ function attribute_step_update(cc)
     // ==========================================
     // CONFIG
     // ==========================================
-       var roll_w = 70;
-    var roll_h = 36;
-    var roll_spacing = 12;
+    var roll_w = 70;
+	var roll_h = 36;
+	var roll_spacing = 12;
 
-   
+	var roll_count = array_length(cc.roll_pool);
+	var attr_count = array_length(global.ATTRIBUTES);
 
-    var roll_count = array_length(cc.roll_pool);
-    var attr_count = array_length(global.ATTRIBUTES);
+	// Fixed layout — same as Draw (does not move as pool empties)
+	var full_count = array_length(cc.base_pool);
+	if (full_count <= 0)
+	    full_count = array_length(global.ATTRIBUTES);
 
-    var roll_total_w = roll_count * roll_w + max(0, roll_count - 1) * roll_spacing;
-    var roll_start_x = (screen_w - roll_total_w) * 0.5;
-    var roll_y = 80;
+	var roll_total_w = full_count * roll_w + max(0, full_count - 1) * roll_spacing;
+	var roll_start_x = (screen_w - roll_total_w) * 0.5;
+	var roll_y = 80;
 
        // Toggle manual mode
     if (left && !click_used)
@@ -299,14 +302,6 @@ function attribute_step_update(cc)
         if (array_length(cc.roll_pool) > 0) ready = false;
         if (cc.species_bonus_remaining > 0) ready = false;
 
-        draw_set_color(!ready ? c_dkgray : (hover_btn ? c_lime : c_green));
-        draw_rectangle(btn_x, btn_y, btn_x + btn_w, btn_y + btn_h, false);
-        draw_set_color(c_white);
-        draw_set_halign(fa_center);
-        draw_set_valign(fa_middle);
-        draw_text(btn_x + btn_w * 0.5, btn_y + btn_h * 0.5, "CONFIRM ATTRIBUTES");
-        draw_set_halign(fa_left);
-        draw_set_valign(fa_top);
 
         // CLICK DETECTION
         if (hover_btn && mouse_check_button_pressed(mb_left) && ready)

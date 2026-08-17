@@ -1,11 +1,11 @@
-function generation_shop_draw()
+function generation_shop_draw(step)
 {
     var cc = global.char_creation;
 	var mx = device_mouse_x_to_gui(0);
 var my = device_mouse_y_to_gui(0);
 	draw_generation_help_box();
     if (!variable_struct_exists(cc, "generation")) return;
-   
+	generation_init_species_choices(cc);
     // Safety defaults
     if (!variable_struct_exists(cc, "hovered_table")) cc.hovered_table = "";
     if (!variable_struct_exists(cc, "hovered_skill")) cc.hovered_skill = "";
@@ -163,14 +163,20 @@ var ready = (cc.generation_slots_remaining <= 0);
 if (!ready)
     draw_set_color(c_dkgray);
 else if (hover)
-    draw_set_color(c_lime);
+    draw_set_color(make_color_rgb(40, 90, 40));
 else
-    draw_set_color(c_green);
+    draw_set_color(make_color_rgb(30, 70, 30));
 
 draw_rectangle(btn_x, btn_y, btn_x + btn_w, btn_y + btn_h, false);
 
-draw_set_color(ready ? (hover ? c_yellow : c_white) : c_gray);
-draw_rectangle(btn_x, btn_y, btn_x + btn_w, btn_y + btn_h, true);
+if (!ready)
+        draw_set_color(c_gray);
+    else if (hover)
+        draw_set_color(c_lime);          // bright green border on hover
+    else
+        draw_set_color(c_green);
+
+    draw_rectangle(btn_x, btn_y, btn_x + btn_w, btn_y + btn_h, true);
 
 draw_set_halign(fa_center);
 draw_set_valign(fa_middle);
@@ -178,5 +184,8 @@ draw_set_color(ready ? c_white : c_ltgray);
 draw_text(btn_x + btn_w * 0.5, btn_y + btn_h * 0.5, "CONFIRM GENERATION");
 draw_set_halign(fa_left);
 draw_set_valign(fa_top);
+
+
+
 
 }

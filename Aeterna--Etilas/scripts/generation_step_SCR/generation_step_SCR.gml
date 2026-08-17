@@ -18,7 +18,7 @@ function generation_step_update(cc)
 	
 	if (keyboard_check_pressed(ord("R")))
     generation_random_spend(cc);
-
+	generation_init_species_choices(cc);
     // === CLEAR HOVERS EVERY FRAME ===
     cc.hovered_table = "";
 	cc.hovered_talent = "";
@@ -73,6 +73,17 @@ handle_talent_list(cc, L, mx, my, clicked, right_clicked, lay.talents_x);
     }
 }
 	
+var ready = (cc.generation_slots_remaining <= 0);
+
+if (variable_struct_exists(cc, "species_skill_choice_remaining")
+    && cc.species_skill_choice_remaining > 0)
+    ready = false;
+
+if (variable_struct_exists(cc, "species_talent_choice_remaining")
+    && cc.species_talent_choice_remaining > 0)
+    ready = false;
+
+// grey vs green same as other confirms
 	
 	// Confirm generation → equipment
 var screen_w = display_get_gui_width();

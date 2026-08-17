@@ -111,32 +111,30 @@ function draw_species_select(step)
     if (mouse_check_button_pressed(mb_right))
         global.char_creation.locked_species = undefined;
 
-    // =====================================================
-    // RIGHT PANEL (YOUR ORIGINAL CODE)
-    // =====================================================
-    var tx = panel_x + 16;
-    var ty = panel_y + 16;
-    var line = 18;
-    draw_set_color(c_white);
+// =====================================================
+// RIGHT PANEL
+// =====================================================
+var tx = panel_x + 16;
+var ty = panel_y + 16;
+var line = 18;
+draw_set_color(c_white);
 
-    var selected_id = global.char_creation.locked_species;
-    if (selected_id == undefined && hovered_species != undefined)
-        selected_id = hovered_species;
+var selected_id = global.char_creation.locked_species;
+if (selected_id == undefined && hovered_species != undefined)
+    selected_id = hovered_species;
 
-    var selected = undefined;
-    if (selected_id != undefined && variable_struct_exists(global.species_data, selected_id))
-        selected = global.species_data[$ selected_id];
+var selected = undefined;
+if (selected_id != undefined && variable_struct_exists(global.species_data, selected_id))
+    selected = global.species_data[$ selected_id];
 
-    if (selected == undefined)
-    {
-        draw_text(tx, ty, "No species selected");
-        return;
-    }
-
-    // BASIC INFO
+if (selected == undefined)
+{
+    draw_text(tx, ty, "No species selected");
+}
+else
+{
     draw_text(tx, ty, selected.name);
     ty += 28;
-
     draw_text_ext(tx, ty, selected.description, line, panel_w - 32);
     ty += string_height_ext(selected.description, line, panel_w - 32) + 20;
 
@@ -144,44 +142,49 @@ function draw_species_select(step)
     draw_text(tx, cdt_y, "CDT: " + string(selected.stats.cdt));
     if (point_in_rectangle(mx, my, tx, cdt_y, tx + 200, cdt_y + 18))
         set_tooltip("Critical Damage Threshold: The amount of damage required in a single hit to sustain a Critical Wound.", mx + 16, my + 16);
-
     ty += line * 2;
 
-    // Sections (your original calls)
     ty = scr_ui_draw_section(tx, ty, "Attribute Adjustments", selected.creation.attribute_adjustments);
     ty = scr_ui_draw_section(tx, ty, "Tables", selected.creation.knowledge_tables);
     ty = scr_ui_draw_section(tx, ty, "Skills", selected.creation.knowledge_skills);
     ty = scr_ui_draw_section(tx, ty, "Talents", selected.creation.knowledge_talents);
     ty = scr_ui_draw_section(tx, ty, "Abilities", selected.stats.abilities);
-	ty = scr_ui_draw_section(tx, ty, "Negatives", selected.stats.negatives);
+    ty = scr_ui_draw_section(tx, ty, "Negatives", selected.stats.negatives);
     ty = scr_ui_draw_section(tx, ty, "Hit Locations", selected.stats.hit_locations);
     ty = scr_ui_draw_section(tx, ty, "Traits", selected.stats.traits);
+}
 
-    // Confirm Button (your original)
-    if (global.char_creation.locked_species != undefined)
-    {
-        var btn_w = 260;
-        var btn_h = 60;
-        var btn_x = (vw - btn_w) * 0.5;
-        var btn_y = vh - 100;
-        var hovering = point_in_rectangle(mx, my, btn_x, btn_y, btn_x + btn_w, btn_y + btn_h);
+// Confirm — always drawn (no return above)
+var btn_w = 260;
+var btn_h = 60;
+var btn_x = (vw - btn_w) * 0.5;
+var btn_y = vh - 100;
 
-        draw_set_color(hovering ? c_lime : c_green);
-        draw_rectangle(btn_x, btn_y, btn_x + btn_w, btn_y + btn_h, false);
-        draw_set_color(c_lime);
-		draw_rectangle(btn_x, btn_y, btn_x + btn_w, btn_y + btn_h, true);
-		    draw_set_color(c_white);
-        draw_set_halign(fa_center);
-        draw_set_valign(fa_middle);
-        draw_text(btn_x + btn_w * 0.5, btn_y + btn_h * 0.5, "CONFIRM SPECIES");
-        draw_set_halign(fa_left);
-        draw_set_valign(fa_top);
-    }
-	
-	
-	
-	
-	
-	
-	
+var ready = (global.char_creation.locked_species != undefined);
+var hovering = point_in_rectangle(mx, my, btn_x, btn_y, btn_x + btn_w, btn_y + btn_h);
+
+if (!ready)
+    draw_set_color(c_dkgray);
+else if (hovering)
+    draw_set_color(make_color_rgb(40, 90, 40));
+else
+    draw_set_color(make_color_rgb(30, 70, 30));
+
+draw_rectangle(btn_x, btn_y, btn_x + btn_w, btn_y + btn_h, false);
+
+if (!ready)
+        draw_set_color(c_gray);
+    else if (hovering)
+        draw_set_color(c_lime);          // bright green border on hover
+    else
+        draw_set_color(c_green);
+
+    draw_rectangle(btn_x, btn_y, btn_x + btn_w, btn_y + btn_h, true);
+
+draw_set_halign(fa_center);
+draw_set_valign(fa_middle);
+draw_set_color(ready ? c_white : c_ltgray);
+draw_text(btn_x + btn_w * 0.5, btn_y + btn_h * 0.5, "CONFIRM SPECIES");
+draw_set_halign(fa_left);
+draw_set_valign(fa_top);
 }

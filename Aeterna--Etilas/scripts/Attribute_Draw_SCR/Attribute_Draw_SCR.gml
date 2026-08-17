@@ -68,79 +68,79 @@ function attribute_step_draw(cc)
 	
     
 
-        // =====================================================
-    // ROLL POOL DRAW (Matching box style)
     // =====================================================
-    var roll_pool = cc.roll_pool;
-    var roll_count = array_length(roll_pool);
-    var roll_w = 70;
-    var roll_h = 36;
-    var roll_spacing = 12;
-    var roll_total_w = roll_count * roll_w + (roll_count - 1) * roll_spacing;
-    var roll_start_x = (screen_w - roll_total_w) * 0.5;
-    var roll_y = 80;
+// ROLL POOL DRAW (Matching box style)
+// =====================================================
+var roll_pool = cc.roll_pool;
+var roll_count = array_length(roll_pool);
+var roll_w = 70;
+var roll_h = 36;
+var roll_spacing = 12;
 
-    // Header
-    draw_set_halign(fa_center);
-    draw_set_color(c_white);
-    draw_text(screen_w * 0.5, roll_y - 28, "ROLL POOL");
-    draw_set_halign(fa_left);
+// Fixed layout width — original pool size (does not shrink)
+var full_count = array_length(cc.base_pool);
+if (full_count <= 0)
+    full_count = array_length(global.ATTRIBUTES);
 
-    for (var i = 0; i < roll_count; i++)
-    {
-        var x1 = roll_start_x + i * (roll_w + roll_spacing);
-        var y1 = roll_y;
-        var x2 = x1 + roll_w;
-        var y2 = y1 + roll_h;
+var roll_total_w = full_count * roll_w + max(0, full_count - 1) * roll_spacing;
+var roll_start_x = (screen_w - roll_total_w) * 0.5;
+var roll_y = 80;
 
-        var is_selected = (cc.selected_roll_index == i);
-        var hover = point_in_rectangle(mx, my, x1, y1, x2, y2);
+// Header
+draw_set_halign(fa_center);
+draw_set_color(c_white);
+draw_text(screen_w * 0.5, roll_y - 28, "ROLL POOL");
+draw_set_halign(fa_left);
 
-        // Background
-        if (is_selected)
-            draw_set_color(make_color_rgb(70, 70, 30));      // selected
-        else if (hover)
-            draw_set_color(make_color_rgb(55, 55, 35));      // hover
-        else
-            draw_set_color(c_black);      // normal
+// Draw only remaining rolls (left-aligned inside the fixed strip)
+for (var i = 0; i < roll_count; i++)
+{
+    var x1 = roll_start_x + i * (roll_w + roll_spacing);
+    var y1 = roll_y;
+    var x2 = x1 + roll_w;
+    var y2 = y1 + roll_h;
 
-        draw_rectangle(x1, y1, x2, y2, false);
+    var is_selected = (cc.selected_roll_index == i);
+    var hover = point_in_rectangle(mx, my, x1, y1, x2, y2);
 
-        // Border
-        if (is_selected)
-            draw_set_color(c_yellow);
-        else if (hover)
-            draw_set_color(c_ltgray);
-        else
-            draw_set_color(c_white);
+    if (is_selected)
+        draw_set_color(make_color_rgb(70, 70, 30));
+    else if (hover)
+        draw_set_color(make_color_rgb(55, 55, 35));
+    else
+        draw_set_color(c_black);
 
-        draw_rectangle(x1, y1, x2, y2, true);
+    draw_rectangle(x1, y1, x2, y2, false);
 
-                // Number (or editing text)
-        draw_set_halign(fa_center);
-        draw_set_valign(fa_middle);
+    if (is_selected)
+        draw_set_color(c_yellow);
+    else if (hover)
+        draw_set_color(c_ltgray);
+    else
         draw_set_color(c_white);
 
-        if (cc.manual_roll_mode && cc.editing_roll_index == i)
-        {
-            // Only show the editing string + cursor
-            draw_text(x1 + roll_w * 0.5, y1 + roll_h * 0.5, cc.editing_roll_string + "|");
-        }
-        else
-        {
-            // Normal value
-            draw_text(x1 + roll_w * 0.5, y1 + roll_h * 0.5, string(roll_pool[i]));
-        }
+    draw_rectangle(x1, y1, x2, y2, true);
 
-        draw_set_halign(fa_left);
-        draw_set_valign(fa_top);
-    }
+    draw_set_halign(fa_center);
+    draw_set_valign(fa_middle);
+    draw_set_color(c_white);
+
+    if (cc.manual_roll_mode && cc.editing_roll_index == i)
+        draw_text(x1 + roll_w * 0.5, y1 + roll_h * 0.5, cc.editing_roll_string + "|");
+    else
+        draw_text(x1 + roll_w * 0.5, y1 + roll_h * 0.5, string(roll_pool[i]));
+
+    draw_set_halign(fa_left);
+    draw_set_valign(fa_top);
+}
+
+// Manual Rolls — fixed to the RIGHT EDGE of the full strip
+var man_w = 140;
+var man_h = 32;
+var man_x = roll_start_x + roll_total_w + 20;
+var man_y = roll_y;
 	
-	// Manual Rolls toggle button
-    var man_w = 140;
-    var man_h = 32;
-    var man_x = roll_start_x + roll_total_w + 20;
-    var man_y = roll_y;
+
 
     var hover_man = point_in_rectangle(mx, my, man_x, man_y, man_x + man_w, man_y + man_h);
 
