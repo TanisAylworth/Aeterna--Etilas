@@ -1894,9 +1894,9 @@ add_species("minos", {
                     { name: "Intimidation", rank: 4 },
                     { name: "Weapon Skill (Unarmed)", rank: 4 },
                 ],
-                choices: { count: 1, options: ["Weapon Skill (X)"] }
+                choices: { count: 1, options: ["Weapon Skill (X)"]}
             },
-			knowledge_talents: { fixed: ["Rage", "Push", "Throw"], choices: { count: 1, options: ["Rage (Power)"] } }
+			knowledge_talents: { fixed: ["Rage (X)", "Push", "Throw"], choices: { count: 0, options: [] } }
         }
     });
 

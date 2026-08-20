@@ -394,21 +394,12 @@ function handle_skill_list(cc, L, mx, my, clicked, right_clicked, skills_x = und
                 // Your existing rank-up / specialization popup logic here
                 // (keep whatever you already had for left-click)
 
-                var skill_data = global.skill_data[$ entry.name];
-                if (!skill_data)
-                    skill_data = global.skill_data[$ string_replace_all(entry.name, " (X)", "")];
-
-                if (skill_data && variable_struct_exists(skill_data, "specialization") && skill_data.specialization.required)
-                {
-                    // Only open popup — do NOT consume free slot here
-                    cc.pending_skill = entry.name;
-                    cc.pending_specializations = skill_data.specialization.choices;
-                    cc.specialization_popup = true;
-                }
-                else
-                {
-                    attempt_skill_rank_up(cc, entry.name, string_replace_all(entry.name, " (X)", ""), cc.selected_table);
-                }
+                attempt_skill_rank_up(
+    cc,
+    entry.name,
+    string_replace_all(entry.name, " (X)", ""),
+    cc.selected_table
+);
             }
             else if (right_clicked)
             {
@@ -425,9 +416,13 @@ function attempt_skill_rank_up(cc, skill_key, base_skill, table)
 {
     var current_rank = get_skill_rank(cc, skill_key);
 
+    var species_choice_skill =
+        get_species_choice_skill_for_specialization(cc, skill_key);
+
     // Spec required at 0 → open popup only (spend on confirm)
     var lookup = string_replace_all(skill_key, " (X)", "");
     var skill_data = global.skill_data[$ skill_key];
+
     if (skill_data == undefined)
         skill_data = global.skill_data[$ lookup];
 
@@ -441,7 +436,7 @@ function attempt_skill_rank_up(cc, skill_key, base_skill, table)
         cc.pending_specializations = skill_data.specialization.choices;
         cc.pending_skill_source = "cp"; // default
 
-        if (skill_is_species_choice_option(cc, skill_key)
+        if (species_choice_skill != undefined
             && variable_struct_exists(cc, "species_skill_choice_remaining")
             && cc.species_skill_choice_remaining > 0)
         {
@@ -451,8 +446,12 @@ function attempt_skill_rank_up(cc, skill_key, base_skill, table)
             && variable_struct_exists(cc, "locked_species"))
         {
             var sp = global.species_data[$ cc.locked_species];
-            if (variable_struct_exists(sp.creation.knowledge_skills, "choices")
-                && sp.creation.knowledge_skills.choices.count > 0)
+
+            if (variable_struct_exists(
+                sp.creation.knowledge_skills,
+                "choices"
+            )
+            && sp.creation.knowledge_skills.choices.count > 0)
             {
                 cc.pending_skill_source = "free_slot";
             }
@@ -463,23 +462,48 @@ function attempt_skill_rank_up(cc, skill_key, base_skill, table)
     }
 
     // === 1) Restricted species skill choice ===
-    if (skill_is_species_choice_option(cc, skill_key)
-        && variable_struct_exists(cc, "species_skill_choice_remaining")
-        && cc.species_skill_choice_remaining > 0)
+
+if (species_choice_skill != undefined
+    && variable_struct_exists(cc, "species_skill_choice_remaining")
+    && cc.species_skill_choice_remaining > 0)
+{
+    cc.species_skill_choice_remaining--;
+
+    set_skill_rank(
+        cc,
+        skill_key,
+        variable_struct_exists(cc.skill_ranks, skill_key)
+            ? current_rank + 1
+            : 0
+    );
+
+
+    // Track which skill actually received the species rank
+    if (!variable_struct_exists(cc, "species_choice_skill_ranks"))
+        cc.species_choice_skill_ranks = {};
+
+    if (!variable_struct_exists(
+        cc.species_choice_skill_ranks,
+        skill_key
+    ))
     {
-        cc.species_skill_choice_remaining--;
-        set_skill_rank(cc, skill_key, variable_struct_exists(cc.skill_ranks, skill_key) ? current_rank + 1 : 0);
-
-        if (!variable_struct_exists(cc, "species_choice_skill_ranks"))
-            cc.species_choice_skill_ranks = {};
-        if (!variable_struct_exists(cc.species_choice_skill_ranks, skill_key))
-            cc.species_choice_skill_ranks[$ skill_key] = 0;
-        cc.species_choice_skill_ranks[$ skill_key]++;
-
-        show_debug_message("Species choice skill: " + skill_key
-            + " remaining=" + string(cc.species_skill_choice_remaining));
-        return;
+        cc.species_choice_skill_ranks[$ skill_key] = 0;
     }
+
+    cc.species_choice_skill_ranks[$ skill_key]++;
+
+
+    show_debug_message(
+        "Species choice skill: "
+        + skill_key
+        + " parent="
+        + species_choice_skill
+        + " remaining="
+        + string(cc.species_skill_choice_remaining)
+    );
+
+    return;
+}
 
     // === 2) Unrestricted free slots only (empty options list) ===
     if (!species_skill_choices_are_restricted(cc)
@@ -504,14 +528,31 @@ function attempt_skill_rank_up(cc, skill_key, base_skill, table)
     }
 
     // === 3) Character points ===
-    var owns_table = table_is_owned(cc, table);
-    var cost = owns_table ? 1 : 2;
-    if (cc.generation_slots_remaining < cost)
-        return;
+var owns_table = table_is_owned(cc, table);
+var cost = owns_table ? 1 : 2;
 
-    cc.generation_slots_remaining -= cost;
-    set_skill_rank(cc, skill_key,
-        variable_struct_exists(cc.skill_ranks, skill_key) ? current_rank + 1 : 0);
+if (cc.generation_slots_remaining < cost)
+    return;
+
+cc.generation_slots_remaining -= cost;
+
+set_skill_rank(
+    cc,
+    skill_key,
+    variable_struct_exists(cc.skill_ranks, skill_key)
+        ? current_rank + 1
+        : 0
+);
+
+
+// Track that this rank was purchased with CP
+if (!variable_struct_exists(cc, "paid_skill_ranks"))
+    cc.paid_skill_ranks = {};
+
+if (!variable_struct_exists(cc.paid_skill_ranks, skill_key))
+    cc.paid_skill_ranks[$ skill_key] = 0;
+
+cc.paid_skill_ranks[$ skill_key]++;
 }
 
 //==============================================================
@@ -527,83 +568,168 @@ function table_is_owned(cc, table_name)
 function attempt_skill_rank_down(cc, skill_key)
 {
     var current_rank = get_skill_rank(cc, skill_key);
+
     if (!variable_struct_exists(cc.skill_ranks, skill_key))
-    return;
-	if (!variable_struct_exists(cc, "free_skill_ranks"))
-    cc.free_skill_ranks = {};
+        return;
+
+    // Initialize tracking structures if they don't exist
+    if (!variable_struct_exists(cc, "free_skill_ranks"))
+        cc.free_skill_ranks = {};
+
+    if (!variable_struct_exists(cc, "paid_skill_ranks"))
+        cc.paid_skill_ranks = {};
+
+    // =====================================================
     // Check if this skill is fixed
-    var initial_fixed_rank = variable_struct_exists(cc.fixed_skills, skill_key) ? cc.fixed_skills[$ skill_key] : 0;
+    // =====================================================
+
+    var initial_fixed_rank =
+        variable_struct_exists(cc.fixed_skills, skill_key)
+        ? cc.fixed_skills[$ skill_key]
+        : 0;
+
     if (initial_fixed_rank > 0 && current_rank <= initial_fixed_rank)
     {
-        show_debug_message("Cannot refund below fixed rank for: " + skill_key);
+        show_debug_message(
+            "Cannot refund below fixed rank for: " + skill_key
+        );
+
         return;
     }
-	
-	if (variable_struct_exists(cc, "species_choice_skill_ranks")
-    && variable_struct_exists(cc.species_choice_skill_ranks, skill_key)
-    && cc.species_choice_skill_ranks[$ skill_key] > 0)
-{
-    set_skill_rank(cc, skill_key, current_rank - 1);
-    // if you use rank 0 as owned, adjust remove logic as you already do
-    if (current_rank <= 0)
-        set_skill_rank(cc, skill_key, -1);
 
-    cc.species_choice_skill_ranks[$ skill_key]--;
-    if (cc.species_choice_skill_ranks[$ skill_key] <= 0)
-        variable_struct_remove(cc.species_choice_skill_ranks, skill_key);
 
-    cc.species_skill_choice_remaining++;
-    return;
-}
+    // =====================================================
+    // Determine ranks from each source
+    // =====================================================
 
-    // For additional ranks in fixed skills, treat as normal point purchase
-        // For additional ranks in fixed skills, treat as normal point purchase
-        // For additional ranks in fixed skills, treat as normal point purchase
-    var has_free_rank =
-    variable_struct_exists(cc.free_skill_ranks, skill_key)
-    &&
-    cc.free_skill_ranks[$ skill_key] > 0;
+    var species_choice_ranks = 0;
 
-if (has_free_rank)
+    if (variable_struct_exists(cc, "species_choice_skill_ranks")
+        && variable_struct_exists(cc.species_choice_skill_ranks, skill_key))
     {
-    // Remove one free rank
-    set_skill_rank(cc, skill_key, current_rank - 1);
+        species_choice_ranks =
+            cc.species_choice_skill_ranks[$ skill_key];
+    }
 
-    cc.free_skill_ranks[$ skill_key]--;
 
-    // Remove empty tracking entry
-    if (cc.free_skill_ranks[$ skill_key] <= 0)
+    var free_ranks = 0;
+
+    if (variable_struct_exists(cc.free_skill_ranks, skill_key))
     {
-        variable_struct_remove(
-            cc.free_skill_ranks,
-            skill_key
+        free_ranks =
+            cc.free_skill_ranks[$ skill_key];
+    }
+
+
+    var paid_ranks = 0;
+
+    if (variable_struct_exists(cc.paid_skill_ranks, skill_key))
+    {
+        paid_ranks =
+            cc.paid_skill_ranks[$ skill_key];
+    }
+
+
+    // =====================================================
+    // 1. REFUND CP-PURCHASED RANK FIRST
+    // =====================================================
+
+    if (paid_ranks > 0)
+    {
+        var owns_table = table_is_owned(cc, cc.selected_table);
+        var refund = owns_table ? 1 : 2;
+
+        cc.generation_slots_remaining += refund;
+
+        set_skill_rank(
+            cc,
+            skill_key,
+            current_rank - 1
         );
-    }
 
-    // Return free skill choice
-    if (variable_struct_exists(cc, "locked_species"))
-    {
-        var species = global.species_data[$ cc.locked_species];
+        cc.paid_skill_ranks[$ skill_key]--;
 
-        if (variable_struct_exists(species.creation.knowledge_skills, "choices"))
+        if (cc.paid_skill_ranks[$ skill_key] <= 0)
         {
-            species.creation.knowledge_skills.choices.count++;
+            variable_struct_remove(
+                cc.paid_skill_ranks,
+                skill_key
+            );
         }
+
+        return;
     }
-}
-    else
-{
-    // Normal character point refund
-    var owns_table = table_is_owned(cc, cc.selected_table);
-    var refund = owns_table ? 1 : 2;
 
-    cc.generation_slots_remaining += refund;
 
-    if (current_rank == 0)
-        set_skill_rank(cc, skill_key, -1); // Remove skill, return to (U)
-    else
-        set_skill_rank(cc, skill_key, current_rank - 1);
-}
+    // =====================================================
+    // 2. REFUND OTHER FREE RANK
+    // =====================================================
+
+    if (free_ranks > 0)
+    {
+        set_skill_rank(
+            cc,
+            skill_key,
+            current_rank - 1
+        );
+
+        cc.free_skill_ranks[$ skill_key]--;
+
+        if (cc.free_skill_ranks[$ skill_key] <= 0)
+        {
+            variable_struct_remove(
+                cc.free_skill_ranks,
+                skill_key
+            );
+        }
+
+
+        // Return the unrestricted free skill choice
+        if (variable_struct_exists(cc, "locked_species"))
+        {
+            var species =
+                global.species_data[$ cc.locked_species];
+
+            if (variable_struct_exists(
+                species.creation.knowledge_skills,
+                "choices"
+            ))
+            {
+                species.creation.knowledge_skills.choices.count++;
+            }
+        }
+
+        return;
+    }
+
+
+    // =====================================================
+    // 3. REFUND SPECIES-CHOICE RANK LAST
+    // =====================================================
+
+    if (species_choice_ranks > 0)
+    {
+        set_skill_rank(
+            cc,
+            skill_key,
+            current_rank - 1
+        );
+
+        cc.species_choice_skill_ranks[$ skill_key]--;
+
+        if (cc.species_choice_skill_ranks[$ skill_key] <= 0)
+        {
+            variable_struct_remove(
+                cc.species_choice_skill_ranks,
+                skill_key
+            );
+        }
+
+        // Return the species skill choice
+        cc.species_skill_choice_remaining++;
+
+        return;
+    }
 }
 
 
@@ -620,10 +746,10 @@ function draw_cdt_gold_panels(cc, L)
     // =========================================
     // CDT PANEL
     // =========================================
-    draw_set_color(make_color_rgb(18, 18, 18));
+    draw_set_color(c_black);
     draw_rectangle(cdt_x, panel_y, cdt_x + panel_w, panel_y + panel_h, false);
 
-    draw_set_color(c_gray);
+    draw_set_color(c_white);
     draw_rectangle(cdt_x, panel_y, cdt_x + panel_w, panel_y + panel_h, true);
 
     draw_set_halign(fa_center);
@@ -643,7 +769,7 @@ function draw_cdt_gold_panels(cc, L)
     // Minus
     draw_set_color(cc.generation_hover.cdt_minus ? make_color_rgb(60, 50, 20) : make_color_rgb(35, 35, 35));
     draw_rectangle(minus_x, btn_y, minus_x + btn_w, btn_y + btn_h, false);
-    draw_set_color(cc.generation_hover.cdt_minus ? c_yellow : c_gray);
+    draw_set_color(cc.generation_hover.cdt_minus ? c_yellow : c_white);
     draw_rectangle(minus_x, btn_y, minus_x + btn_w, btn_y + btn_h, true);
     draw_set_color(c_white);
     draw_text(minus_x + btn_w * 0.5, btn_y + 5, "-");
@@ -651,7 +777,7 @@ function draw_cdt_gold_panels(cc, L)
     // Plus
     draw_set_color(cc.generation_hover.cdt_plus ? make_color_rgb(60, 50, 20) : make_color_rgb(35, 35, 35));
     draw_rectangle(plus_x, btn_y, plus_x + btn_w, btn_y + btn_h, false);
-    draw_set_color(cc.generation_hover.cdt_plus ? c_yellow : c_gray);
+    draw_set_color(cc.generation_hover.cdt_plus ? c_yellow : c_white);
     draw_rectangle(plus_x, btn_y, plus_x + btn_w, btn_y + btn_h, true);
     draw_set_color(c_white);
     draw_text(plus_x + btn_w * 0.5, btn_y + 5, "+");
@@ -660,17 +786,17 @@ function draw_cdt_gold_panels(cc, L)
     draw_set_color(c_aqua);
     draw_text(cdt_x + panel_w * 0.5, panel_y + 100, "Bonus: +" + string(cc.generation.cdt_bonus));
     draw_set_color(c_white);
-    draw_text(cdt_x + panel_w * 0.5, panel_y + 122, "Current: " + string(get_current_cdt(cc)));
+    draw_text(cdt_x + panel_w * 0.5, panel_y + 120, "Current: " + string(get_current_cdt(cc)));
     draw_set_color(c_ltgray);
     draw_text(cdt_x + panel_w * 0.5, panel_y + 140, "Limit: " + string(get_cdt_cap(cc)));
 
     // =========================================
     // GOLD PANEL
     // =========================================
-    draw_set_color(make_color_rgb(18, 18, 18));
+    draw_set_color(c_black);
     draw_rectangle(gold_x, panel_y, gold_x + panel_w, panel_y + panel_h, false);
 
-    draw_set_color(c_gray);
+    draw_set_color(c_white);
     draw_rectangle(gold_x, panel_y, gold_x + panel_w, panel_y + panel_h, true);
 
     draw_set_color(c_white);
@@ -686,7 +812,7 @@ function draw_cdt_gold_panels(cc, L)
     // Minus
     draw_set_color(cc.generation_hover.gold_minus ? make_color_rgb(60, 50, 20) : make_color_rgb(35, 35, 35));
     draw_rectangle(minus_x, btn_y, minus_x + btn_w, btn_y + btn_h, false);
-    draw_set_color(cc.generation_hover.gold_minus ? c_yellow : c_gray);
+    draw_set_color(cc.generation_hover.gold_minus ? c_yellow : c_white);
     draw_rectangle(minus_x, btn_y, minus_x + btn_w, btn_y + btn_h, true);
     draw_set_color(c_white);
     draw_text(minus_x + btn_w * 0.5, btn_y + 5, "-");
@@ -694,7 +820,7 @@ function draw_cdt_gold_panels(cc, L)
     // Plus
     draw_set_color(cc.generation_hover.gold_plus ? make_color_rgb(60, 50, 20) : make_color_rgb(35, 35, 35));
     draw_rectangle(plus_x, btn_y, plus_x + btn_w, btn_y + btn_h, false);
-    draw_set_color(cc.generation_hover.gold_plus ? c_yellow : c_gray);
+    draw_set_color(cc.generation_hover.gold_plus ? c_yellow : c_white);
     draw_rectangle(plus_x, btn_y, plus_x + btn_w, btn_y + btn_h, true);
     draw_set_color(c_white);
     draw_text(plus_x + btn_w * 0.5, btn_y + 5, "+");
@@ -713,12 +839,12 @@ function draw_button_pair(x, y, half_w, gap, h, hover_minus, hover_plus)
     var right_l = x + gap;
     var right_r = x + half_w;
 
-    draw_set_color(hover_minus ? c_yellow : c_gray);
+    draw_set_color(hover_minus ? c_yellow : c_white);
     draw_rectangle(left_l, y, left_r, y + h, false);
     draw_set_color(c_black);
     draw_text((left_l + left_r)/2, y + 7, "-");
 
-    draw_set_color(hover_plus ? c_yellow : c_gray);
+    draw_set_color(hover_plus ? c_yellow : c_white);
     draw_rectangle(right_l, y, right_r, y + h, false);
     draw_set_color(c_black);
     draw_text((right_l + right_r)/2, y + 7, "+");
@@ -746,9 +872,9 @@ function draw_tables_column(cc, L, tables_x)
     var panel_y = yy - 15;
     var panel_h = 80 + array_length(tables) * (btn_h + row_gap) + 60;
 
-    draw_set_color(make_color_rgb(18, 18, 18));
+    draw_set_color(c_black);
     draw_rectangle(panel_x, panel_y, panel_x + panel_w, panel_y + panel_h + 30, false);
-    draw_set_color(c_gray);
+    draw_set_color(c_white);
     draw_rectangle(panel_x, panel_y, panel_x + panel_w, panel_y + panel_h + 30, true);
 
     draw_set_halign(fa_center);
@@ -799,7 +925,7 @@ function draw_tables_column(cc, L, tables_x)
 		else if (is_purchased)
 		    draw_set_color(c_olive);
 		else
-		    draw_set_color(c_gray);
+		    draw_set_color(c_white);
 
         draw_rectangle(btn_x, btn_y, btn_x + btn_w, btn_y + btn_h, true);
 
@@ -842,7 +968,7 @@ draw_set_valign(fa_top);
         draw_set_color(confirm_hover ? make_color_rgb(60, 60, 30) : make_color_rgb(40, 40, 25));
 
     draw_rectangle(confirm_x, confirm_y, confirm_x + confirm_w, confirm_y + confirm_h, false);
-    draw_set_color(confirm_hover ? c_yellow : (is_locked ? c_lime : c_gray));
+    draw_set_color(confirm_hover ? c_yellow : (is_locked ? c_lime : c_white));
     draw_rectangle(confirm_x, confirm_y, confirm_x + confirm_w, confirm_y + confirm_h, true);
 
     draw_set_halign(fa_center);
@@ -877,11 +1003,11 @@ function draw_skills_column(cc, L, skills_x = undefined)
     var panel_h = 600;
 
     // Background
-    draw_set_color(make_color_rgb(18, 18, 18));
+    draw_set_color(c_black);
     draw_rectangle(panel_x, panel_y, panel_x + panel_w, panel_y + panel_h, false);
 
     // Border
-    draw_set_color(c_gray);
+    draw_set_color(c_white);
     draw_rectangle(panel_x, panel_y, panel_x + panel_w, panel_y + panel_h, true);
 
     // Header
@@ -902,25 +1028,38 @@ function draw_skills_column(cc, L, skills_x = undefined)
 	draw_text(skills_x, 342, "Free Skill Slots: " + string(free_remaining));
 
 	// Species choices tracker
-	if (variable_struct_exists(cc, "species_skill_choice_required")
-	    && cc.species_skill_choice_required > 0)
-	{
-	    var used = cc.species_skill_choice_required - cc.species_skill_choice_remaining;
-	    draw_set_color(make_color_rgb(255, 105, 180));
-	    draw_text(skills_x, 920, "Species Skill Choices: "
-	        + string(used) + " / " + string(cc.species_skill_choice_required));
-	}
-	if (cc.species_skill_choice_required > 0)
-	{
-	    draw_set_color(c_black);
-		draw_rectangle(skills_x - 140, 910, skills_x + 140, 950, false)
-		draw_set_color(c_white);
-		draw_rectangle(skills_x - 140, 910, skills_x + 140, 950, true)
-		draw_set_color(c_white);
-	    draw_text(skills_x, 920, "Species Skill Choices: "
-	        + string(cc.species_skill_choice_required - cc.species_skill_choice_remaining)
-	        + " / " + string(cc.species_skill_choice_required));
-	}
+if (variable_struct_exists(cc, "species_skill_choice_required")
+    && cc.species_skill_choice_required > 0)
+{
+    draw_set_color(c_black);
+    draw_rectangle(
+        skills_x - 140,
+        910,
+        skills_x + 140,
+        950,
+        false
+    );
+
+    draw_set_color(c_white);
+    draw_rectangle(
+        skills_x - 140,
+        910,
+        skills_x + 140,
+        950,
+        true
+    );
+
+    draw_set_color(c_white);
+
+    draw_text(
+        skills_x,
+        920,
+        "Species Skill Choices: "
+        + string(cc.species_skill_choice_remaining)
+        + " / "
+        + string(cc.species_skill_choice_required)
+    );
+}
 	
 	// Current table
 draw_set_color(c_ltgray);
@@ -1045,11 +1184,11 @@ else
         else if (is_fixed)
             draw_set_color(make_color_rgb(20, 50, 25));
 		else if (is_choice_opt && has_choice_left)
-    draw_set_color(make_color_rgb(255, 105, 180));
-else if (variable_struct_exists(cc, "species_choice_skill_ranks")
-    && variable_struct_exists(cc.species_choice_skill_ranks, entry.name)
-    && cc.species_choice_skill_ranks[$ entry.name] > 0)
-    draw_set_color(make_color_rgb(20, 50, 60));
+			draw_set_color(make_color_rgb(183, 135, 0));
+		else if (variable_struct_exists(cc, "species_choice_skill_ranks")
+		    && variable_struct_exists(cc.species_choice_skill_ranks, entry.name)
+		    && cc.species_choice_skill_ranks[$ entry.name] > 0)
+		    draw_set_color(make_color_rgb(183, 135, 0));
         else if (variable_struct_exists(cc.free_slot_ranks, entry.name) && cc.free_slot_ranks[$ entry.name] > 0)
             draw_set_color(make_color_rgb(20, 50, 60));
         else if (has_free_rank)
@@ -1068,6 +1207,12 @@ else if (variable_struct_exists(cc, "species_choice_skill_ranks")
             draw_set_color(c_aqua);
         else if (has_free_rank)
             draw_set_color(c_lime);
+		else if (is_choice_opt && has_choice_left)
+			draw_set_color(make_color_rgb(211, 175, 55));
+		else if (variable_struct_exists(cc, "species_choice_skill_ranks")
+		    && variable_struct_exists(cc.species_choice_skill_ranks, entry.name)
+		    && cc.species_choice_skill_ranks[$ entry.name] > 0)
+		    draw_set_color(make_color_rgb(211, 175, 55));
         else
             draw_set_color(c_dkgray);
 
@@ -1083,7 +1228,7 @@ else if (variable_struct_exists(cc, "species_choice_skill_ranks")
         else if (has_free_rank)
             draw_set_color(c_lime);
         else if (entry.is_specialization)
-            draw_set_color(c_ltgray);
+            draw_set_color(c_white);
         else
             draw_set_color(c_white);
 
@@ -1510,7 +1655,7 @@ function draw_specializations_for_skill(cc, draw_x, start_y, base_skill)
             var spec_rank = get_skill_rank(cc, key);
             var is_hovered = (cc.hovered_skill == key);
 
-            draw_set_color(is_hovered ? c_yellow : c_ltgray);
+            draw_set_color(is_hovered ? c_yellow : c_white);
             draw_text(draw_x + 15, y_pos, "> " + key + " (" + string(spec_rank) + ")");
             y_pos += 18;
         }
@@ -1958,9 +2103,9 @@ function draw_talents_column(cc, L, talents_x = undefined)
     var panel_h = 600;
 
     // Outer panel
-    draw_set_color(make_color_rgb(18, 18, 18));
+    draw_set_color(c_black);
     draw_rectangle(panel_x, panel_y, panel_x + panel_w, panel_y + panel_h, false);
-    draw_set_color(c_gray);
+    draw_set_color(c_white);
     draw_rectangle(panel_x, panel_y, panel_x + panel_w, panel_y + panel_h, true);
 
     // Header
@@ -2307,10 +2452,10 @@ function draw_talent_tooltip(cc)
         box_x = 8;
 
     // ===== DRAW =====
-    draw_set_color(make_color_rgb(18, 18, 18));
+    draw_set_color(c_black);
     draw_rectangle(box_x, box_y, box_x + tooltip_w, box_y + tooltip_h, false);
 
-    draw_set_color(c_gray);
+    draw_set_color(c_white);
     draw_rectangle(box_x, box_y, box_x + tooltip_w, box_y + tooltip_h, true);
 
     draw_set_halign(fa_left);
@@ -2342,9 +2487,9 @@ function draw_generation_help_box()
     var line_sep = 18;
     var box_h = string_height_ext(text, line_sep, box_w - pad * 2) + pad * 2;
 
-    draw_set_color(make_color_rgb(18, 18, 18));
+    draw_set_color(c_black);
     draw_rectangle(box_x, box_y, box_x + box_w, box_y + box_h, false);
-    draw_set_color(c_gray);
+    draw_set_color(c_white);
     draw_rectangle(box_x, box_y, box_x + box_w, box_y + box_h, true);
 
     draw_set_halign(fa_left);
@@ -2586,4 +2731,80 @@ function species_talent_choices_are_restricted(cc)
         && variable_struct_exists(ch, "options")
         && is_array(ch.options)
         && array_length(ch.options) > 0);
+}
+
+
+function get_species_choice_skill_for_specialization(cc, skill_key)
+{
+    // =====================================================
+    // 1. Direct species-choice skill
+    // =====================================================
+
+    if (skill_is_species_choice_option(cc, skill_key))
+        return skill_key;
+
+
+    // =====================================================
+    // 2. Look through skills with specializations
+    // =====================================================
+
+    var skill_names = variable_struct_get_names(global.skill_data);
+
+    for (var i = 0; i < array_length(skill_names); i++)
+    {
+        var parent_key = skill_names[i];
+        var skill_data = global.skill_data[$ parent_key];
+
+        if (!variable_struct_exists(skill_data, "specialization"))
+            continue;
+
+        if (!variable_struct_exists(
+            skill_data.specialization,
+            "choices"
+        ))
+            continue;
+
+
+        var choices = skill_data.specialization.choices;
+
+        // Make sure choices is an array
+        if (!is_array(choices))
+            continue;
+
+
+        // =================================================
+        // 3. Check each specialization
+        // =================================================
+
+        for (var j = 0; j < array_length(choices); j++)
+        {
+            var specialization_name = choices[j];
+
+            var specialized_key =
+                string_replace_all(
+                    parent_key,
+                    "(X)",
+                    "(" + specialization_name + ")"
+                );
+
+            if (specialized_key == skill_key)
+            {
+                // =================================================
+                // 4. Parent must actually be a species-choice skill
+                // =================================================
+
+                if (skill_is_species_choice_option(cc, parent_key))
+                    return parent_key;
+
+                return undefined;
+            }
+        }
+    }
+
+
+    // =====================================================
+    // No species-choice parent found
+    // =====================================================
+
+    return undefined;
 }

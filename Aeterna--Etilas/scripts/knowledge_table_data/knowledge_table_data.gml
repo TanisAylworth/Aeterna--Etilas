@@ -277,7 +277,6 @@ global.knowledge_table_data[$ "Warfare"] =
 		"Foraging",
         "Herbalism",
 		"Distance Sense",
-		"Weapon Skill (X)",
     ],
 
         talents :

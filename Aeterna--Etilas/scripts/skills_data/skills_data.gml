@@ -1934,22 +1934,7 @@ global.skill_data[$ "Herbalism"] = {
     description: "A skill for the identification and collection of plants. Can be used to gather medical herbs or toxic plants or ones fit for eating. Using herbal poultice increases natural healing factor by 1. More advanced remedies can provide higher bonuses."
 };
 
-global.skill_data[$ "Weapon Skill (X)"] = {
-    name: "Weapon Skill",
-    table: "Survival",
-    specialization: {
-        required: true,
-        choices: ["Knives", "Daggers", "Spears", "Small Bows", "Clubs", "Grenade", "Improvised"]
-    },
-    check: {
-        mode: "best",
-        attributes: [
-            { attribute: "Dexterity", modifier: 0 }
-        ]
-    },
-    difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill for tracking prowess with a weapon type. The primary combat skill."
-};
+
 global.skill_data[$ "Weather Sense"] = {
     name: "Weather Sense",
     table: "Survival",
