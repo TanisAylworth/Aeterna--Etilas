@@ -48,6 +48,41 @@ global.skill_data[$ "Running"] = {
     description: "This skill is checked whenever the user has been running at their top speed for an extended period of time. Normally a creature can run for a number of consecutive minutes equal to their fatigue limit prior to sustaining a level of fatigue. This skill allows a test to be made to ignore that level of fatigue. Degrees of Success nullify the fatigue. Degrees of Failure incur the fatigue as normal. Extreme Successes restore a level of fatigue. Extreme Failure incur two levels of fatigue instead. Modified by terrain, weather, or surroundings."
 };
 
+global.skill_data[$ "Jumping"] = {
+    name: "Jumping",
+    table: "General",
+    check: {
+        mode: "size",
+        size_attributes: {
+			
+            tiny:   { attribute: "Dexterity", modifier: +2 },
+            small:  { attribute: "Dexterity", modifier: 0 },
+            medium: { attribute: "Strength",  modifier: -2 },
+            large:  { attribute: "Strength",  modifier: -4 },
+            huge:   { attribute: "Strength",  modifier: -6 }
+		}
+    },
+    difficulty: global.SKILL_SIMPLE,
+    description: "This skill is checked whenever the user attempts to leap from one location to another. This skill is modular in that it counts a standing jump and a running jump. For standing each Degree of Success results in 1ft of vertical or horizontal clearance. For running jumps, so long as a single Move action is made prior to this check, each Degree of Success results in 3ft of vertical and 5ft of horizontal distance covered. Modified by Terrain, Weather, and Surroundings."
+};
+
+global.skill_data[$ "Balance"] = {
+    name: "Balance",
+    table: "General",
+    check: {
+        mode: "size",
+        size_attributes: {
+            tiny:   { attribute: "Dexterity", modifier: +2 },
+            small:  { attribute: "Dexterity", modifier: 0 },
+            medium: { attribute: "Dexterity",  modifier: -2 },
+            large:  { attribute: "Dexterity",  modifier: -4 },
+            huge:   { attribute: "Dexterity",  modifier: -6 }
+		}
+    },
+    difficulty: global.SKILL_SIMPLE,
+    description: "This skill is checked whenever the user attempts maintain their balance for whatever reason. Degrees of Success results in a keeping oneself upright. Degrees of Failure results in a loss of balance and another check to attempt to regain balance. Failure of the second check results in total loss of balance. Modified by Terrain, Weather, and Surroundings."
+};
+
 global.skill_data[$ "Dancing"] = {
     name: "Dancing",
     table: "General",
@@ -75,18 +110,7 @@ global.skill_data[$ "Carousing"] = {
     description: "This skill is checked whenever the user is attempting to over eat, or drink, and still hold their liquor. In a sense this is a general competitive eating and drinking skill. Degrees of Success show the ease at which the challenges are faced, whilst Degrees of Failure show failure in maintaining one's self after too much food or drink. Extreme Successes could show a complete lack of any negative sensations, whereas Extreme Failures could be vomiting or blacked out drunk. Modified by size of the meals and amount of drink."
 };
 
-global.skill_data[$ "Etiquette"] = {
-    name: "Etiquette",
-    table: "General",
-    check: {
-        mode: "best",
-        attributes: [
-            { attribute: "Charm", modifier: 0 }
-        ]
-    },
-    difficulty: global.SKILL_SIMPLE,
-    description: "This skill is checked whenever the user attempts to show levels of respect or courtesy during an encounter. Degrees of Success improve the Reaction Adjustment of the encounter by an equal degree, and Degrees of Failure reduce the Reaction Adjustment of the encounter by an equal degree. Extreme Successes could greatly improve the standing of the user or the party with the encounter party. Extreme failures could cause immediate negative actions. Modified by the existing Reaction Adjustment of the other party, and the difficulty of their culture's etiquette."
-};
+
 
 global.skill_data[$ "Firebuilding w/ Kit"] = {
     name: "Firebuilding w/ Kit",
@@ -367,6 +391,20 @@ global.skill_data[$ "Animal Husbandry"] = {
     description: "This skill is checked whenever the user attempts to breed animals in their care. Degrees of Success ensure positive results. Degrees of Fialure result in complications."
 };
 
+global.skill_data[$ "Tailoring"] = {
+    name: "Tailoring",
+    table: "Professional",
+    check: {
+        mode: "best",
+        attributes: [
+            { attribute: "Dexterity", modifier: -2 },
+            { attribute: "Intelligence", modifier: -4 }
+        ]
+    },
+    difficulty: global.SKILL_ADVANCED,
+    description: "This skill is checked whenever the user attempts to create items using textiles. Degrees of Success results in higher quality products. Degrees of Failure result in lower quality products. Modified by Material, and Surroundings."
+};
+
 global.skill_data[$ "Artistic Ability (X)"] = {
     name: "Artistic Ability",
     table: "Professional",
@@ -384,18 +422,7 @@ global.skill_data[$ "Artistic Ability (X)"] = {
     description: "This skill is checked whenever the user attempts to perform one of the specialized art forms from the list. Degrees of Succes illicit positive repsonses from the viewer. Degrees of Failure illicit negative responses from the viewer. Is also used in enchanting, ritual magic, and Rune Craft."
 };
 
-global.skill_data[$ "Bargain"] = {
-    name: "Bargain",
-    table: "Professional",
-    check: {
-        mode: "best",
-        attributes: [
-            { attribute: "Charm", modifier: -2 }
-        ]
-    },
-    difficulty: global.SKILL_INTERMEDIATE,
-    description: "This skill is checked whenever the user attempts to haggle prices up or down. This checked is contested against the opponent's appraisal skill. Degrees of Success result in a cost adjustment of 5% up or down depending on the desired outcome. Degrees of Failure result in a cost adjustment of 5% up or down depending on the opposite desired outcome. Modified by the other party's Reaction Adjustment."
-};
+
 
 global.skill_data[$ "Blacksmithing"] = {
     name: "Blacksmithing",
@@ -454,18 +481,6 @@ global.skill_data[$ "Pottery"] = {
     description: "This skill is used whenever the user attempts to make crafts from clay or mud. Degrees of Success result in higher quality products. Degrees of Failure result in lower quality products. Modified by Surroundings, and Materials."
 };
 
-global.skill_data[$ "Herbalism"] = {
-    name: "Herbalism",
-    table: "Professional",
-    check: {
-        mode: "best",
-        attributes: [
-            { attribute: "Intelligence", modifier: -2 }
-        ]
-    },
-    difficulty: global.SKILL_ADVANCED,
-    description: "This skill is checked whenever the user attempts to collect and identify plants. Degrees of Success increase the yield and give an accurate identification of the plants collected. Degrees of Failure fails to identify the plant and reduces the collection yield. Modified by Surroundings, Target, and Weather."
-};
 
 global.skill_data[$ "Jewelry"] = {
     name: "Jewelry",
@@ -696,6 +711,20 @@ global.skill_data[$ "Wagoneering"] = {
     description: "This skill is checked whenever the user attempts to handle or maneuver a drawn wheeled vehicle outside of the Move - Simple Action. Degrees of Success results in a controlled maneuver. Degrees of Failure results in a failure to maneuver. Modified by Animal Temprament, Surroundings, Terrain, and Weather."
 };
 
+global.skill_data[$ "Foreman"] = {
+    name: "Foreman",
+    table: "Laborer",
+    check: {
+        mode: "best",
+        attributes: [
+            { attribute: "Charm", modifier: 0 },
+            { attribute: "Willpower", modifier: -2 },
+        ]
+    },
+    difficulty: global.SKILL_INTERMEDIATE,
+    description: "This skill is checked whenever the user attempts to manage a work crew. This is a combined skill check and only one attempt at Foreman may be made in a single day of labor. Degrees of Success are added to the production total for that day of labor. Degrees of Failure are subtracted from the production total of that day of labor. Modified by Crew Size, Surroundings, and Weather."
+};
+
 global.skill_data[$ "Sailing"] = {
     name: "Sailing",
     table: "Laborer",
@@ -736,44 +765,9 @@ global.skill_data[$ "Smelting"] = {
     description: "This skill is checked whenever the user attempts to melt ore into usable metals. Degrees of Success results in the creation of a pure metallic ingot. Degrees of Failure results in a failure to craft a metallic ingot. Modified by Surroundings, Material, and Weather."
 };
 
-global.skill_data[$ "Foraging"] = {
-    name: "Foraging",
-    table: "Laborer",
-    check: {
-        mode: "best",
-        attributes: [
-            { attribute: "Perception", modifier: 0 }
-        ]
-    },
-    difficulty: global.SKILL_SIMPLE,
-    description: "This skill is checked whenever the user attempts to find and harvest from plants within an area. Degrees of Success results in findings one bushel of Unknown plants per Degree of Success. Degrees of Failure results in the failure to find any usable plants. Modified by Surroundings, Terrain, and Weather. NOTE: This is not an identifying skill."
-};
 
-global.skill_data[$ "Hunting"] = {
-    name: "Hunting",
-    table: "Laborer",
-    check: {
-        mode: "best",
-        attributes: [
-            { attribute: "Perception", modifier: -2 }
-        ]
-    },
-    difficulty: global.SKILL_INTERMEDIATE,
-    description: "This skill is checked whenever the user attempts to find and kill prey animals in the area. Degrees of Success results in 1 Ration unit of meat being hunted per Degree of Success. Degrees of Failure results in no kill being scored. Extreme Failures result in a random encounter from the predator list for the area being hunted in. Modified by Terrain, Surroundings, and Weather."
-};
 
-global.skill_data[$ "Trapping"] = {
-    name: "Trapping",
-    table: "Laborer",
-    check: {
-        mode: "best",
-        attributes: [
-            { attribute: "Dexterity", modifier: -1 }
-        ]
-    },
-    difficulty: global.SKILL_INTERMEDIATE,
-    description: "This skill is checked whenever the user attempts to set traps in a given area. Degrees of Success is the difficulty of spotting the trap. Degrees of Failure is the difficulty of spotting the trap. If the traps are baited there is a chance that an animal of the trap's size is caught in the trap. If this occurs meat Rations equal to the creature's size will be added to the party's inventory. Otherwise, this skill functions a defensive measure and encroaching enemies will need to spot the trap or it will activate on one of them before combat. Modified by Terrain, Materials, and Weather."
-};
+
 
 global.skill_data[$ "Tracking"] = {
     name: "Tracking",
@@ -846,32 +840,7 @@ global.skill_data[$ "Leadership"] = {
     description: "This skill is checked when the user attempts to control a larger body of individuals. This has additional applications during mass combat as this is a the primary skill for managing morale. Degrees of Success result in ashereance to commands. Degrees of Failure result in chaotic action and loss of control. Modified by Surroundsings, Morale, and Weather."
 };
 
-global.skill_data[$ "Intimidation"] = {
-    name: "Intimidation",
-    table: "Warfare",
-    check: {
-        mode: "best",
-        attributes: [
-            { attribute: "Strength", modifier: 2 },
-            { attribute: "Charm", modifier: -1 }
-        ]
-    },
-    difficulty: global.SKILL_INTERMEDIATE,
-    description: "This skill is checked when the user attempts to pressure someone into compliance with a show of force. Degrees of Success influence the other party's decisions to be more in line with the desired outcome. Degrees of Failure results in a failure to persuade the target. Modified by target's Reaction Adjustment, and Surroundings."
-};
 
-global.skill_data[$ "Breathing Control"] = {
-    name: "Breathing Control",
-    table: "Warfare",
-    check: {
-        mode: "best",
-        attributes: [
-            { attribute: "Endurance", modifier: -5 }
-        ]
-    },
-    difficulty: global.SKILL_INTERMEDIATE,
-    description: "This skill is checked whenever the user attempts to control their intake of oxygen. Be it conserving air in air tight spaces or ignoring breathing checks under water. Degrees of Success result in the user not needing to breath for 1 round per Degree of Success even under stress. Degrees of Failure results in immediately incurring 1 degree of fatigue."
-};
 
 global.skill_data[$ "Signaling"] = {
     name: "Signaling",
@@ -913,31 +882,32 @@ global.skill_data[$ "Charioteering"] = {
     description: "This skill is checked whenever the user attempts to drive a chariot using any other action than the Move Simple Action. This skill is used as the vehicle's Dodge Defensive Action skill. This is either contested to avoid a strike or tested to perform a maneuver. Degrees of Success means a successful avoidance or maneuver. Degrees of Failure results in a failure to dodge an attack or a failed maneuver. Modified by Maneuver difficulty, Animal Temprament, Terrain, and Weather."
 };
 
-global.skill_data[$ "Dirty Tricks"] = {
-    name: "Dirty Tricks",
+global.skill_data[$ "Seigecraft"] = {
+    name: "Seigecraft",
     table: "Warfare",
     check: {
         mode: "best",
         attributes: [
-            { attribute: "Perception", modifier: 2 }
+            { attribute: "Intelligence", modifier: -2 }
         ]
     },
-    difficulty: global.SKILL_ADVANCED,
-    description: "A skill for noticing a situation that could give you the advantage in a fight. Could be loose ground, tripping hazards, dangerous objects, etc."
+    difficulty: global.SKILL_INTERMEDIATE,
+    description: "This skill is checked whenever the user attempts to operate a siege engine. Degrees of Success function similarly to Firearms Use or Weapon Skill checks. A successful check results in a hit from the weapon. A failed checks results in a miss. Modified by Target, Target's Actions, Terrain, Surroundings, and Weather."
 };
 
-global.skill_data[$ "Massage"] = {
-    name: "Massage",
+global.skill_data[$ "Drilling"] = {
+    name: "Drilling",
     table: "Warfare",
     check: {
         mode: "best",
         attributes: [
-            { attribute: "Dexterity", modifier: 0 }
+            { attribute: "Willpower", modifier: -2 }
         ]
     },
-    difficulty: global.SKILL_ADVANCED,
-    description: "A skill for relaxing tight muscles and easing pain. Can be used to deaden the effects of light wounds on an affected limb."
+    difficulty: global.SKILL_INTERMEDIATE,
+    description: "This skill is checked whenever the user attempts to instruct a unit of individuals. This skill is a Teaching skill and adds the combined Degrees of Success and Failure of both parties of the skill being trained. The totaled result of DoS/DoF is multiplied by 30 and the total is the resulting experience gained or losed from that day of drilling towards that skill. Modified by Target's Check, Surroundings, and Weather."
 };
+
 
 
 global.skill_data[$ "Taunting"] = {
@@ -1035,19 +1005,6 @@ global.skill_data[$ "Bodyguard"] = {
     },
     difficulty: global.SKILL_INTERMEDIATE,
     description: "A skill for intercepting an attack for an ally. You make a check that must exceed the DoS of the attacker against the target of their attack. If you are within range to perform a parry you may do so. If not but you are within half of your move speed you may opt to forgo any other defensive action to take the hit on their behalf."
-};
-
-global.skill_data[$ "Danger Sense"] = {
-    name: "Danger Sense",
-    table: "Warfare",
-    check: {
-        mode: "best",
-        attributes: [
-            { attribute: "Perception", modifier: 1 }
-        ]
-    },
-    difficulty: global.SKILL_ADVANCED,
-    description: "A skill that gives an impending sense of danger upon success if such a threat is present. Can disclose the actual danger of a perceived threat in terms of difficulty. Penalties are based on the creature’s deception or stealth."
 };
 #endregion
 
@@ -1296,7 +1253,7 @@ global.skill_data[$ "Hide"] = {
 
 global.skill_data[$ "Prestidigitation"] = {
     name: "Prestidigitation",
-    table: "Professional",
+    table: "Roguery",
     check: {
         mode: "best",
         attributes: [
@@ -1306,34 +1263,10 @@ global.skill_data[$ "Prestidigitation"] = {
     difficulty: global.SKILL_ADVANCED,
     description: "A skill for performing parlor tricks considered “magic” tricks."
 };
-global.skill_data[$ "Bribery"] = {
-    name: "Bribery",
-    table: "Roguery",
-    check: {
-        mode: "best",
-        attributes: [
-            { attribute: "Charm", modifier: -2 },
-            { attribute: "Perception", modifier: -2 }
-        ]
-    },
-    difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill for offering bribes to sway the decision making process of a group or individuals. Note this is not a catch all. Penalties are based on RA of the target."
-};
-global.skill_data[$ "Breathing Control"] = {
-    name: "Breathing Control",
-    table: "Roguery",
-    check: {
-        mode: "best",
-        attributes: [
-            { attribute: "Endurance", modifier: -5 }
-        ]
-    },
-    difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill for controlling your breathing in stressful situations limiting your consumption."
-};
 
-global.skill_data[$ "Pick Pocket"] = {
-    name: "Pick Pocket",
+
+global.skill_data[$ "Sleight of Hand"] = {
+    name: "Sleight of Hand",
     table: "Roguery",
     check: {
         mode: "best",
@@ -1360,71 +1293,6 @@ global.skill_data[$ "Intuition"] = {
 
 
 
-global.skill_data[$ "Signaling"] = {
-    name: "Signaling",
-    table: "Roguery",
-    check: {
-        mode: "best",
-        attributes: [
-            { attribute: "Leadership", modifier: -1 },
-            { attribute: "Charm", modifier: -1 }
-        ]
-    },
-    difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill for using vocal or tonal signals to inform others of specific information."
-};
-
-global.skill_data[$ "Danger Sense"] = {
-    name: "Danger Sense",
-    table: "Roguery",
-    check: {
-        mode: "best",
-        attributes: [
-            { attribute: "Perception", modifier: 1 }
-        ]
-    },
-    difficulty: global.SKILL_ADVANCED,
-    description: "A skill that gives an impending sense of danger upon success if such a threat is present. Can disclose the actual danger of a perceived threat in terms of difficulty. Penalties are based on the creature’s deception or stealth."
-};
-
-global.skill_data[$ "Appraisal"] = {
-    name: "Appraisal",
-    table: "Roguery",
-    check: {
-        mode: "best",
-        attributes: [
-            { attribute: "Intelligence", modifier: 0 }
-        ]
-    },
-    difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill for identifying the value of an item."
-};
-
-global.skill_data[$ "Begging"] = {
-    name: "Begging",
-    table: "Roguery",
-    check: {
-        mode: "best",
-        attributes: [
-            { attribute: "Charm", modifier: 0 }
-        ]
-    },
-    difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill for showing one’s harmless nature or panhandling skill."
-};
-
-global.skill_data[$ "Camouflage"] = {
-    name: "Camouflage",
-    table: "Roguery",
-    check: {
-        mode: "best",
-        attributes: [
-            { attribute: "Perception", modifier: -1 }
-        ]
-    },
-    difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill for increasing your basic perceptibility score. For each degree of success add 1 to your racial passive stealth and add 1 to hide checks."
-};
 
 global.skill_data[$ "Disguise"] = {
     name: "Disguise",
@@ -1502,19 +1370,6 @@ global.skill_data[$ "Lip Reading"] = {
     },
     difficulty: global.SKILL_ADVANCED,
     description: "A skill for reading the lips of a speaking individual despite not being able to hear them."
-};
-
-global.skill_data[$ "Trapping"] = {
-    name: "Trapping",
-    table: "Roguery",
-    check: {
-        mode: "best",
-        attributes: [
-            { attribute: "Dexterity", modifier: -1 }
-        ]
-    },
-    difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill for laying traps."
 };
 
 
@@ -1598,18 +1453,6 @@ global.skill_data[$ "Gaming"] = {
 };
 
 
-global.skill_data[$ "Weakness Identification"] = {
-    name: "Weakness Identification",
-    table: "Roguery",
-    check: {
-        mode: "best",
-        attributes: [
-            { attribute: "Perception", modifier: -2 }
-        ]
-    },
-    difficulty: global.SKILL_ADVANCED,
-    description: "A skill for spotting chinks in armor. You gain +1 AP per DoS on your next attack if you succeed or you can give an ally the benefit for 1 attack. This is a normal action."
-};
 
 global.skill_data[$ "Sneak"] = {
     name: "Sneak",
@@ -1680,20 +1523,6 @@ global.skill_data[$ "Escape Artist"] = {
 };
 
 
-global.skill_data[$ "Deception"] = {
-    name: "Deception",
-    table: "Roguery",
-    check: {
-        mode: "best",
-        attributes: [
-            { attribute: "Charm", modifier: -4 }
-        ]
-    },
-    difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill for hiding the subtle ticks involved with lying about information."
-};
-
-
 #endregion
 
 #region Arcane
@@ -1701,22 +1530,7 @@ global.skill_data[$ "Deception"] = {
 // ARCANE TABLE
 // =====================================================
 
-global.skill_data[$ "Occult (X)"] = {
-    name: "Occult",
-    table: "Arcane",
-    specialization: {
-        required: true,
-        choices: ["Daemonology", "Necromancy", "Druidry"]
-    },
-    check: {
-        mode: "best",
-        attributes: [
-            { attribute: "Willpower", modifier: 0 }
-        ]
-    },
-    difficulty: global.SKILL_ADVANCED,
-    description: "A skill for knowing the taboo acts of either Daemonology, Necromancy, or Druidry. This skill is used predominantly with rituals from these focuses."
-};
+
 
 global.skill_data[$ "Arcane History"] = {
     name: "Arcane History",
@@ -1770,39 +1584,24 @@ global.skill_data[$ "Spellcraft"] = {
     description: "A skill for the creation of spells and spell like effects. Can be used to detect energy in the immediate vicinity that has been altered in some way."
 };
 
-global.skill_data[$ "Alchemy"] = {
-    name: "Alchemy",
+global.skill_data[$ "Arcane History"] = {
+    name: "Arcane History",
     table: "Arcane",
     check: {
         mode: "best",
         attributes: [
-            { attribute: "Intelligence", modifier: -3 }
+            { attribute: "Perception", modifier: -4 }
         ]
     },
     difficulty: global.SKILL_ADVANCED,
-    description: "A skill showing knowledge of mixing chemicals and ingredients to create useful mixtures."
+    description: "A skill for telling what arcane manippulations occurred in an area. Gives a precise reading if passed."
 };
 
-global.skill_data[$ "Numerology"] = {
-    name: "Numerology",
-    table: "Arcane",
-    check: {
-        mode: "best",
-        attributes: [
-            { attribute: "Intelligence", modifier: -3 }
-        ]
-    },
-    difficulty: global.SKILL_ADVANCED,
-    description: "A skill showing one’s knowledge of mathematics and numbers."
-};
 
-global.skill_data[$ "Lore (X)"] = {
+
+global.skill_data[$ "Lore (Arcane)"] = {
     name: "Lore",
     table: "Arcane",
-    specialization: {
-        required: true,
-        choices: ["Arcane Words", "Daemons", "Druidry", "Necromancy", "Aspects", "Runecraft", "Aspects"] // Add specific topics as needed
-    },
     check: {
         mode: "best",
         attributes: [
@@ -1824,21 +1623,6 @@ global.skill_data[$ "Emergency Discharge"] = {
     },
     difficulty: global.SKILL_ADVANCED,
     description: "A skill that can be used in the event of a catastrophic failure during a spell cast. This test is done at a penalty equal to the DoF of the Spellcraft test. Each DoS reduces damage from the vented spell’s feedback by 1."
-};
-
-global.skill_data[$ "Runecraft"] = {
-    name: "Runecraft",
-    table: "Arcane",
-    check: {
-        mode: "all",
-        attributes: [
-            { attribute: "Dexterity", modifier: -2 },
-			{ attribute: "Intelligence", modifier: -2 },
-			{ attribute: "Endurance", modifier: -2 }
-        ]
-    },
-    difficulty: global.SKILL_ADVANCED,
-    description: "A skill for the creation and use of arcane runes."
 };
 
 #endregion
@@ -1877,6 +1661,32 @@ global.skill_data[$ "Firebuilding"] = {
     },
     difficulty: global.SKILL_ADVANCED,
     description: "A skill for starting fires in the worst conditions with little to no equipment."
+};
+
+global.skill_data[$ "Camouflage"] = {
+    name: "Camouflage",
+    table: "Survival",
+    check: {
+        mode: "best",
+        attributes: [
+            { attribute: "Perception", modifier: -2 }
+        ]
+    },
+    difficulty: global.SKILL_ADVANCED,
+    description: "A skill for attempting to blend into an environment."
+};
+
+global.skill_data[$ "Breathing Control"] = {
+    name: "Breathing Control",
+    table: "Survival",
+    check: {
+        mode: "best",
+        attributes: [
+            { attribute: "Endurance", modifier: -4 }
+        ]
+    },
+    difficulty: global.SKILL_ADVANCED,
+    description: "A skill for attempting to hold one's breathe or breathe less in general."
 };
 
 global.skill_data[$ "Primitive Crafts"] = {
@@ -1948,18 +1758,6 @@ global.skill_data[$ "Weather Sense"] = {
     description: "A skill for determining upcoming weather events."
 };
 
-global.skill_data[$ "Streetwise"] = {
-    name: "Streetwise",
-    table: "Survival",
-    check: {
-        mode: "best",
-        attributes: [
-            { attribute: "Charm", modifier: 0 }
-        ]
-    },
-    difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill for detecting the danger presented by a situation. In a sense, intuition of upcoming events."
-};
 
 global.skill_data[$ "Survival (X)"] = {
     name: "Survival",
@@ -1989,6 +1787,19 @@ global.skill_data[$ "Lore (Animal)"] = {
     },
     difficulty: global.SKILL_ADVANCED,
     description: "A skill for knowing things about animals."
+};
+
+global.skill_data[$ "Lore (Monster)"] = {
+    name: "Lore (Monster)",
+    table: "Survival",
+    check: {
+        mode: "best",
+        attributes: [
+            { attribute: "Intelligence", modifier: 0 }
+        ]
+    },
+    difficulty: global.SKILL_ADVANCED,
+    description: "A skill for knowing things about monsters."
 };
 
 global.skill_data[$ "Lore (Plant)"] = {
@@ -2048,22 +1859,127 @@ global.skill_data[$ "Danger Sense"] = {
 };
 
 
-global.skill_data[$ "Distance Sense"] = {
-    name: "Distance Sense",
-    table: "Survival",
-    check: {
-        mode: "best",
-        attributes: [
-            { attribute: "Perception", modifier: 0 }
-        ]
-    },
-    difficulty: global.SKILL_SIMPLE,
-    description: "A skill for determining distance between two points either physical or map based."
-};
 #endregion
 
 #region Occult
+global.skill_data[$ "Occult (Necromancy)"] = {
+    name: "Occult (Necromancy)",
+    table: "Occult",
+    check: {
+        mode: "best",
+        attributes: [
+            { attribute: "Willpower", modifier: 0 }
+        ]
+    },
+    difficulty: global.SKILL_ADVANCED,
+    description: "A skill for knowing the taboo acts of Necromancy."
+};
 
+global.skill_data[$ "Occult (Vampirism)"] = {
+    name: "Occult (Vampirism)",
+    table: "Occult",
+    check: {
+        mode: "best",
+        attributes: [
+            { attribute: "Willpower", modifier: 0 }
+        ]
+    },
+    difficulty: global.SKILL_ADVANCED,
+    description: "A skill for knowing the taboo acts of Vampirism."
+};
+
+global.skill_data[$ "Occult (Shamanism)"] = {
+    name: "Occult (Shamanism)",
+    table: "Occult",
+    check: {
+        mode: "best",
+        attributes: [
+            { attribute: "Willpower", modifier: 0 }
+        ]
+    },
+    difficulty: global.SKILL_ADVANCED,
+    description: "A skill for knowing the taboo acts of Shamanism."
+};
+
+global.skill_data[$ "Occult (Daemonology)"] = {
+    name: "Occult (Daemonology)",
+    table: "Occult",
+    check: {
+        mode: "best",
+        attributes: [
+            { attribute: "Willpower", modifier: 0 }
+        ]
+    },
+    difficulty: global.SKILL_ADVANCED,
+    description: "A skill for knowing the taboo acts of Daemonology."
+};
+
+
+global.skill_data[$ "Occult (Wild Crier)"] = {
+    name: "Occult (Wild Crier)",
+    table: "Occult",
+    check: {
+        mode: "best",
+        attributes: [
+            { attribute: "Willpower", modifier: 0 }
+        ]
+    },
+    difficulty: global.SKILL_ADVANCED,
+    description: "A skill for knowing the taboo acts of being a Wild Crier were animal."
+};
+
+global.skill_data[$ "Lore (Occult)"] = {
+    name: "Lore (Occult)",
+    table: "Occult",
+    check: {
+        mode: "best",
+        attributes: [
+            { attribute: "Intelligence", modifier: -3 }
+        ]
+    },
+    difficulty: global.SKILL_ADVANCED,
+    description: "A skill for knowing the taboo acts of various occult classes."
+};
+
+
+global.skill_data[$ "Component Preparation"] = {
+    name: "Component Preparation",
+    table: "Occult",
+    check: {
+        mode: "best",
+        attributes: [
+            { attribute: "Dexterity", modifier: -2 }
+        ]
+    },
+    difficulty: global.SKILL_ADVANCED,
+    description: "A skill for handeling and preparring ritual components for occult practices."
+};
+
+global.skill_data[$ "Rituals"] = {
+    name: "Rituals",
+    table: "Occult",
+    check: {
+        mode: "best",
+        attributes: [
+            { attribute: "Willpower", modifier: 0 }
+        ]
+    },
+    difficulty: global.SKILL_ADVANCED,
+    description: "A skill for conducting and officiating in ritual practices for the occult."
+};
+
+global.skill_data[$ "Alchemy"] = {
+    name: "Alchemy",
+    table: "Occult",
+    check: {
+        mode: "best",
+        attributes: [
+            { attribute: "Intelligence", modifier: -3 }
+        ]
+    },
+    difficulty: global.SKILL_ADVANCED,
+    description: "A skill showing knowledge of mixing chemicals and ingredients to create useful mixtures."
+};
 #endregion
 
 #region Social
@@ -2083,6 +1999,19 @@ global.skill_data[$ "Debate"] = {
     },
     difficulty: global.SKILL_INTERMEDIATE,
     description: "An advanced form of Persuasion used in argumentation to confound or convince a target. Penalties are based on previous situations with the target."
+};
+
+global.skill_data[$ "Etiquette"] = {
+    name: "Etiquette",
+    table: "Social",
+    check: {
+        mode: "best",
+        attributes: [
+            { attribute: "Charm", modifier: 0 }
+        ]
+    },
+    difficulty: global.SKILL_SIMPLE,
+    description: "This skill is checked whenever the user attempts to show levels of respect or courtesy during an encounter. Degrees of Success improve the Reaction Adjustment of the encounter by an equal degree, and Degrees of Failure reduce the Reaction Adjustment of the encounter by an equal degree. Extreme Successes could greatly improve the standing of the user or the party with the encounter party. Extreme failures could cause immediate negative actions. Modified by the existing Reaction Adjustment of the other party, and the difficulty of their culture's etiquette."
 };
 
 global.skill_data[$ "Begging"] = {
@@ -2123,6 +2052,19 @@ global.skill_data[$ "Command"] = {
     },
     difficulty: global.SKILL_INTERMEDIATE,
     description: "A skill for influencing soldiery to obey specific orders or instructions."
+};
+
+global.skill_data[$ "Deception"] = {
+    name: "Deception",
+    table: "Socail",
+    check: {
+        mode: "best",
+        attributes: [
+            { attribute: "Charm", modifier: -2 }
+        ]
+    },
+    difficulty: global.SKILL_ADVANCED,
+    description: "A skill for attempting to lie or deceive someone."
 };
 
 global.skill_data[$ "Empathy"] = {
@@ -2218,6 +2160,20 @@ global.skill_data[$ "Persuasion"] = {
     difficulty: global.SKILL_INTERMEDIATE,
     description: "A skill for convincing someone to perform an act or believe something they normally wouldn’t within reason. This is contested against the target’s logic test."
 };
+
+global.skill_data[$ "Bargain"] = {
+    name: "Bargain",
+    table: "Social",
+    check: {
+        mode: "best",
+        attributes: [
+            { attribute: "Charm", modifier: -2 }
+        ]
+    },
+    difficulty: global.SKILL_INTERMEDIATE,
+    description: "This skill is checked whenever the user attempts to haggle prices up or down. This checked is contested against the opponent's appraisal skill. Degrees of Success result in a cost adjustment of 5% up or down depending on the desired outcome. Degrees of Failure result in a cost adjustment of 5% up or down depending on the opposite desired outcome. Modified by the other party's Reaction Adjustment."
+};
+
 global.skill_data[$ "Crowd Working"] = {
     name: "Crowd Working",
     table: "Social",

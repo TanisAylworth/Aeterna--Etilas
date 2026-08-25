@@ -10,14 +10,15 @@ global.knowledge_table_data[$ "General"] =
 			"Dancing",
 			"Carousing",
 			"Running",
-			"Etiquette",
 			"Firebuilding w/ Kit",
 			"Fire Control",
 			"Caching",
 			"Navigation",
+			"Balance",
 			"Observation",
 			"Spot",
 			"Listen",
+			"Jumping",
 			"Rope Use",
 			"Singing",
 			"Riding (X)",
@@ -31,11 +32,19 @@ global.knowledge_table_data[$ "General"] =
 
         talents :
         [
-            "Alertness", 
-			"Durable", 
-			"Fitness", 
-			"Armor Training (Light)", 
-			"Armor Focus"
+            "Alertness",
+			"Durable",
+			"Fitness",
+			"Armor Training (Light)",
+			"Armor Focus",
+			"Strong Back",
+			"Light Sleeper",
+			"Sure-Footed",
+			"Animal Affinity",
+			"Language (X)",
+			"Polyglot",
+			"Iron Stomach",
+			"Fleet-Footed"  
         ]
     };
 	#endregion
@@ -49,20 +58,19 @@ global.knowledge_table_data[$ "General"] =
         "Animal Husbandry",
         "Artistic Ability (X)",
         "Appraisal",
-        "Bargain",
         "Blacksmithing",
         "Brewing",
         "Carpentry",
         "Cartography",
         "Geology",
+        "Shipwright",
         "Leather Working",
+        "Tailoring",
         "Pottery",
         "Stone Masonry",
         "Weaving",
         "Engineering",
         "Doctoring",
-        "Herbalism",
-        "Appraisal",
         "Jewelry",
         "Lock Smith",
         "Bowyer/Fletcher",
@@ -75,7 +83,10 @@ global.knowledge_table_data[$ "General"] =
         [
             "Musical Lore (X)", 
 			"Musical Talent (X)", 
-			"Steady Hands"
+			"Steady Hands",
+			"Good Eye",
+			"Quality Control",
+			"Hard Bargain",
         ]
     };
 #endregion
@@ -85,31 +96,45 @@ global.knowledge_table_data[$ "Warfare"] =
     {
         skills: [
         "Leadership",
-        "Breathing Control",
         "Signaling",
         "Armor Optimization",
         "Charioteering",
-        "Dirty Tricks",
-        "Massage",
         "Taunting",
         "Weakness Identification",
         "Firearms Use",
         "Maintenance",
         "Tactics",
+        "Seige Craft",
+        "Drilling",
         "Weapon Skill (X)",
         "Bodyguard",
-        "Danger Sense",
-			"Intimidation",
     ],
 
         talents :
         [
-            "Awareness", "Blind Fighting", "Close-Quarters Fighting", "Display Weapon Prowess",
-    "Natural Fighting", "Wild Fighting", "Weapon Style (X)", "Turtle", "Rage",
-    "Weapon Improvisation", "Martial Training", "Multi-Attack", "Weapon Mastery (X)",
-    "Two Weapon Fighting", "Push", "Grapple", "Disarm", "Trip", "Throw", "Sunder",
-    "Ambush", "Two Weapon Defense", "Checking", "Dextrous Defense",
-    "Armor Training (Medium)", "Armor Training (Heavy)", "Marksmanship"
+            "Blind Fighting", 
+			"Close-Quarters Fighting", 
+			"Display Weapon Prowess",
+			"Natural Fighting", 
+			"Wild Fighting", 
+			"Weapon Style (X)", 
+			"Turtle", 
+			"Rage",
+		    "Weapon Improvisation", 
+			"Martial Training", 
+			"Multi-Attack", 
+			"Weapon Mastery (X)",
+		    "Two Weapon Fighting", 
+		    "All In",
+			"Martial Action (X)",
+		    "Ambush", 
+			"Two Weapon Defense", 
+			"Checking", 
+			"Dextrous Defense",
+		    "Armor Training (Medium)", 
+			"Armor Training (Heavy)", 
+			"Marksmanship",
+			"Suppression",
         ]
     };
 	#endregion
@@ -121,21 +146,25 @@ global.knowledge_table_data[$ "Warfare"] =
         "Fire Fighting",
         "Mining",
         "Smelting",
-        "Foraging",
-        "Hunting",
 		"Wagoneering",
         "Sailing",
-        "Trapping",
         "Tracking",
         "Fishing",
         "Logging",
         "Harvesting",
-        "Sailing"
+        "Foreman",
     ],
 
         talents :
         [
-      
+			
+        "Weathered",
+        "Laborious Endurance",
+        "Hauler",
+        "Iron Lungs",
+        "Second Wind",
+        "Calloused",
+        "Jury Rig",
         ]
     };
 	#endregion
@@ -164,8 +193,14 @@ global.knowledge_table_data[$ "Warfare"] =
 
         talents :
         [
-            "Read and Write (X)", "Record Keeper", "Photographic Memory", "Efficient Organizer",
-    "Numerate", "Merchant Ledger", "Auditor", "Cultural Scribe"
+            "Read and Write (X)", 
+			"Record Keeper", 
+			"Photographic Memory", 
+			"Efficient Organizer",
+			"Numerate", 
+			"Merchant Ledger", 
+			"Auditor", 
+			"Cultural Scribe"
         ]
     };
 	#endregion
@@ -175,16 +210,9 @@ global.knowledge_table_data[$ "Warfare"] =
     {
         skills: [
         "Hide",
-        "Breathing Control",
-        "Pick Pocket",
+        "Sleight of Hand",
         "Intuition",
-        "Signaling",
-        "Danger Sense",
-        "Appraisal",
-        "Bribery",
         "Prestidigitation",
-        "Begging",
-        "Camouflage",
         "Disguise",
         "Fast Talking",
         "Forgery",
@@ -197,19 +225,29 @@ global.knowledge_table_data[$ "Warfare"] =
         "Voice Mimicry",
         "Dirty Tricks",
         "Gaming",
-        "Weakness Identification",
         "Sneak",
         "Decipher",
         "Disable",
         "Streetwise",
         "Escape Artist",
-        "Deception",
+		"Weapon Skill (Small Blades)",
+		"Weapon Skill (Small Blunt)",
+		"Weapon Skill (Bows)",
+		"Weapon Skill (Blunt)",
     ],
 
         talents :
         [
-            "Blind Fighting", "Close-Quarters Fighting", "Street Fighting", "Canting",
-    "Backstab", "Sneak Attack", "Awareness", "Quick Poisoner"
+            "Street Fighting", 
+			"Canting",
+			"Backstab", 
+			"Sneak Attack", 
+			"Awareness", 
+			"Quick Poisoner",
+			"Quick Hands",
+			"Acrobat",
+			"Many Faces",
+			"Con Artist",
         ]
     };
 	#endregion
@@ -226,7 +264,10 @@ global.knowledge_table_data[$ "Warfare"] =
             "Seduction",
             "Command",
             "Empathy",
+			"Bargain",
             "Oration",
+			"Etiquette",
+			"Deception",
             "Interrogation",
 			"Crowd Working",
         "Begging",
@@ -235,6 +276,12 @@ global.knowledge_table_data[$ "Warfare"] =
         talents :
         [
             
+			"Silver Tongue",
+			"Negotiator",
+			"Inspiring Orator",
+			"Natural Leader",
+			"Interrogator",
+			"Charismatic",
         ]
     };
 	#endregion
@@ -244,13 +291,35 @@ global.knowledge_table_data[$ "Warfare"] =
     {
         skills :
         [
-            "Spellcraft",
-            "Runes",
-            "Alchemy"
+            
+			
+            "Alchemy",
+			"Occult (Necromancy)",
+			"Occult (Daemonology)",
+			"Occult (Shamanism)",
+			"Occult (Vampirism)",
+			"Occult (Wild Crier)",
+			"Lore (Occult)",
+			"Component Preparation",
+			"Rituals",
+			
         ],
 
         talents :
         [
+		
+			"Vampiric Mastery",
+			"Vampiric Power (X)",
+			"Daemonic Mastery",
+			"Daemonic Power (X)",
+			"Crier Mastery",
+			"Crier Power (X)",
+			"Necromantic Mastery",
+			"Necromantic Power (X)",
+			"Shamanic Mastery",
+			"Shamanic Power (X)",
+			"Careful Preparation",
+			"Ritual Master",
             
         ]
     };
@@ -263,11 +332,12 @@ global.knowledge_table_data[$ "Warfare"] =
         "Water Find (X)",
         "Weather Sense",
         "Trapping",
-        "Streetwise",
+        "Camouflage",
         "Survival (X)",
         "Lore (Animal)",
         "Lore (Monster)",
         "Lore (Plant)",
+        "Breathing Control",
         "Mountaineering",
         "Spelunking",
         "Danger Sense",
@@ -276,13 +346,21 @@ global.knowledge_table_data[$ "Warfare"] =
 		"Hunting",
 		"Foraging",
         "Herbalism",
-		"Distance Sense",
+		"Weapon Skill (Small Blades)",
+		"Weapon Skill (Polearms)",
+		"Weapon Skill (Bows)",
+		"Weapon Skill (Hand Axes)",
+		
     ],
 
         talents :
         [
-            "Forager", "Trailblazer", "Shelter", "Weather Sense",
-    "Hunter's Patience", "Fire Starter", "Improvised"
+            "Forager", 
+			"Trailblazer", 
+			"Shelter", 
+		    "Hunter's Patience", 
+			"Fire Starter", 
+			"Improvised",
         ]
     };
 #endregion
@@ -291,22 +369,24 @@ global.knowledge_table_data[$ "Warfare"] =
     global.knowledge_table_data[$ "Arcane"] =
     {
         skills: [
-        "Occult (X)",
-        "Ancient History",
         "Astrology",
         "Arcane Channeling",
         "Spellcraft",
-        "Alchemy",
-        "Numerology",
-        "Lore (X)",
-        "Runecraft",
+        "Lore (Arcane)",
         "Emergency Discharge"
 		],
 
         talents :
         [
-            "Spell Weaving", "Sub Aspect Mastery (X)", "Arcane Conduit", "Arcane Dispersal",
-    "Efficient Channeler", "Spell Shaping", "Overcharge", "Mental Codex", "Arcane Reservoir"
+            "Spell Weaving", 
+			"Sub Aspect Mastery (X)", 
+			"Arcane Conduit", 
+			"Arcane Dispersal",
+			"Efficient Channeler", 
+			"Spell Shaping", 
+			"Overcharge", 
+			"Mental Codex", 
+			"Arcane Reservoir"
         ]
     };
 	#endregion

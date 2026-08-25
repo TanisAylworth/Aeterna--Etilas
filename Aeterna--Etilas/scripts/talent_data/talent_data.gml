@@ -12,6 +12,70 @@ global.talent_data[$ "Alertness"] = {
     description: "A passive increase to your passive perception +1 per rank."
 };
 
+global.talent_data[$ "Fleet Footed"] = {
+    name: "Fleet Footed",
+    table: "General",
+    ranked: true,
+    difficulty: global.SKILL_INTERMEDIATE,
+    description: "Each rank increases the move speed of this character by 10ft."
+};
+
+global.talent_data[$ "Iron Stomach"] = {
+    name: "Iron Stomach",
+    table: "General",
+    ranked: false,
+    difficulty: global.SKILL_SIMPLE,
+    description: "This character gains advantage on endurance tests for eating poisonous or rotten foods."
+};
+
+global.talent_data[$ "Light Sleeper"] = {
+    name: "Light Sleeper",
+    table: "General",
+    ranked: false,
+    difficulty: global.SKILL_INTERMEDIATE,
+    description: "This character counts as conscious when making Perception checks while asleep."
+};
+
+global.talent_data[$ "Strong Back"] = {
+    name: "Strong Back",
+    table: "General",
+    ranked: false,
+    difficulty: global.SKILL_INTERMEDIATE,
+    description: "This character counts as one size category larger when determining their carry capacity."
+};
+
+global.talent_data[$ "Sure-Footed"] = {
+    name: "Sure-Footed",
+    table: "General",
+    ranked: false,
+    difficulty: global.SKILL_INTERMEDIATE,
+    description: "This character gains advantage when making Balance tests or when making resistance checks against displacement effects such as Push or Throw."
+};
+
+global.talent_data[$ "Animal Affinity"] = {
+    name: "Animal Affinity",
+    table: "General",
+    ranked: false,
+    difficulty: global.SKILL_INTERMEDIATE,
+    description: "This character gains advantage when making skill checks that interact with animals."
+};
+
+global.talent_data[$ "Language (X)"] = {
+    name: "Animal Affinity",
+    table: "General",
+    ranked: false,
+    difficulty: global.SKILL_ADVANCED,
+    description: "This character learns how to speak a language."
+};
+
+global.talent_data[$ "Polyglot"] = {
+    name: "Polyglot",
+    table: "General",
+    ranked: false,
+    difficulty: global.SKILL_SIMPLE,
+    description: "This character can gleam the intended meaning from another speaking a language they don't know. It is very vague, but gives a general idea."
+};
+
 global.talent_data[$ "Durable"] = {
     name: "Durable",
     table: "General",
@@ -80,17 +144,88 @@ global.talent_data[$ "Steady Hands"] = {
     description: "Gain advantage on crafting and delicate-movement professional skills."
 };
 
-#endregion WARFARE
+global.talent_data[$ "Good Eye"] = {
+	name: "Good Eye",
+    table: "Professional",
+    ranked: false,
+    difficulty: global.SKILL_ADVANCED,
+    description: "Gain advantage on Appraisal checks and when detecting Forgeries."
+};
 
-#region
+global.talent_data[$ "Quality Control"] = {
+	name: "Quality Control",
+    table: "Professional",
+    ranked: false,
+    difficulty: global.SKILL_ADVANCED,
+    description: "When using any crafting skill you immediately gain 1 level of quality before any checks are made. I.E: Without a check the item is immediately Common quality meaning a successful check results in a Good quality item."
+};
 
-global.talent_data[$ "Awareness"] = {
-    name: "Awareness",
-    table: "Warfare",
+global.talent_data[$ "Hard Bargain"] = {
+	name: "Hard Bargain",
+    table: "Professional",
+    ranked: false,
+    difficulty: global.SKILL_ADVANCED,
+    description: "This character immediately scales a transaction up or down 5% depending on if they are selling or buying."
+};
+
+#endregion 
+
+
+#region Laborer
+
+
+global.talent_data[$ "Weathered"] = {
+    name: "Weathered",
+    table: "Laborer",
     ranked: true,
     difficulty: global.SKILL_INTERMEDIATE,
-    description: "Improves your Active Perception by 1 per rank."
+    description: "This character ignores one degree of Heat and Cold per rank of this talent. Stacks with other ignorance modifiers."
 };
+
+global.talent_data[$ "Laborious Endurance"] = {
+    name: "Laborious Endurance",
+    table: "Laborer",
+    ranked: true,
+    difficulty: global.SKILL_INTERMEDIATE,
+    description: "This character ignores the penalties of one degree of fatigue for each rank in this talent. Stacks with other ignorance modifiers. Does not ignore going over the Fatigue Limit nor the death thresholds for Fatigue."
+};
+
+global.talent_data[$ "Hauler"] = {
+    name: "Hauler",
+    table: "Laborer",
+    ranked: false,
+    difficulty: global.SKILL_INTERMEDIATE,
+    description: "This character maintain their Maximum Carry Capacity for 2x as long before needing to make Endurance tests."
+};
+
+global.talent_data[$ "Second Wind"] = {
+    name: "Second Wind",
+    table: "Laborer",
+    ranked: false,
+    difficulty: global.SKILL_INTERMEDIATE,
+    description: "This character totally ignores the first rank of fatigue gained for the duration of that day. Any additional fatigue gain is recorded normally."
+};
+
+global.talent_data[$ "Calloused"] = {
+    name: "Calloused",
+    table: "Laborer",
+    ranked: false,
+    difficulty: global.SKILL_SIMPLE,
+    description: "This character totally ignores the first minor wound they sustain for the duration of that day. Any additional minor wounds accrue normally."
+};
+
+global.talent_data[$ "Jury Rig"] = {
+    name: "Jury Rig",
+    table: "Laborer",
+    ranked: false,
+    difficulty: global.SKILL_SIMPLE,
+    description: "This character can make any work or tool related item function for a given Labor task. For Example: Cutting wheat with a sword. The checks are made as if using poor quality tools regardless of what quality the item being used is."
+};
+
+
+#endregion
+
+#region Warfare
 
 global.talent_data[$ "Blind Fighting"] = {
     name: "Blind Fighting",
@@ -98,6 +233,22 @@ global.talent_data[$ "Blind Fighting"] = {
     ranked: false,
     difficulty: global.SKILL_ADVANCED,
     description: "Use other senses when fighting blind or in the dark. Reduces the penalty to -2 without disadvantage. If there is too much noise, the attack is made at -2 with disadvantage."
+};
+
+global.talent_data[$ "All In"] = {
+    name: "All In",
+    table: "Warfare",
+    ranked: false,
+    difficulty: global.SKILL_ADVANCED,
+    description: "This character, upon a successful weapon skill hit using the Attack Complex Action, can OPT to forgo a Defensive Action and a Simple Action to gain a Critical Hit effect."
+};
+
+global.talent_data[$ "Suppression"] = {
+    name: "Suppression",
+    table: "Warfare",
+    ranked: true,
+    difficulty: global.SKILL_ADVANCED,
+    description: "This character can use the Suppression Compound Action. This action forces a number of targets equal to their Weapon Skill ranks divided by 5 to make Willpower tests, at -1 per rank of this talent, against the Fear table."
 };
 
 global.talent_data[$ "Close-Quarters Fighting"] = {
@@ -214,52 +365,60 @@ global.talent_data[$ "Two Weapon Fighting"] = {
     description: "Reduces the penalty from fighting with two weapons by -2."
 };
 
-global.talent_data[$ "Push"] = {
-    name: "Push",
+global.talent_data[$ "Martial Action (Push)"] = {
+    name: "Martial Action (Push)",
     table: "Warfare",
     ranked: true,
     difficulty: global.SKILL_ADVANCED,
     description: "Training in shoving. Rank 0 removes the untrained penalty and allows use against armed opponents without attacks of opportunity. Each rank grants +1 to Shove attacks."
 };
 
-global.talent_data[$ "Grapple"] = {
-    name: "Grapple",
+global.talent_data[$ "Martial Action (Grapple)"] = {
+    name: "Martial Action (Grapple)",
     table: "Warfare",
     ranked: true,
     difficulty: global.SKILL_ADVANCED,
     description: "Training in grabbing and holding. Rank 0 removes the untrained penalty and allows use against armed opponents without attacks of opportunity. Each rank grants +1 to Grapple attacks."
 };
 
-global.talent_data[$ "Disarm"] = {
-    name: "Disarm",
+global.talent_data[$ "Martial Action (Disarm)"] = {
+    name: "Martial Action (Disarm)",
     table: "Warfare",
     ranked: true,
     difficulty: global.SKILL_ADVANCED,
     description: "Training in forcing a target to drop what they hold. Rank 0 removes the untrained penalty and allows use against armed opponents without attacks of opportunity. Each rank grants +1 to Disarm attacks."
 };
 
-global.talent_data[$ "Trip"] = {
-    name: "Trip",
+global.talent_data[$ "Martial Action (Trip)"] = {
+    name: "Martial Action (Trip)",
     table: "Warfare",
     ranked: true,
     difficulty: global.SKILL_ADVANCED,
     description: "Training in knocking a target off balance. Rank 0 removes the untrained penalty and allows use against armed opponents without attacks of opportunity. Each rank grants +1 to Trip attacks."
 };
 
-global.talent_data[$ "Throw"] = {
-    name: "Throw",
+global.talent_data[$ "Martial Action (Throw)"] = {
+    name: "Martial Action (Throw)",
     table: "Warfare",
     ranked: true,
     difficulty: global.SKILL_ADVANCED,
     description: "Training in tossing a target. Rank 0 removes the untrained penalty and allows use against armed opponents without attacks of opportunity. Each rank grants +1 to Throw attacks."
 };
 
-global.talent_data[$ "Sunder"] = {
-    name: "Sunder",
+global.talent_data[$ "Martial Action (Sunder)"] = {
+    name: "Martial Action (Sunder)",
     table: "Warfare",
     ranked: true,
     difficulty: global.SKILL_ADVANCED,
     description: "Training in smashing armor and weapons. Rank 0 removes the untrained penalty and allows use against armed opponents without attacks of opportunity. Each rank grants +1 to Sunder attacks."
+};
+
+global.talent_data[$ "Martial Action (Cleave)"] = {
+    name: "Martial Action (Cleave)",
+    table: "Warfare",
+    ranked: true,
+    difficulty: global.SKILL_ADVANCED,
+    description: "Training in striking through multiple opponents. Rank 0 removes the untrained penalty and allows use against armed opponents without attacks of opportunity. Each rank grants +1 to Cleave damage pools."
 };
 
 global.talent_data[$ "Ambush"] = {
@@ -317,8 +476,9 @@ global.talent_data[$ "Marksmanship"] = {
     difficulty: global.SKILL_INTERMEDIATE,
     description: "When dealing damage with a bow, reduce the target’s CDT by 1 per rank."
 };
-
 #endregion
+
+
 
 #region CLERICAL
 
@@ -398,7 +558,7 @@ global.talent_data[$ "Street Fighting"] = {
     name: "Street Fighting",
     table: "Roguery",
     ranked: true,
-    difficulty: global.SKILL_ADVANCED,
+    difficulty: global.SKILL_INTERMEDIATE,
     description: "Fight hand-to-hand using terrain. Allows special maneuvers such as Grapple and Bull Rush untrained when obstacles are present. +1 to all rolls involving creative use of terrain per mastery rank."
 };
 
@@ -408,6 +568,46 @@ global.talent_data[$ "Canting"] = {
     ranked: false,
     difficulty: global.SKILL_ADVANCED,
     description: "Speak in a code language known primarily by criminals."
+};
+
+global.talent_data[$ "Quick Hands"] = {
+    name: "Quick Hands",
+    table: "Roguery",
+    ranked: false,
+    difficulty: global.SKILL_INTERMEDIATE,
+    description: "This character gains advantage on Sleight of Hand, Disable, and Open Lock checks."
+};
+
+global.talent_data[$ "Acrobat"] = {
+    name: "Acrobat",
+    table: "Roguery",
+    ranked: false,
+    difficulty: global.SKILL_INTERMEDIATE,
+    description: "This character gains advantage on Tumbling checks including when using the Dodge Defensive Action."
+};
+
+global.talent_data[$ "Many Faces"] = {
+    name: "Many Faces",
+    table: "Roguery",
+    ranked: false,
+    difficulty: global.SKILL_INTERMEDIATE,
+    description: "This character gains advantage on Disguise and Deception checks."
+};
+
+global.talent_data[$ "Con Artist"] = {
+    name: "Con Artist",
+    table: "Roguery",
+    ranked: false,
+    difficulty: global.SKILL_SIMPLE,
+    description: "This character gains advantage on Gaming and Intuition checks."
+};
+
+global.talent_data[$ "Con Artist"] = {
+    name: "Con Artist",
+    table: "Roguery",
+    ranked: false,
+    difficulty: global.SKILL_SIMPLE,
+    description: "This character gains advantage on Gaming and Intuition checks."
 };
 
 global.talent_data[$ "Backstab"] = {
@@ -434,9 +634,69 @@ global.talent_data[$ "Quick Poisoner"] = {
     description: "Add poison to a weapon from a receptacle or on-person source as a free action."
 };
 
+global.talent_data[$ "Awareness"] = {
+    name: "Awareness",
+    table: "Roguery",
+    ranked: false,
+    difficulty: global.SKILL_ADVANCED,
+    description: "Add 1 to active perception Degrees of Success."
+};
+
 #endregion
 
-#region
+#region Social
+
+global.talent_data[$ "Silver Tongue"] = {
+    name: "Silver Tongue",
+    table: "Social",
+    ranked: false,
+    difficulty: global.SKILL_INTERMEDIATE,
+    description: "This character gains advantage on Persuasion, Desception, and Seduction checks."
+};
+
+global.talent_data[$ "Negotiator"] = {
+    name: "Negotiator",
+    table: "Social",
+    ranked: false,
+    difficulty: global.SKILL_INTERMEDIATE,
+    description: "This character gains advantage on Diplomacy, Bargaining, and Debate checks."
+};
+
+global.talent_data[$ "Inspiring Orator"] = {
+    name: "Inspiring Orator",
+    table: "Social",
+    ranked: false,
+    difficulty: global.SKILL_INTERMEDIATE,
+    description: "This character gains advantage on Oration, Crowd-Working, and Command checks."
+};
+
+global.talent_data[$ "Natural Leader"] = {
+    name: "Natural Leader",
+    table: "Social",
+    ranked: false,
+    difficulty: global.SKILL_SIMPLE,
+    description: "This character uses their Charm in place of their Leadership when determining Maximum Follower Size count."
+};
+
+global.talent_data[$ "Interrogator"] = {
+    name: "Interrogator",
+    table: "Social",
+    ranked: false,
+    difficulty: global.SKILL_INTERMEDIATE,
+    description: "This character gains advantage on Interrogation, and Empathy checks. Additionally there is no chance that an interrogated target will die during interrogation outside of a critical failure."
+};
+
+global.talent_data[$ "Charismatic"] = {
+    name: "Charismatic",
+    table: "Social",
+    ranked: false,
+    difficulty: global.SKILL_INTERMEDIATE,
+    description: "This character gains +1 to all Spiritual Attribute tests and may use their Charm to make the test instead of the other attributes."
+};
+
+#endregion
+
+#region ARCANE
 
 global.talent_data[$ "Spell Weaving"] = {
     name: "Spell Weaving",
@@ -543,14 +803,6 @@ global.talent_data[$ "Shelter"] = {
     description: "Emergency shelters made with Survival gain Insulated (2) and lose Fragile."
 };
 
-global.talent_data[$ "Weather Sense"] = {
-    name: "Weather Sense",
-    table: "Survival",
-    ranked: false,
-    difficulty: global.SKILL_INTERMEDIATE,
-    description: "When a weather event may occur, make a Perception test; on success you notice the shift with ample time to prepare."
-};
-
 global.talent_data[$ "Hunter's Patience"] = {
     name: "Hunter's Patience",
     table: "Survival",
@@ -577,10 +829,105 @@ global.talent_data[$ "Improvised"] = {
 
 #endregion
 
+#region Occult
 
-#region
+global.talent_data[$ "Vampiric Mastery"] = {
+    name: "Vampiric Mastery",
+    table: "Occult",
+    ranked: false,
+    difficulty: global.SKILL_ADVANCED,
+    description: "Determines the power limit of your vampiric abilities."
+};
 
+global.talent_data[$ "Vampiric Power (X)"] = {
+    name: "Vampiric Power (X)",
+    table: "Occult",
+    ranked: false,
+    difficulty: global.SKILL_ADVANCED,
+    description: "Obtain one of the vampiric powers from the list."
+};
+
+global.talent_data[$ "Daemonic Mastery"] = {
+    name: "Daemonic Mastery",
+    table: "Occult",
+    ranked: false,
+    difficulty: global.SKILL_ADVANCED,
+    description: "Determines the power limit of your Daemonic abilities."
+};
+
+global.talent_data[$ "Daemonic Power (X)"] = {
+    name: "Daemonic Power (X)",
+    table: "Occult",
+    ranked: false,
+    difficulty: global.SKILL_ADVANCED,
+    description: "Obtain one of the Daemonic powers from the list."
+};
+
+global.talent_data[$ "Shamanic Mastery"] = {
+    name: "Shamanic Mastery",
+    table: "Occult",
+    ranked: false,
+    difficulty: global.SKILL_ADVANCED,
+    description: "Determines the power limit of your Shamanic abilities."
+};
+
+global.talent_data[$ "Shamanic Power (X)"] = {
+    name: "Shamanic Power (X)",
+    table: "Occult",
+    ranked: false,
+    difficulty: global.SKILL_ADVANCED,
+    description: "Obtain one of the Shamanic powers from the list."
+};
+
+global.talent_data[$ "Necromantic Mastery"] = {
+    name: "Necromantic Mastery",
+    table: "Occult",
+    ranked: false,
+    difficulty: global.SKILL_ADVANCED,
+    description: "Determines the power limit of your Necromantic abilities."
+};
+
+global.talent_data[$ "Necromantic Power (X)"] = {
+    name: "Necromantic Power (X)",
+    table: "Occult",
+    ranked: false,
+    difficulty: global.SKILL_ADVANCED,
+    description: "Obtain one of the Necromantic powers from the list."
+};
+
+global.talent_data[$ "Crier Mastery"] = {
+    name: "Crier Mastery",
+    table: "Occult",
+    ranked: false,
+    difficulty: global.SKILL_ADVANCED,
+    description: "Determines the power limit of your Wild Crier abilities."
+};
+
+global.talent_data[$ "Crier Power (X)"] = {
+    name: "Crier Power (X)",
+    table: "Occult",
+    ranked: false,
+    difficulty: global.SKILL_ADVANCED,
+    description: "Obtain one of the Wild Crier powers from the list."
+};
+
+global.talent_data[$ "Careful Preparation"] = {
+    name: "Careful Preparation",
+    table: "Occult",
+    ranked: false,
+    difficulty: global.SKILL_INTERMEDIATE,
+    description: "Gains advantage on Component Preparation tests."
+};
+
+global.talent_data[$ "Ritual Master"] = {
+    name: "Ritual Master",
+    table: "Occult",
+    ranked: false,
+    difficulty: global.SKILL_INTERMEDIATE,
+    description: "Gains advantage on Ritual tests and can ignore the results of a failed test from one of the ritual participants."
+};
 
 #endregion
+
 	
 }
