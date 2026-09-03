@@ -16,6 +16,7 @@ switch (step.type)
 {
     case "single_select":
         draw_species_select(step);
+		briefing_on_enter_step(cc);
         break;
 
     case "roll_assign":
@@ -34,6 +35,10 @@ switch (step.type)
 // TOOLTIP
 draw_tooltip();
 clear_tooltip();
+
+//Briefings
+
+briefing_draw(global.char_creation);
 
 
 

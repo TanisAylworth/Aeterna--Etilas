@@ -56,6 +56,8 @@
     {"id":{"name":"equipment_init","path":"scripts/equipment_init/equipment_init.yy",},},
     {"id":{"name":"equipment_step","path":"scripts/equipment_step/equipment_step.yy",},},
     {"id":{"name":"Finalize_Character_SCR","path":"scripts/Finalize_Character_SCR/Finalize_Character_SCR.yy",},},
+    {"id":{"name":"Generation_Brief_Helpers","path":"scripts/Generation_Brief_Helpers/Generation_Brief_Helpers.yy",},},
+    {"id":{"name":"Generation_Brief_State","path":"scripts/Generation_Brief_State/Generation_Brief_State.yy",},},
     {"id":{"name":"generation_helpers","path":"scripts/generation_helpers/generation_helpers.yy",},},
     {"id":{"name":"Generation_Shop_Init","path":"scripts/Generation_Shop_Init/Generation_Shop_Init.yy",},},
     {"id":{"name":"generation_step_SCR","path":"scripts/generation_step_SCR/generation_step_SCR.yy",},},

@@ -3,6 +3,9 @@
 
 
 var cc = global.char_creation;
+
+// Modal briefing: eat the whole frame of UI input
+if (briefing_update(global.char_creation)) exit;   // or return; — do NOT call step_update / step_enter at all
 if (!is_struct(cc)) exit;
 if (!variable_struct_exists(cc, "steps")) exit;
 

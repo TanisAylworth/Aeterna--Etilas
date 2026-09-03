@@ -326,19 +326,19 @@ function get_available_tables(cc)
 
 function go_to_next_step(cc)
 {
-	array_push(
-    cc.step_history,
-    cc.step_index
-);
+    var from_id = (cc.step_index >= 0 && cc.step_index < array_length(cc.steps))
+        ? cc.steps[cc.step_index].id
+        : "none";
+    
     cc.step_index++;
-	show_debug_message("CURRENT STEP: " + cc.steps[cc.step_index].id);
-    show_debug_message("STEP INDEX NOW: " + string(cc.step_index));
-
+    
     if (cc.step_index >= array_length(cc.steps))
-    {
         cc.step_index = array_length(cc.steps) - 1;
-        show_debug_message("END OF STEPS REACHED");
-    }
+    
+    var to_id = cc.steps[cc.step_index].id;
+    show_debug_message("STEP " + from_id + " -> " + to_id + " (index " + string(cc.step_index) + ")");
+    
+    briefing_on_enter_step(cc);
 }
 
 

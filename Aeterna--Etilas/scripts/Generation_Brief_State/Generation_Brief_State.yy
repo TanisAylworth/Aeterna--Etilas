@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"Generation_Brief_State",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"Generation_Brief_State",
+  "parent":{
+    "name":"MISC_SCR",
+    "path":"folders/Scripts/MISC_SCR.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

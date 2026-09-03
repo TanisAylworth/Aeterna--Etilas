@@ -5,6 +5,7 @@ randomize();
 Species_Data_SCR();
 Attribute_data();
 get_all_knowledge_tables();
+briefing_data_init();
 
 
 window_set_showborder(true);
@@ -54,7 +55,7 @@ global.char_creation = {
                 "gold"
             ],
 
-            next: "equpment"
+            next: "equipment"
         },
 		
 		{

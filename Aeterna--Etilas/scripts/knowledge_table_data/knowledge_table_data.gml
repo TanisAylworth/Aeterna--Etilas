@@ -157,7 +157,6 @@ global.knowledge_table_data[$ "Warfare"] =
 
         talents :
         [
-			
         "Weathered",
         "Laborious Endurance",
         "Hauler",

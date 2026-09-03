@@ -1,7 +1,11 @@
 function attribute_step_update(cc)
 {
     if (!is_struct(cc)) return;
-
+	if (briefing_update(global.char_creation))
+    exit;
+	if (variable_struct_exists(cc, "briefing_open") && cc.briefing_open)
+	    return;
+	
     var mx = device_mouse_x_to_gui(0);
     var my = device_mouse_y_to_gui(0);
     var screen_w = display_get_gui_width();

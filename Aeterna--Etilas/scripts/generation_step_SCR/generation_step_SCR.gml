@@ -5,6 +5,9 @@ function generation_step_update(cc)
     center_y: display_get_gui_height() * 0.5
 };
 
+	if (briefing_update(global.char_creation))
+    return;
+
     var mx = device_mouse_x_to_gui(0);
     var my = device_mouse_y_to_gui(0);
 	var screen_h = display_get_gui_height();

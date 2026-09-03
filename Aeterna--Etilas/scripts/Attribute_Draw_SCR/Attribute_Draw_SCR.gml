@@ -101,7 +101,9 @@ for (var i = 0; i < roll_count; i++)
     var y2 = y1 + roll_h;
 
     var is_selected = (cc.selected_roll_index == i);
-    var hover = point_in_rectangle(mx, my, x1, y1, x2, y2);
+    var briefing_up = variable_struct_exists(cc, "briefing_open") && cc.briefing_open;
+
+	var hover = !briefing_up && point_in_rectangle(mx, my, x1, y1, x2, y2);
 
     if (is_selected)
         draw_set_color(make_color_rgb(70, 70, 30));
@@ -140,9 +142,9 @@ var man_h = 32;
 var man_x = roll_start_x + roll_total_w + 20;
 var man_y = roll_y;
 	
+	var briefing_up = variable_struct_exists(cc, "briefing_open") && cc.briefing_open;
 
-
-    var hover_man = point_in_rectangle(mx, my, man_x, man_y, man_x + man_w, man_y + man_h);
+    var hover_man = !briefing_up && point_in_rectangle(mx, my, man_x, man_y, man_x + man_w, man_y + man_h);
 
     draw_set_color(cc.manual_roll_mode ? make_color_rgb(60, 40, 20) : make_color_rgb(30, 30, 30));
     draw_rectangle(man_x, man_y, man_x + man_w, man_y + man_h, false);
@@ -200,7 +202,8 @@ var man_y = roll_y;
         var final_val = (is_real(base) ? base : 0) + species_bonus + choice_bonus;
         var is_assigned = is_real(base);
         var has_adjustment = (species_bonus != 0) || (choice_bonus > 0);
-        var hover = point_in_rectangle(mx, my, x1, y1, x2, y2);
+        var hover = !briefing_up && point_in_rectangle(mx, my, x1, y1, x2, y2);
+		
 
         // === BACKGROUND ===
         if (hover)
@@ -300,7 +303,7 @@ var man_y = roll_y;
         var yy = panel_y + 70 + i * (row_h + row_spacing);
         
         var selected = variable_struct_exists(cc.species_bonus_map, attr);
-        var hover = point_in_rectangle(mx, my, panel_x + 12, yy, panel_x + panel_w - 12, yy + row_h);
+        var hover = !briefing_up && point_in_rectangle(mx, my, panel_x + 12, yy, panel_x + panel_w - 12, yy + row_h);
 
         // Row background
         if (selected)
@@ -406,7 +409,7 @@ draw_text(ctrl_x + 10, ctrl_y + 155,
     cc.confirm_btn.x = btn_x;
     cc.confirm_btn.y = btn_y;
 
-    var hover_btn = point_in_rectangle(mx, my, btn_x, btn_y, btn_x + btn_w, btn_y + btn_h);
+    var hover_btn = !briefing_up && point_in_rectangle(mx, my, btn_x, btn_y, btn_x + btn_w, btn_y + btn_h);
 
     // Ready check
     var ready = true;
@@ -464,7 +467,7 @@ draw_text(ctrl_x + 10, ctrl_y + 155,
 
 var can_back = array_length(cc.step_history) > 0;
 
-var hover_back = point_in_rectangle(
+var hover_back = !briefing_up && point_in_rectangle(
     mx,
     my,
     back_x,
@@ -522,5 +525,7 @@ draw_text(
 
 draw_set_halign(fa_left);
 draw_set_valign(fa_top);
+
+briefing_draw(cc);
 	
 }

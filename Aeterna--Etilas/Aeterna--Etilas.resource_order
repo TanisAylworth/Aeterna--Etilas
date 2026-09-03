@@ -32,6 +32,8 @@
     {"name":"equipment_helpers","order":3,"path":"scripts/equipment_helpers/equipment_helpers.yy",},
     {"name":"equipment_step","order":1,"path":"scripts/equipment_step/equipment_step.yy",},
     {"name":"Finalize_Character_SCR","order":6,"path":"scripts/Finalize_Character_SCR/Finalize_Character_SCR.yy",},
+    {"name":"Generation_Brief_Helpers","order":15,"path":"scripts/Generation_Brief_Helpers/Generation_Brief_Helpers.yy",},
+    {"name":"Generation_Brief_State","order":14,"path":"scripts/Generation_Brief_State/Generation_Brief_State.yy",},
     {"name":"generation_helpers","order":1,"path":"scripts/generation_helpers/generation_helpers.yy",},
     {"name":"Generation_Shop_Init","order":2,"path":"scripts/Generation_Shop_Init/Generation_Shop_Init.yy",},
     {"name":"generation_step_SCR","order":3,"path":"scripts/generation_step_SCR/generation_step_SCR.yy",},

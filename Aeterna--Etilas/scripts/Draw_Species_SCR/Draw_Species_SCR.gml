@@ -25,7 +25,7 @@ function draw_species_select(step)
     draw_text(sc_box_x + 10, sc_box_y + 10, "SPECIES CONTROLS");
     draw_text(sc_box_x + 10, sc_box_y + 35, "- Left Click Species = Select / Lock");
     draw_text(sc_box_x + 10, sc_box_y + 55, "- Hover To View Summary");
-    draw_text(sc_box_x + 10, sc_box_y + 75, "- (R) To Select Random Species");
+    draw_text(sc_box_x + 10, sc_box_y + 75, "- (A) To Select Random Species");
 
     // =====================================================
     // SPECIES LIST - EVEN COLUMNS
@@ -59,57 +59,47 @@ function draw_species_select(step)
         var xx = list_x + (col * col_width);
         var yy = start_y + (row * (box_h + spacing));
 
-                var is_hovered = point_in_rectangle(mx, my, xx, yy, xx + box_w, yy + box_h);
+        var is_hovered = point_in_rectangle(mx, my, xx, yy, xx + box_w, yy + box_h);
+
+		if (variable_struct_exists(global.char_creation, "briefing_open")
+		    && global.char_creation.briefing_open)
+		{
+		    is_hovered = false;
+		}
 
         if (is_hovered)
         {
             hovered_species = species_id;
-
-            if (mouse_check_button_pressed(mb_left))
-            {
-                var cc = global.char_creation;
-                cc.locked_species = species_id;
-                cc.species_bonus_map = {};
-                cc.species_bonus_remaining = 0;
-
-                var data = global.species_data[$ species_id];
-                if (variable_struct_exists(data, "creation") && variable_struct_exists(data.creation, "attribute_adjustments"))
-                {
-                    var adj = data.creation.attribute_adjustments;
-                    if (variable_struct_exists(adj, "choices"))
-                    {
-                        cc.species_bonus_remaining = adj.choices;
-                    }
-                }
-
-                show_debug_message("Species locked: " + species_id);
-            }
+            
         }
 
-        var is_selected = (global.char_creation.locked_species == species_id);
+       var is_selected = (global.char_creation.locked_species == species_id);
 
-        // Border / Trim
-        if (is_selected)
-            draw_set_color(c_green);
-        else if (is_hovered)
-            draw_set_color(c_yellow);
-        else
-            draw_set_color(c_white);
+		// === FILL (center lights up) ===
+		if (is_selected)
+		    draw_set_color(make_color_rgb(20, 50, 20));      // green-tinted
+		else if (is_hovered)
+		    draw_set_color(make_color_rgb(70, 70, 40));      // yellow-tinted
+		else
+		    draw_set_color(c_black);
 
-        draw_rectangle(xx, yy, xx + box_w, yy + box_h, true);  // White trim
+		draw_rectangle(xx, yy, xx + box_w, yy + box_h, false);
 
-        // Fill (Black)
-        draw_set_color(c_black);
-        draw_rectangle(xx + 1, yy + 1, xx + box_w - 1, yy + box_h - 1, false);
+		// === BORDER ===
+		if (is_selected)
+		    draw_set_color(c_lime);
+		else if (is_hovered)
+		    draw_set_color(c_yellow);
+		else
+		    draw_set_color(c_white);
 
-        // Text (White)
-        draw_set_color(c_white);
-        draw_text(xx + 10, yy + 8, sp.name);
+		draw_rectangle(xx, yy, xx + box_w, yy + box_h, true);
+
+		// === TEXT ===
+		draw_set_color(c_white);
+		draw_text(xx + 10, yy + 8, sp.name);
     }
 
-    // Right-click to unlock
-    if (mouse_check_button_pressed(mb_right))
-        global.char_creation.locked_species = undefined;
 
 // =====================================================
 // RIGHT PANEL
@@ -187,4 +177,6 @@ draw_set_color(ready ? c_white : c_ltgray);
 draw_text(btn_x + btn_w * 0.5, btn_y + btn_h * 0.5, "CONFIRM SPECIES");
 draw_set_halign(fa_left);
 draw_set_valign(fa_top);
+
+
 }
