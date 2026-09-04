@@ -12,66 +12,197 @@ function generation_layout(L)
 
 function handle_specialization_popup(cc, L, mx, my, clicked)
 {
-    if (!clicked) return false;
-
-    var popup_w = 360;
-    var popup_x = L.center_x - popup_w * 0.5;
-    var popup_y = 160;
-
-    for (var i = 0; i < array_length(cc.pending_specializations); i++)
+    var screen_w = display_get_gui_width();
+    var screen_h = display_get_gui_height();
+    
+    var panel_w = min(480, screen_w - 80);
+    var panel_h = min(400, screen_h - 80);
+    var panel_x = (screen_w - panel_w) * 0.5;
+    var panel_y = (screen_h - panel_h) * 0.5;
+    
+    var close_w = 120;
+    var close_h = 40;
+    var close_x = panel_x + (panel_w - close_w) * 0.5;
+    var close_y = panel_y + panel_h - close_h - 16;
+    
+    // Esc closes without buying
+    if (keyboard_check_pressed(vk_escape))
     {
-        var row_y = popup_y + 75 + (i * 42);
-       
-        if (point_in_rectangle(mx, my, popup_x + 20, row_y - 8, popup_x + popup_w - 20, row_y + 28))
-        {
-            var base_skill = string_replace_all(cc.pending_skill, " (X)", "");
-            var spec = cc.pending_specializations[i];
-            var full_skill_name = base_skill + " (" + spec + ")";
-var source = variable_struct_exists(cc, "pending_skill_source")
-    ? cc.pending_skill_source : "cp";
-
-if (source == "species_choice"
-    && variable_struct_exists(cc, "species_skill_choice_remaining")
-    && cc.species_skill_choice_remaining > 0)
-{
-    cc.species_skill_choice_remaining--;
-    if (!variable_struct_exists(cc, "species_choice_skill_ranks"))
-        cc.species_choice_skill_ranks = {};
-    if (!variable_struct_exists(cc.species_choice_skill_ranks, full_skill_name))
-        cc.species_choice_skill_ranks[$ full_skill_name] = 0;
-    cc.species_choice_skill_ranks[$ full_skill_name]++;
-}
-else if (source == "free_slot")
-{
-    var species = global.species_data[$ cc.locked_species];
-    if (species.creation.knowledge_skills.choices.count > 0)
-    {
-        species.creation.knowledge_skills.choices.count--;
-        if (!variable_struct_exists(cc.free_slot_ranks, full_skill_name))
-            cc.free_slot_ranks[$ full_skill_name] = 0;
-        cc.free_slot_ranks[$ full_skill_name]++;
+        specialization_popup_close(cc);
+        return true;
     }
-}
-else
-{
-    var owns_table = table_is_owned(cc, cc.selected_table);
-    var cost = owns_table ? 1 : 2;
-    if (cc.generation_slots_remaining < cost) return true; // or abort cleanly
-    cc.generation_slots_remaining -= cost;
-}
-
-set_skill_rank(cc, full_skill_name, 0);
-cc.pending_skill_source = "";
-            
-            // Cleanup
-            cc.specialization_popup = false;
-            cc.pending_skill = "";
-            cc.pending_specializations = [];
+    
+    if (clicked)
+    {
+        // Close button
+        if (point_in_rectangle(mx, my, close_x, close_y, close_x + close_w, close_y + close_h))
+        {
+            specialization_popup_close(cc);
             return true;
         }
+        
+        // Option rows (layout must match draw)
+        var list_y = panel_y + 70;
+        var row_h = 32;
+        var choices = cc.pending_specializations;
+        if (is_array(choices))
+        {
+            for (var i = 0; i < array_length(choices); i++)
+            {
+                var yy = list_y + i * row_h;
+                if (point_in_rectangle(mx, my, panel_x + 20, yy, panel_x + panel_w - 20, yy + row_h - 4))
+                {
+                    // your existing "pick this specialization" logic here
+                    specialization_popup_choose(cc, choices[i]);
+                    return true;
+                }
+            }
+        }
+        
+        // Click anywhere else on the modal: still consumed (no click-through)
+        return true;
     }
-    return false;
+    
+    return true; // open = block every frame
 }
+
+function specialization_popup_choose(cc, choice_name)
+{
+    var kind = variable_struct_exists(cc, "pending_kind") ? cc.pending_kind : "skill";
+    var base = string(cc.pending_skill);
+    var base_clean = string_replace_all(base, " (X)", "");
+    var final_name = base_clean + " (" + string(choice_name) + ")";
+    var source = variable_struct_exists(cc, "pending_skill_source")
+        ? cc.pending_skill_source : "cp";
+    
+    if (kind == "talent")
+    {
+        if (get_talent_rank(cc, final_name) >= 0)
+        {
+            specialization_popup_close(cc);
+            return;
+        }
+        
+        // Spend (mirror your talent free-slot / CP rules)
+        if (source == "free_slot")
+        {
+            var species = global.species_data[$ cc.locked_species];
+            if (species.creation.knowledge_talents.choices.count <= 0)
+            {
+                specialization_popup_close(cc);
+                return;
+            }
+            species.creation.knowledge_talents.choices.count--;
+            if (!variable_struct_exists(cc, "free_slot_talents"))
+                cc.free_slot_talents = [];
+            if (!array_contains(cc.free_slot_talents, final_name))
+                array_push(cc.free_slot_talents, final_name);
+        }
+        else
+        {
+            var owns = table_is_owned(cc, cc.selected_table);
+            var cost = owns ? 1 : 2;
+            // Unranked talent = one purchase; ranked first rank same
+            if (cc.generation_slots_remaining < cost)
+            {
+                specialization_popup_close(cc);
+                return;
+            }
+            cc.generation_slots_remaining -= cost;
+        }
+        
+        set_talent_rank(cc, final_name, 0); // or whatever your first-owned rank is
+        show_debug_message("Talent specialization: " + final_name);
+        specialization_popup_close(cc);
+        return;
+    }
+    
+    // Already own this specialization?
+    if (variable_struct_exists(cc.skill_ranks, final_name))
+    {
+        specialization_popup_close(cc);
+        return;
+    }
+    
+    // ---- spend ----
+    if (source == "species_choice")
+    {
+        if (!variable_struct_exists(cc, "species_skill_choice_remaining")
+            || cc.species_skill_choice_remaining <= 0)
+        {
+            specialization_popup_close(cc);
+            return;
+        }
+        cc.species_skill_choice_remaining--;
+        
+        if (!variable_struct_exists(cc, "species_choice_skill_ranks"))
+            cc.species_choice_skill_ranks = {};
+        if (!variable_struct_exists(cc.species_choice_skill_ranks, final_name))
+            cc.species_choice_skill_ranks[$ final_name] = 0;
+        cc.species_choice_skill_ranks[$ final_name]++;
+    }
+    else if (source == "free_slot")
+    {
+        if (!variable_struct_exists(cc, "locked_species"))
+        {
+            specialization_popup_close(cc);
+            return;
+        }
+        var species = global.species_data[$ cc.locked_species];
+        if (!variable_struct_exists(species.creation.knowledge_skills, "choices")
+            || species.creation.knowledge_skills.choices.count <= 0)
+        {
+            specialization_popup_close(cc);
+            return;
+        }
+        species.creation.knowledge_skills.choices.count--;
+        
+        if (!variable_struct_exists(cc, "free_skill_ranks"))
+            cc.free_skill_ranks = {};
+        if (!variable_struct_exists(cc.free_skill_ranks, final_name))
+            cc.free_skill_ranks[$ final_name] = 0;
+        cc.free_skill_ranks[$ final_name]++;
+        
+        if (!variable_struct_exists(cc, "free_slot_skills"))
+            cc.free_slot_skills = [];
+        if (!array_contains(cc.free_slot_skills, final_name))
+            array_push(cc.free_slot_skills, final_name);
+    }
+    else
+    {
+        // character points
+        var owns = table_is_owned(cc, cc.selected_table);
+        var cost = owns ? 1 : 2;
+        if (cc.generation_slots_remaining < cost)
+        {
+            specialization_popup_close(cc);
+            return;
+        }
+        cc.generation_slots_remaining -= cost;
+        
+        if (!variable_struct_exists(cc, "paid_skill_ranks"))
+            cc.paid_skill_ranks = {};
+        if (!variable_struct_exists(cc.paid_skill_ranks, final_name))
+            cc.paid_skill_ranks[$ final_name] = 0;
+        cc.paid_skill_ranks[$ final_name]++;
+    }
+    
+    // Rank 0 = first rank owned (matches your attempt_skill_rank_up style)
+    set_skill_rank(cc, final_name, 0);
+    
+    show_debug_message("Specialization acquired: " + final_name + " via " + source);
+    specialization_popup_close(cc);
+}
+
+function specialization_popup_close(cc)
+{
+    cc.specialization_popup = false;
+    cc.pending_skill = undefined;
+    cc.pending_specializations = undefined;
+    if (variable_struct_exists(cc, "pending_skill_source"))
+        cc.pending_skill_source = undefined;
+}
+
 
 function handle_cdt_gold_controls(cc, L, mx, my, clicked)
 {
@@ -858,7 +989,10 @@ function draw_tables_column(cc, L, tables_x)
 {
     if (tables_x == undefined)
         tables_x = L.center_x;
-
+	
+	var modal = variable_struct_exists(cc, "specialization_popup") && cc.specialization_popup;
+	if (modal)
+    cc.hovered_table = "";
     var yy = 320;
     var btn_w = 260;
     var btn_h = 34;
@@ -954,10 +1088,10 @@ draw_set_valign(fa_top);
     var confirm_w = btn_w;
     var confirm_h = 36;
 
-    var confirm_hover = point_in_rectangle(
-        device_mouse_x_to_gui(0), device_mouse_y_to_gui(0),
-        confirm_x, confirm_y, confirm_x + confirm_w, confirm_y + confirm_h
-    );
+    var confirm_hover = !modal && point_in_rectangle(
+    device_mouse_x_to_gui(0), device_mouse_y_to_gui(0),
+    confirm_x, confirm_y, confirm_x + confirm_w, confirm_y + confirm_h
+);
 
     var is_locked = variable_struct_exists(cc.generation, "tables_locked")
         && cc.generation.tables_locked;
@@ -1386,6 +1520,9 @@ function handle_locked_table_selection(cc, L, mx, my, clicked, tables_x)
 function draw_skill_tooltip(cc)
 {
     if (!variable_struct_exists(cc, "hovered_skill") || cc.hovered_skill == "")
+        return;
+		
+	if (variable_struct_exists(cc, "specialization_popup") && cc.specialization_popup)
         return;
       
     var hovered_key = cc.hovered_skill;
@@ -1950,82 +2087,62 @@ function reclaim_skill_table_discount(cc, table_name)
     }
 }
 
-function attempt_talent_rank_up(cc, talent_name, table)
+function attempt_talent_rank_up(cc, talent_key, table)
 {
-    show_debug_message("RANK UP attempt: " + talent_name);
-
-    if (!variable_struct_exists(global.talent_data, talent_name))
+    var current_rank = get_talent_rank(cc, talent_key); // -1 = unowned
+    
+    var lookup = string_replace_all(talent_key, " (X)", "");
+    var tdata = undefined;
+    if (variable_struct_exists(global.talent_data, talent_key))
+        tdata = global.talent_data[$ talent_key];
+    else if (variable_struct_exists(global.talent_data, lookup))
+        tdata = global.talent_data[$ lookup];
+    else if (variable_struct_exists(global.talent_data, lookup + " (X)"))
+        tdata = global.talent_data[$ lookup + " (X)"];
+    
+    // Required specialization, not yet owned as a concrete pick
+    if (tdata != undefined
+        && variable_struct_exists(tdata, "specialization")
+        && tdata.specialization.required
+        && current_rank < 0)
     {
-        show_debug_message("  FAIL: talent_data missing for " + talent_name);
-        return;
-    }
-
-    var talent = global.talent_data[$ talent_name];
-    var current = get_talent_rank(cc, talent_name);
-    show_debug_message("  current rank: " + string(current) + "  ranked: " + string(talent.ranked));
-
-    // Binary talents can only ever reach rank 0
-    if (!talent.ranked && current >= 0)
-    {
-        show_debug_message("  FAIL: binary already owned");
-        return;
-    }
-
-	// Restricted species talent choice first
-if (talent_is_species_choice_option(cc, talent_name)
-    && variable_struct_exists(cc, "species_talent_choice_remaining")
-    && cc.species_talent_choice_remaining > 0
-    && current < 0)
-{
-    cc.species_talent_choice_remaining--;
-    set_talent_rank(cc, talent_name, 0);
-    if (!array_contains(cc.free_slot_talents, talent_name))
-        array_push(cc.free_slot_talents, talent_name);
-    show_debug_message("Species talent choice: " + talent_name);
-    return;
-}
-	
-    // Free slots
-    if (current < 0
-    && !species_talent_choices_are_restricted(cc)
-    && variable_struct_exists(cc, "locked_species"))
-    {
-        var species = global.species_data[$ cc.locked_species];
-        if (variable_struct_exists(species.creation, "knowledge_talents")
-            && variable_struct_exists(species.creation.knowledge_talents, "choices"))
+        var choices = [];
+        if (variable_struct_exists(tdata.specialization, "choices")
+            && is_array(tdata.specialization.choices)
+            && array_length(tdata.specialization.choices) > 0)
         {
-            var remaining = species.creation.knowledge_talents.choices.count;
-            show_debug_message("  free slots: " + string(remaining));
-            if (remaining > 0)
+            choices = tdata.specialization.choices;
+        }
+        else
+        {
+            // Dynamic lists later (languages, trained weapons, etc.)
+            show_debug_message("No specialization choices for: " + talent_key);
+            return;
+        }
+        
+        cc.pending_kind = "talent";
+        cc.pending_skill = (string_pos(" (X)", talent_key) > 0) ? talent_key : (lookup + " (X)");
+        cc.pending_specializations = choices;
+        cc.pending_skill_source = "cp";
+        
+        // Optional: free talent slot / species choice detection (same idea as skills)
+        if (variable_struct_exists(cc, "locked_species"))
+        {
+            var sp = global.species_data[$ cc.locked_species];
+            if (variable_struct_exists(sp.creation, "knowledge_talents")
+                && variable_struct_exists(sp.creation.knowledge_talents, "choices")
+                && sp.creation.knowledge_talents.choices.count > 0
+                && !species_talent_choices_are_restricted(cc))
             {
-                species.creation.knowledge_talents.choices.count--;
-                set_talent_rank(cc, talent_name, 0);
-                if (!array_contains(cc.free_slot_talents, talent_name))
-                    array_push(cc.free_slot_talents, talent_name);
-                show_debug_message("  SUCCESS: used free slot");
-                return;
+                cc.pending_skill_source = "free_slot";
             }
         }
-    }
-
-    // Character points
-    var owns_table = table_is_owned(cc, table);
-    var cost = owns_table ? 1 : 2;
-    show_debug_message("  owns table: " + string(owns_table) + "  cost: " + string(cost) + "  slots left: " + string(cc.generation_slots_remaining));
-
-    if (cc.generation_slots_remaining < cost)
-    {
-        show_debug_message("  FAIL: not enough slots");
+        
+        cc.specialization_popup = true;
         return;
     }
-
-    cc.generation_slots_remaining -= cost;
-    if (current < 0)
-        set_talent_rank(cc, talent_name, 0);
-    else
-        set_talent_rank(cc, talent_name, current + 1);
-
-    show_debug_message("  SUCCESS: rank now " + string(get_talent_rank(cc, talent_name)));
+    
+    // ... existing normal talent buy logic ...
 }
 
 function attempt_talent_rank_down(cc, talent_name)
@@ -2177,14 +2294,35 @@ draw_set_halign(fa_left);
 
     // Table talents
     for (var i = 0; i < array_length(table_data.talents); i++)
+{
+    var t_name = table_data.talents[i];
+    
+    if (!variable_struct_exists(seen, t_name))
     {
-        var t_name = table_data.talents[i];
-        if (!variable_struct_exists(seen, t_name))
+        array_push(all_entries, { name: t_name, is_fixed: false });
+        seen[$ t_name] = true;
+    }
+    
+    // e.g. base "Weapon Style (X)" → show "Weapon Style (Bow)" if owned
+    if (variable_struct_exists(cc, "talent_ranks"))
+    {
+        var base = string_replace_all(t_name, " (X)", "");
+        var keys = variable_struct_get_names(cc.talent_ranks);
+        for (var k = 0; k < array_length(keys); k++)
         {
-            array_push(all_entries, { name: t_name, is_fixed: false });
-            seen[$ t_name] = true;
+            var key = keys[k];
+            if (string_pos(base + " (", key) == 1 && !variable_struct_exists(seen, key))
+            {
+                array_push(all_entries, {
+                    name: key,
+                    is_fixed: false,
+                    is_specialization: true
+                });
+                seen[$ key] = true;
+            }
         }
     }
+}
 	
 	var tch = get_species_talent_choices(cc);
 if (tch != undefined && variable_struct_exists(tch, "options") && is_array(tch.options))
@@ -2281,6 +2419,7 @@ var has_choice_left = variable_struct_exists(cc, "species_talent_choice_remainin
             cc.hovered_talent = entry.name;
 			}
     }
+	
 }
 
 
@@ -2336,14 +2475,35 @@ function handle_talent_list(cc, L, mx, my, clicked, right_clicked, talents_x = u
 
     // Table talents
     for (var i = 0; i < array_length(table_data.talents); i++)
+{
+    var t_name = table_data.talents[i];
+    if (!variable_struct_exists(seen, t_name))
     {
-        var t_name = table_data.talents[i];
-        if (!variable_struct_exists(seen, t_name))
+        array_push(all_entries, { name: t_name, is_fixed: false });
+        seen[$ t_name] = true;
+    }
+    
+    // Owned specializations for this base (e.g. Weapon Style (Bow))
+    if (variable_struct_exists(cc, "talent_ranks"))
+    {
+        var base = string_replace_all(t_name, " (X)", "");
+        var keys = variable_struct_get_names(cc.talent_ranks);
+        for (var k = 0; k < array_length(keys); k++)
         {
-            array_push(all_entries, { name: t_name, is_fixed: false });
-            seen[$ t_name] = true;
+            var key = keys[k];
+            // "Weapon Style (Bow)" under base "Weapon Style"
+            if (string_pos(base + " (", key) == 1 && !variable_struct_exists(seen, key))
+            {
+                array_push(all_entries, {
+                    name: key,
+                    is_fixed: false,
+                    is_specialization: true
+                });
+                seen[$ key] = true;
+            }
         }
     }
+}
 	
 	var tch = get_species_talent_choices(cc);
 if (tch != undefined && variable_struct_exists(tch, "options") && is_array(tch.options))
@@ -2390,6 +2550,9 @@ if (tch != undefined && variable_struct_exists(tch, "options") && is_array(tch.o
 function draw_talent_tooltip(cc)
 {
     if (!variable_struct_exists(cc, "hovered_talent"))
+        return;
+		
+	if (variable_struct_exists(cc, "specialization_popup") && cc.specialization_popup)
         return;
 
     if (cc.hovered_talent == undefined || cc.hovered_talent == "")

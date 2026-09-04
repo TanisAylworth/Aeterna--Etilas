@@ -19,6 +19,7 @@
   "ResourceOrderSettings":[
     {"name":"Character_Creation_OBJ","order":2,"path":"objects/Character_Creation_OBJ/Character_Creation_OBJ.yy",},
     {"name":"Character_Creator","order":1,"path":"rooms/Character_Creator/Character_Creator.yy",},
+    {"name":"abillities_data","order":6,"path":"scripts/abillities_data/abillities_data.yy",},
     {"name":"Attribute_Data_SCR","order":3,"path":"scripts/Attribute_Data_SCR/Attribute_Data_SCR.yy",},
     {"name":"Attribute_Draw_SCR","order":4,"path":"scripts/Attribute_Draw_SCR/Attribute_Draw_SCR.yy",},
     {"name":"attribute_helpers","order":22,"path":"scripts/attribute_helpers/attribute_helpers.yy",},
@@ -44,6 +45,7 @@
     {"name":"knowledge_table_data","order":5,"path":"scripts/knowledge_table_data/knowledge_table_data.yy",},
     {"name":"Label_Format_SCR","order":8,"path":"scripts/Label_Format_SCR/Label_Format_SCR.yy",},
     {"name":"misc_scripts","order":6,"path":"scripts/misc_scripts/misc_scripts.yy",},
+    {"name":"negatives_data","order":7,"path":"scripts/negatives_data/negatives_data.yy",},
     {"name":"Set_Tooltip_SCR","order":9,"path":"scripts/Set_Tooltip_SCR/Set_Tooltip_SCR.yy",},
     {"name":"skills_data","order":7,"path":"scripts/skills_data/skills_data.yy",},
     {"name":"Species_Data_SCR","order":2,"path":"scripts/Species_Data_SCR/Species_Data_SCR.yy",},

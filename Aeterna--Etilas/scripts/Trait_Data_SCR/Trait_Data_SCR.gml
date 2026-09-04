@@ -16,11 +16,6 @@ universal: {
     description: "Comfortable among nearly all cultures. Suffers no racial Reaction Adjustments when interacting with other species."
 },
 
-martial_focus: {
-    name: "Martial Focus",
-    description: "Gain the Martial Training talent for free, allowing the use of all weapon types without penalty."
-},
-
 strict_code: {
     name: "Strict Code",
     description: "Raised within a rigid code of etiquette and honor. When interacting with other Holdstadtish people, an Etiquette test must be made. On a success, the Reaction Adjustment for the interaction becomes 0. On a failure, the Reaction Adjustment instead becomes a penalty equal to the Degrees of Failure."
@@ -165,15 +160,7 @@ low_light_vision: {
 },
 // Note: name appears both as "Low-Light Vision" and "Low Light Vision" — standardize in Part 2
 
-ingenious: {
-    name: "Ingenious",
-    description: "Possess an exceptional gift for creative problem solving and improvisation. Whenever suitable materials are reasonably available, you may craft items up to Makeshift Quality without requiring a proper workshop."
-},
 
-scatterbrained: {
-    name: "Scatterbrained",
-    description: "Your attention is notoriously difficult to control. Whenever concentration is important, the GM may require a Willpower test. On a success, you become intensely focused on the task at hand, treating unrelated sights and sounds as distractions and becoming effectively oblivious to them. On a failure, your attention shifts elsewhere and you cannot voluntarily resume the task until something reminds you of it."
-},
 
 tiny_small: {
     name: "Tiny-Small",
@@ -190,50 +177,16 @@ subterranean_gps: {
     description: "You possess an instinctive awareness of your location beneath the earth. While underground, you always know your position relative to the surface and cannot become naturally lost."
 },
 
-stoneborn: {
-    name: "Stoneborn",
-    description: "A lifetime spent beneath the earth has made your body remarkably resilient. Gain Damage Reduction 2 against all damage types and 20% Resistance against all spell effects."
-},
-
-belligerent: {
-    name: "Belligerent",
-    description: "Your people are notorious for openly expressing their disdain toward other races. Charm provides no Reaction Adjustment bonus during social interactions, and your starting Reaction Adjustment with non allied races is always -5."
-},
-
-light_sensitive: {
-    name: "Light Sensitive",
-    description: "Your eyes are adapted for life underground. When suddenly exposed to bright light, suffer a -1 penalty to all tests each round until you succeed on an Endurance test. The penalty does not continue to increase while the light persists."
-},
-
 stout: {
     name: "Stout",
     description: "Though short in stature, your build is exceptionally broad and dense. You are treated as Small for all purposes except Strength tests, which use Medium rules."
 },
 // Note: second version is different (no Small penalties) — standardize in Part 2
 
-exiled: {
-    name: "Exiled",
-    description: "You have been cast out from your ancestral mountain homes. Returning under any circumstance is forbidden, and doing so carries whatever punishment your people reserve for the banished."
-},
-
-wanderlust: {
-    name: "Wanderlust",
-    description: "You possess an overwhelming need to travel and explore. Remaining in the same settlement or location for longer than a day causes mounting restlessness. Beginning after the first day, gain 1 level of Fatigue for each additional day spent sedentary. This Fatigue cannot be removed until you resume meaningful travel."
-},
-
-bird_bones: {
-    name: "Bird Bones",
-    description: "Your hollow bones greatly reduce your weight but fracture more easily. Damage of Type B is treated as though it were one damage die step higher before damage is resolved."
-},
 
 talons_and_beak: {
     name: "Talons and Beak",
     description: "Each of your four limbs ends in talons rather than hands. You require specially crafted equipment, increasing its cost by 50%. Each talon functions as a natural 1d4 Claw weapon, and your beak functions as a natural 1d6 Peck attack. Because your beak lacks the flexibility of lips, learning spoken languages designed for lip articulation is always treated as an Advanced skill."
-},
-
-thick_feathers: {
-    name: "Thick Feathers",
-    description: "Your dense insulating plumage protects you from both the cold and glancing blows. Gain Immunity to Cold 1 and Damage Reduction 1 against Type B damage."
 },
 
 keen_eyes: {
@@ -242,39 +195,10 @@ keen_eyes: {
 },
 // Note: nearly identical to eagle_eyes — consider merging in Part 2
 
-twitch_reflexes: {
-    name: "Twitch Reflexes",
-    description: "Years of darting through dense forests have honed your reactions to an exceptional degree. Gain Advantage on all Reflex tests."
-},
-
-agile_flyer: {
-    name: "Agile Flyer",
-    description: "Dense forests, narrow caverns, and other difficult terrain do not impede your aerial maneuverability. You never need to make Flight tests solely because you are flying through difficult terrain."
-},
 
 quick_flight: {
     name: "Quick Flight",
     description: "Launching into the air is second nature. You may begin flying as an Immediate Action instead of the normal action required."
-},
-
-beautiful_plumage: {
-    name: "Beautiful Plumage",
-    description: "Your vibrant feathers are highly prized for decoration, ceremonial dress, and fine fletching. In regions where your people are uncommon, others immediately take notice of your plumage, and many will attempt to purchase, barter for, or otherwise acquire your feathers."
-},
-
-no_molting: {
-    name: "No Molting",
-    description: "Unlike most birds, you do not naturally replace lost feathers. Once a feather is lost, it does not regrow without magical intervention or extraordinary means."
-},
-
-pack_tactics: {
-    name: "Pack Tactics",
-    description: "Whenever a target is flanked from at least two directions, you and all allies participating in the flank gain a bonus equal to your ranks in this trait to either attack rolls or damage rolls (chosen when the attack is made)."
-},
-
-natural_camouflage: {
-    name: "Natural Camouflage",
-    description: "Within your native terrain, you are treated as though you are permanently benefiting from the Camouflage skill. This effect functions without requiring preparation or concealment beyond what the terrain naturally provides."
 },
 
 scent: {
@@ -283,10 +207,6 @@ scent: {
 },
 // Note: some versions use 60-foot radius — standardize in Part 2
 
-skittish: {
-    name: "Skittish",
-    description: "Your strong survival instincts make fear difficult to overcome. Any penalties or modifiers caused by Fear are doubled."
-},
 
 barking: {
     name: "Barking",
@@ -317,11 +237,6 @@ bold: {
 tremor_sight: {
     name: "Tremor Sight",
     description: "Perceive the world through vibrations in the ground. You can detect the location and approximate size of creatures and objects within 30 feet through solid surfaces. On soft ground, this range is reduced to 10 feet, while loose ground such as sand or gravel reduces it to 5 feet."
-},
-
-rough_hide: {
-    name: "Rough Hide",
-    description: "Your thick, leathery skin provides natural protection. Gain Damage Reduction 2/1/2/1 across your entire body."
 },
 
 filthy_pigs: {
@@ -421,10 +336,6 @@ tooth_and_claw: {
     description: "You possess natural weapons in the form of sharp teeth and claws. You may make two Claw attacks (1d4 each) and one Bite attack (1d6). These attacks are considered trained for combat. Your unique hand structure requires specially crafted ranged weapons, increasing their cost by 50%."
 },
 
-evolution: {
-    name: "Evolution",
-    description: "Your draconic blood continues to develop throughout your life. By spending 2,000 XP, you may purchase a rank in the Evolution Talent, permanently gaining a new draconic adaptation. Available evolutions include Wings, Breath Weapon, increased Size Category, improved natural weapons, Chromatic Resistance, Arcane Reservoir, Hoard Strength, and other evolutions approved by the GM."
-},
 
 subterranean_gps: {
     name: "Subterranean GPS",

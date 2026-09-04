@@ -1,5 +1,25 @@
 function generation_shop_init(cc)
 {
+	
+	// briefing first if you use it
+    if (briefing_update(global.char_creation))
+        return;
+    
+    var L = {
+        center_x: display_get_gui_width() * 0.5,
+        center_y: display_get_gui_height() * 0.5
+    };
+    var mx = device_mouse_x_to_gui(0);
+    var my = device_mouse_y_to_gui(0);
+    var clicked = mouse_check_button_pressed(mb_left);
+    var right_clicked = mouse_check_button_pressed(mb_right);
+    
+    // === SPECIALIZATION MODAL — blocks everything under it ===
+    if (variable_struct_exists(cc, "specialization_popup") && cc.specialization_popup)
+    {
+        handle_specialization_popup(cc, L, mx, my, clicked);
+        return; // nothing else on this screen runs
+    }
     if (variable_struct_exists(cc, "generation_initialized") && cc.generation_initialized)
         exit;
 

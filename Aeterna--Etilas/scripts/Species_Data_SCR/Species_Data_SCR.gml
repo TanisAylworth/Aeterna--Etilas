@@ -110,8 +110,8 @@ function Species_Data_SCR()
                 charm: -3,
             },
             abilities: [],
-            negatives: ["strict code","stiff"],
-            traits: ["martial_focus"],
+            negatives: ["Strict Code","Stiff"],
+            traits: [],
             hit_locations: {
                 data: {
                     head: [1],
@@ -790,9 +790,9 @@ add_species("lowlind_gnome", {
                 toughness: 0,
                 leadership: 0
             },
-            abilities: ["Low Light Vision", "Ingenious"],
-            negatives: ["ScatterBrained"],
-            traits: ["tiny_small"],
+            abilities: ["Ingenious"],
+            negatives: ["Scatter Brained"],
+            traits: ["low_light_vision", "tiny_small"],
             hit_locations: {
                 data: {
                     head: [1],
@@ -850,9 +850,9 @@ add_species("higlind_gnome", {
                 toughness: 0,
                 leadership: -2
             },
-            abilities: ["Dark Vision", "Underground GPS"],
+            abilities: [],
             negatives: [],
-            traits: ["tiny"],
+            traits: ["tiny", "dark_vision", "subterranean_gps"],
             hit_locations: {
                 data: {
                     head: [1],
@@ -914,9 +914,9 @@ add_species("durendim_lagrundun", {
                 toughness: 4,
                 leadership: 0
             },
-            abilities: ["Dark Vision", "Stoneborn"],
+            abilities: ["Stoneborn"],
             negatives: ["Belligerent", "Light Sensitive"],
-            traits: ["stout"],
+            traits: ["stout", "dark_vision"],
             hit_locations: {
                 data: {
                     head: [1],
@@ -954,7 +954,7 @@ add_species("durendim_lagrundun", {
                 ],
                 choices: { count: 0, options: [] }
             },
-			knowledge_talents: { fixed: ["Close Quarters Combat",], choices: { count: 0, options: [] } }
+			knowledge_talents: { fixed: ["Close-Quarters Fighting",], choices: { count: 0, options: [] } }
         }
     });
 
@@ -1036,9 +1036,9 @@ add_species("skireen_icelindish", {
                 toughness: 0,
                 leadership: 0
             },
-            abilities: ["Thick Feathers", "Winged"],
+            abilities: ["Thick Feathers"],
             negatives: ["Bird Bones"],
-            traits: ["talons_and_beak"],
+            traits: ["talons_and_beak", "winged"],
             hit_locations: {
                 data: {
                     head: [1],
@@ -1099,9 +1099,9 @@ add_species("skireen_feldlindish", {
                 toughness: -6,
                 leadership: -6
             },
-            abilities: ["Winged", "Keen Eyes", "Twitch Reflexes", "Agile Flyer"],
+            abilities: ["Twitch Reflexes", "Agile Flyer"],
             negatives: ["Bird Bones", "Beautiful Plumage"],
-            traits: ["talons_and_beak", "no_molting"],
+            traits: ["talons_and_beak", "winged", "keen_eyes", ],
             hit_locations: {
                 data: {
                     head: [1],
@@ -1487,9 +1487,9 @@ add_species("orc", {
                 toughness: 2,
                 leadership: 0
             },
-            abilities: [],
+            abilities: ["Rough Hide"],
             negatives: ["Filthy Pigs"],
-            traits: ["carnivorous", "stout", "tusked","Scent", "Rough Hide"],
+            traits: ["carnivorous", "stout", "tusked","scent", ],
             hit_locations: {
                 data: {
                     head: [1],
@@ -1676,7 +1676,7 @@ add_species("gnoll", {
             },
             abilities: ["Wicked Laugh"],
             negatives: ["Hated", "Narcissist"],
-            traits: ["infravision", "fang_and_claw", "Blood Scent"],
+            traits: ["infravision", "fang_and_claw", "blood_scent"],
             hit_locations: {
                 data: {
                     head: [1],
@@ -1709,7 +1709,7 @@ add_species("gnoll", {
                 fixed: [
                     { name: "Intimidate", rank: 3 },
                     { name: "Weapon Skill (Unarmed)", rank: 3 },
-                    { name: "Taunt", rank: 1 }
+                    { name: "Taunting", rank: 1 }
                 ],
                 choices: { count: 0, options: [] }
             },
@@ -1734,9 +1734,9 @@ add_species("nezumi", {
                 toughness: 0,
                 leadership: 0
             },
-            abilities: ["Sensitive Tail", "Low Light Vision"],
+            abilities: ["Sensitive Tail", ],
             negatives: ["Vermin"],
-            traits: ["small", "tooth_and_claw"],
+            traits: ["small", "tooth_and_claw","low_light_vision"],
             hit_locations: {
                 data: {
                     head: [1],
@@ -1798,7 +1798,7 @@ add_species("kobold", {
             },
             abilities: ["Evolution"],
             negatives: [],
-            traits: ["infravision", "fang_and_claw", "tiny"],
+            traits: ["infravision", "fang_and_claw", "tiny", "subterranean_gps"],
             hit_locations: {
                 data: {
                     head: [1],
@@ -1836,7 +1836,7 @@ add_species("kobold", {
                 ],
                 choices: { count: 0, options: [] }
             },
-			knowledge_talents: { fixed: ["Close Quarters Fighting"], choices: { count: 0, options: [] } }
+			knowledge_talents: { fixed: ["Close-Quarters Fighting"], choices: { count: 0, options: [] } }
         }
     });
 
@@ -1984,7 +1984,7 @@ add_species("felinim", {
             },
             abilities: ["Retractable Claws", "Roar"],
             negatives: ["Rare", "Distractible", "Cat Nap"],
-            traits: ["low_light_vision", "scent", "tail", "carnivore", "thick_fur"],
+            traits: ["low_light_vision", "scent", "tail", "carnivorous", "thick_fur"],
             hit_locations: {
                 data: {
                     head: [1],

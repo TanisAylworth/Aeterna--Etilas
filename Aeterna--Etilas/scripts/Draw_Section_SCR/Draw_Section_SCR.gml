@@ -52,7 +52,7 @@ if (title == "Talents" && is_struct(data))
     var fixed = variable_struct_exists(data, "fixed") ? data.fixed : [];
     var choice_count = 0;
     var choice_options = [];
-
+    
     if (variable_struct_exists(data, "choices"))
     {
         var c = data.choices;
@@ -64,25 +64,42 @@ if (title == "Talents" && is_struct(data))
                 choice_options = c.options;
         }
     }
-
+    
+    // Fixed talents
     if (array_length(fixed) > 0)
     {
         for (var i = 0; i < array_length(fixed); i++)
         {
-            draw_text(tx + 10, ty, "- " + string(fixed[i]));
+            var tname = string(fixed[i]);
+            var item_y = ty;
+            draw_text(tx + 10, item_y, "- " + tname);
+            
+            if (tname != "" && tname != "None"
+                && point_in_rectangle(mx, my, tx + 10, item_y - 2, tx + 300, item_y + line + 2))
+            {
+                set_tooltip(tooltip_lookup_description("talent_data", tname), mx + 16, my + 16);
+            }
             ty += line;
         }
     }
-
+    
+    // Choice talents
     if (choice_count > 0)
     {
         if (array_length(choice_options) > 0)
         {
             draw_text(tx + 10, ty, "Choose " + string(choice_count) + " from:");
             ty += line;
+            
             for (var i = 0; i < array_length(choice_options); i++)
             {
-                draw_text(tx + 20, ty, "- " + string(choice_options[i]));
+                var opt = string(choice_options[i]);
+                var item_y = ty;
+                draw_text(tx + 20, item_y, "- " + opt);
+                
+                if (point_in_rectangle(mx, my, tx + 20, item_y - 2, tx + 300, item_y + line + 2))
+                    set_tooltip(tooltip_lookup_description("talent_data", opt), mx + 16, my + 16);
+                
                 ty += line;
             }
         }
@@ -97,7 +114,7 @@ if (title == "Talents" && is_struct(data))
         draw_text(tx + 10, ty, "- None");
         ty += line;
     }
-
+    
     return ty;
 }
 	
@@ -145,7 +162,7 @@ if (title == "Talents" && is_struct(data))
                 var tooltip_text = (skill_data != undefined && variable_struct_exists(skill_data, "description"))
                     ? skill_data.description
                     : "No description available.";
-                set_tooltip(tooltip_text, mx + 16, my + 16);
+                set_tooltip(tooltip_lookup_description("skill_data", s.name), mx + 16, my + 16);
             }
             ty += line;
         }
@@ -213,7 +230,7 @@ if (title == "Talents" && is_struct(data))
             {
                 var negative_data = variable_struct_exists(global, "negative_data") && variable_struct_exists(global.negative_data, data[i]) ? global.negative_data[$ data[i]] : undefined;
                 var tooltip_text = negative_data && variable_struct_exists(negative_data, "description") ? negative_data.description : "No description available.";
-                set_tooltip(tooltip_text, mx + 16, my + 16);
+                set_tooltip(tooltip_lookup_description("negative_data", data[i]), mx + 16, my + 16);
             }
             ty += line;
         }
@@ -267,7 +284,7 @@ if (title == "Talents" && is_struct(data))
             {
                 var ability_data = variable_struct_exists(global, "ability_data") && variable_struct_exists(global.ability_data, data[i]) ? global.ability_data[$ data[i]] : undefined;
                 var tooltip_text = ability_data && variable_struct_exists(ability_data, "description") ? ability_data.description : "No description available.";
-                set_tooltip(tooltip_text, mx + 16, my + 16);
+                set_tooltip(tooltip_lookup_description("ability_data", data[i]), mx + 16, my + 16);
             }
             ty += line;
         }
@@ -294,7 +311,7 @@ if (title == "Talents" && is_struct(data))
             {
                 var trait_data = variable_struct_exists(global.trait_data, data[i]) ? global.trait_data[$ data[i]] : undefined;
                 var tooltip_text = trait_data && variable_struct_exists(trait_data, "description") ? trait_data.description : "No description available.";
-                set_tooltip(tooltip_text, mx + 16, my + 16);
+                set_tooltip(tooltip_lookup_description("trait_data", data[i]), mx + 16, my + 16);
             }
             ty += line;
         }

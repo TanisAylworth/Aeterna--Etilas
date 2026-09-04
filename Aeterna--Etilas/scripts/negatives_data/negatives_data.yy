@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"negatives_data",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"negatives_data",
+  "parent":{
+    "name":"Species_SCR",
+    "path":"folders/Scripts/Species_SCR.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

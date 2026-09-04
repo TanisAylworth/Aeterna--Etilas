@@ -7,7 +7,9 @@ function generation_step_update(cc)
 
 	if (briefing_update(global.char_creation))
     return;
-
+	
+	
+	
     var mx = device_mouse_x_to_gui(0);
     var my = device_mouse_y_to_gui(0);
 	var screen_h = display_get_gui_height();
@@ -18,6 +20,13 @@ function generation_step_update(cc)
 	var back_h = 60;
     var clicked = mouse_check_button_pressed(mb_left);
     var right_clicked = mouse_check_button_pressed(mb_right);
+	
+	
+	if (variable_struct_exists(cc, "specialization_popup") && cc.specialization_popup)
+{
+    handle_specialization_popup(cc, L, mx, my, clicked);
+    return; // required — not only "if (handle...) { }" without return
+}
 	
 	if (keyboard_check_pressed(ord("R")))
     generation_random_spend(cc);

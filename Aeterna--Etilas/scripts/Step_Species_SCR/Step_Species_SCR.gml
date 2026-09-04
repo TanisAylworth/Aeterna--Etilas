@@ -5,6 +5,12 @@ function species_step_update(step)
     if (briefing_update(cc))
         return;
     
+	 if (!variable_global_exists("SKILL_SIMPLE"))      skill_constants_init();
+    if (!variable_global_exists("skill_data"))        skills_data();
+    talent_data();
+	ability_data();
+	negative_data();
+	
     var mx = device_mouse_x_to_gui(0);
     var my = device_mouse_y_to_gui(0);
     var vw = display_get_gui_width();
