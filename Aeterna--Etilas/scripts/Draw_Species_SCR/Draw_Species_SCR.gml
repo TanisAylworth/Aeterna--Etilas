@@ -144,6 +144,95 @@ else
     ty = scr_ui_draw_section(tx, ty, "Traits", selected.stats.traits);
 }
 
+// =====================================================
+// SPECIES PREVIEW
+// =====================================================
+
+var preview_x = 20;
+var preview_y = 160;
+var preview_w = 380;
+var preview_h = 360;
+
+// === BOX ===
+draw_set_color(c_black);
+draw_rectangle(
+    preview_x,
+    preview_y,
+    preview_x + preview_w,
+    preview_y + preview_h,
+    false
+);
+
+draw_set_color(c_white);
+draw_rectangle(
+    preview_x,
+    preview_y,
+    preview_x + preview_w,
+    preview_y + preview_h,
+    true
+);
+
+// === TITLE ===
+draw_set_halign(fa_center);
+draw_set_valign(fa_top);
+draw_set_color(c_white);
+
+draw_text(
+    preview_x + preview_w * 0.5,
+    preview_y + 12,
+    "SPECIES PREVIEW"
+);
+
+// === SPRITE ===
+if (selected != undefined
+    && variable_struct_exists(selected, "preview_sprite"))
+{
+    var spr = selected.preview_sprite;
+
+    if (spr != -1)
+    {
+        var sw = sprite_get_width(spr);
+        var sh = sprite_get_height(spr);
+
+        // Space available for the sprite
+        var max_w = preview_w - 40;
+        var max_h = preview_h - 60;
+
+        // Scale sprite to fit inside the box
+        var scale_x = max_w / sw;
+        var scale_y = max_h / sh;
+        var scale = min(scale_x, scale_y);
+
+        // Center of the image area
+        var center_x = preview_x + preview_w * 0.5;
+        var center_y = preview_y + 45 + max_h * 0.5;
+
+        // Account for sprite origin so the actual image
+        // is centered rather than the sprite origin.
+        var ox = sprite_get_xoffset(spr);
+        var oy = sprite_get_yoffset(spr);
+
+        var draw_x = center_x - ((sw * 0.5) - ox) * scale;
+        var draw_y = center_y - ((sh * 0.5) - oy) * scale;
+
+        draw_sprite_ext(
+            spr,
+            0,
+            draw_x,
+            draw_y,
+            scale,
+            scale,
+            0,
+            c_white,
+            1
+        );
+    }
+}
+
+draw_set_halign(fa_left);
+draw_set_valign(fa_top);
+
+
 // Confirm — always drawn (no return above)
 var btn_w = 260;
 var btn_h = 60;
@@ -175,8 +264,12 @@ draw_set_halign(fa_center);
 draw_set_valign(fa_middle);
 draw_set_color(ready ? c_white : c_ltgray);
 draw_text(btn_x + btn_w * 0.5, btn_y + btn_h * 0.5, "CONFIRM SPECIES");
+
 draw_set_halign(fa_left);
 draw_set_valign(fa_top);
 
+// Reset draw state
+draw_set_color(c_dkgrey);
+draw_set_alpha(1);
 
 }

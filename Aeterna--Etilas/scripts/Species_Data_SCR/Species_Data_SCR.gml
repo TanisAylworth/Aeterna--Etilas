@@ -36,6 +36,7 @@ function Species_Data_SCR()
     // Add new species easily here
     add_species("muttish_human", {
         name: "Muttish Human",
+		preview_sprite: spr_species_muttish_human,
         description: "Prolific and ubiquitous, Muttish Humans can be found throughout Etilas and beyond, thriving in nearly every environment and occupation. They have no singular homeland, instead emerging from generations of intermingling between the many human peoples and cultures. Their varied ancestry gives them an enormous range of builds, features, and appearances, with no defining physical traits of their own. Though lacking the specialized advantages of other human peoples, their versatility and adaptability make them the most common and flexible of all humans.",
         stats: {
             cdt: 8,
@@ -96,6 +97,7 @@ function Species_Data_SCR()
 
     add_species("holdstadtish_human", {
         name: "Holdstadtish Human",
+		preview_sprite: spr_species_holdstadtish_human,
         description: "The Holdstadtish inhabit the western portion of Etilas and are defined by strict honor, valor, and martial excellence. Their society is deeply shaped by warfare, with discipline, courage, loyalty, and service instilled from an early age. Their rigid code of honor governs everything from personal conduct to national politics, and a warrior's reputation reflects upon both themselves and their people. This devotion has made them formidable soldiers and steadfast allies, but their adherence to tradition can also make them rigid and uncompromising toward those who do not share their values.",
         stats: {
             cdt: 10,
@@ -161,6 +163,7 @@ function Species_Data_SCR()
 
     add_species("corintish_human", {
         name: "Corintish Human",
+		preview_sprite: spr_species_corintish_human,
         description: "The Corintish inhabit the southern central region of Etilas, just north of Sun’s Rise. They are among the most educated people in the known world, with a culture devoted to the pursuit and preservation of knowledge. Their cities are filled with colleges, libraries, and academies, and education is widely respected. Scholars, teachers, and researchers hold considerable social prestige, while the sharing of knowledge is viewed as a responsibility to future generations.",
         stats: {
             cdt: 6,
@@ -226,6 +229,7 @@ function Species_Data_SCR()
 
     add_species("hoofskull", {
         name: "HoofSkull Human",
+		preview_sprite: spr_species_hoofskull_human,
         description: "These rough, dark-skinned humans inhabit the recently conquered Minotaur capital, where generations of hardship have given way to prosperity. Their newfound wealth has fostered a fierce sense of independence, with growing calls to break from Holdstadt. Their history has also shaped their warfare, making them skilled in naval combat, coastal raids, and ambushes. They favor patience, concealment, and striking from unexpected positions rather than meeting enemies head-on.",
         stats: {
             cdt: 8,
@@ -289,6 +293,7 @@ function Species_Data_SCR()
 
     add_species("galish", {
         name: "Galish",
+		preview_sprite: spr_species_galish,
         description: "The Galish are short, bipedal, nature-attuned people with slender, angular frames, standing four to four and a half feet tall. Though slight, they possess surprising bulk and resilience. Galish are notoriously fickle, quickly jumping between interests and losing interest almost as fast. This restlessness fades with age, and older Galish become detached, patient, and contemplative, gaining the wisdom and temperament of a sage.",
         stats: {
             cdt: 6,
@@ -353,6 +358,7 @@ function Species_Data_SCR()
 
     add_species("galheston", {
         name: "GalHeston Galish",
+		preview_sprite: spr_species_galish,
         description: "The GalHeston are a tribe of predominantly older Galish who strongly uphold their treaties with the other races of Etilas. Their age and experience have earned them a reputation for wisdom, patience, and trustworthiness, making them reliable mediators and allies. However, their faith in diplomacy has left them seemingly oblivious to the growing threat posed by their cousins, the GalGaHarad.",
         stats: {
             cdt: 6,
@@ -419,6 +425,7 @@ function Species_Data_SCR()
 
     add_species("galgaharad", {
         name: "GalGaHarad Galish",
+		preview_sprite: spr_species_galish,
         description: "The GalGaHarad are a tribe of predominantly younger Galish who follow their charismatic leader, GalGaHarad Helminier. Helminier claims that the other peoples of the realm provoked the Goddess Nai and caused her to allow the invasion. His teachings have fueled resentment toward outsiders and inspired a growing movement that rejects the treaties and coexistence upheld by their elders.",
         stats: {
             cdt: 6,
@@ -520,6 +527,7 @@ function Species_Data_SCR()
 
 add_species("xiba_xida", {
         name: "Xi-Da Xiba",
+		preview_sprite: spr_species_xiba,
         description: "The Xi Da are dark-furred Xiba who were the first of their people to leave the cave, “abandoning” the watch of the sun. Smaller than their cousins, they possess wings and are far more adept at interacting with other races. Their long separation from the cave has made them accustomed to the wider world, allowing them to serve as traders, travelers, and intermediaries between the Xiba and other peoples.",
         stats: {
             cdt: 6,
@@ -581,6 +589,7 @@ add_species("xiba_xida", {
 
 add_species("xiba_xisu", {
         name: "Xi-Su Xiba",
+		preview_sprite: spr_species_xiba,
         description: "The Xi-Su, often called Sun Bats, are Xiba who claim to have raised Sol the current god of light. They are considerably larger and more powerful than their Xi Da cousins, with much lighter fur reflecting their association with the sun. They are deeply devoted to this sacred duty, viewing the protection of the sun and its resting place as both a religious obligation and a defining part of their identity.",
         stats: {
             cdt: 6,
@@ -646,6 +655,7 @@ add_species("xiba_xisu", {
 	
 add_species("votalli_ctai", {
         name: "C’Tai Votalli",
+		preview_sprite: spr_species_ctai,
         description: "These Vo’Tali are imposing creatures, standing well above a full-grown man with powerful frames covered in thick, protective scales. They are fearsome warriors, combining immense strength with the raw ferocity of natural instinct. Their primal nature makes them relentless and dangerous opponents in battle.",
         stats: {
             cdt: 14,
@@ -709,6 +719,7 @@ add_species("votalli_ctai", {
 
 add_species("votalli_ctal", {
         name: "C’Tal Votalli",
+		preview_sprite: spr_species_ctal,
         description: "These Votalli are the smaller and more intelligent counterparts to their genetic cousins, shaped by thought rather than instinct. While their larger kin are known for physical might and ferocity, the C'Tal serve as religious figures, shamans, and spiritual guides. They preserve ancient traditions and knowledge, acting as healers, counselors, and interpreters of the natural and spiritual world. Their wisdom grants them considerable influence within their tribes.",
         stats: {
             cdt: 4,
@@ -775,6 +786,7 @@ add_species("votalli_ctal", {
 
 add_species("lowlind_gnome", {
         name: "Lowlind Gnome",
+		preview_sprite: spr_species_gnome,
         description: "These Gnomes stand at a vairance of 2' - 4' tall and are well known for their ability to innovate and create machines and feats of engineering. They own the territory of Gold Vale which is a merchant utopia of crafts and inventions.",
         stats: {
             cdt: 6,
@@ -835,6 +847,7 @@ add_species("lowlind_gnome", {
 
 add_species("higlind_gnome", {
         name: "Higlind Gnome",
+		preview_sprite: spr_species_gnome,
         description: "These Gnomes evolved to live deep underground, resulting in smaller bodies that typically fall within the lower range of Gnomish stature. Their compact size allows them to navigate the cramped tunnels and passages of their subterranean homes with ease. Their most notable adaptation is their exceptional eyesight, allowing them to see in near-total darkness with remarkable clarity. Accustomed to life without natural light, they are equally comfortable navigating the deepest caverns as they are the surface world.",
         stats: {
             cdt: 6,
@@ -899,6 +912,7 @@ add_species("higlind_gnome", {
 	
 add_species("durendim_lagrundun", {
         name: "Lagrundun Duren",
+		preview_sprite: spr_species_dwarf,
         description: "These Duren are an extremely reclusive people, rarely welcoming outsiders into their communities and viewing other races with deep suspicion. Their distrust often borders on outright prejudice, with little justification beyond the simple belief that those who are not Duren are inherently lesser or unworthy of trust. Short and stout, rarely exceeding five feet in height, they possess surprising strength and endurance for their size. Despite their isolation, the Duren are highly industrious and take great pride in hard work, craftsmanship, and self-sufficiency.",
         stats: {
             cdt: 10,
@@ -960,6 +974,7 @@ add_species("durendim_lagrundun", {
 
 add_species("durendim_hagrundun", {
         name: "Hagrundun Duren",
+		preview_sprite: spr_species_dwarf,
         description: "These Duren have accepted an Oath of Exile from the Mountain Homes, forcing them to leave their subterranean homeland and live upon the surface world. Far from viewing their exile as a punishment, they have developed an intense wanderlust and a fascination with the world beyond the mountains. They eagerly explore unfamiliar lands, seeking new places, peoples, and experiences, though their sheltered upbringing often leaves them unprepared for the dangers of the surface.",
         stats: {
             cdt: 8,
@@ -1021,6 +1036,7 @@ add_species("durendim_hagrundun", {
 
 add_species("skireen_icelindish", {
         name: "IceLindish Skireen",
+		preview_sprite: spr_species_skireen,
         description: "These Skireen hail from the frozen far north, having traveled great distances to Etilas in pursuit of wanderlust and adventure. They are larger and more powerfully built than their Feldlindish cousins, shaped by the harsh environment of their northern homeland. Their love of exploration drives them to seek new lands, experiences, and challenges far from home.",
         stats: {
             cdt: 8,
@@ -1084,6 +1100,7 @@ add_species("skireen_icelindish", {
 
 add_species("skireen_feldlindish", {
         name: "Feldlindish Skireen",
+		preview_sprite: spr_species_skireen,
         description: "These Skireen are smaller than their cousins, but make up for their size with incredible speed and agility. They share the same wanderlust and love of adventure, traveling far from their homeland in search of new experiences. Their most striking feature is their exotic, brightly colored plumage, which sets them apart from the other Skireen.",
         stats: {
             cdt: 6,
@@ -1153,6 +1170,7 @@ add_species("skireen_feldlindish", {
 	    // Goblin and subspecies
 add_species("goblin", {
         name: "Goblin",
+		preview_sprite: spr_species_goblin,
         description: "These small canine humanoids are prolific, inhabiting nearly every environment and settlement. Standing no more than three feet tall, they lack conventional intelligence but more than compensate with remarkable cunning and resourcefulness. Their ability to improvise and exploit opportunities allows them to thrive almost anywhere.",
         stats: {
             cdt: 4,
@@ -1472,6 +1490,7 @@ add_species("cave_goblin", {
 
 add_species("orc", {
         name: "Orc",
+		preview_sprite: spr_species_orc,
         description: "These stunted pig folk are universally regarded as a bad omen. Shorter than the average man, they possess remarkable strength and durability, making them surprisingly formidable despite their diminutive stature. Their appearance alone is often enough to inspire unease, and their arrival is rarely seen as a sign of good fortune.",
         stats: {
             cdt: 10,
@@ -1533,6 +1552,7 @@ add_species("orc", {
 
 add_species("hobs", {
         name: "Hobs",
+		preview_sprite: spr_species_hob,
         description: "These Hobs are half-breeds born from Orcs and other peoples, often rejected and mistreated by both sides of their heritage. Their difficult upbringing has made them exceptionally tough and resilient, accustomed to hardship and physical abuse from an early age. Though often regarded with contempt, Hobs are survivors who endure punishment that would break others.",
         stats: {
             cdt: 14,
@@ -1596,6 +1616,7 @@ add_species("hobs", {
 
 add_species("orrol", {
         name: "Orrol",
+		preview_sprite: spr_species_orrol,
         description: "These massive hybrids are the offspring of Trolls and Orcs, combining the strongest traits of both. They possess the powerful build and strength of an Orc alongside the immense size and surprising stealth of a Troll. Their formidable physique makes them natural hunters and warriors, capable of moving with an unsettling quietness despite their enormous stature.",
         stats: {
             cdt: 12,
@@ -1659,6 +1680,7 @@ add_species("orrol", {
 
 add_species("gnoll", {
         name: "Gnoll",
+		preview_sprite: spr_species_gnoll,
         description: "Gnolls are large, bipedal hyena-like beings defined by fierce narcissism and domineering personalities. They are raised within brutal family units where the strongest parent rules through fear and violence, teaching their young that dominance is the foundation of respect and survival. This upbringing produces a people who are fiercely self-centered, aggressive, and constantly driven to establish their superiority over others.",
         stats: {
             cdt: 12,
@@ -1719,6 +1741,7 @@ add_species("gnoll", {
 
 add_species("nezumi", {
         name: "Nezumi",
+		preview_sprite: spr_species_nezumi,
         description: "These small, rat-like humanoids hail from the far west and have faced widespread discrimination since arriving in Etilas. Most Nezumi live in poverty, with prejudice and limited opportunities forcing many into lives of crime and survival on the fringes of society.",
         stats: {
             cdt: 6,
@@ -1781,6 +1804,7 @@ add_species("nezumi", {
 
 add_species("kobold", {
         name: "Kobold",
+		preview_sprite: spr_species_kobold,
         description: "These small draconic reptiles are believed to be the ancestors of Etilas’s great dragons. Cunning and proud, they hold their draconic heritage in high regard despite their diminutive size. They are fiercely protective of their lineage and often consider themselves superior to other small reptilian peoples.",
         stats: {
             cdt: 4,
@@ -1842,6 +1866,7 @@ add_species("kobold", {
 
 add_species("minos", {
         name: "Minos",
+		preview_sprite: spr_species_minos,
         description: "These massive bull-headed humanoids are highly intelligent and possess organized societies thriving off of slavery where the strong rule the weak. Renowned for their incredible strength and durability, they are imposing figures capable of enduring tremendous punishment. Their size and physical power make them formidable warriors and laborers alike.",
         stats: {
             cdt: 14,
@@ -1902,6 +1927,7 @@ add_species("minos", {
 
 add_species("fae_fairy", {
         name: "Fairy",
+		preview_sprite: spr_species_fairy,
         description: "Fairies are minute humanoid beings with delicate insect-like wings, standing no more than four inches tall. Despite their harmless appearance, they possess unnatural strength and a wide array of innate powers that make them far more formidable than their size suggests. Their diminutive stature belies the considerable power they naturally command.",
         stats: {
             cdt: 2,
@@ -1967,6 +1993,7 @@ add_species("fae_fairy", {
 
 add_species("felinim", {
         name: "Felinim",
+		preview_sprite: spr_species_felinim,
         description: "The Felinim originate from the Western Continent and are renowned swordsmen and avid pirates. Agile and strong but lacking endurance, they favor speed and precision in combat. Their whimsical and unpredictable nature makes them poor leaders, though it also contributes to their adventurous and independent spirit.",
         stats: {
             cdt: 6,

@@ -28,7 +28,7 @@ function generation_step_update(cc)
     return; // required — not only "if (handle...) { }" without return
 }
 	
-	if (keyboard_check_pressed(ord("R")))
+	if (keyboard_check_pressed(ord("A")))
     generation_random_spend(cc);
 	generation_init_species_choices(cc);
     // === CLEAR HOVERS EVERY FRAME ===

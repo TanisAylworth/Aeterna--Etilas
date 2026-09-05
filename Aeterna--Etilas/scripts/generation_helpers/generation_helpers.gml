@@ -12,20 +12,8 @@ function generation_layout(L)
 
 function handle_specialization_popup(cc, L, mx, my, clicked)
 {
-    var screen_w = display_get_gui_width();
-    var screen_h = display_get_gui_height();
+    var Lyt = specialization_popup_layout(cc);
     
-    var panel_w = min(480, screen_w - 80);
-    var panel_h = min(400, screen_h - 80);
-    var panel_x = (screen_w - panel_w) * 0.5;
-    var panel_y = (screen_h - panel_h) * 0.5;
-    
-    var close_w = 120;
-    var close_h = 40;
-    var close_x = panel_x + (panel_w - close_w) * 0.5;
-    var close_y = panel_y + panel_h - close_h - 16;
-    
-    // Esc closes without buying
     if (keyboard_check_pressed(vk_escape))
     {
         specialization_popup_close(cc);
@@ -34,36 +22,24 @@ function handle_specialization_popup(cc, L, mx, my, clicked)
     
     if (clicked)
     {
-        // Close button
-        if (point_in_rectangle(mx, my, close_x, close_y, close_x + close_w, close_y + close_h))
+        if (point_in_rectangle(mx, my, Lyt.close_x, Lyt.close_y, Lyt.close_x + Lyt.close_w, Lyt.close_y + Lyt.close_h))
         {
             specialization_popup_close(cc);
             return true;
         }
         
-        // Option rows (layout must match draw)
-        var list_y = panel_y + 70;
-        var row_h = 32;
-        var choices = cc.pending_specializations;
-        if (is_array(choices))
-        {
-            for (var i = 0; i < array_length(choices); i++)
-            {
-                var yy = list_y + i * row_h;
-                if (point_in_rectangle(mx, my, panel_x + 20, yy, panel_x + panel_w - 20, yy + row_h - 4))
-                {
-                    // your existing "pick this specialization" logic here
-                    specialization_popup_choose(cc, choices[i]);
-                    return true;
-                }
-            }
-        }
-        
-        // Click anywhere else on the modal: still consumed (no click-through)
+        for (var i = 0; i < Lyt.n; i++)
+{
+    var cell = specialization_popup_cell(Lyt, i);
+    if (point_in_rectangle(mx, my, cell.x1, cell.y1, cell.x2, cell.y2))
+    {
+        specialization_popup_choose(cc, Lyt.choices[i]);
         return true;
     }
-    
-    return true; // open = block every frame
+}
+		
+    }
+    return true;
 }
 
 function specialization_popup_choose(cc, choice_name)
@@ -203,6 +179,111 @@ function specialization_popup_close(cc)
         cc.pending_skill_source = undefined;
 }
 
+function specialization_popup_layout(cc)
+{
+    var Lyt = {};
+
+    var choices = cc.pending_specializations;
+    var n = array_length(choices);
+
+    Lyt.choices = choices;
+    Lyt.n = n;
+
+    var screen_w = display_get_gui_width();
+    var screen_h = display_get_gui_height();
+
+    // ---------------------------------
+    // Cell dimensions
+    // ---------------------------------
+    Lyt.cell_w = 300;
+    Lyt.cell_h = 42;
+    Lyt.cell_gap = 8;
+
+    Lyt.padding_x = 24;
+    Lyt.padding_top = 80;
+    Lyt.padding_bottom = 60;
+
+    // ---------------------------------
+    // Determine columns
+    // ---------------------------------
+    // Maximum number of rows we want
+    // before creating another column.
+    Lyt.max_rows = 8;
+
+    Lyt.columns = max(1, ceil(n / Lyt.max_rows));
+
+    // ---------------------------------
+    // Number of rows
+    // ---------------------------------
+    Lyt.rows = ceil(n / Lyt.columns);
+
+    // ---------------------------------
+    // Panel dimensions
+    // ---------------------------------
+    Lyt.panel_w =
+        (Lyt.columns * Lyt.cell_w)
+        + ((Lyt.columns - 1) * Lyt.cell_gap)
+        + (Lyt.padding_x * 2);
+
+    Lyt.panel_h =
+        Lyt.padding_top
+        + (Lyt.rows * Lyt.cell_h)
+        + ((Lyt.rows - 1) * Lyt.cell_gap)
+        + Lyt.padding_bottom;
+
+    Lyt.panel_h = max(Lyt.panel_h, 180);
+
+    // ---------------------------------
+    // Center panel
+    // ---------------------------------
+    Lyt.panel_x = (screen_w - Lyt.panel_w) * 0.5;
+    Lyt.panel_y = (screen_h - Lyt.panel_h) * 0.5;
+
+    // ---------------------------------
+    // Close button
+    // ---------------------------------
+    Lyt.close_w = 100;
+    Lyt.close_h = 32;
+
+    Lyt.close_x =
+        Lyt.panel_x
+        + (Lyt.panel_w - Lyt.close_w) * 0.5;
+
+    Lyt.close_y =
+        Lyt.panel_y
+        + Lyt.panel_h
+        - Lyt.close_h
+        - 16;
+
+    return Lyt;
+}
+
+function specialization_popup_cell(Lyt, i)
+{
+    var cell = {};
+
+    // Distribute entries across columns.
+    var col = i mod Lyt.columns;
+    var row = floor(i / Lyt.columns);
+
+    cell.x1 =
+        Lyt.panel_x
+        + Lyt.padding_x
+        + col * (Lyt.cell_w + Lyt.cell_gap);
+
+    cell.x2 =
+        cell.x1 + Lyt.cell_w;
+
+    cell.y1 =
+        Lyt.panel_y
+        + Lyt.padding_top
+        + row * (Lyt.cell_h + Lyt.cell_gap);
+
+    cell.y2 =
+        cell.y1 + Lyt.cell_h;
+
+    return cell;
+}
 
 function handle_cdt_gold_controls(cc, L, mx, my, clicked)
 {
@@ -479,32 +560,63 @@ function handle_skill_list(cc, L, mx, my, clicked, right_clicked, skills_x = und
     }
 
     // Table skills + specializations
-    for (var i = 0; i < array_length(table_data.skills); i++)
+for (var i = 0; i < array_length(table_data.skills); i++)
+{
+    var skill_name = table_data.skills[i];
+
+    // ---------------------------------
+    // Add the normal/base skill
+    // ---------------------------------
+    if (!variable_struct_exists(seen, skill_name))
     {
-        var skill_name = table_data.skills[i];
-        if (!variable_struct_exists(seen, skill_name))
-        {
-            array_push(all_entries, {
-                name: skill_name,
-                is_specialization: false,
-                is_fixed: false
-            });
-            seen[$ skill_name] = true;
-        }
+        array_push(all_entries, {
+            name: skill_name,
+            is_specialization: false,
+            is_fixed: false
+        });
 
-        var base_skill = string_replace_all(skill_name, " (X)", "");
-        var keys = variable_struct_get_names(cc.skill_ranks);
+        seen[$ skill_name] = true;
+    }
 
-        for (var k = 0; k < array_length(keys); k++)
+    // ---------------------------------
+    // Find owned specializations
+    // belonging to this skill
+    // ---------------------------------
+    var base_skill = string_replace_all(skill_name, " (X)", "");
+    var keys = variable_struct_get_names(cc.skill_ranks);
+
+    for (var k = 0; k < array_length(keys); k++)
+    {
+        var key = keys[k];
+
+        // Only interested in things that look like:
+        // Weapon Skill (Crossbows)
+        // Weapon Skill (1H & Shield)
+        // etc.
+        var open_paren = string_pos(" (", key);
+
+        if (open_paren <= 0)
+            continue;
+
+        // Extract everything before the specialization name
+        var key_parent = string_copy(key, 1, open_paren - 1);
+
+        // Does this specialization belong to this base skill?
+        if (key_parent == base_skill)
         {
-            var key = keys[k];
-            if (string_pos(base_skill, key) > 0 && !variable_struct_exists(seen, key))
+            if (!variable_struct_exists(seen, key))
             {
-                array_push(all_entries, { name: key, is_specialization: true });
+                array_push(all_entries, {
+                    name: key,
+                    is_specialization: true,
+                    is_fixed: false
+                });
+
                 seen[$ key] = true;
             }
         }
     }
+}
 
     // ===== CLICK / HOVER DETECTION =====
     for (var i = 0; i < array_length(all_entries); i++)
@@ -1253,32 +1365,61 @@ else
     }
 
     // Table skills + specializations
-    for (var i = 0; i < array_length(table_data.skills); i++)
+for (var i = 0; i < array_length(table_data.skills); i++)
+{
+    var skill_name = table_data.skills[i];
+
+    // ---------------------------------
+    // Add the normal/base skill
+    // ---------------------------------
+    if (!variable_struct_exists(seen, skill_name))
     {
-        var skill_name = table_data.skills[i];
-        if (!variable_struct_exists(seen, skill_name))
-        {
-            array_push(all_entries, {
-                name: skill_name,
-                is_specialization: false,
-                is_fixed: false
-            });
-            seen[$ skill_name] = true;
-        }
+        array_push(all_entries, {
+            name: skill_name,
+            is_specialization: false,
+            is_fixed: false
+        });
 
-        var base_skill = string_replace_all(skill_name, " (X)", "");
-        var keys = variable_struct_get_names(cc.skill_ranks);
+        seen[$ skill_name] = true;
+    }
 
-        for (var k = 0; k < array_length(keys); k++)
+    // ---------------------------------
+    // Find owned specializations
+    // belonging to this skill
+    // ---------------------------------
+    var base_skill = string_replace_all(skill_name, " (X)", "");
+    var prefix = base_skill + " (";
+    var keys = variable_struct_get_names(cc.skill_ranks);
+
+    for (var k = 0; k < array_length(keys); k++)
+    {
+        var key = keys[k];
+
+        if (key == base_skill)
+            continue;
+
+        if (string_pos(prefix, key) == 1)
         {
-            var key = keys[k];
-            if (string_pos(base_skill, key) > 0 && !variable_struct_exists(seen, key))
+            if (!variable_struct_exists(seen, key))
             {
-                array_push(all_entries, { name: key, is_specialization: true });
+                array_push(all_entries, {
+                    name: key,
+                    is_specialization: true,
+                    is_fixed: false
+                });
+
                 seen[$ key] = true;
+
+                show_debug_message(
+                    "DRAW SPEC FOUND: "
+                    + key
+                    + " under "
+                    + skill_name
+                );
             }
         }
     }
+}
 
     // ===== DRAW ENTRIES (centered under title) =====
     var total_cols = 2;
@@ -1375,25 +1516,58 @@ else
                 display_name = parts[1];
             }
             var rank = get_skill_rank(cc, entry.name);
-            draw_text(draw_x + 6, draw_y + 3, display_name + " (" + string(rank) + ")");
+            draw_text_fit(
+		    display_name + " (" + string(rank) + ")",
+		    draw_x + 6,
+		    draw_y + 3,
+		    box_w - 12
+		);
+        }
+        else
+{
+    var base_skill = string_replace_all(entry.name, " (X)", "");
+    var rank = get_skill_rank(cc, base_skill);
+
+    if (rank == 0)
+    {
+        if (variable_struct_exists(cc.skill_ranks, base_skill))
+        {
+            draw_text_fit(
+                entry.name + " (0)",
+                draw_x + 6,
+                draw_y + 3,
+                box_w - 12
+            );
         }
         else
         {
-            var base_skill = string_replace_all(entry.name, " (X)", "");
-            var rank = get_skill_rank(cc, base_skill);
-
-            if (rank == 0)
-            {
-                if (variable_struct_exists(cc.skill_ranks, base_skill))
-                    draw_text(draw_x + 6, draw_y + 3, entry.name + " (0)");
-                else
-                    draw_text(draw_x + 6, draw_y + 3, entry.name + " (U)");
-            }
-            else if (string_pos(" (X)", entry.name) > 0)
-                draw_text(draw_x + 6, draw_y + 3, entry.name);
-            else
-                draw_text(draw_x + 6, draw_y + 3, entry.name + " (" + string(rank) + ")");
+            draw_text_fit(
+                entry.name + " (U)",
+                draw_x + 6,
+                draw_y + 3,
+                box_w - 12
+            );
         }
+    }
+    else if (string_pos(" (X)", entry.name) > 0)
+    {
+        draw_text_fit(
+            entry.name,
+            draw_x + 6,
+            draw_y + 3,
+            box_w - 12
+        );
+    }
+    else
+    {
+        draw_text_fit(
+            entry.name + " (" + string(rank) + ")",
+            draw_x + 6,
+            draw_y + 3,
+            box_w - 12
+        );
+    }
+}
 
         // Hover
         if (point_in_rectangle(mx, my, draw_x, draw_y, draw_x + box_w, draw_y + row_h))
@@ -1719,61 +1893,69 @@ var trained = skill_is_trained(cc, hovered_key);
 
 function draw_specialization_popup(cc, L)
 {
-    if (!variable_struct_exists(cc, "pending_specializations")) return;
-	
-    var popup_w = 360;
-    var popup_h = 90 + (array_length(cc.pending_specializations) * 42);
-    var popup_x = L.center_x - popup_w * 0.5;
-    var popup_y = 160;
-
-    // Background
-    draw_set_color(c_dkgray);
-    draw_rectangle(popup_x - 4, popup_y - 4, popup_x + popup_w + 4, popup_y + popup_h + 4, false);
+    if (!variable_struct_exists(cc, "specialization_popup") || !cc.specialization_popup)
+        return;
+    if (!variable_struct_exists(cc, "pending_specializations"))
+        return;
     
-    draw_set_color(c_black);
-    draw_rectangle(popup_x, popup_y, popup_x + popup_w, popup_y + popup_h, false);
-
-    // Border
-    draw_set_color(c_white);
-    draw_rectangle(popup_x, popup_y, popup_x + popup_w, popup_y + popup_h, true);
-
-    draw_set_halign(fa_center);
-    draw_set_color(c_white);
-    draw_text(popup_x + popup_w/2, popup_y + 18, "Select Specialization");
-    draw_text(popup_x + popup_w/2, popup_y + 42, cc.pending_skill);
-
-    draw_set_halign(fa_left);
-
+    var screen_w = display_get_gui_width();
+    var screen_h = display_get_gui_height();
+    var Lyt = specialization_popup_layout(cc);
     var mx = device_mouse_x_to_gui(0);
     var my = device_mouse_y_to_gui(0);
-
-    for (var i = 0; i < array_length(cc.pending_specializations); i++)
-    {
-        var choice = cc.pending_specializations[i];
-                // Skip if already purchased
-        var full_key1 = string_replace_all(cc.pending_skill, " (X)", "") + ":" + choice;
-        var full_key2 = string_replace_all(cc.pending_skill, " (X)", "") + " (" + choice + ")";
-        
-        if (variable_struct_exists(cc.skill_ranks, full_key1) || variable_struct_exists(cc.skill_ranks, full_key2))
-            continue;
-
-        var row_y = popup_y + 75 + (i * 42);
-        
-        var hovered = point_in_rectangle(mx, my, popup_x + 20, row_y - 8, popup_x + popup_w - 20, row_y + 28);
-
-        if (hovered)
-        {
-            draw_set_color(c_yellow);
-            draw_rectangle(popup_x + 15, row_y - 6, popup_x + popup_w - 15, row_y + 28, false);
-            draw_set_color(c_black);
-        }
-        else
-        {
-            draw_set_color(c_white);
-        }
-
-        draw_text(popup_x + 30, row_y + 6, choice);
-    }
+    
+    // Dimmer
+    draw_set_alpha(0.65);
+    draw_set_color(c_black);
+    draw_rectangle(0, 0, screen_w, screen_h, false);
+    draw_set_alpha(1);
+    
+    // Panel
+    draw_set_color(make_color_rgb(30, 30, 40));
+    draw_rectangle(Lyt.panel_x, Lyt.panel_y, Lyt.panel_x + Lyt.panel_w, Lyt.panel_y + Lyt.panel_h, false);
+    draw_set_color(c_white);
+    draw_rectangle(Lyt.panel_x, Lyt.panel_y, Lyt.panel_x + Lyt.panel_w, Lyt.panel_y + Lyt.panel_h, true);
+    
+    draw_set_halign(fa_center);
+    draw_set_valign(fa_top);
+    draw_set_color(c_white);
+    draw_text(Lyt.panel_x + Lyt.panel_w * 0.5, Lyt.panel_y + 16, "Choose Specialization");
+    
+    draw_set_halign(fa_left);
+    draw_text(Lyt.panel_x + 24, Lyt.panel_y + 44, string(cc.pending_skill));
+    
+	for (var i = 0; i < Lyt.n; i++)
+{
+    var cell = specialization_popup_cell(Lyt, i);
+    var hover = point_in_rectangle(mx, my, cell.x1, cell.y1, cell.x2, cell.y2);
+    
+    draw_set_color(hover ? make_color_rgb(70, 70, 40) : make_color_rgb(40, 40, 50));
+    draw_rectangle(cell.x1, cell.y1, cell.x2, cell.y2, false);
+    draw_set_color(hover ? c_yellow : c_dkgray);
+    draw_rectangle(cell.x1, cell.y1, cell.x2, cell.y2, true);
+    
+    draw_set_color(c_white);
+    draw_set_halign(fa_left);
+    draw_set_valign(fa_middle);
+    // clip long labels if needed
+    draw_text(cell.x1 + 6, (cell.y1 + cell.y2) * 0.5, string(Lyt.choices[i]));
+}
+draw_set_valign(fa_top);
+    
+    // Close
+    var close_hover = point_in_rectangle(
+        mx, my,
+        Lyt.close_x, Lyt.close_y,
+        Lyt.close_x + Lyt.close_w, Lyt.close_y + Lyt.close_h
+    );
+    draw_set_color(close_hover ? c_lime : c_green);
+    draw_rectangle(Lyt.close_x, Lyt.close_y, Lyt.close_x + Lyt.close_w, Lyt.close_y + Lyt.close_h, false);
+    draw_set_color(c_white);
+    draw_set_halign(fa_center);
+    draw_set_valign(fa_middle);
+    draw_text(Lyt.close_x + Lyt.close_w * 0.5, Lyt.close_y + Lyt.close_h * 0.5, "CLOSE");
+    draw_set_halign(fa_left);
+    draw_set_valign(fa_top);
 }
 
 
@@ -1802,13 +1984,15 @@ function draw_specializations_for_skill(cc, draw_x, start_y, base_skill)
 
 function draw_specializations_under_parent(cc, base_x, start_y, base_skill)
 {
+    base_skill = string_replace_all(base_skill, " (X)", "");
+
     var keys = variable_struct_get_names(cc.skill_ranks);
     var y_pos = start_y;
 
     for (var k = 0; k < array_length(keys); k++)
     {
         var key = keys[k];
-        
+
         // Check if this is a specialization of the current base skill
         if (string_pos(base_skill + " (", key) == 1)
         {
@@ -1816,9 +2000,15 @@ function draw_specializations_under_parent(cc, base_x, start_y, base_skill)
             var is_hovered = (cc.hovered_skill == key);
 
             draw_set_color(is_hovered ? c_yellow : c_ltgray);
-            draw_text(base_x + 20, y_pos, "> " + key + " (" + string(rank) + ")");
-            
-            y_pos += 22;   // Slightly more spacing for sub-items
+
+            draw_text_fit(
+                "> " + key + " (" + string(rank) + ")",
+                base_x + 20,
+                y_pos,
+                240
+            );
+
+            y_pos += 22;
         }
     }
 }
@@ -2411,7 +2601,12 @@ var has_choice_left = variable_struct_exists(cc, "species_talent_choice_remainin
             label += " (U)";
         }
 
-        draw_text(draw_x + 6, draw_y + 3, label);
+        draw_text_fit(
+		    label,
+		    draw_x + 6,
+		    draw_y + 3,
+		    box_w - 12
+		);
 
         // Hover
         if (point_in_rectangle(mx, my, draw_x, draw_y, draw_x + box_w, draw_y + row_h))
@@ -2644,7 +2839,7 @@ function draw_generation_help_box()
         + "- Unowned tables cost 2 slots\n"
         + "- Free skill/talent slots spend first\n"
         + "- CDT / Gold also use slots\n\n"
-        + "R = Random spend remaining points";
+        + "A = Random spend remaining points";
 
     var pad = 12;
     var line_sep = 18;
@@ -2973,5 +3168,25 @@ function get_species_choice_skill_for_specialization(cc, skill_key)
 }
 
 
+function draw_text_fit(text, x, y, max_width)
+{
+    var text_width = string_width(text);
 
+    if (text_width <= max_width)
+    {
+        draw_text(x, y, text);
+        return;
+    }
+
+    var scale_x = max_width / text_width;
+
+    draw_text_transformed(
+        x,
+        y,
+        text,
+        scale_x,
+        1,
+        0
+    );
+}
 

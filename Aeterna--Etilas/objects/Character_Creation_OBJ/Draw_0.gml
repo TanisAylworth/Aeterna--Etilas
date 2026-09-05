@@ -2,6 +2,14 @@ var cc = global.char_creation;
 
 // Draw Event
 
+draw_set_color(make_color_rgb(35, 35, 35));
+draw_rectangle(
+    0,
+    0,
+    display_get_gui_width(),
+    display_get_gui_height(),
+    false
+);
 
 global.char_creation.tooltip.active = false;
 
