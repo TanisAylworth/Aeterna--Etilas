@@ -11,7 +11,7 @@ var my = device_mouse_y_to_gui(0);
     if (!variable_struct_exists(cc, "hovered_skill")) cc.hovered_skill = "";
     if (!variable_struct_exists(cc, "selected_table")) cc.selected_table = "";
     if (!variable_struct_exists(cc.generation, "tables_locked")) cc.generation.tables_locked = false;
-
+	var hovered_specialization = "";
     if (!variable_struct_exists(cc, "generation_hover"))
     {
         cc.generation_hover = {
@@ -214,5 +214,9 @@ if (modal)
 {
     draw_specialization_popup(cc, L);
 }
+
+draw_specialization_description_popup(cc);
+
+
 briefing_draw(cc);
 }

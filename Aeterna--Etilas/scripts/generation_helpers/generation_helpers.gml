@@ -8,37 +8,279 @@ function generation_layout(L)
     };
 }
 
+function get_specialization_description(specialization_name)
+{
+    if (!variable_struct_exists(global.specialization_descriptions, specialization_name))
+    {
+        return "No description available.";
+    }
+
+    return global.specialization_descriptions[$ specialization_name];
+}
+
+
+
+function draw_specialization_description_popup(cc)
+{
+    // -----------------------------------------
+    // Safety checks
+    // -----------------------------------------
+
+    if (!variable_struct_exists(cc, "specialization_popup"))
+        return;
+
+    if (!cc.specialization_popup)
+        return;
+
+    if (!variable_struct_exists(cc, "pending_specializations"))
+        return;
+
+    if (!variable_struct_exists(cc, "specialization_popup_hover"))
+        return;
+
+    var hover = cc.specialization_popup_hover;
+
+    if (hover < 0)
+        return;
+
+    if (hover >= array_length(cc.pending_specializations))
+        return;
+
+    // -----------------------------------------
+    // Get specialization information
+    // -----------------------------------------
+
+    var name = cc.pending_specializations[hover];
+    var description = get_specialization_description(name);
+
+    if (description == "")
+        return;
+
+    // -----------------------------------------
+    // Recreate popup layout
+    // -----------------------------------------
+
+    var Lyt = specialization_popup_layout(cc);
+    var cell = specialization_popup_cell(Lyt, hover);
+
+    // -----------------------------------------
+    // Description box settings
+    // -----------------------------------------
+
+    var box_w = 620;
+
+    var padding_x = 16;
+    var padding_top = 14;
+    var padding_bottom = 14;
+
+    var title_height = 24;
+
+    // Increased line spacing
+    var line_sep = 14;
+
+    // Width available for description text
+    var text_w = box_w - (padding_x * 2);
+
+    // -----------------------------------------
+    // Calculate description height
+    // -----------------------------------------
+
+    var description_height =
+        string_height_ext(
+            description,
+            line_sep,
+            text_w
+        );
+
+    // -----------------------------------------
+    // Calculate total box height
+    // -----------------------------------------
+
+    var box_h =
+        padding_top
+        + title_height
+        + 8
+        + description_height
+        + padding_bottom;
+
+    // -----------------------------------------
+    // Position beside hovered cell
+    // -----------------------------------------
+
+    var xx = cell.x2 + 16;
+    var yy = cell.y1;
+
+    var sw = display_get_gui_width();
+    var sh = display_get_gui_height();
+
+    // -----------------------------------------
+    // Keep box inside right side
+    // -----------------------------------------
+
+    if (xx + box_w > sw)
+    {
+        xx = cell.x1 - box_w - 16;
+    }
+
+    // -----------------------------------------
+    // Keep box inside bottom
+    // -----------------------------------------
+
+    if (yy + box_h > sh)
+    {
+        yy = sh - box_h - 10;
+    }
+
+    // -----------------------------------------
+    // Keep box inside top
+    // -----------------------------------------
+
+    if (yy < 10)
+    {
+        yy = 10;
+    }
+
+    // -----------------------------------------
+    // Background
+    // -----------------------------------------
+
+    draw_set_color(c_black);
+    draw_set_alpha(1);
+
+    draw_rectangle(
+        xx,
+        yy,
+        xx + box_w,
+        yy + box_h,
+        false
+    );
+
+    draw_set_alpha(1);
+
+    // -----------------------------------------
+    // Border
+    // -----------------------------------------
+
+    draw_set_color(c_white);
+
+    draw_rectangle(
+        xx,
+        yy,
+        xx + box_w,
+        yy + box_h,
+        true
+    );
+
+    // -----------------------------------------
+    // Title
+    // -----------------------------------------
+
+    draw_set_color(c_white);
+
+    draw_text(
+        xx + padding_x,
+        yy + padding_top,
+        name
+    );
+
+    // -----------------------------------------
+    // Description
+    // -----------------------------------------
+
+    draw_set_color(c_white);
+
+    draw_text_ext(
+        xx + padding_x,
+        yy + padding_top + title_height + 8,
+        description,
+        line_sep,
+        text_w
+    );
+
+    // -----------------------------------------
+    // Reset drawing state
+    // -----------------------------------------
+
+    draw_set_color(c_white);
+    draw_set_alpha(1);
+}
 
 
 function handle_specialization_popup(cc, L, mx, my, clicked)
 {
     var Lyt = specialization_popup_layout(cc);
-    
+
+    // -----------------------------------------
+    // Escape
+    // -----------------------------------------
+
     if (keyboard_check_pressed(vk_escape))
     {
         specialization_popup_close(cc);
         return true;
     }
-    
+
+    // -----------------------------------------
+    // Hover detection
+    // -----------------------------------------
+
+    cc.specialization_popup_hover = -1;
+
+    for (var i = 0; i < Lyt.n; i++)
+    {
+        var cell = specialization_popup_cell(Lyt, i);
+
+        if (point_in_rectangle(
+            mx, my,
+            cell.x1, cell.y1,
+            cell.x2, cell.y2
+        ))
+        {
+            cc.specialization_popup_hover = i;
+            break;
+        }
+    }
+
+    // -----------------------------------------
+    // Click handling
+    // -----------------------------------------
+
     if (clicked)
     {
-        if (point_in_rectangle(mx, my, Lyt.close_x, Lyt.close_y, Lyt.close_x + Lyt.close_w, Lyt.close_y + Lyt.close_h))
+        if (point_in_rectangle(
+            mx, my,
+            Lyt.close_x,
+            Lyt.close_y,
+            Lyt.close_x + Lyt.close_w,
+            Lyt.close_y + Lyt.close_h
+        ))
         {
             specialization_popup_close(cc);
             return true;
         }
-        
+
         for (var i = 0; i < Lyt.n; i++)
-{
-    var cell = specialization_popup_cell(Lyt, i);
-    if (point_in_rectangle(mx, my, cell.x1, cell.y1, cell.x2, cell.y2))
-    {
-        specialization_popup_choose(cc, Lyt.choices[i]);
-        return true;
+        {
+            var cell = specialization_popup_cell(Lyt, i);
+
+            if (point_in_rectangle(
+                mx, my,
+                cell.x1,
+                cell.y1,
+                cell.x2,
+                cell.y2
+            ))
+            {
+                specialization_popup_choose(
+                    cc,
+                    Lyt.choices[i]
+                );
+
+                return true;
+            }
+        }
     }
-}
-		
-    }
+
     return true;
 }
 
@@ -1891,6 +2133,11 @@ var trained = skill_is_trained(cc, hovered_key);
 
 
 
+
+
+
+
+
 function draw_specialization_popup(cc, L)
 {
     if (!variable_struct_exists(cc, "specialization_popup") || !cc.specialization_popup)
@@ -1912,48 +2159,228 @@ function draw_specialization_popup(cc, L)
     
     // Panel
     draw_set_color(make_color_rgb(30, 30, 40));
-    draw_rectangle(Lyt.panel_x, Lyt.panel_y, Lyt.panel_x + Lyt.panel_w, Lyt.panel_y + Lyt.panel_h, false);
+    draw_rectangle(
+        Lyt.panel_x,
+        Lyt.panel_y,
+        Lyt.panel_x + Lyt.panel_w,
+        Lyt.panel_y + Lyt.panel_h,
+        false
+    );
+    
     draw_set_color(c_white);
-    draw_rectangle(Lyt.panel_x, Lyt.panel_y, Lyt.panel_x + Lyt.panel_w, Lyt.panel_y + Lyt.panel_h, true);
+    draw_rectangle(
+        Lyt.panel_x,
+        Lyt.panel_y,
+        Lyt.panel_x + Lyt.panel_w,
+        Lyt.panel_y + Lyt.panel_h,
+        true
+    );
     
     draw_set_halign(fa_center);
     draw_set_valign(fa_top);
     draw_set_color(c_white);
-    draw_text(Lyt.panel_x + Lyt.panel_w * 0.5, Lyt.panel_y + 16, "Choose Specialization");
-    
-    draw_set_halign(fa_left);
-    draw_text(Lyt.panel_x + 24, Lyt.panel_y + 44, string(cc.pending_skill));
-    
-	for (var i = 0; i < Lyt.n; i++)
-{
-    var cell = specialization_popup_cell(Lyt, i);
-    var hover = point_in_rectangle(mx, my, cell.x1, cell.y1, cell.x2, cell.y2);
-    
-    draw_set_color(hover ? make_color_rgb(70, 70, 40) : make_color_rgb(40, 40, 50));
-    draw_rectangle(cell.x1, cell.y1, cell.x2, cell.y2, false);
-    draw_set_color(hover ? c_yellow : c_dkgray);
-    draw_rectangle(cell.x1, cell.y1, cell.x2, cell.y2, true);
-    
-    draw_set_color(c_white);
-    draw_set_halign(fa_left);
-    draw_set_valign(fa_middle);
-    // clip long labels if needed
-    draw_text(cell.x1 + 6, (cell.y1 + cell.y2) * 0.5, string(Lyt.choices[i]));
-}
-draw_set_valign(fa_top);
-    
-    // Close
-    var close_hover = point_in_rectangle(
-        mx, my,
-        Lyt.close_x, Lyt.close_y,
-        Lyt.close_x + Lyt.close_w, Lyt.close_y + Lyt.close_h
+    draw_text(
+        Lyt.panel_x + Lyt.panel_w * 0.5,
+        Lyt.panel_y + 16,
+        "Choose Specialization"
     );
+    
+    draw_set_halign(fa_left);
+    draw_text(
+        Lyt.panel_x + 24,
+        Lyt.panel_y + 44,
+        string(cc.pending_skill)
+    );
+    
+    // Track hovered specialization
+    var hovered_specialization = "";
+    
+    // Specialization choices
+    for (var i = 0; i < Lyt.n; i++)
+    {
+        var cell = specialization_popup_cell(Lyt, i);
+        var hover = point_in_rectangle(
+            mx,
+            my,
+            cell.x1,
+            cell.y1,
+            cell.x2,
+            cell.y2
+        );
+        
+        // Cell background
+        draw_set_color(
+            hover
+            ? make_color_rgb(70, 70, 40)
+            : make_color_rgb(40, 40, 50)
+        );
+        
+        draw_rectangle(
+            cell.x1,
+            cell.y1,
+            cell.x2,
+            cell.y2,
+            false
+        );
+        
+        // Cell border
+        draw_set_color(
+            hover
+            ? c_yellow
+            : c_dkgray
+        );
+        
+        draw_rectangle(
+            cell.x1,
+            cell.y1,
+            cell.x2,
+            cell.y2,
+            true
+        );
+        
+        // Label
+        draw_set_color(c_white);
+        draw_set_halign(fa_left);
+        draw_set_valign(fa_middle);
+        
+        draw_text_fit(
+    string(Lyt.choices[i]),
+    cell.x1 + 6,
+    (cell.y1 + cell.y2) * 0.5,
+    (cell.x2 - cell.x1) - 12
+);
+        
+        // Remember hovered specialization
+        if (hover)
+        {
+            hovered_specialization = string(Lyt.choices[i]);
+        }
+    }
+    
+    draw_set_valign(fa_top);
+    
+    // =========================================================
+    // SPECIALIZATION TOOLTIP
+    // =========================================================
+    
+    if (hovered_specialization != "")
+    {
+        if (variable_struct_exists(
+            global.weapon_specializations,
+            hovered_specialization
+        ))
+        {
+            var spec_data =
+                global.weapon_specializations[$ hovered_specialization];
+            
+            var tooltip_text = "";
+            
+            if (variable_struct_exists(spec_data, "tooltip"))
+            {
+                tooltip_text = spec_data.tooltip;
+            }
+            
+            if (tooltip_text != "")
+            {
+                var tooltip_w = 340;
+                var tooltip_pad = 12;
+                var tooltip_gap = 18;
+                
+                var tooltip_x = mx + tooltip_gap;
+                var tooltip_y = my + tooltip_gap;
+                
+                // Wrap width
+                var text_w = tooltip_w - tooltip_pad * 2;
+                
+                // Calculate tooltip height
+                var tooltip_h =
+                    string_height_ext(
+                        tooltip_text,
+                        4,
+                        text_w
+                    )
+                    + tooltip_pad * 2;
+                
+                // Keep tooltip inside the GUI horizontally
+                if (tooltip_x + tooltip_w > screen_w)
+                {
+                    tooltip_x = mx - tooltip_w - tooltip_gap;
+                }
+                
+                // Keep tooltip inside the GUI vertically
+                if (tooltip_y + tooltip_h > screen_h)
+                {
+                    tooltip_y = my - tooltip_h - tooltip_gap;
+                }
+                
+                // Tooltip background
+                draw_set_color(make_color_rgb(25, 25, 30));
+                draw_rectangle(
+                    tooltip_x,
+                    tooltip_y,
+                    tooltip_x + tooltip_w,
+                    tooltip_y + tooltip_h,
+                    false
+                );
+                
+                // Tooltip border
+                draw_set_color(c_yellow);
+                draw_rectangle(
+                    tooltip_x,
+                    tooltip_y,
+                    tooltip_x + tooltip_w,
+                    tooltip_y + tooltip_h,
+                    true
+                );
+                
+                // Tooltip text
+                draw_set_color(c_white);
+                draw_set_halign(fa_left);
+                draw_set_valign(fa_top);
+                
+                draw_text_ext(
+                    tooltip_x + tooltip_pad,
+                    tooltip_y + tooltip_pad,
+                    tooltip_text,
+                    4,
+                    text_w
+                );
+            }
+        }
+    }
+    
+    // =========================================================
+    // CLOSE
+    // =========================================================
+    
+    var close_hover = point_in_rectangle(
+        mx,
+        my,
+        Lyt.close_x,
+        Lyt.close_y,
+        Lyt.close_x + Lyt.close_w,
+        Lyt.close_y + Lyt.close_h
+    );
+    
     draw_set_color(close_hover ? c_lime : c_green);
-    draw_rectangle(Lyt.close_x, Lyt.close_y, Lyt.close_x + Lyt.close_w, Lyt.close_y + Lyt.close_h, false);
+    draw_rectangle(
+        Lyt.close_x,
+        Lyt.close_y,
+        Lyt.close_x + Lyt.close_w,
+        Lyt.close_y + Lyt.close_h,
+        false
+    );
+    
     draw_set_color(c_white);
     draw_set_halign(fa_center);
     draw_set_valign(fa_middle);
-    draw_text(Lyt.close_x + Lyt.close_w * 0.5, Lyt.close_y + Lyt.close_h * 0.5, "CLOSE");
+    
+    draw_text(
+        Lyt.close_x + Lyt.close_w * 0.5,
+        Lyt.close_y + Lyt.close_h * 0.5,
+        "CLOSE"
+    );
+    
     draw_set_halign(fa_left);
     draw_set_valign(fa_top);
 }
@@ -1975,7 +2402,14 @@ function draw_specializations_for_skill(cc, draw_x, start_y, base_skill)
             var is_hovered = (cc.hovered_skill == key);
 
             draw_set_color(is_hovered ? c_yellow : c_white);
-            draw_text(draw_x + 15, y_pos, "> " + key + " (" + string(spec_rank) + ")");
+
+            draw_text_fit(
+                "> " + key + " (" + string(spec_rank) + ")",
+                draw_x + 15,
+                y_pos,
+                240
+            );
+
             y_pos += 18;
         }
     }

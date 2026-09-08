@@ -13,6 +13,7 @@ function generation_shop_init(cc)
     var my = device_mouse_y_to_gui(0);
     var clicked = mouse_check_button_pressed(mb_left);
     var right_clicked = mouse_check_button_pressed(mb_right);
+	initialize_specialization_descriptions();
     
     // === SPECIALIZATION MODAL — blocks everything under it ===
     if (variable_struct_exists(cc, "specialization_popup") && cc.specialization_popup)

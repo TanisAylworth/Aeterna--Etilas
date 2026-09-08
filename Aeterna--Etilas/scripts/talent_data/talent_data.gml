@@ -291,11 +291,11 @@ global.talent_data[$ "Weapon Style (X)"] = {
     specialization: {
         required: true,
         choices: [
-            "Unarmed", "1H Light", "Dual Wielding", "2H Large", "Polearms",
-            "Blunt w/ Non lethal", "1x Small weapon", "Thrown", "Crossbows",
-            "Grappling", "Riding (Land)", "Javelins", "Steam Guns", "Knives",
-            "Improvised", "Med-Lrg Swords", "1H and Shield",
-            "2H Axe/ 2x Axes/ 1H Axe and Shield", "2x Blades", "Bow", "Riding (Aerial)"
+            "Martial Arts", "Grappling", "Brawling", "Knife Fighting", "Sword Play", "Dueling", "Great Weapon", "Shield Fighting", "Hook Fighting",
+			"Formation Fighting", "Zone Control", "Reach Control", "Weapon Grappling", "Sniping", "Bludgeon Fighting", "Mounted Combat", "Non-Lethal Combat",
+			"Bow Draws", "Defensive Focus", "Draw Striking"
+			
+			
         ]
     },
     description: "Special focus in a fighting style based on a specific weapon type. See Weapon Styles for options."
@@ -362,7 +362,7 @@ global.talent_data[$ "Two Weapon Fighting"] = {
     table: "Warfare",
     ranked: false,
     difficulty: global.SKILL_ADVANCED,
-    description: "Reduces the penalty from fighting with two weapons by -2."
+    description: "Reduces the penalty from fighting with two weapons by -2. Weapons over a weight penalty of 1.5 have a normal two weapon penalty of -5. Weapons bellow a weight penalty of 1.5 have a two weapon penalty of -2."
 };
 
 global.talent_data[$ "Martial Action (Push)"] = {
@@ -931,3 +931,17 @@ global.talent_data[$ "Ritual Master"] = {
 
 	
 }
+
+
+
+global.weapon_specializations =
+{
+    "Knives" :
+    {
+        description : "Small weapons emphasizing speed, concealment, and precision.",
+        tooltip :
+        "Close-quarters weapons emphasizing speed and precision.\n\n"
+        + "Strengths: Swift attacks, concealment, mobility\n"
+        + "Weaknesses: Limited reach and stopping power"
+    }
+};

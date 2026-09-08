@@ -73,6 +73,7 @@
     {"id":{"name":"Set_Tooltip_SCR","path":"scripts/Set_Tooltip_SCR/Set_Tooltip_SCR.yy",},},
     {"id":{"name":"Skill_Check_SCR","path":"scripts/Skill_Check_SCR/Skill_Check_SCR.yy",},},
     {"id":{"name":"skills_data","path":"scripts/skills_data/skills_data.yy",},},
+    {"id":{"name":"specialization_data","path":"scripts/specialization_data/specialization_data.yy",},},
     {"id":{"name":"Species_Data_SCR","path":"scripts/Species_Data_SCR/Species_Data_SCR.yy",},},
     {"id":{"name":"Species_helpers","path":"scripts/Species_helpers/Species_helpers.yy",},},
     {"id":{"name":"Step_Complete_SCR","path":"scripts/Step_Complete_SCR/Step_Complete_SCR.yy",},},
