@@ -117,7 +117,7 @@ global.knowledge_table_data[$ "Warfare"] =
 			"Display Weapon Prowess",
 			"Natural Fighting", 
 			"Wild Fighting", 
-			"Weapon Style (X)", 
+			"Fighting Style (X)", 
 			"Turtle", 
 			"Rage",
 		    "Weapon Improvisation", 

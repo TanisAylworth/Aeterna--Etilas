@@ -283,8 +283,8 @@ global.talent_data[$ "Wild Fighting"] = {
     description: "Forsake defense bonus for the following round to increase attack bonus by an equal margin."
 };
 
-global.talent_data[$ "Weapon Style (X)"] = {
-    name: "Weapon Style (X)",
+global.talent_data[$ "Fighting Style (X)"] = {
+    name: "Fighting Style (X)",
     table: "Warfare",
     ranked: false,
     difficulty: global.SKILL_ADVANCED,
