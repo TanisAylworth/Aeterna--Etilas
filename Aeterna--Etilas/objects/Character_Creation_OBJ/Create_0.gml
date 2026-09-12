@@ -10,6 +10,10 @@ briefing_data_init();
 
 window_set_showborder(true);
 
+// Character Creation Music
+var snd = audio_play_sound(open_book, 5, false);
+audio_sound_pitch(snd, random_range(0.90, 1.10));
+cc_music = audio_play_sound(character_gen_bgm, 10, false);
 
 // ===============================
 // CHARACTER CREATION STATE

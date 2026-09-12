@@ -9,10 +9,13 @@ function initialize_specialization_descriptions()
     global.specialization_descriptions[$ "Martial Arts"] =
         "A style which requires Weapon Skill (Unarmed) and utilizes controlled motions of the body to inflict damage with the natural weapons of the body.\n\n"+
 		"Stances: At the start of the combat round the user may switch stance as a Free Action, but can do so no more than once per round.\n\n"+
-		"-  Attack Stance: In this stance the user is poised to spring forward and strike. Gains a free Simple Action move once per combat round. Can make an additional strike at a -2 penalty to include their usual off hand strike.\n"+
+		"-  Attack Stance: In this stance the user is poised to spring forward and strike. Gains a free Simple Action move once per combat round. Can make an additional strike at a -2 penalty to include their usual off hand strike toatlling 3 attacks.\n"+
 		"-  Defensive Stance: In this stance the user is more focused on parrying and checking incoming attacks rather than striking. While in this stance the user may make two Defensive Actions without taking the Full Defense Action. If the Full Defense Action is taken in this stance they may make two Dodge and two Parry actions that round.\n\n"+
+		"-  Flowing Stance: In this stance the user changes position frequesntly and attacks from unexpected angles. While in this stance all attacks you make assuming you have space to move at least 5ft around a target are made as if you had an ally flanking the target. If an ally is present already you gain the Swarming bonus instead. Additionally, after striking a target successfully you may move 5ft around them or take the position behind them."+
 		"Strikes: As a replacement to one of their attack actions they may use a strike from the following list.\n\n"+
 		"-  Kick: Grants the attack Reach (5), Cleave (1), and increases the damage die of the attack by 1 step. If the user made a Charge Action and used this strike the attack may be converted into a Flying Kick. In this case the user counts this as an All In strike, and is considered to be performing a Flying Charge.\n"+
+		"-  Sweep: Grants the attack Trip (3), and initiates a Trip Martial Action in addition to the damage of the attack. If the target falls they suffer 10ft of fall damage realtive to their size.\n"+
+		"-  Precision Strike: Grants the attack Precise (2) and increases the damage die by 1 step. Additionally if a critical hit is landed using this strike the damage die increases an additional step.\n"+
 		"-  Elbows and Knees: The user does not suffer the penalties for close quarters combat. Additionally their attacks increase their damage by 2 dice steps. They also gain Sunder (1), and Grapple (1). If the user initiates or uses their Grapple Action to harm they may replace the normal attack with one of these strikes instead.";
 
     global.specialization_descriptions[$ "Grappling"] =
@@ -42,7 +45,17 @@ function initialize_specialization_descriptions()
 
 
     global.specialization_descriptions[$ "Knife Fighting"] =
-        "Training in the use of knives and other small blades in close combat.";
+        "A style which requires Weapon Skill (Small Blade) and relies on quick jabs and slashes with precise movements of handling a knife or dagger.\n\n"+
+		"Stances: At the start of the combat round the user may switch stance as a Free Action, but can do so no more than once per round.\n\n"+
+		"-  Forward Stance: In this stance the user places their weapon in the front and readies to lunge or stab. While in this stance the additional attack penalty is reduced to -3 instead of -5. Additionally, if only a single Attack action is made that attack gains Preceise (2).\n"+
+		"-  Body Box Guard: In this stance the user squares themselves with arms tucked in to protect their innards. While in this stance you gain advantage against all displacement Martial Actions, and Dodge Defensive Actions. Additionally, if an opponent hits you, you may direct the hit to your arms instead of the original target.\n"+
+		"-  Ice Pick Stance: In this stance the user holds their weapon in a high position with the obvious intent to strike downward with it. While in this stance your attacks gain Armor Piercing (2), but suffer Unwieldy (2). Additionally damage dealt in this stance increases by 1 die step.\n\n"+
+		"Strikes: Each of the following may be used in place of an Attack Action as either part of a Full Attack Action or as an Attack Action.\n\n"+
+		"-  Jab: The damage of this strike is reduced by 1 die step, however the strike initiates a Feint Martial Maneuver and grants the next attack Precise (2) if the Feint is successful.\n"+
+		"-  Cut: The attack forces an Endurance test if it sucessfully lands with a penalty equal to the damage sustained by the attack. If the test is failed the target gains 1 level of fatigue from bleeding.\n"+
+		"-  Thrust: This attack's damage is incresed by 2 die steps, and has Accurate (3).\n"+
+		"-  X Cut: Grants the attack two Sunder Martial Action attempts and for those checks deals and additional die step up in damage.\n";
+
 
     global.specialization_descriptions[$ "Sword Play"] =
         "Training in the use of swords, emphasizing controlled attacks, footwork, and effective blade technique.";

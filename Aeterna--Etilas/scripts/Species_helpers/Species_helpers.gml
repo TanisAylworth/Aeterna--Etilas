@@ -12,7 +12,10 @@ function species_random_select(cc)
     cc.locked_species = species_id;
     cc.species_bonus_map = {};
     cc.species_bonus_remaining = 0;
-
+	
+    
+var snd = audio_play_sound(scribble, 5, false);
+audio_sound_pitch(snd, random_range(0.90, 1.10));
     if (variable_struct_exists(global.species_data, species_id))
     {
         var data = global.species_data[$ species_id];

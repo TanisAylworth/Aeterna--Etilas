@@ -87,7 +87,10 @@ function briefing_update(cc)
     if (mouse_check_button_pressed(mb_left) || mouse_check_button_pressed(mb_right))
     {
         if (point_in_rectangle(mx, my, close_x, close_y, close_x + close_w, close_y + close_h))
-            briefing_close(cc);
+          
+var snd = audio_play_sound(page_turn, 5, false);
+audio_sound_pitch(snd, random_range(0.90, 1.10));
+		  briefing_close(cc);
         // any other click: still consumed
     }
     

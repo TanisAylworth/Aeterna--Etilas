@@ -1,0 +1,26 @@
+{
+  "$GMSound":"v2",
+  "%Name":"page_turn",
+  "audioGroupId":{
+    "name":"audiogroup_default",
+    "path":"audiogroups/audiogroup_default",
+  },
+  "bitDepth":1,
+  "channelFormat":0,
+  "compression":0,
+  "compressionQuality":4,
+  "conversionMode":0,
+  "duration":1.2240136,
+  "exportDir":"",
+  "name":"page_turn",
+  "parent":{
+    "name":"Aeterna--Etilas",
+    "path":"Aeterna--Etilas.yyp",
+  },
+  "preload":false,
+  "resourceType":"GMSound",
+  "resourceVersion":"2.0",
+  "sampleRate":44100,
+  "soundFile":"page_turn.mp3",
+  "volume":1.0,
+}

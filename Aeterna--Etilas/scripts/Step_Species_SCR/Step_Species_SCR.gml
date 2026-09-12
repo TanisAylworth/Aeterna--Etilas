@@ -40,6 +40,7 @@ function species_step_update(step)
     // =====================================================
     if (mouse_check_button_pressed(mb_left))
     {
+		
         for (var i = 0; i < species_count; i++)
         {
             var species_id = global.species_list[i];
@@ -53,7 +54,8 @@ function species_step_update(step)
                 cc.locked_species = species_id;
                 cc.species_bonus_map = {};
                 cc.species_bonus_remaining = 0;
-                
+				var snd = audio_play_sound(scribble, 5, false);
+				audio_sound_pitch(snd, random_range(0.90, 1.10));
                 var data = global.species_data[$ species_id];
                 if (variable_struct_exists(data, "creation")
                     && variable_struct_exists(data.creation, "attribute_adjustments"))
@@ -81,6 +83,8 @@ function species_step_update(step)
                 cc.confirmed_species = cc.locked_species;
                 cc.species = cc.locked_species;
                 go_to_next_step(cc);
+				var snd = audio_play_sound(page_turn, 5, false);
+				audio_sound_pitch(snd, random_range(0.90, 1.10));
                 return;
             }
         }
@@ -90,5 +94,9 @@ function species_step_update(step)
     // RIGHT CLICK — unlock
     // =====================================================
     if (mouse_check_button_pressed(mb_right))
+	{
+				var snd = audio_play_sound(scribble, 5, false);
+				audio_sound_pitch(snd, random_range(0.90, 1.10));
         cc.locked_species = undefined;
+	}
 }

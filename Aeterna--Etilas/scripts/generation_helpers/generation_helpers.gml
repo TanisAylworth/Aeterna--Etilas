@@ -560,6 +560,9 @@ function handle_cdt_gold_controls(cc, L, mx, my, clicked)
     {
         cc.generation.cdt_bonus--;
         cc.generation_slots_remaining++;
+		
+				var snd = audio_play_sound(scribble, 5, false);
+				audio_sound_pitch(snd, random_range(0.90, 1.10));
     }
     if (cc.generation_hover.cdt_plus && cc.generation_slots_remaining > 0)
     {
@@ -568,19 +571,41 @@ function handle_cdt_gold_controls(cc, L, mx, my, clicked)
         {
             cc.generation.cdt_bonus++;
             cc.generation_slots_remaining--;
+			
+				var snd = audio_play_sound(scribble, 5, false);
+				audio_sound_pitch(snd, random_range(0.90, 1.10));
         }
+    }
+	if (cc.generation_hover.cdt_minus && cc.generation.cdt_bonus <= 0)
+    {
+		
+				var snd = audio_play_sound(error_snd, 5, false);
+				audio_sound_pitch(snd, random_range(0.90, 1.10));
+    }
+    if (cc.generation_hover.cdt_plus && cc.generation_slots_remaining <= 0)
+    {
+       
+				var snd = audio_play_sound(error_snd, 5, false);
+				audio_sound_pitch(snd, random_range(0.90, 1.10));
+      
     }
 
     // Gold logic
-    if (cc.generation_hover.gold_minus && cc.generation.gold_bonus > 0)
+    if (cc.generation_hover.gold_minus && cc.generation.gold_bonus <= 0)
     {
         cc.generation.gold_bonus -= 20;
         cc.generation_slots_remaining++;
+		
+				var snd = audio_play_sound(scribble, 5, false);
+				audio_sound_pitch(snd, random_range(0.90, 1.10));
     }
     if (cc.generation_hover.gold_plus && cc.generation_slots_remaining > 0)
     {
         cc.generation.gold_bonus += 20;
         cc.generation_slots_remaining--;
+		
+				var snd = audio_play_sound(scribble, 5, false);
+				audio_sound_pitch(snd, random_range(0.90, 1.10));
     }
 }
 
@@ -608,6 +633,9 @@ function handle_table_list(cc, L, mx, my, clicked, tables_x)
         cc.generation.tables_locked = !cc.generation.tables_locked;
         if (cc.generation.tables_locked)
             cc.selected_table = "";
+			
+				var snd = audio_play_sound(page_turn, 5, false);
+				audio_sound_pitch(snd, random_range(0.90, 1.10));
         return;
     }
 
@@ -626,7 +654,9 @@ function handle_table_list(cc, L, mx, my, clicked, tables_x)
             continue;
 
         if (clicked)
+		{
             handle_table_click(cc, table);
+		}
         else
             cc.hovered_table = table;
 
@@ -638,8 +668,11 @@ function handle_table_click(cc, table)
 {
     // Fixed = do nothing
     if (array_index_of(cc.generation.fixed_tables, table) != -1)
-        return;
-
+	{
+     
+				
+	 return;
+	}
     var choice_idx = array_index_of(cc.generation.choice_tables, table);
     var purch_idx = array_index_of(cc.generation.purchased_tables, table);
 
@@ -647,6 +680,9 @@ function handle_table_click(cc, table)
     if (choice_idx != -1)
     {
         array_delete(cc.generation.choice_tables, choice_idx, 1);
+		
+				var snd = audio_play_sound(scribble, 5, false);
+				audio_sound_pitch(snd, random_range(0.90, 1.10));
         cc.generation.table_choices_remaining++;
         return;
     }
@@ -659,6 +695,9 @@ function handle_table_click(cc, table)
         reclaim_talent_table_discount(cc, table);
 
         array_delete(cc.generation.purchased_tables, purch_idx, 1);
+		
+				var snd = audio_play_sound(scribble, 5, false);
+				audio_sound_pitch(snd, random_range(0.90, 1.10));
         cc.generation_slots_remaining += 2;
         return;
     }
@@ -670,6 +709,8 @@ function handle_table_click(cc, table)
         array_push(cc.generation.choice_tables, table);
         cc.generation.table_choices_remaining--;
 
+				var snd = audio_play_sound(scribble, 5, false);
+				audio_sound_pitch(snd, random_range(0.90, 1.10));
         refund_skill_table_discount(cc, table);
         refund_talent_table_discount(cc, table);
     }
@@ -679,6 +720,8 @@ function handle_table_click(cc, table)
         array_push(cc.generation.purchased_tables, table);
         cc.generation_slots_remaining -= 2;
 
+				var snd = audio_play_sound(scribble, 5, false);
+				audio_sound_pitch(snd, random_range(0.90, 1.10));
         refund_skill_table_discount(cc, table);
         refund_talent_table_discount(cc, table);
     }
@@ -711,6 +754,9 @@ function refund_talent_table_discount(cc, table_name)
 
     if (refunded > 0)
     {
+		
+				var snd = audio_play_sound(scribble, 5, false);
+				audio_sound_pitch(snd, random_range(0.90, 1.10));
         cc.generation_slots_remaining += refunded;
         show_debug_message("Talent discount +" + string(refunded) + " for table " + table_name);
     }
@@ -878,7 +924,7 @@ for (var i = 0; i < array_length(table_data.skills); i++)
             {
                 // Your existing rank-up / specialization popup logic here
                 // (keep whatever you already had for left-click)
-
+				
                 attempt_skill_rank_up(
     cc,
     entry.name,
@@ -974,7 +1020,9 @@ if (species_choice_skill != undefined
     {
         cc.species_choice_skill_ranks[$ skill_key] = 0;
     }
-
+	
+				var snd = audio_play_sound(scribble, 5, false);
+				audio_sound_pitch(snd, random_range(0.90, 1.10));
     cc.species_choice_skill_ranks[$ skill_key]++;
 
 
@@ -1019,6 +1067,7 @@ var cost = owns_table ? 1 : 2;
 if (cc.generation_slots_remaining < cost)
     return;
 
+				
 cc.generation_slots_remaining -= cost;
 
 set_skill_rank(
@@ -1075,6 +1124,9 @@ function attempt_skill_rank_down(cc, skill_key)
 
     if (initial_fixed_rank > 0 && current_rank <= initial_fixed_rank)
     {
+		
+				var snd = audio_play_sound(error_snd, 5, false);
+				audio_sound_pitch(snd, random_range(0.90, 1.10));
         show_debug_message(
             "Cannot refund below fixed rank for: " + skill_key
         );
@@ -1123,7 +1175,9 @@ function attempt_skill_rank_down(cc, skill_key)
     {
         var owns_table = table_is_owned(cc, cc.selected_table);
         var refund = owns_table ? 1 : 2;
-
+		
+				var snd = audio_play_sound(scribble, 5, false);
+				audio_sound_pitch(snd, random_range(0.90, 1.10));
         cc.generation_slots_remaining += refund;
 
         set_skill_rank(
@@ -1136,6 +1190,8 @@ function attempt_skill_rank_down(cc, skill_key)
 
         if (cc.paid_skill_ranks[$ skill_key] <= 0)
         {
+			
+				
             variable_struct_remove(
                 cc.paid_skill_ranks,
                 skill_key
@@ -1180,6 +1236,9 @@ function attempt_skill_rank_down(cc, skill_key)
                 "choices"
             ))
             {
+				
+				var snd = audio_play_sound(scribble, 5, false);
+				audio_sound_pitch(snd, random_range(0.90, 1.10));
                 species.creation.knowledge_skills.choices.count++;
             }
         }
@@ -1211,6 +1270,9 @@ function attempt_skill_rank_down(cc, skill_key)
         }
 
         // Return the species skill choice
+		
+				var snd = audio_play_sound(scribble, 5, false);
+				audio_sound_pitch(snd, random_range(0.90, 1.10));
         cc.species_skill_choice_remaining++;
 
         return;
@@ -1921,6 +1983,9 @@ function handle_locked_table_selection(cc, L, mx, my, clicked, tables_x)
             {
                 cc.selected_table = table;
                 show_debug_message("Selected Table (Locked Mode): " + table);
+				
+				var snd = audio_play_sound(open_book, 5, false);
+				audio_sound_pitch(snd, random_range(0.90, 1.10));
             }
             else
             {

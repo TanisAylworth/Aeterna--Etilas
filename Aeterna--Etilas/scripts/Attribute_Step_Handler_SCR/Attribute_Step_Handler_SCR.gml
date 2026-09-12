@@ -38,7 +38,11 @@ function attribute_step_update(cc)
     }
 
     if (keyboard_check_pressed(ord("A")))
-        auto_assign_attributes(cc);
+        {
+var snd = audio_play_sound(scribble, 5, false);
+audio_sound_pitch(snd, random_range(0.90, 1.10));
+		auto_assign_attributes(cc);
+		};
 
     var screen_w = display_get_gui_width();
 
@@ -68,9 +72,12 @@ function attribute_step_update(cc)
         var man_h = 32;
         var man_x = roll_start_x + roll_total_w + 20;
         var man_y = roll_y;
-
+		
         if (point_in_rectangle(mx, my, man_x, man_y, man_x + man_w, man_y + man_h))
         {
+			
+var snd = audio_play_sound(open_book, 5, false);
+audio_sound_pitch(snd, random_range(0.90, 1.10));
             if (cc.manual_roll_mode)
             {
                 // Finish editing any open box
@@ -78,9 +85,11 @@ function attribute_step_update(cc)
                 {
                     var num = real(cc.editing_roll_string);
                     if (is_real(num))
-                        cc.roll_pool[cc.editing_roll_index] = clamp(floor(num), 1, 20); // safety range
+                        cc.roll_pool[cc.editing_roll_index] = clamp(floor(num), 3, 18); // safety range
                     cc.editing_roll_index = -1;
                     cc.editing_roll_string = "";
+					
+					
                 }
                 cc.manual_roll_mode = false;
             }
@@ -106,7 +115,7 @@ function attribute_step_update(cc)
                 {
                     var num = real(cc.editing_roll_string);
                     if (is_real(num))
-                        cc.roll_pool[cc.editing_roll_index] = clamp(floor(num), 1, 20);
+                        cc.roll_pool[cc.editing_roll_index] = clamp(floor(num), 3, 18);
                 }
                 cc.editing_roll_index = i;
                 cc.editing_roll_string = string(cc.roll_pool[i]);
@@ -127,10 +136,13 @@ function attribute_step_update(cc)
         {
             var num = real(cc.editing_roll_string);
             if (is_real(num))
-                cc.roll_pool[cc.editing_roll_index] = clamp(floor(num), 1, 20);
+                cc.roll_pool[cc.editing_roll_index] = clamp(floor(num), 3, 18);
             cc.editing_roll_index = -1;
             cc.editing_roll_string = "";
             keyboard_string = "";
+			
+var snd = audio_play_sound(scribble, 5, false);
+audio_sound_pitch(snd, random_range(0.90, 1.10));
         }
     }
 
@@ -148,7 +160,9 @@ function attribute_step_update(cc)
             {
                 cc.selected_roll_index = i;
                 cc.selected_roll_value = cc.roll_pool[i];
-
+				
+var snd = audio_play_sound(scribble, 5, false);
+audio_sound_pitch(snd, random_range(0.90, 1.10));
                 click_used = true;
                 break;
             }
@@ -170,6 +184,9 @@ function attribute_step_update(cc)
     // ==========================================
     if (right && !click_used)
     {
+		
+var snd = audio_play_sound(scribble, 5, false);
+audio_sound_pitch(snd, random_range(0.90, 1.10));
         for (var i = 0; i < attr_count; i++)
 {
     var attr = global.ATTRIBUTES[i];
@@ -211,6 +228,7 @@ function attribute_step_update(cc)
     // ==========================================
     if (left && !click_used)
     {
+		
         for (var i = 0; i < attr_count; i++)
 {
     var attr = global.ATTRIBUTES[i];
@@ -222,15 +240,22 @@ function attribute_step_update(cc)
         r.x + r.w,
         r.y + r.h))
     {
+		
         continue;
     }
 
     if (!variable_struct_exists(cc.assigned, attr))
     {
+		
+var snd = audio_play_sound(scribble, 5, false);
+audio_sound_pitch(snd, random_range(0.90, 1.10));
         assign_roll(cc, attr);
     }
     else
     {
+		
+var snd = audio_play_sound(scribble, 5, false);
+audio_sound_pitch(snd, random_range(0.90, 1.10));
         swap_roll_with_attribute(cc, attr);
     }
 
@@ -265,6 +290,9 @@ function attribute_step_update(cc)
                     variable_struct_remove(cc.species_bonus_map, attr);
                     cc.species_bonus_remaining++;
                     click_used = true;
+					
+var snd = audio_play_sound(scribble, 5, false);
+audio_sound_pitch(snd, random_range(0.90, 1.10));
                     break;
                 }
                 if (cc.species_bonus_remaining > 0)
@@ -272,6 +300,9 @@ function attribute_step_update(cc)
                     cc.species_bonus_map[$ attr] = true;
                     cc.species_bonus_remaining--;
                     click_used = true;
+					
+var snd = audio_play_sound(scribble, 5, false);
+audio_sound_pitch(snd, random_range(0.90, 1.10));
                     break;
                 }
             }
@@ -310,6 +341,9 @@ function attribute_step_update(cc)
         // CLICK DETECTION
         if (hover_btn && mouse_check_button_pressed(mb_left) && ready)
         {
+			
+var snd = audio_play_sound(page_turn, 5, false);
+audio_sound_pitch(snd, random_range(0.90, 1.10));
             show_debug_message("Confirmed attributes for: " + string(cc.locked_species));
             go_to_next_step(cc);
         }
@@ -332,6 +366,9 @@ if (mouse_check_button_pressed(mb_left))
     {
         if (array_length(cc.step_history) > 0)
         {
+			
+var snd = audio_play_sound(page_turn, 5, false);
+audio_sound_pitch(snd, random_range(0.90, 1.10));
             go_back_step(cc);
             exit;
         }

@@ -25,11 +25,20 @@ function generation_step_update(cc)
 	if (variable_struct_exists(cc, "specialization_popup") && cc.specialization_popup)
 {
     handle_specialization_popup(cc, L, mx, my, clicked);
+	
+var snd = audio_play_sound(open_book, 5, false);
+audio_sound_pitch(snd, random_range(0.90, 1.10));
     return; // required — not only "if (handle...) { }" without return
 }
 	
 	if (keyboard_check_pressed(ord("A")))
-    generation_random_spend(cc);
+	{
+    
+				var snd = audio_play_sound(scribble, 5, false);
+				audio_sound_pitch(snd, random_range(0.90, 1.10));
+	generation_random_spend(cc);
+	
+	}
 	generation_init_species_choices(cc);
     // === CLEAR HOVERS EVERY FRAME ===
     cc.hovered_table = "";
@@ -79,6 +88,9 @@ handle_talent_list(cc, L, mx, my, clicked, right_clicked, lay.talents_x);
     {
         if (array_length(cc.step_history) > 0)
         {
+			
+				var snd = audio_play_sound(page_turn, 5, false);
+				audio_sound_pitch(snd, random_range(0.90, 1.10));
             go_back_step(cc);
             exit;
         }
@@ -109,6 +121,9 @@ if (clicked
     && cc.generation_slots_remaining <= 0
     && point_in_rectangle(mx, my, btn_x, btn_y, btn_x + btn_w, btn_y + btn_h))
 {
+	
+				var snd = audio_play_sound(page_turn, 5, false);
+				audio_sound_pitch(snd, random_range(0.90, 1.10));
     show_debug_message("Generation confirmed → equipment");
     go_to_next_step(cc);
 }
