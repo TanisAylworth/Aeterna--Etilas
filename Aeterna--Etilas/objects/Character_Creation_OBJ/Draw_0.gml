@@ -38,6 +38,10 @@ switch (step.type)
 	case "equipment_shop":
 	equipment_shop_draw(cc);
 	break;
+	
+	case "character_sheet":
+            draw_character_sheet(cc);
+            break;
 }
 
 // TOOLTIP

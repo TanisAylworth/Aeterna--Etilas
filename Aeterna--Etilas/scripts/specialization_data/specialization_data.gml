@@ -10,7 +10,7 @@ function initialize_specialization_descriptions()
         "A style which requires Weapon Skill (Unarmed) and utilizes controlled motions of the body to inflict damage with the natural weapons of the body.\n\n"+
 		"Stances: At the start of the combat round the user may switch stance as a Free Action, but can do so no more than once per round.\n\n"+
 		"-  Attack Stance: In this stance the user is poised to spring forward and strike. Gains a free Simple Action move once per combat round. Can make an additional strike at a -2 penalty to include their usual off hand strike toatlling 3 attacks.\n"+
-		"-  Defensive Stance: In this stance the user is more focused on parrying and checking incoming attacks rather than striking. While in this stance the user may make two Defensive Actions without taking the Full Defense Action. If the Full Defense Action is taken in this stance they may make two Dodge and two Parry actions that round.\n\n"+
+		"-  Defensive Stance: In this stance the user is more focused on parrying and checking incoming attacks rather than striking. While in this stance the user may make two Defensive Actions without taking the Full Defense Action. If the Full Defense Action is taken in this stance they may make two Dodge and two Parry actions that round.\n"+
 		"-  Flowing Stance: In this stance the user changes position frequesntly and attacks from unexpected angles. While in this stance all attacks you make assuming you have space to move at least 5ft around a target are made as if you had an ally flanking the target. If an ally is present already you gain the Swarming bonus instead. Additionally, after striking a target successfully you may move 5ft around them or take the position behind them."+
 		"Strikes: As a replacement to one of their attack actions they may use a strike from the following list.\n\n"+
 		"-  Kick: Grants the attack Reach (5), Cleave (1), and increases the damage die of the attack by 1 step. If the user made a Charge Action and used this strike the attack may be converted into a Flying Kick. In this case the user counts this as an All In strike, and is considered to be performing a Flying Charge.\n"+
@@ -57,8 +57,19 @@ function initialize_specialization_descriptions()
 		"-  X Cut: Grants the attack two Sunder Martial Action attempts and for those checks deals and additional die step up in damage.\n";
 
 
-    global.specialization_descriptions[$ "Sword Play"] =
-        "Training in the use of swords, emphasizing controlled attacks, footwork, and effective blade technique.";
+    global.specialization_descriptions[$ "Straight Sword Forms"] =
+        "A style which requires Weapon Skill (Straight Blade) and relies on a variety of Forms to offer versatility to the weapon. Utilizing footwork, angling, and a variety of techniques to overcome many combat challenges.\n\n"+
+		"Form: At the start of the combat round the user may switch Form as a Free Action, but can do so no more than once per round.\n\n"+
+		"-  Murder Strike: In this Form the user grips their weapon by the blade and utilizes their cross guard as a hammer. While in this Form the user deals all damage as Bludgeoning. Additionally the weapon gains Sunder (2), and Breaker (1). However, the form requires hand protection to perform the Parry Defensive Action.\n"+
+		"-  Half-Sword: In this Form the user maintains a close grip with one hand on the blade and the other on the grip. While in this Form Damage from attacks in reduced by 1 die step but the attacks gain Armor Piercing (2), and Grapple (3). Additionally, you ignore the penalties for close combat, and may initiate the Grapple Martial Action as a replacement to one of your attacks each round.\n"+
+		"-  Long Point: In this Form extends their weapon to its furthest point. While in this Form attacks are considered to be Reach (5), or (+5) if the weapon has the Reach trait already. Additionally strikes from this Form gain Rapid (1). However, damage from strikes in this form are reduced by 1 die step.\n"+
+		"-  Iron Door: In this Form the user places their weapon at an angle to receive high damage strikes and deflect them. While in this Form sucessful Parry Defensive Actions negate all damage. Additionally Sunder Martial Actions cannot target your weapon.\n\n"+
+		"Strikes: Each of the following may be used in place of an Attack Action as either part of a Full Attack Action or as an Attack Action.\n\n"+
+		"-  Overhand: This strike is made at disadvantage, however, the damage from this strike is increased by 2 dice steps. Additionally, this strike may be used as a Sunder Martial Action.\n"+
+		"-  Underhand: This strike forces their opponent's Parry Defensice Actions to be performed at disadvantage. Additionally the damage dealt by this strike is reduced by 1 dice step, but the strike gains Hooking (1).\n"+
+		"-  Thrust: This attack's is made at advantage and the strike gains Precise (2).\n"+
+		"-  End Them Rightly: This strike may only be used as part of a singular Attack Action. The weapon sustains Serious damage when this is initiated. The strike gains Range (10), Balanced (1), and Thrown. Additionally, the damage of this strike is reduced by 2 dice steps.\n"+
+		"-  Thumping Cut: This strike may be used only as part of a Called Shot Action to the head. If successful the user deals damage as normal to the opponent, but they must make one Intelligence test per successful attack at a penalty equal to the damage of the strikes against the Confusion table.\n";
 
     global.specialization_descriptions[$ "Dueling"] =
         "Training focused on single combat against an armed opponent, emphasizing timing, defense, and precision.";

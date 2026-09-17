@@ -6,7 +6,7 @@ Species_Data_SCR();
 Attribute_data();
 get_all_knowledge_tables();
 briefing_data_init();
-
+equipment_data_init();
 
 window_set_showborder(true);
 
@@ -79,10 +79,11 @@ global.char_creation = {
 		
 
         {
-            id: "finalize",
-            title: "Finalize Character",
-            type: "finalize"
-        }
+    id: "finalize",
+    title: "Character Sheet",
+    type: "character_sheet",   // ← change this
+    next: ""                   // end of creation
+}
     ],
 
 

@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"equipment_init",
   "parent":{
-    "name":"****SCR_IN_FOCUS****",
-    "path":"folders/Scripts/****SCR_IN_FOCUS****.yy",
+    "name":"Equipment_Screen",
+    "path":"folders/Scripts/Equipment_Screen.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"equipment_data",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"equipment_data",
+  "parent":{
+    "name":"Equipment_Screen",
+    "path":"folders/Scripts/Equipment_Screen.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

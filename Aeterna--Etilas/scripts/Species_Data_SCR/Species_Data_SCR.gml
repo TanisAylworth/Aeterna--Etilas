@@ -36,7 +36,8 @@ function Species_Data_SCR()
     // Add new species easily here
     add_species("muttish_human", {
         name: "Muttish Human",
-		preview_sprite: spr_species_muttish_human,
+		preview_sprite: spr_test,
+		preview_skin: make_colour_rgb(255,215,174),
         description: "Prolific and ubiquitous, Muttish Humans can be found throughout Etilas and beyond, thriving in nearly every environment and occupation. They have no singular homeland, instead emerging from generations of intermingling between the many human peoples and cultures. Their varied ancestry gives them an enormous range of builds, features, and appearances, with no defining physical traits of their own. Though lacking the specialized advantages of other human peoples, their versatility and adaptability make them the most common and flexible of all humans.",
         stats: {
             cdt: 8,
@@ -1090,7 +1091,7 @@ add_species("skireen_icelindish", {
 					{ name: "Navigation", rank: 2 },
 					{ name: "Tracking", rank: 2 },
 					{ name: "Weapon Skill (Bows)", rank: 1 },
-					{ name: "Weapon SKill (Polearms)", rank: 2 },
+					{ name: "Weapon Skill (Polearms)", rank: 2 },
                 ],
                 choices: { count: 0, options: [] }
             },

@@ -26,8 +26,7 @@ function generation_step_update(cc)
 {
     handle_specialization_popup(cc, L, mx, my, clicked);
 	
-var snd = audio_play_sound(open_book, 5, false);
-audio_sound_pitch(snd, random_range(0.90, 1.10));
+
     return; // required — not only "if (handle...) { }" without return
 }
 	
@@ -72,7 +71,7 @@ audio_sound_pitch(snd, random_range(0.90, 1.10));
 
     var lay = generation_layout(L);
 
-handle_table_list(cc, L, mx, my, clicked, lay.tables_x);
+handle_table_list(cc, L, mx, my, clicked, right_clicked, lay.tables_x);
 handle_skill_list(cc, L, mx, my, clicked, right_clicked, lay.skills_x);
 handle_talent_list(cc, L, mx, my, clicked, right_clicked, lay.talents_x);
 	

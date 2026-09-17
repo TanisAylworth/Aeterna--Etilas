@@ -40,7 +40,9 @@ function briefing_open(cc)
 
 function briefing_close(cc)
 {
-    briefing_ensure_state(cc);
+   var snd = audio_play_sound(page_turn, 5, false);
+audio_sound_pitch(snd, random_range(0.90, 1.10));
+   briefing_ensure_state(cc);
     cc.briefing_open = false;
 }
 
@@ -88,8 +90,7 @@ function briefing_update(cc)
     {
         if (point_in_rectangle(mx, my, close_x, close_y, close_x + close_w, close_y + close_h))
           
-var snd = audio_play_sound(page_turn, 5, false);
-audio_sound_pitch(snd, random_range(0.90, 1.10));
+
 		  briefing_close(cc);
         // any other click: still consumed
     }

@@ -208,6 +208,7 @@ function draw_specialization_description_popup(cc)
 
 function handle_specialization_popup(cc, L, mx, my, clicked)
 {
+	
     var Lyt = specialization_popup_layout(cc);
 
     // -----------------------------------------
@@ -217,6 +218,8 @@ function handle_specialization_popup(cc, L, mx, my, clicked)
     if (keyboard_check_pressed(vk_escape))
     {
         specialization_popup_close(cc);
+		var snd = audio_play_sound(page_turn, 0.5, false);
+audio_sound_pitch(snd, random_range(0.90, 1.10));
         return true;
     }
 
@@ -255,7 +258,9 @@ function handle_specialization_popup(cc, L, mx, my, clicked)
             Lyt.close_y + Lyt.close_h
         ))
         {
-            specialization_popup_close(cc);
+            var snd = audio_play_sound(page_turn, 0.5, false);
+audio_sound_pitch(snd, random_range(0.90, 1.10));
+			specialization_popup_close(cc);
             return true;
         }
 
@@ -271,7 +276,8 @@ function handle_specialization_popup(cc, L, mx, my, clicked)
                 cell.y2
             ))
             {
-                specialization_popup_choose(
+                
+				specialization_popup_choose(
                     cc,
                     Lyt.choices[i]
                 );
@@ -311,6 +317,9 @@ function specialization_popup_choose(cc, choice_name)
                 return;
             }
             species.creation.knowledge_talents.choices.count--;
+			
+        var snd = audio_play_sound(scribble, 0.5, false);
+audio_sound_pitch(snd, random_range(0.90, 1.10));
             if (!variable_struct_exists(cc, "free_slot_talents"))
                 cc.free_slot_talents = [];
             if (!array_contains(cc.free_slot_talents, final_name))
@@ -323,9 +332,13 @@ function specialization_popup_choose(cc, choice_name)
             // Unranked talent = one purchase; ranked first rank same
             if (cc.generation_slots_remaining < cost)
             {
-                specialization_popup_close(cc);
+                
+				specialization_popup_close(cc);
                 return;
             }
+			
+        var snd = audio_play_sound(scribble, 0.5, false);
+audio_sound_pitch(snd, random_range(0.90, 1.10));
             cc.generation_slots_remaining -= cost;
         }
         
@@ -338,7 +351,8 @@ function specialization_popup_choose(cc, choice_name)
     // Already own this specialization?
     if (variable_struct_exists(cc.skill_ranks, final_name))
     {
-        specialization_popup_close(cc);
+        audio_play_sound(error_snd, 0.5, false);
+		specialization_popup_close(cc);
         return;
     }
     
@@ -353,6 +367,8 @@ function specialization_popup_choose(cc, choice_name)
         }
         cc.species_skill_choice_remaining--;
         
+        var snd = audio_play_sound(scribble, 0.5, false);
+audio_sound_pitch(snd, random_range(0.90, 1.10));
         if (!variable_struct_exists(cc, "species_choice_skill_ranks"))
             cc.species_choice_skill_ranks = {};
         if (!variable_struct_exists(cc.species_choice_skill_ranks, final_name))
@@ -373,6 +389,9 @@ function specialization_popup_choose(cc, choice_name)
             specialization_popup_close(cc);
             return;
         }
+		
+        var snd = audio_play_sound(scribble, 0.5, false);
+audio_sound_pitch(snd, random_range(0.90, 1.10));
         species.creation.knowledge_skills.choices.count--;
         
         if (!variable_struct_exists(cc, "free_skill_ranks"))
@@ -393,18 +412,25 @@ function specialization_popup_choose(cc, choice_name)
         var cost = owns ? 1 : 2;
         if (cc.generation_slots_remaining < cost)
         {
-            specialization_popup_close(cc);
+            audio_play_sound(error_snd, 0.5, false);
+			specialization_popup_close(cc);
             return;
         }
         cc.generation_slots_remaining -= cost;
-        
+        var snd = audio_play_sound(scribble, 0.5, false);
+audio_sound_pitch(snd, random_range(0.90, 1.10));
         if (!variable_struct_exists(cc, "paid_skill_ranks"))
             cc.paid_skill_ranks = {};
         if (!variable_struct_exists(cc.paid_skill_ranks, final_name))
             cc.paid_skill_ranks[$ final_name] = 0;
         cc.paid_skill_ranks[$ final_name]++;
     }
-    
+    show_debug_message("=== SPEC STORED ===");
+show_debug_message("final_name = [" + final_name + "]");
+show_debug_message("keys now:");
+var keys = variable_struct_get_names(cc.skill_ranks);
+for (var i = 0; i < array_length(keys); i++)
+    show_debug_message("  " + keys[i]);
     // Rank 0 = first rank owned (matches your attempt_skill_rank_up style)
     set_skill_rank(cc, final_name, 0);
     
@@ -419,6 +445,8 @@ function specialization_popup_close(cc)
     cc.pending_specializations = undefined;
     if (variable_struct_exists(cc, "pending_skill_source"))
         cc.pending_skill_source = undefined;
+    if (variable_struct_exists(cc, "pending_kind"))
+        cc.pending_kind = undefined;   // ← add this
 }
 
 function specialization_popup_layout(cc)
@@ -556,6 +584,7 @@ function handle_cdt_gold_controls(cc, L, mx, my, clicked)
     if (!clicked) return;
 
     // CDT logic
+	var current_cdt = get_current_cdt(cc);
     if (cc.generation_hover.cdt_minus && cc.generation.cdt_bonus > 0)
     {
         cc.generation.cdt_bonus--;
@@ -563,10 +592,18 @@ function handle_cdt_gold_controls(cc, L, mx, my, clicked)
 		
 				var snd = audio_play_sound(scribble, 5, false);
 				audio_sound_pitch(snd, random_range(0.90, 1.10));
+    }else
+	{
+		if (cc.generation_hover.cdt_minus && cc.generation.cdt_bonus == 0)
+    {
+		
+				var snd = audio_play_sound(error_snd, 5, false);
+				audio_sound_pitch(snd, random_range(0.90, 1.10));
     }
+	}
     if (cc.generation_hover.cdt_plus && cc.generation_slots_remaining > 0)
     {
-        var current_cdt = get_current_cdt(cc);
+        
         if (current_cdt + 1 <= get_cdt_cap(cc))
         {
             cc.generation.cdt_bonus++;
@@ -576,13 +613,15 @@ function handle_cdt_gold_controls(cc, L, mx, my, clicked)
 				audio_sound_pitch(snd, random_range(0.90, 1.10));
         }
     }
-	if (cc.generation_hover.cdt_minus && cc.generation.cdt_bonus <= 0)
+	
+    if (cc.generation_hover.cdt_plus && cc.generation_slots_remaining <= 0)
     {
-		
+       
 				var snd = audio_play_sound(error_snd, 5, false);
 				audio_sound_pitch(snd, random_range(0.90, 1.10));
+      
     }
-    if (cc.generation_hover.cdt_plus && cc.generation_slots_remaining <= 0)
+	if (cc.generation_hover.cdt_plus && current_cdt = get_cdt_cap(cc))
     {
        
 				var snd = audio_play_sound(error_snd, 5, false);
@@ -591,7 +630,7 @@ function handle_cdt_gold_controls(cc, L, mx, my, clicked)
     }
 
     // Gold logic
-    if (cc.generation_hover.gold_minus && cc.generation.gold_bonus <= 0)
+    if (cc.generation_hover.gold_minus && cc.generation.gold_bonus > 0)
     {
         cc.generation.gold_bonus -= 20;
         cc.generation_slots_remaining++;
@@ -599,20 +638,38 @@ function handle_cdt_gold_controls(cc, L, mx, my, clicked)
 				var snd = audio_play_sound(scribble, 5, false);
 				audio_sound_pitch(snd, random_range(0.90, 1.10));
     }
-    if (cc.generation_hover.gold_plus && cc.generation_slots_remaining > 0)
+	if (cc.generation_hover.gold_minus && cc.generation.gold_bonus = 0)
     {
-        cc.generation.gold_bonus += 20;
-        cc.generation_slots_remaining--;
-		
-				var snd = audio_play_sound(scribble, 5, false);
+       
+				var snd = audio_play_sound(error_snd, 5, false);
 				audio_sound_pitch(snd, random_range(0.90, 1.10));
     }
+    if (cc.generation_hover.gold_plus)
+	{
+	    if (cc.generation_slots_remaining > 0)
+	    {
+	        cc.generation.gold_bonus += 20;
+	        cc.generation_slots_remaining--;
+
+	        var snd = audio_play_sound(scribble, 5, false);
+	        audio_sound_pitch(snd, random_range(0.90, 1.10));
+	    }
+	    else
+	    {
+	        var snd = audio_play_sound(error_snd, 5, false);
+	        audio_sound_pitch(snd, random_range(0.90, 1.10));
+	    }
+	}
 }
 
-function handle_table_list(cc, L, mx, my, clicked, tables_x)
+function handle_table_list(cc, L, mx, my, clicked, right_clicked, tables_x)
 {
     if (tables_x == undefined)
         tables_x = L.center_x;
+		
+		// Block all underlying generation UI while specialization popup is open
+if (variable_struct_exists(cc, "specialization_popup") && cc.specialization_popup)
+    return;
 
     var yy = 320;
     var btn_w = 260;
@@ -653,7 +710,7 @@ function handle_table_list(cc, L, mx, my, clicked, tables_x)
         if (!point_in_rectangle(mx, my, btn_x, btn_y, btn_x + btn_w, btn_y + btn_h))
             continue;
 
-        if (clicked)
+        if (clicked || right_clicked)
 		{
             handle_table_click(cc, table);
 		}
@@ -669,7 +726,8 @@ function handle_table_click(cc, table)
     // Fixed = do nothing
     if (array_index_of(cc.generation.fixed_tables, table) != -1)
 	{
-     
+     var snd = audio_play_sound(error_snd, 5, false);
+				audio_sound_pitch(snd, random_range(0.90, 1.10));
 				
 	 return;
 	}
@@ -724,7 +782,11 @@ function handle_table_click(cc, table)
 				audio_sound_pitch(snd, random_range(0.90, 1.10));
         refund_skill_table_discount(cc, table);
         refund_talent_table_discount(cc, table);
-    }
+    }else
+	{
+		var snd = audio_play_sound(error_snd, 5, false);
+				audio_sound_pitch(snd, random_range(0.90, 1.10));	
+	}
 }
 
 function refund_talent_table_discount(cc, table_name)
@@ -800,6 +862,9 @@ function handle_skill_list(cc, L, mx, my, clicked, right_clicked, skills_x = und
         skills_x = L.center_x - 480;
     if (cc.selected_table == "" || !cc.generation.tables_locked)
         return;
+		// Block all underlying generation UI while specialization popup is open
+if (variable_struct_exists(cc, "specialization_popup") && cc.specialization_popup)
+    return;
 
     if (!variable_struct_exists(global.knowledge_table_data, cc.selected_table))
         return;
@@ -922,8 +987,6 @@ for (var i = 0; i < array_length(table_data.skills); i++)
 
             if (clicked)
             {
-                // Your existing rank-up / specialization popup logic here
-                // (keep whatever you already had for left-click)
 				
                 attempt_skill_rank_up(
     cc,
@@ -963,9 +1026,11 @@ function attempt_skill_rank_up(cc, skill_key, base_skill, table)
         && current_rank == 0
         && !variable_struct_exists(cc.skill_ranks, skill_key))
     {
-        cc.pending_skill = skill_key;
-        cc.pending_specializations = skill_data.specialization.choices;
-        cc.pending_skill_source = "cp"; // default
+        cc.pending_kind = "skill";          // ← add this
+		cc.pending_skill = skill_key;
+		cc.pending_specializations = skill_data.specialization.choices;
+		cc.pending_skill_source = "cp";
+		// ... rest of source detection ...
 
         if (species_choice_skill != undefined
             && variable_struct_exists(cc, "species_skill_choice_remaining")
@@ -987,7 +1052,9 @@ function attempt_skill_rank_up(cc, skill_key, base_skill, table)
                 cc.pending_skill_source = "free_slot";
             }
         }
-
+		
+        var snd = audio_play_sound(open_book, 0.5, false);
+audio_sound_pitch(snd, random_range(0.90, 1.10));
         cc.specialization_popup = true;
         return;
     }
@@ -1048,12 +1115,16 @@ if (species_choice_skill != undefined
             var remaining = species.creation.knowledge_skills.choices.count;
             if (remaining > 0)
             {
+				var snd = audio_play_sound(scribble, 5, false);
+				audio_sound_pitch(snd, random_range(0.90, 1.10));
                 species.creation.knowledge_skills.choices.count--;
                 set_skill_rank(cc, skill_key,
                     variable_struct_exists(cc.skill_ranks, skill_key) ? current_rank + 1 : 0);
 
                 if (!variable_struct_exists(cc.free_skill_ranks, skill_key))
                     cc.free_skill_ranks[$ skill_key] = 0;
+					var snd = audio_play_sound(scribble, 5, false);
+				audio_sound_pitch(snd, random_range(0.90, 1.10));
                 cc.free_skill_ranks[$ skill_key]++;
                 return;
             }
@@ -1065,9 +1136,13 @@ var owns_table = table_is_owned(cc, table);
 var cost = owns_table ? 1 : 2;
 
 if (cc.generation_slots_remaining < cost)
-    return;
+   {
+	   var snd = audio_play_sound(error_snd, 0.5, false);
+				audio_sound_pitch(snd, random_range(0.90, 1.10));
+	   return;
+   }
+	
 
-				
 cc.generation_slots_remaining -= cost;
 
 set_skill_rank(
@@ -1104,7 +1179,11 @@ function attempt_skill_rank_down(cc, skill_key)
     var current_rank = get_skill_rank(cc, skill_key);
 
     if (!variable_struct_exists(cc.skill_ranks, skill_key))
-        return;
+{
+    var snd = audio_play_sound(error_snd, 5, false);
+    audio_sound_pitch(snd, random_range(0.90, 1.10));
+    return;
+}
 
     // Initialize tracking structures if they don't exist
     if (!variable_struct_exists(cc, "free_skill_ranks"))
@@ -1176,8 +1255,7 @@ function attempt_skill_rank_down(cc, skill_key)
         var owns_table = table_is_owned(cc, cc.selected_table);
         var refund = owns_table ? 1 : 2;
 		
-				var snd = audio_play_sound(scribble, 5, false);
-				audio_sound_pitch(snd, random_range(0.90, 1.10));
+				
         cc.generation_slots_remaining += refund;
 
         set_skill_rank(
@@ -1185,7 +1263,8 @@ function attempt_skill_rank_down(cc, skill_key)
             skill_key,
             current_rank - 1
         );
-
+		var snd = audio_play_sound(scribble, 5, false);
+				audio_sound_pitch(snd, random_range(0.90, 1.10));
         cc.paid_skill_ranks[$ skill_key]--;
 
         if (cc.paid_skill_ranks[$ skill_key] <= 0)
@@ -1984,8 +2063,6 @@ function handle_locked_table_selection(cc, L, mx, my, clicked, tables_x)
                 cc.selected_table = table;
                 show_debug_message("Selected Table (Locked Mode): " + table);
 				
-				var snd = audio_play_sound(open_book, 5, false);
-				audio_sound_pitch(snd, random_range(0.90, 1.10));
             }
             else
             {
@@ -2789,7 +2866,9 @@ function attempt_talent_rank_up(cc, talent_key, table)
     else if (variable_struct_exists(global.talent_data, lookup + " (X)"))
         tdata = global.talent_data[$ lookup + " (X)"];
     
-    // Required specialization, not yet owned as a concrete pick
+    // ------------------------------------------------------------------
+    // Required specialization → open popup
+    // ------------------------------------------------------------------
     if (tdata != undefined
         && variable_struct_exists(tdata, "specialization")
         && tdata.specialization.required
@@ -2804,7 +2883,6 @@ function attempt_talent_rank_up(cc, talent_key, table)
         }
         else
         {
-            // Dynamic lists later (languages, trained weapons, etc.)
             show_debug_message("No specialization choices for: " + talent_key);
             return;
         }
@@ -2814,7 +2892,6 @@ function attempt_talent_rank_up(cc, talent_key, table)
         cc.pending_specializations = choices;
         cc.pending_skill_source = "cp";
         
-        // Optional: free talent slot / species choice detection (same idea as skills)
         if (variable_struct_exists(cc, "locked_species"))
         {
             var sp = global.species_data[$ cc.locked_species];
@@ -2827,11 +2904,65 @@ function attempt_talent_rank_up(cc, talent_key, table)
             }
         }
         
+        var snd = audio_play_sound(open_book, 0.5, false);
+        audio_sound_pitch(snd, random_range(0.90, 1.10));
         cc.specialization_popup = true;
         return;
     }
     
-    // ... existing normal talent buy logic ...
+    // ------------------------------------------------------------------
+    // Already owned & unranked → nothing to do
+    // ------------------------------------------------------------------
+    if (current_rank >= 0 && (tdata == undefined || !tdata.ranked))
+    {
+        audio_play_sound(error_snd, 0.5, false);
+        return;
+    }
+    
+    // ------------------------------------------------------------------
+    // 1) Free talent slot (unrestricted)
+    // ------------------------------------------------------------------
+    if (!species_talent_choices_are_restricted(cc)
+        && variable_struct_exists(cc, "locked_species"))
+    {
+        var species = global.species_data[$ cc.locked_species];
+        if (variable_struct_exists(species.creation, "knowledge_talents")
+            && variable_struct_exists(species.creation.knowledge_talents, "choices")
+            && species.creation.knowledge_talents.choices.count > 0)
+        {
+            species.creation.knowledge_talents.choices.count--;
+            
+            if (!variable_struct_exists(cc, "free_slot_talents"))
+                cc.free_slot_talents = [];
+            if (!array_contains(cc.free_slot_talents, talent_key))
+                array_push(cc.free_slot_talents, talent_key);
+            
+            set_talent_rank(cc, talent_key, current_rank < 0 ? 0 : current_rank + 1);
+            
+            var snd = audio_play_sound(scribble, 0.5, false);
+            audio_sound_pitch(snd, random_range(0.90, 1.10));
+            return;
+        }
+    }
+    
+    // ------------------------------------------------------------------
+    // 2) Character points
+    // ------------------------------------------------------------------
+    var owns_table = table_is_owned(cc, table);
+    var cost = owns_table ? 1 : 2;
+    
+    if (cc.generation_slots_remaining < cost)
+    {
+        audio_play_sound(error_snd, 0.5, false);
+        return;
+    }
+    
+    cc.generation_slots_remaining -= cost;
+    
+    set_talent_rank(cc, talent_key, current_rank < 0 ? 0 : current_rank + 1);
+    
+    var snd = audio_play_sound(scribble, 0.5, false);
+    audio_sound_pitch(snd, random_range(0.90, 1.10));
 }
 
 function attempt_talent_rank_down(cc, talent_name)
@@ -2851,6 +2982,9 @@ function attempt_talent_rank_down(cc, talent_name)
 	    if (talent_is_species_choice_option(cc, talent_name)
 	        && variable_struct_exists(cc, "species_talent_choice_remaining"))
 	    {
+			
+        var snd = audio_play_sound(scribble, 0.5, false);
+audio_sound_pitch(snd, random_range(0.90, 1.10));
 	        cc.species_talent_choice_remaining++;
 	    }
 	    else if (variable_struct_exists(cc, "locked_species"))
@@ -2860,6 +2994,9 @@ function attempt_talent_rank_down(cc, talent_name)
 	            && variable_struct_exists(species.creation, "knowledge_talents")
 	            && variable_struct_exists(species.creation.knowledge_talents, "choices"))
 	        {
+				
+        var snd = audio_play_sound(scribble, 0.5, false);
+audio_sound_pitch(snd, random_range(0.90, 1.10));
 	            species.creation.knowledge_talents.choices.count++;
 	        }
 	    }
@@ -2876,6 +3013,8 @@ function attempt_talent_rank_down(cc, talent_name)
         }
         var refund = owns_table ? 1 : 2;
 
+        var snd = audio_play_sound(scribble, 0.5, false);
+audio_sound_pitch(snd, random_range(0.90, 1.10));
         cc.generation_slots_remaining += refund;
 
         if (current == 0)
@@ -3124,6 +3263,9 @@ function handle_talent_list(cc, L, mx, my, clicked, right_clicked, talents_x = u
 
     if (!variable_struct_exists(global.knowledge_table_data, cc.selected_table))
         return;
+		// Block all underlying generation UI while specialization popup is open
+if (variable_struct_exists(cc, "specialization_popup") && cc.specialization_popup)
+    return;
 
     var table_data = global.knowledge_table_data[$ cc.selected_table];
     if (!variable_struct_exists(table_data, "talents"))

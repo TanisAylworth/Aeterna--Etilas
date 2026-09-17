@@ -31,5 +31,9 @@ function step_update(cc)
         case "equipment_shop":
             equipment_shop_update(cc);
         break;
+		
+		case "character_sheet":
+    character_sheet_update(cc);
+    break;
     }
 }

@@ -139,6 +139,8 @@ draw_text(
 
 draw_set_halign(fa_left);
 draw_set_valign(fa_top);
-
+draw_equipment_preview(cc);
+draw_equipment_tooltip(cc);
 briefing_draw(cc);
+
 }

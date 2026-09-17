@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"finalize_character_draw",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"finalize_character_draw",
+  "parent":{
+    "name":"****SCR_IN_FOCUS****",
+    "path":"folders/Scripts/****SCR_IN_FOCUS****.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

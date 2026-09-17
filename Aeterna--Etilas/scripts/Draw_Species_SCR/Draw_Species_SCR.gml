@@ -214,6 +214,7 @@ if (selected != undefined
 
         var draw_x = center_x - ((sw * 0.5) - ox) * scale;
         var draw_y = center_y - ((sh * 0.5) - oy) * scale;
+		
 
         draw_sprite_ext(
             spr,

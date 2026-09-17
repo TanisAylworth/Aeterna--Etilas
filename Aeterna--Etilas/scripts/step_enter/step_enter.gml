@@ -23,5 +23,9 @@ function step_enter(cc)
 		case "equipment_shop":
             equipment_step_init(cc);
             break;
-    }
+			
+		case "character_sheet":
+    // nothing special needed on enter for now
+    break;
+	}
 }
