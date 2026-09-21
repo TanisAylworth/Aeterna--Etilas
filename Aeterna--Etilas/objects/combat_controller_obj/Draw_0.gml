@@ -1,0 +1,1 @@
+combat_test_draw();

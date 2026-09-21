@@ -29,6 +29,8 @@ function character_sheet_update(cc)
     {
         // TODO: finalize character (save, move to play, etc.)
         show_debug_message("Character finalized!");
+		global.test_pc = build_combatant_from_creation(global.char_creation);
+room_goto(rm_combat_test);
         // go_to_next_step(cc);  or whatever your end-of-creation call is
         return;
     }

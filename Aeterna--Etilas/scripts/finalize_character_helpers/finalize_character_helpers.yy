@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"finalize_character_helpers",
   "parent":{
-    "name":"****SCR_IN_FOCUS****",
-    "path":"folders/Scripts/****SCR_IN_FOCUS****.yy",
+    "name":"Character_Page_Screen",
+    "path":"folders/Scripts/Character_Page_Screen.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

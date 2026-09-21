@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"combat_test_scripts",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"combat_test_scripts",
+  "parent":{
+    "name":"****SCR_IN_FOCUS****",
+    "path":"folders/Scripts/****SCR_IN_FOCUS****.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

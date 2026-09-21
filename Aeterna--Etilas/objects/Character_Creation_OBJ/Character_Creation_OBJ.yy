@@ -10,8 +10,8 @@
   "name":"Character_Creation_OBJ",
   "overriddenProperties":[],
   "parent":{
-    "name":"****OBJ_IN_FOCUS****",
-    "path":"folders/Objects/****OBJ_IN_FOCUS****.yy",
+    "name":"Charcater_Generation_OBJ",
+    "path":"folders/Objects/Charcater_Generation_OBJ.yy",
   },
   "parentObjectId":null,
   "persistent":false,
