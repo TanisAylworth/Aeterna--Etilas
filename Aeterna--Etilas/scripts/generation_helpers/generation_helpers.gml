@@ -20,189 +20,75 @@ function get_specialization_description(specialization_name)
 
 
 
-function draw_specialization_description_popup(cc)
+function draw_specialization_popup(cc, L)
 {
-    // -----------------------------------------
-    // Safety checks
-    // -----------------------------------------
-
-    if (!variable_struct_exists(cc, "specialization_popup"))
+    if (!variable_struct_exists(cc, "specialization_popup") || !cc.specialization_popup)
         return;
-
-    if (!cc.specialization_popup)
+    
+    if (!variable_struct_exists(cc, "pending_specializations")
+        || !is_array(cc.pending_specializations)
+        || array_length(cc.pending_specializations) <= 0)
         return;
-
-    if (!variable_struct_exists(cc, "pending_specializations"))
-        return;
-
-    if (!variable_struct_exists(cc, "specialization_popup_hover"))
-        return;
-
-    var hover = cc.specialization_popup_hover;
-
-    if (hover < 0)
-        return;
-
-    if (hover >= array_length(cc.pending_specializations))
-        return;
-
-    // -----------------------------------------
-    // Get specialization information
-    // -----------------------------------------
-
-    var name = cc.pending_specializations[hover];
-    var description = get_specialization_description(name);
-
-    if (description == "")
-        return;
-
-    // -----------------------------------------
-    // Recreate popup layout
-    // -----------------------------------------
-
+    
     var Lyt = specialization_popup_layout(cc);
-    var cell = specialization_popup_cell(Lyt, hover);
-
-    // -----------------------------------------
-    // Description box settings
-    // -----------------------------------------
-
-    var box_w = 620;
-
-    var padding_x = 16;
-    var padding_top = 14;
-    var padding_bottom = 14;
-
-    var title_height = 24;
-
-    // Increased line spacing
-    var line_sep = 14;
-
-    // Width available for description text
-    var text_w = box_w - (padding_x * 2);
-
-    // -----------------------------------------
-    // Calculate description height
-    // -----------------------------------------
-
-    var description_height =
-        string_height_ext(
-            description,
-            line_sep,
-            text_w
-        );
-
-    // -----------------------------------------
-    // Calculate total box height
-    // -----------------------------------------
-
-    var box_h =
-        padding_top
-        + title_height
-        + 8
-        + description_height
-        + padding_bottom;
-
-    // -----------------------------------------
-    // Position beside hovered cell
-    // -----------------------------------------
-
-    var xx = cell.x2 + 16;
-    var yy = cell.y1;
-
-    var sw = display_get_gui_width();
-    var sh = display_get_gui_height();
-
-    // -----------------------------------------
-    // Keep box inside right side
-    // -----------------------------------------
-
-    if (xx + box_w > sw)
-    {
-        xx = cell.x1 - box_w - 16;
-    }
-
-    // -----------------------------------------
-    // Keep box inside bottom
-    // -----------------------------------------
-
-    if (yy + box_h > sh)
-    {
-        yy = sh - box_h - 10;
-    }
-
-    // -----------------------------------------
-    // Keep box inside top
-    // -----------------------------------------
-
-    if (yy < 10)
-    {
-        yy = 10;
-    }
-
-    // -----------------------------------------
-    // Background
-    // -----------------------------------------
-
+    
+    // Dim background
+    draw_set_alpha(0.65);
     draw_set_color(c_black);
+    draw_rectangle(0, 0, display_get_gui_width(), display_get_gui_height(), false);
     draw_set_alpha(1);
-
-    draw_rectangle(
-        xx,
-        yy,
-        xx + box_w,
-        yy + box_h,
-        false
-    );
-
-    draw_set_alpha(1);
-
-    // -----------------------------------------
-    // Border
-    // -----------------------------------------
-
+    
+    // Panel
+    draw_set_color(make_color_rgb(20, 20, 24));
+    draw_rectangle(Lyt.panel_x, Lyt.panel_y, Lyt.panel_x + Lyt.panel_w, Lyt.panel_y + Lyt.panel_h, false);
     draw_set_color(c_white);
-
-    draw_rectangle(
-        xx,
-        yy,
-        xx + box_w,
-        yy + box_h,
-        true
-    );
-
-    // -----------------------------------------
+    draw_rectangle(Lyt.panel_x, Lyt.panel_y, Lyt.panel_x + Lyt.panel_w, Lyt.panel_y + Lyt.panel_h, true);
+    
     // Title
-    // -----------------------------------------
-
+    var base = variable_struct_exists(cc, "pending_skill") ? string(cc.pending_skill) : "Specialization";
+    draw_set_halign(fa_center);
+    draw_set_valign(fa_top);
     draw_set_color(c_white);
-
-    draw_text(
-        xx + padding_x,
-        yy + padding_top,
-        name
-    );
-
-    // -----------------------------------------
-    // Description
-    // -----------------------------------------
-
+    draw_text(Lyt.panel_x + Lyt.panel_w * 0.5, Lyt.panel_y + 20, "Choose specialization");
+    draw_set_color(c_ltgray);
+    draw_text(Lyt.panel_x + Lyt.panel_w * 0.5, Lyt.panel_y + 44, string_replace_all(base, " (X)", ""));
+    
+    // Cells — use Lyt.choices (from cc.pending_specializations), NOT global.weapon_specializations
+    if (!variable_struct_exists(cc, "specialization_popup_hover"))
+        cc.specialization_popup_hover = -1;
+    
+    for (var i = 0; i < Lyt.n; i++)
+    {
+        var cell = specialization_popup_cell(Lyt, i);
+        var hovered = (cc.specialization_popup_hover == i);
+        
+        draw_set_color(hovered ? make_color_rgb(70, 70, 40) : make_color_rgb(40, 40, 48));
+        draw_rectangle(cell.x1, cell.y1, cell.x2, cell.y2, false);
+        draw_set_color(hovered ? c_yellow : c_white);
+        draw_rectangle(cell.x1, cell.y1, cell.x2, cell.y2, true);
+        
+        draw_set_halign(fa_center);
+        draw_set_valign(fa_middle);
+        draw_text((cell.x1 + cell.x2) * 0.5, (cell.y1 + cell.y2) * 0.5, string(Lyt.choices[i]));
+    }
+    
+    // Close button
+    var chov = point_in_rectangle(
+        device_mouse_x_to_gui(0), device_mouse_y_to_gui(0),
+        Lyt.close_x, Lyt.close_y, Lyt.close_x + Lyt.close_w, Lyt.close_y + Lyt.close_h);
+    draw_set_color(chov ? c_maroon : make_color_rgb(50, 30, 30));
+    draw_rectangle(Lyt.close_x, Lyt.close_y, Lyt.close_x + Lyt.close_w, Lyt.close_y + Lyt.close_h, false);
     draw_set_color(c_white);
-
-    draw_text_ext(
-        xx + padding_x,
-        yy + padding_top + title_height + 8,
-        description,
-        line_sep,
-        text_w
-    );
-
-    // -----------------------------------------
-    // Reset drawing state
-    // -----------------------------------------
-
-    draw_set_color(c_white);
-    draw_set_alpha(1);
+    draw_rectangle(Lyt.close_x, Lyt.close_y, Lyt.close_x + Lyt.close_w, Lyt.close_y + Lyt.close_h, true);
+    draw_set_halign(fa_center);
+    draw_set_valign(fa_middle);
+    draw_text(Lyt.close_x + Lyt.close_w * 0.5, Lyt.close_y + Lyt.close_h * 0.5, "Close");
+    
+    draw_set_halign(fa_left);
+    draw_set_valign(fa_top);
+    
+    // Optional description beside hover
+    draw_specialization_description_popup(cc);
 }
 
 
@@ -2277,255 +2163,76 @@ var trained = skill_is_trained(cc, hovered_key);
 
 
 
-
-
-
-function draw_specialization_popup(cc, L)
+function draw_specialization_description_popup(cc)
 {
     if (!variable_struct_exists(cc, "specialization_popup") || !cc.specialization_popup)
         return;
-    if (!variable_struct_exists(cc, "pending_specializations"))
+    
+    if (!variable_struct_exists(cc, "pending_specializations")
+        || !is_array(cc.pending_specializations))
         return;
     
-    var screen_w = display_get_gui_width();
-    var screen_h = display_get_gui_height();
+    if (!variable_struct_exists(cc, "specialization_popup_hover"))
+        return;
+    
+    var hover = cc.specialization_popup_hover;
+    if (hover < 0 || hover >= array_length(cc.pending_specializations))
+        return;
+    
+    var name = cc.pending_specializations[hover];
+    var description = get_specialization_description(name);
+    
     var Lyt = specialization_popup_layout(cc);
-    var mx = device_mouse_x_to_gui(0);
-    var my = device_mouse_y_to_gui(0);
+    var cell = specialization_popup_cell(Lyt, hover);
     
-    // Dimmer
-    draw_set_alpha(0.65);
+    var box_w = 620;
+    var padding_x = 16;
+    var padding_top = 14;
+    var padding_bottom = 14;
+    var title_height = 24;
+    var line_sep = 14;
+    var text_w = box_w - (padding_x * 2);
+    
+    var description_height = string_height_ext(description, line_sep, text_w);
+    var box_h = padding_top + title_height + 8 + description_height + padding_bottom;
+    
+    var xx = cell.x2 + 16;
+    var yy = cell.y1;
+    var sw = display_get_gui_width();
+    var sh = display_get_gui_height();
+    
+    if (xx + box_w > sw)
+        xx = cell.x1 - box_w - 16;
+    if (yy + box_h > sh)
+        yy = sh - box_h - 10;
+    if (yy < 10)
+        yy = 10;
+    
     draw_set_color(c_black);
-    draw_rectangle(0, 0, screen_w, screen_h, false);
     draw_set_alpha(1);
-    
-    // Panel
-    draw_set_color(make_color_rgb(30, 30, 40));
-    draw_rectangle(
-        Lyt.panel_x,
-        Lyt.panel_y,
-        Lyt.panel_x + Lyt.panel_w,
-        Lyt.panel_y + Lyt.panel_h,
-        false
-    );
+    draw_rectangle(xx, yy, xx + box_w, yy + box_h, false);
     
     draw_set_color(c_white);
-    draw_rectangle(
-        Lyt.panel_x,
-        Lyt.panel_y,
-        Lyt.panel_x + Lyt.panel_w,
-        Lyt.panel_y + Lyt.panel_h,
-        true
-    );
-    
-    draw_set_halign(fa_center);
-    draw_set_valign(fa_top);
-    draw_set_color(c_white);
-    draw_text(
-        Lyt.panel_x + Lyt.panel_w * 0.5,
-        Lyt.panel_y + 16,
-        "Choose Specialization"
-    );
-    
-    draw_set_halign(fa_left);
-    draw_text(
-        Lyt.panel_x + 24,
-        Lyt.panel_y + 44,
-        string(cc.pending_skill)
-    );
-    
-    // Track hovered specialization
-    var hovered_specialization = "";
-    
-    // Specialization choices
-    for (var i = 0; i < Lyt.n; i++)
-    {
-        var cell = specialization_popup_cell(Lyt, i);
-        var hover = point_in_rectangle(
-            mx,
-            my,
-            cell.x1,
-            cell.y1,
-            cell.x2,
-            cell.y2
-        );
-        
-        // Cell background
-        draw_set_color(
-            hover
-            ? make_color_rgb(70, 70, 40)
-            : make_color_rgb(40, 40, 50)
-        );
-        
-        draw_rectangle(
-            cell.x1,
-            cell.y1,
-            cell.x2,
-            cell.y2,
-            false
-        );
-        
-        // Cell border
-        draw_set_color(
-            hover
-            ? c_yellow
-            : c_dkgray
-        );
-        
-        draw_rectangle(
-            cell.x1,
-            cell.y1,
-            cell.x2,
-            cell.y2,
-            true
-        );
-        
-        // Label
-        draw_set_color(c_white);
-        draw_set_halign(fa_left);
-        draw_set_valign(fa_middle);
-        
-        draw_text_fit(
-    string(Lyt.choices[i]),
-    cell.x1 + 6,
-    (cell.y1 + cell.y2) * 0.5,
-    (cell.x2 - cell.x1) - 12
-);
-        
-        // Remember hovered specialization
-        if (hover)
-        {
-            hovered_specialization = string(Lyt.choices[i]);
-        }
-    }
-    
-    draw_set_valign(fa_top);
-    
-    // =========================================================
-    // SPECIALIZATION TOOLTIP
-    // =========================================================
-    
-    if (hovered_specialization != "")
-    {
-        if (variable_struct_exists(
-            global.weapon_specializations,
-            hovered_specialization
-        ))
-        {
-            var spec_data =
-                global.weapon_specializations[$ hovered_specialization];
-            
-            var tooltip_text = "";
-            
-            if (variable_struct_exists(spec_data, "tooltip"))
-            {
-                tooltip_text = spec_data.tooltip;
-            }
-            
-            if (tooltip_text != "")
-            {
-                var tooltip_w = 340;
-                var tooltip_pad = 12;
-                var tooltip_gap = 18;
-                
-                var tooltip_x = mx + tooltip_gap;
-                var tooltip_y = my + tooltip_gap;
-                
-                // Wrap width
-                var text_w = tooltip_w - tooltip_pad * 2;
-                
-                // Calculate tooltip height
-                var tooltip_h =
-                    string_height_ext(
-                        tooltip_text,
-                        4,
-                        text_w
-                    )
-                    + tooltip_pad * 2;
-                
-                // Keep tooltip inside the GUI horizontally
-                if (tooltip_x + tooltip_w > screen_w)
-                {
-                    tooltip_x = mx - tooltip_w - tooltip_gap;
-                }
-                
-                // Keep tooltip inside the GUI vertically
-                if (tooltip_y + tooltip_h > screen_h)
-                {
-                    tooltip_y = my - tooltip_h - tooltip_gap;
-                }
-                
-                // Tooltip background
-                draw_set_color(make_color_rgb(25, 25, 30));
-                draw_rectangle(
-                    tooltip_x,
-                    tooltip_y,
-                    tooltip_x + tooltip_w,
-                    tooltip_y + tooltip_h,
-                    false
-                );
-                
-                // Tooltip border
-                draw_set_color(c_yellow);
-                draw_rectangle(
-                    tooltip_x,
-                    tooltip_y,
-                    tooltip_x + tooltip_w,
-                    tooltip_y + tooltip_h,
-                    true
-                );
-                
-                // Tooltip text
-                draw_set_color(c_white);
-                draw_set_halign(fa_left);
-                draw_set_valign(fa_top);
-                
-                draw_text_ext(
-                    tooltip_x + tooltip_pad,
-                    tooltip_y + tooltip_pad,
-                    tooltip_text,
-                    4,
-                    text_w
-                );
-            }
-        }
-    }
-    
-    // =========================================================
-    // CLOSE
-    // =========================================================
-    
-    var close_hover = point_in_rectangle(
-        mx,
-        my,
-        Lyt.close_x,
-        Lyt.close_y,
-        Lyt.close_x + Lyt.close_w,
-        Lyt.close_y + Lyt.close_h
-    );
-    
-    draw_set_color(close_hover ? c_lime : c_green);
-    draw_rectangle(
-        Lyt.close_x,
-        Lyt.close_y,
-        Lyt.close_x + Lyt.close_w,
-        Lyt.close_y + Lyt.close_h,
-        false
-    );
-    
-    draw_set_color(c_white);
-    draw_set_halign(fa_center);
-    draw_set_valign(fa_middle);
-    
-    draw_text(
-        Lyt.close_x + Lyt.close_w * 0.5,
-        Lyt.close_y + Lyt.close_h * 0.5,
-        "CLOSE"
-    );
+    draw_rectangle(xx, yy, xx + box_w, yy + box_h, true);
     
     draw_set_halign(fa_left);
     draw_set_valign(fa_top);
+    draw_text(xx + padding_x, yy + padding_top, name);
+    
+    draw_text_ext(
+        xx + padding_x,
+        yy + padding_top + title_height + 8,
+        description,
+        line_sep,
+        text_w
+    );
+    
+    draw_set_color(c_white);
+    draw_set_alpha(1);
 }
+
+
+
 
 
 function draw_specializations_for_skill(cc, draw_x, start_y, base_skill)
@@ -2875,22 +2582,30 @@ function attempt_talent_rank_up(cc, talent_key, table)
         && current_rank < 0)
     {
         var choices = [];
-        if (variable_struct_exists(tdata.specialization, "choices")
-            && is_array(tdata.specialization.choices)
-            && array_length(tdata.specialization.choices) > 0)
-        {
-            choices = tdata.specialization.choices;
-        }
-        else
-        {
-            show_debug_message("No specialization choices for: " + talent_key);
-            return;
-        }
-        
-        cc.pending_kind = "talent";
-        cc.pending_skill = (string_pos(" (X)", talent_key) > 0) ? talent_key : (lookup + " (X)");
-        cc.pending_specializations = choices;
-        cc.pending_skill_source = "cp";
+
+if (variable_struct_exists(tdata.specialization, "dynamic")
+    && tdata.specialization.dynamic == "trained_weapons")
+{
+    choices = get_trained_weapon_specializations(cc);
+}
+else if (variable_struct_exists(tdata.specialization, "choices")
+    && is_array(tdata.specialization.choices))
+{
+    choices = tdata.specialization.choices;
+}
+
+if (array_length(choices) <= 0)
+{
+    show_debug_message("No trained Weapon Skills — cannot take Weapon Mastery.");
+    audio_play_sound(error_snd, 5, false);
+    return;
+}
+
+cc.pending_kind = "talent";
+cc.pending_skill = talent_key; // "Weapon Mastery (X)"
+cc.pending_specializations = choices;
+cc.specialization_popup = true;
+cc.specialization_popup_hover = -1;
         
         if (variable_struct_exists(cc, "locked_species"))
         {
@@ -2909,6 +2624,66 @@ function attempt_talent_rank_up(cc, talent_key, table)
         cc.specialization_popup = true;
         return;
     }
+	
+	// Lookup talent (full name or without (X))
+var tdata = undefined;
+if (variable_struct_exists(global.talent_data, talent_key))
+    tdata = global.talent_data[$ talent_key];
+else
+{
+    var lookup = string_replace_all(talent_key, " (X)", "");
+    if (variable_struct_exists(global.talent_data, lookup))
+        tdata = global.talent_data[$ lookup];
+    else if (variable_struct_exists(global.talent_data, lookup + " (X)"))
+        tdata = global.talent_data[$ lookup + " (X)"];
+}
+
+// Required specialization → open popup, do NOT spend yet
+if (tdata != undefined
+    && variable_struct_exists(tdata, "specialization")
+    && variable_struct_exists(tdata.specialization, "required")
+    && tdata.specialization.required
+    && variable_struct_exists(tdata.specialization, "choices")
+    && is_array(tdata.specialization.choices))
+{
+    // Already a concrete spec like "Weapon Style (Bow)"? skip popup
+    if (string_pos(" (", talent_key) > 0 && string_pos("(X)", talent_key) == 0)
+    {
+        // fall through to normal buy of that concrete talent
+    }
+    else
+    {
+        cc.pending_kind = "talent";
+        cc.pending_skill = talent_key; // base e.g. "Weapon Style (X)"
+        cc.pending_specializations = tdata.specialization.choices;
+        cc.specialization_popup = true;
+        cc.specialization_popup_hover = -1;
+        
+        // Decide payment source the same way skills do (adjust names to match your talent free-slot logic)
+        cc.pending_skill_source = "cp";
+        if (variable_struct_exists(cc, "locked_species"))
+        {
+            var species = global.species_data[$ cc.locked_species];
+            if (variable_struct_exists(species.creation, "knowledge_talents")
+                && variable_struct_exists(species.creation.knowledge_talents, "choices")
+                && species.creation.knowledge_talents.choices.count > 0)
+            {
+                // optional: only if this talent is eligible for free slots
+                cc.pending_skill_source = "free_slot";
+            }
+        }
+        // species restricted choices:
+        if (talent_is_species_choice_option(cc, talent_key)
+            && variable_struct_exists(cc, "species_talent_choice_remaining")
+            && cc.species_talent_choice_remaining > 0)
+        {
+            cc.pending_skill_source = "species_choice";
+        }
+        
+        show_debug_message("Opening talent specialization popup for: " + talent_key);
+        return;
+    }
+}
     
     // ------------------------------------------------------------------
     // Already owned & unranked → nothing to do
@@ -3831,3 +3606,53 @@ function draw_text_fit(text, x, y, max_width)
     );
 }
 
+
+function get_trained_weapon_specializations(cc)
+{
+    var result = [];
+    var seen = {};
+    
+    if (!variable_struct_exists(cc, "skill_ranks"))
+        return result;
+    
+    var keys = variable_struct_get_names(cc.skill_ranks);
+    for (var i = 0; i < array_length(keys); i++)
+    {
+        var key = keys[i];
+        var rank = cc.skill_ranks[$ key];
+        if (!is_real(rank) || rank < 0)
+            continue;
+        
+        // Match "Weapon Skill (Something)" — not the base "Weapon Skill (X)"
+        if (string_pos("Weapon Skill (", key) != 1)
+            continue;
+        if (string_pos("(X)", key) > 0)
+            continue;
+        
+        // Extract text between first "(" and last ")"
+        var open = string_pos("(", key);
+        var close = string_last_pos(")", key);
+        if (open <= 0 || close <= open)
+            continue;
+        
+        var weapon = string_copy(key, open + 1, close - open - 1);
+        weapon = string_trim(weapon);
+        if (weapon == "" || variable_struct_exists(seen, weapon))
+            continue;
+        
+        seen[$ weapon] = true;
+        array_push(result, weapon);
+    }
+    
+    return result;
+}
+
+// GML has no string_trim in older versions — small helper if needed:
+function string_trim(str)
+{
+    while (string_length(str) > 0 && string_char_at(str, 1) == " ")
+        str = string_delete(str, 1, 1);
+    while (string_length(str) > 0 && string_char_at(str, string_length(str)) == " ")
+        str = string_delete(str, string_length(str), 1);
+    return str;
+}

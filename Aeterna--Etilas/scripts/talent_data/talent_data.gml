@@ -65,6 +65,10 @@ global.talent_data[$ "Language (X)"] = {
     table: "General",
     ranked: false,
     difficulty: global.SKILL_ADVANCED,
+	specialization: {
+        required: true,
+        choices: ["Common", "Holf-Skull Sign", "Gnomish", "Duren", "Galish", "Orcish", "Goblin", "Gnoll", "Minos", "Xiban", "Skireen", "Votalli", "Draconic", "Daemonic"]
+    },
     description: "This character learns how to speak a language."
 };
 
@@ -119,7 +123,7 @@ global.talent_data[$ "Musical Lore (X)"] = {
     difficulty: global.SKILL_ADVANCED,
     specialization: {
         required: true,
-        // choices filled later from Bardic College list
+        choices: ["Holdstadtish Musical Theory", "Corintish Musical Theory", "Flotsam Musical Theory", "Goblin Musical Theory", "Orcish Musical Theory", "Gnollish Musical Theory", "Galish Musical Theory", "Eastern Musical Theory"]
     },
     description: "Shows knowledge of a type of music. Select 1 College from the Bardic College List and 1 Intent from that list. Obtain 1 intent from the chosen college. Can be taken multiple times, but each college only once."
 };
@@ -309,13 +313,13 @@ global.talent_data[$ "Turtle"] = {
     description: "When taking the Full Defense action you cannot be flanked or swarmed and suffer no penalties for doing so. Each mastery rank increases your DR to all damage types by 1."
 };
 
-global.talent_data[$ "Rage"] = {
-    name: "Rage",
+global.talent_data[$ "Rage (X)"] = {
+    name: "Rage (X)",
     table: "Warfare",
     ranked: true,
     difficulty: global.SKILL_ADVANCED,
     specialization: {
-        required: false, // ranks unlock rage traits
+        required: true,
         choices: ["Lucid Rage", "Feel No Pain", "Raging Power", "Indefatigable", "Wild Rage", "Berserker"]
     },
     description: "Enter an enraged state after receiving a light wound or voluntarily. While raging: ignore light-wound effects on rolls; may only perform brute actions; must multi-attack up to positive attack bonus; only Dodge defense; gain half Strength damage bonus. Each mastery rank grants one Rage trait. Lasts until dispelled, a successful save vs influence (+1/round), or unconsciousness. Attacks the nearest opponent."
@@ -352,7 +356,7 @@ global.talent_data[$ "Weapon Mastery (X)"] = {
     difficulty: global.SKILL_ADVANCED,
     specialization: {
         required: true,
-        // choices = weapons the character is trained in
+        dynamic: "trained_weapons"
     },
     description: "Select one specific weapon you are trained in. Gain Weapon Mastery with that weapon: damage die +1 step and all positive traits +1. Can be taken again (up to rank 5); further ranks only increase the damage die by 1 step."
 };
@@ -365,60 +369,16 @@ global.talent_data[$ "Two Weapon Fighting"] = {
     description: "Reduces the penalty from fighting with two weapons by -2. Weapons over a weight penalty of 1.5 have a normal two weapon penalty of -5. Weapons bellow a weight penalty of 1.5 have a two weapon penalty of -2."
 };
 
-global.talent_data[$ "Martial Action (Push)"] = {
-    name: "Martial Action (Push)",
+global.talent_data[$ "Martial Action (X)"] = {
+    name: "Martial Action (X)",
     table: "Warfare",
     ranked: true,
     difficulty: global.SKILL_ADVANCED,
+	specialization: {
+        required: true,
+        choices: ["Push", "Grapple", "Disarm", "Trip", "Throw", "Sunder", "Cleave"]
+    },
     description: "Training in shoving. Rank 0 removes the untrained penalty and allows use against armed opponents without attacks of opportunity. Each rank grants +1 to Shove attacks."
-};
-
-global.talent_data[$ "Martial Action (Grapple)"] = {
-    name: "Martial Action (Grapple)",
-    table: "Warfare",
-    ranked: true,
-    difficulty: global.SKILL_ADVANCED,
-    description: "Training in grabbing and holding. Rank 0 removes the untrained penalty and allows use against armed opponents without attacks of opportunity. Each rank grants +1 to Grapple attacks."
-};
-
-global.talent_data[$ "Martial Action (Disarm)"] = {
-    name: "Martial Action (Disarm)",
-    table: "Warfare",
-    ranked: true,
-    difficulty: global.SKILL_ADVANCED,
-    description: "Training in forcing a target to drop what they hold. Rank 0 removes the untrained penalty and allows use against armed opponents without attacks of opportunity. Each rank grants +1 to Disarm attacks."
-};
-
-global.talent_data[$ "Martial Action (Trip)"] = {
-    name: "Martial Action (Trip)",
-    table: "Warfare",
-    ranked: true,
-    difficulty: global.SKILL_ADVANCED,
-    description: "Training in knocking a target off balance. Rank 0 removes the untrained penalty and allows use against armed opponents without attacks of opportunity. Each rank grants +1 to Trip attacks."
-};
-
-global.talent_data[$ "Martial Action (Throw)"] = {
-    name: "Martial Action (Throw)",
-    table: "Warfare",
-    ranked: true,
-    difficulty: global.SKILL_ADVANCED,
-    description: "Training in tossing a target. Rank 0 removes the untrained penalty and allows use against armed opponents without attacks of opportunity. Each rank grants +1 to Throw attacks."
-};
-
-global.talent_data[$ "Martial Action (Sunder)"] = {
-    name: "Martial Action (Sunder)",
-    table: "Warfare",
-    ranked: true,
-    difficulty: global.SKILL_ADVANCED,
-    description: "Training in smashing armor and weapons. Rank 0 removes the untrained penalty and allows use against armed opponents without attacks of opportunity. Each rank grants +1 to Sunder attacks."
-};
-
-global.talent_data[$ "Martial Action (Cleave)"] = {
-    name: "Martial Action (Cleave)",
-    table: "Warfare",
-    ranked: true,
-    difficulty: global.SKILL_ADVANCED,
-    description: "Training in striking through multiple opponents. Rank 0 removes the untrained penalty and allows use against armed opponents without attacks of opportunity. Each rank grants +1 to Cleave damage pools."
 };
 
 global.talent_data[$ "Ambush"] = {
@@ -489,7 +449,7 @@ global.talent_data[$ "Read and Write (X)"] = {
     difficulty: global.SKILL_ADVANCED,
     specialization: {
         required: true,
-        // choices = known languages
+        choices: ["Common", "Holf-Skull Sign", "Gnomish", "Duren", "Galish", "Orcish", "Goblin", "Gnoll", "Minos", "Xiban", "Skireen", "Votalli", "Arcane", "Daemonic", "Draconic"]
     },
     description: "Ability to read and write in a single known language."
 };
@@ -713,7 +673,7 @@ global.talent_data[$ "Sub Aspect Mastery (X)"] = {
     difficulty: global.SKILL_ADVANCED,
     specialization: {
         required: true,
-        // choices = sub-aspects
+        choices: ["Temperature", "Force", "Charge","Present", "Past", "Future", "Position", "Mass", "Volume", "Physical", "Mental", "Spiritual"]
     },
     description: "Each rank increases the Arcane Charge pool when manipulating the chosen Sub Aspect by 2, and reduces the negative effects of failures by 1."
 };
@@ -933,15 +893,3 @@ global.talent_data[$ "Ritual Master"] = {
 }
 
 
-
-global.weapon_specializations =
-{
-    "Knives" :
-    {
-        description : "Small weapons emphasizing speed, concealment, and precision.",
-        tooltip :
-        "Close-quarters weapons emphasizing speed and precision.\n\n"
-        + "Strengths: Swift attacks, concealment, mobility\n"
-        + "Weaknesses: Limited reach and stopping power"
-    }
-};

@@ -920,7 +920,8 @@ global.skill_data[$ "Taunting"] = {
         ]
     },
     difficulty: global.SKILL_ADVANCED,
-    description: "A skill to influence hostiles to attack you instead of an ally."
+    description: "This skill is checked when the user attempts draw the ire of a target or targets. This skill is a Simple Action and is contested by the opponent's willpower test or tests if the target is a group. Degrees of Success result in the target being forced to attack you if possible. Degrees of Failure results in no effect. Note: Enemies will not attack you if doing so would put them in danger. Modified by number of targets."
+
 };
 
 
@@ -935,7 +936,7 @@ global.skill_data[$ "Weakness Identification"] = {
         ]
     },
     difficulty: global.SKILL_ADVANCED,
-    description: "A skill for spotting chinks in armor. You gain +1 AP per DoS on your next attack if you succeed or you can give an ally the benefit for 1 attack. This is a normal action."
+    description: "This skill is checked when the user attempts to find weak points in the target's armor. This skill is a Simple Action that is uncontested. Degrees of Success result in a +1 to the Armor Piercing value of your next attack per Degree of Success. Degrees of Failure results in no effect. Modified by Surroundsings, and Weather."
 };
 
 global.skill_data[$ "Firearms Use"] = {
@@ -948,7 +949,7 @@ global.skill_data[$ "Firearms Use"] = {
         ]
     },
     difficulty: global.SKILL_ADVANCED,
-    description: "Skill for firing firearms."
+    description: "This skill is checked when the user attempts to hit a target with a Firearm. This skill is an Attack skill and takes the place of Weapon Skill (X) when used. Targets of a Firearm Use check do not get to make Defensive Actions against these tests unless specified otherwise. Instead the check is heavily penalized by a variety of modifiers. Degrees of Success result in a hit from the Firearm being wielded. Degrees of Failure result in a missed attack. Modified by Surroundings, Speed of Target, Cover Type, Distance, Bore of the Weapon, and Weather."
 };
 
 global.skill_data[$ "Maintenance"] = {
@@ -961,7 +962,7 @@ global.skill_data[$ "Maintenance"] = {
         ]
     },
     difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill for repairing minor weapon or armor damage."
+    description: "This skill is checked when the user attempts to repair damage to their equipment. This skill is a Camp Skill. Degrees of Success result in an amount of damage equal to the DoS being repaired compared to the item's IV. Degrees of Failure result in no repaired damage. Critical Failures result in damage being dealt to the item equal to the total Degrees of Failure. Modified by Surroundsings, and Weather."
 };
 
 global.skill_data[$ "Tactics"] = {
@@ -982,7 +983,7 @@ global.skill_data[$ "Weapon Skill (X)"] = {
     table: "Warfare",
     specialization: {
         required: true,
-        choices: ["Knives", "Daggers", "Swords", "Axes", "Clubs", "Polearms"]
+        choices: ["Small Blades", "Blades", "Great Blades", "Hand Axes", "Axes", "Great Axes", "Small Bludgeons", "Bludgeons", "Great Bludgeons", "Bladed Polearms", "Blunt Polearms", "Axe Bladed Polearms", "Tipped Polearms", "Tools", "Improvised", "Unarmed", "Bows", "Crossbows", "Thrown", "Whips", "Flails"]
     },
     check: {
         mode: "best",
@@ -1150,7 +1151,7 @@ global.skill_data[$ "Lore (X)"] = {
     table: "Clerical",
     specialization: {
         required: true,
-        choices: [] // Add specific lore topics as needed
+        choices: ["Animal", "Monster", "Plant", "History", "Geography", "Religion", "Arcana", "Occult", "Culture", "Politics", "Military", "Engineering", "Craftsmanship", "Heraldry", "Law", "Languages", "Navigation", "Underworld"] // Add specific lore topics as needed
     },
     check: {
         mode: "best",
@@ -1250,6 +1251,23 @@ global.skill_data[$ "Hide"] = {
     description: "A skill for discreetly hiding oneself from view."
 };
 
+
+global.skill_data[$ "Rogue Weapon (X)"] = {
+    name: "Rogue Weapon (X)",
+    table: "Roguery",
+    specialization: {
+        required: true,
+        choices: ["Small Blades", "Small Bludgeons", "Bludgeons", "Bows"]
+    },
+    check: {
+        mode: "best",
+        attributes: [
+            { attribute: "Dexterity", modifier: 0 }
+        ]
+    },
+    difficulty: global.SKILL_INTERMEDIATE,
+    description: "A skill for tracking prowess with a weapon type used by Rogues. The primary combat skill."
+};
 
 global.skill_data[$ "Prestidigitation"] = {
     name: "Prestidigitation",
@@ -1637,7 +1655,7 @@ global.skill_data[$ "Water Find (X)"] = {
     table: "Survival",
     specialization: {
         required: true,
-        choices: [] // Add environment types as needed (e.g. Desert, Forest, Mountains, etc.)
+        choices: ["Forest", "Jungle", "Grassland", "Desert", "Mountain", "Arctic", "Wetland", "Coastal", "Ocean", "Underground", "Urban", "Wasteland"] // Add environment types as needed (e.g. Desert, Forest, Mountains, etc.)
     },
     check: {
         mode: "best",
@@ -1647,6 +1665,23 @@ global.skill_data[$ "Water Find (X)"] = {
     },
     difficulty: global.SKILL_INTERMEDIATE,
     description: "A skill for using special survival knowledge to find drinkable water in a given environment."
+};
+
+global.skill_data[$ "Survival Weapon (X)"] = {
+    name: "Survival Weapon (X)",
+    table: "Survival",
+    specialization: {
+        required: true,
+        choices: ["Small Blades", "Tipped Polearms", "Hand Axes", "Bows"]
+    },
+    check: {
+        mode: "best",
+        attributes: [
+            { attribute: "Dexterity", modifier: 0 }
+        ]
+    },
+    difficulty: global.SKILL_INTERMEDIATE,
+    description: "A skill for tracking prowess with a weapon type used by Survivalists. The primary combat skill."
 };
 
 global.skill_data[$ "Firebuilding"] = {
@@ -1764,7 +1799,7 @@ global.skill_data[$ "Survival (X)"] = {
     table: "Survival",
     specialization: {
         required: true,
-        choices: [] // Add terrain types (e.g. Forest, Desert, Mountain, Tundra, etc.)
+        choices: ["Forest", "Jungle", "Grassland", "Desert", "Mountain", "Arctic", "Wetland", "Coastal", "Ocean", "Underground", "Urban", "Wasteland"] // Add terrain types (e.g. Forest, Desert, Mountain, Tundra, etc.)
     },
     check: {
         mode: "best",
