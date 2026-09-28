@@ -96,7 +96,6 @@ global.knowledge_table_data[$ "Warfare"] =
     {
         skills: [
         "Armor Optimization",
-        "Bodyguard",
         "Charioteering",
         "Drilling",
         "Firearms Use",
@@ -117,6 +116,7 @@ global.knowledge_table_data[$ "Warfare"] =
 			"Armor Training (Heavy)",
 			"Armor Training (Medium)",
 			"Blind Fighting",
+			"Bodyguard",
 			"Checking",
 			"Close-Quarters Fighting",
 			"Dextrous Defense",

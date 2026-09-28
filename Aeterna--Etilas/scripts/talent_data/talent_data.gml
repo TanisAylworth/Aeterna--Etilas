@@ -239,6 +239,14 @@ global.talent_data[$ "Blind Fighting"] = {
     description: "Use other senses when fighting blind or in the dark. Reduces the penalty to -2 without disadvantage. If there is too much noise, the attack is made at -2 with disadvantage."
 };
 
+global.talent_data[$ "Bodyguard"] = {
+    name: "Bodyguard",
+    table: "Warfare",
+    ranked: false,
+    difficulty: global.SKILL_INTERMEDIATE,
+    description: "Allows the user to be able to use their Parry Defensive Action to protect an ally within reach. Alternatively, they may instead choose to use their Dodge Defensive Action test to instead take the hit themselves instead of attempting a Parry."
+};
+
 global.talent_data[$ "All In"] = {
     name: "All In",
     table: "Warfare",

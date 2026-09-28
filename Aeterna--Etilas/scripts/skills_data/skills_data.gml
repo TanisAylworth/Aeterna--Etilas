@@ -975,7 +975,7 @@ global.skill_data[$ "Tactics"] = {
         ]
     },
     difficulty: global.SKILL_ADVANCED,
-    description: "During pitched battle the leaders of both forces make this contested check. The higher degree of success allows the leader to initiate a battle strategy based on the phase of battle that they are in."
+    description: "This skill is checked when the user attempts to inact or change a battlefield strategy during a Mass Combat encounter. This Mass Combat leader skill is made at the start of each round of combat it is done in contest against the enemy's leader. Degrees of Success results in the ability to adjust your planned strategy to be any other Neutral non counter strategy. Degrees of Failure results in the opponent being allowed to change their strategy to be a Neutral non counter strategy. Critical Successes results in the ability to shift to a Countering Strategy instead of just a Neutral strategy. Critical Failures results in the opponent being allowed to shift to a Countering Strategy. No Modifiers."
 };
 
 global.skill_data[$ "Weapon Skill (X)"] = {
@@ -992,21 +992,10 @@ global.skill_data[$ "Weapon Skill (X)"] = {
         ]
     },
     difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill for tracking prowess with a weapon type. The primary combat skill."
+    description: "This skill is checked when the user attempts to use the Attack or Full Attack actions. This is a contested skill check against the target's Defensive Action. Degrees of Success results in a hit against the target. Degrees of Failure results in a miss. Critical Successes are a result of 10+ Degrees of Success and allow a choice of one of the three Critical Hit modifiers. Critical Failures are a result of either rolling 10+ Degrees of Failure or your opponent rolling 10+ or higher on their Defensive Action check. This allows the opponent to select one of the three Critical Defense options. Modified by Surroundings, and Weather."
+
 };
 
-global.skill_data[$ "Bodyguard"] = {
-    name: "Bodyguard",
-    table: "Warfare",
-    check: {
-        mode: "best",
-        attributes: [
-            { attribute: "Reflexes", modifier: 0 }
-        ]
-    },
-    difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill for intercepting an attack for an ally. You make a check that must exceed the DoS of the attacker against the target of their attack. If you are within range to perform a parry you may do so. If not but you are within half of your move speed you may opt to forgo any other defensive action to take the hit on their behalf."
-};
 #endregion
 
 
