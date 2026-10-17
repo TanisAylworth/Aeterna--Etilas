@@ -714,7 +714,7 @@ add_species("votalli_ctai", {
                 ],
                 choices: { count: 0, options: [] }
             },
-			knowledge_talents: { fixed: ["Wild Fighting", "Endurance", "Rage", "Rage Power (Berserker)", "Grapple"], choices: { count: 0, options: [] } }
+			knowledge_talents: { fixed: ["Wild Fighting", "Endurance", "Rage (Berserker)", "Grapple"], choices: { count: 0, options: [] } }
         }
     });
 
@@ -1922,7 +1922,7 @@ add_species("minos", {
                 ],
                 choices: { count: 1, options: ["Weapon Skill (X)"]}
             },
-			knowledge_talents: { fixed: ["Rage (X)", "Push", "Throw"], choices: { count: 0, options: [] } }
+			knowledge_talents: { fixed: ["Push", "Throw"], choices: { count: 1, options: ["Rage (X)"] } }
         }
     });
 

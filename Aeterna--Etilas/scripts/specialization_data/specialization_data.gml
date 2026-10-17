@@ -44,7 +44,7 @@ function initialize_specialization_descriptions()
 		"-  Stomp: The damage of this attack is increased by 2 dice steps. Additionally if the target is Prone you make attacks at Double Advantage instead of Advantage.\n";
 
 
-    global.specialization_descriptions[$ "Knife Fighting"] =
+    global.specialization_descriptions[$ "Small Blade Fighting"] =
         "A style which requires Weapon Skill (Small Blade) and relies on quick jabs and slashes with precise movements of handling a knife or dagger.\n\n"+
 		"Stances: At the start of the combat round the user may switch stance as a Free Action, but can do so no more than once per round.\n\n"+
 		"-  Forward Stance: In this stance the user places their weapon in the front and readies to lunge or stab. While in this stance the additional attack penalty is reduced to -3 instead of -5. Additionally, if only a single Attack action is made that attack gains Preceise (2).\n"+
@@ -71,7 +71,7 @@ function initialize_specialization_descriptions()
 		"-  End Them Rightly: This strike may only be used as part of a singular Attack Action. The weapon sustains Serious damage when this is initiated. The strike gains Range (10), Balanced (1), and Thrown. Additionally, the damage of this strike is reduced by 2 dice steps.\n"+
 		"-  Thumping Cut: This strike may be used only as part of a Called Shot Action to the head. If successful the user deals damage as normal to the opponent, but they must make one Intelligence test per successful attack at a penalty equal to the damage of the strikes against the Confusion table.\n";
 
-    global.specialization_descriptions[$ "Dueling"] =
+    global.specialization_descriptions[$ "Dueling Forms"] =
         "A style which requires Weapon Skill (Dueling) and relies upon speed, precision, and control of distance. Rather than overpowering an opponent, the duelist seeks to dictate the exchange through footwork, feints, defensive actions, and precisely timed attacks.\n\n"+
 		"Form: At the start of the combat round the user may switch Form as a Free Action, but can do so no more than once per round.\n\n"+
 		"- Measure: In this Form the user maintains distance from their opponent, relying upon footwork and the length of their weapon to keep the enemy at the edge of engagement. While in this Form, the user may move 5ft as part of any Attack Action. Additionally, attacks made against a target where the attacker moved at least 5ft since the user's previous turn gain Precise (1).\n\n"+
@@ -85,29 +85,11 @@ function initialize_specialization_descriptions()
 		"- Disengage: The user makes a quick attack while withdrawing from the opponent. The strike suffers disadvantage, but after resolving the attack the user may immediately move up to 10ft away from the target. This movement does not provoke a Reaction.\n\n"+
 		"- Point Attack: The user commits to a precise attack against a vulnerable opening. The attack suffers a -2 penalty, but gains Precise (2) and Armor Piercing (1). If the attack scores a critical hit, increase the damage die by 1 step and the attack gains Accurate (1).\n\n";
 
-    global.specialization_descriptions[$ "Great Weapon"] =
+    global.specialization_descriptions[$ "Great Weapon Forms"] =
         "Training in large two-handed weapons, emphasizing reach, leverage, momentum, and powerful attacks.";
 
     global.specialization_descriptions[$ "Shield Fighting"] =
         "Training in using a shield as an active weapon as well as for defense.";
-
-    global.specialization_descriptions[$ "Hook Fighting"] =
-        "Training in weapons designed to catch, hook, pull, or manipulate opponents and their equipment.";
-
-    global.specialization_descriptions[$ "Formation Fighting"] =
-        "Training in coordinated combat alongside allies, maintaining position and exploiting group tactics.";
-
-    global.specialization_descriptions[$ "Zone Control"] =
-        "Training in controlling an area of the battlefield and discouraging opponents from entering or moving through it.";
-
-    global.specialization_descriptions[$ "Reach Control"] =
-        "Training in managing the distance between combatants, using weapon reach and positioning to control engagements.";
-
-    global.specialization_descriptions[$ "Weapon Grappling"] =
-        "Training in using a weapon to trap, bind, redirect, or manipulate an opponent's weapon.";
-
-    global.specialization_descriptions[$ "Sniping"] =
-        "Training in long-range precision attacks, emphasizing concealment, patience, and carefully placed shots.";
 
     global.specialization_descriptions[$ "Bludgeon Fighting"] =
         "Training in the use of clubs, maces, hammers, and other weapons designed to deliver crushing blows.";
@@ -115,14 +97,26 @@ function initialize_specialization_descriptions()
     global.specialization_descriptions[$ "Mounted Combat"] =
         "Training in fighting effectively while mounted, including managing movement, positioning, and attacks from a mount.";
 
-    global.specialization_descriptions[$ "Non-Lethal Combat"] =
-        "Training in disabling opponents without killing them, using controlled strikes, holds, and other incapacitating techniques.";
+    global.specialization_descriptions[$ "Curved Blade Forms"] =
+        "Training in the special handling forms for a variety of curved blades. With a versatile focus leaning into speed or power.";
 
-    global.specialization_descriptions[$ "Bow Draws"] =
+    global.specialization_descriptions[$ "Archery"] =
         "Training in specialized drawing and firing techniques that improve the effective use of a bow.";
 
-    global.specialization_descriptions[$ "Defensive Focus"] =
-        "Training centered on maintaining a defensive posture, anticipating attacks, and minimizing openings.";
+    global.specialization_descriptions[$ "Flail Style"] =
+        "Training centered on the use of loose hooking weapons to great effect against armor and shield users.";
+		
+		global.specialization_descriptions[$ "Whip Handling"] =
+        "Training in precise use and technique of whips and whip like weapons to disarm, cut, and trip opponents.";
+		
+		global.specialization_descriptions[$ "Axe Forms"] =
+        "Training in the use of axe styled weapons to hook and cleave opponents in either a two weapon style or two handed style.";
+		
+		global.specialization_descriptions[$ "Polearm Forms"] =
+        "Training in a variety of long shafted weapons and their various uses to include grip length control, fending, and repelling charges.";
+
+
+
 
     // =========================================
     // TALENT SPECIALIZATIONS

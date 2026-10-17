@@ -303,14 +303,13 @@ global.talent_data[$ "Fighting Style (X)"] = {
     specialization: {
         required: true,
         choices: [
-            "Martial Arts", "Grappling", "Brawling", "Knife Fighting", "Sword Play", "Dueling", "Great Weapon", "Shield Fighting", "Hook Fighting",
-			"Formation Fighting", "Zone Control", "Reach Control", "Weapon Grappling", "Sniping", "Bludgeon Fighting", "Mounted Combat", "Non-Lethal Combat",
-			"Bow Draws", "Defensive Focus", "Draw Striking"
+            "Martial Art", "Grappling", "Brawling", "Small Blade Fighting", "Straight Sword Forms", "Dueling Forms", "Great Weapon Forms", "Shield Fighting",
+			"Bludgeon Fighting", "Mounted Combat", "Archery", "Curved Blade Forms", "Flail Style", "Whip Handeling", "Axe Forms", "Polearm Forms"
 			
 			
         ]
     },
-    description: "Special focus in a fighting style based on a specific weapon type. See Weapon Styles for options."
+    description: "Special focus in a fighting style based on a specific weapon type."
 };
 
 global.talent_data[$ "Turtle"] = {

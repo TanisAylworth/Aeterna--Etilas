@@ -1368,17 +1368,20 @@ function draw_button_pair(x, y, half_w, gap, h, hover_minus, hover_plus)
 
 function draw_tables_column(cc, L, tables_x)
 {
+    // =========================================================
+    // SETUP
+    // =========================================================
     if (tables_x == undefined)
         tables_x = L.center_x;
-	
-	var modal = variable_struct_exists(cc, "specialization_popup") && cc.specialization_popup;
-	if (modal)
-    cc.hovered_table = "";
+
+    var modal = variable_struct_exists(cc, "specialization_popup") && cc.specialization_popup;
+    if (modal)
+        cc.hovered_table = "";
+
     var yy = 320;
     var btn_w = 260;
     var btn_h = 34;
     var row_gap = 8;
-
     var tables = get_all_knowledge_tables();
     var start_y = yy + 80;
 
@@ -1387,92 +1390,131 @@ function draw_tables_column(cc, L, tables_x)
     var panel_y = yy - 15;
     var panel_h = 80 + array_length(tables) * (btn_h + row_gap) + 60;
 
+    var btn_x = tables_x - btn_w * 0.5;
+    var gold_fill   = make_color_rgb(183, 135, 0);
+    var gold_border = make_color_rgb(211, 175, 55);
+
+    // =========================================================
+    // PANEL
+    // =========================================================
     draw_set_color(c_black);
     draw_rectangle(panel_x, panel_y, panel_x + panel_w, panel_y + panel_h + 30, false);
     draw_set_color(c_white);
     draw_rectangle(panel_x, panel_y, panel_x + panel_w, panel_y + panel_h + 30, true);
 
+    // =========================================================
+    // HEADER
+    // =========================================================
     draw_set_halign(fa_center);
+    draw_set_valign(fa_top);
     draw_set_color(c_white);
     draw_text(tables_x, yy, "KNOWLEDGE TABLES");
 
     draw_set_color(c_ltgray);
     draw_text(tables_x, yy + 28, "Free Choices: " + string(cc.generation.table_choices_remaining));
     draw_text(tables_x, yy + 48, "Extra Tables cost 2 slots");
-    draw_set_halign(fa_left);
 
-    var btn_x = tables_x - btn_w * 0.5;
-
+    // =========================================================
+    // TABLE BUTTONS
+    // =========================================================
     for (var i = 0; i < array_length(tables); i++)
     {
         var table = tables[i];
         var btn_y = start_y + i * (btn_h + row_gap);
 
-        var is_fixed     = array_index_of(cc.generation.fixed_tables, table) != -1;
-        var is_choice    = array_index_of(cc.generation.choice_tables, table) != -1;
-        var is_purchased = array_index_of(cc.generation.purchased_tables, table) != -1;
-		var is_selected = (cc.selected_table == table);
-        var hovered      = (cc.hovered_table == table);
+        // --- Flags ---
+        var is_fixed      = array_index_of(cc.generation.fixed_tables, table) != -1;
+        var is_choice     = array_index_of(cc.generation.choice_tables, table) != -1;
+        var is_purchased  = array_index_of(cc.generation.purchased_tables, table) != -1;
+        var is_selected   = (cc.selected_table == table);
+        var hovered       = (cc.hovered_table == table);
 
+        var has_species_opt = table_contains_species_skill_option(cc, table)
+            || table_contains_species_talent_option(cc, table);
+
+                // --- Flags ---
+        var is_fixed      = array_index_of(cc.generation.fixed_tables, table) != -1;
+        var is_choice     = array_index_of(cc.generation.choice_tables, table) != -1;
+        var is_purchased  = array_index_of(cc.generation.purchased_tables, table) != -1;
+        var is_selected   = (cc.selected_table == table);
+        var hovered       = (cc.hovered_table == table);
+
+        // Persistent: table lists a species skill/talent option
+        var show_species_gold = table_contains_species_skill_option(cc, table)
+            || table_contains_species_talent_option(cc, table);
+
+        // --- Fill ---
+        // Priority: fixed > selected > choice > purchased > species gold > hover > default
         if (is_fixed)
-		    draw_set_color(make_color_rgb(20, 55, 25));
-		else if (is_selected)
-		    draw_set_color(make_color_rgb(35, 50, 80));   // warm highlight
-		else if (is_choice)
-		    draw_set_color(make_color_rgb(25, 55, 35));
-		else if (is_purchased)
-		    draw_set_color(make_color_rgb(40, 45, 20));
-		else if (hovered)
-		    draw_set_color(make_color_rgb(50, 50, 30));
-		else
-		    draw_set_color(make_color_rgb(30, 30, 30));
+            draw_set_color(make_color_rgb(20, 55, 25));
+        else if (is_selected)
+            draw_set_color(make_color_rgb(35, 50, 80));
+        else if (is_choice)
+            draw_set_color(make_color_rgb(25, 55, 35));
+        else if (is_purchased)
+            draw_set_color(make_color_rgb(40, 45, 20));
+        else if (show_species_gold)
+            draw_set_color(gold_fill);
+        else if (hovered)
+            draw_set_color(make_color_rgb(50, 50, 30));
+        else
+            draw_set_color(make_color_rgb(30, 30, 30));
 
         draw_rectangle(btn_x, btn_y, btn_x + btn_w, btn_y + btn_h, false);
 
+        // --- Border ---
         if (hovered)
-		    draw_set_color(c_yellow);
-		else if (is_selected)
-		    draw_set_color(make_color_rgb(35, 70, 90));   // or c_yellow if you prefer
-		else if (is_fixed)
-		    draw_set_color(c_lime);
-		else if (is_choice)
-		    draw_set_color(c_aqua);
-		else if (is_purchased)
-		    draw_set_color(c_olive);
-		else
-		    draw_set_color(c_white);
+            draw_set_color(c_yellow);
+        else if (is_selected)
+            draw_set_color(make_color_rgb(80, 120, 180));
+        else if (is_fixed)
+            draw_set_color(c_lime);
+        else if (is_choice)
+            draw_set_color(c_aqua);
+        else if (is_purchased)
+            draw_set_color(c_olive);
+        else if (show_species_gold)
+            draw_set_color(gold_border);
+        else
+            draw_set_color(c_white);
 
         draw_rectangle(btn_x, btn_y, btn_x + btn_w, btn_y + btn_h, true);
 
+        // --- Label ---
+        var suffix = "";
+        if (is_fixed)
+            suffix = " (Fixed)";
+        else if (is_selected)
+            suffix = " (Active)";
+        else if (is_choice)
+            suffix = " (Choice)";
+        else if (is_purchased)
+            suffix = " (Bought)";
+        else if (show_species_gold)
+            suffix = " (Species)";
+
         draw_set_halign(fa_center);
-draw_set_valign(fa_middle);
-draw_set_color(c_white);
-
-var suffix = "";
-if (is_fixed)
-    suffix = " (Fixed)";
-else if (is_selected)
-    suffix = " (Active)";
-else if (is_choice)
-    suffix = " (Choice)";
-else if (is_purchased)
-    suffix = " (Bought)";
-
-draw_text(btn_x + btn_w * 0.5, btn_y + btn_h * 0.5, table + suffix);
-
-draw_set_halign(fa_left);
-draw_set_valign(fa_top);
+        draw_set_valign(fa_middle);
+        draw_set_color(c_white);
+        draw_text(btn_x + btn_w * 0.5, btn_y + btn_h * 0.5, table + suffix);
+        draw_set_halign(fa_left);
+        draw_set_valign(fa_top);
     }
 
+    // =========================================================
+    // LOCK / UNLOCK BUTTON
+    // =========================================================
     var confirm_x = btn_x;
     var confirm_y = start_y + array_length(tables) * (btn_h + row_gap) + 12;
     var confirm_w = btn_w;
     var confirm_h = 36;
 
     var confirm_hover = !modal && point_in_rectangle(
-    device_mouse_x_to_gui(0), device_mouse_y_to_gui(0),
-    confirm_x, confirm_y, confirm_x + confirm_w, confirm_y + confirm_h
-);
+        device_mouse_x_to_gui(0),
+        device_mouse_y_to_gui(0),
+        confirm_x, confirm_y,
+        confirm_x + confirm_w, confirm_y + confirm_h
+    );
 
     var is_locked = variable_struct_exists(cc.generation, "tables_locked")
         && cc.generation.tables_locked;
@@ -1483,14 +1525,18 @@ draw_set_valign(fa_top);
         draw_set_color(confirm_hover ? make_color_rgb(60, 60, 30) : make_color_rgb(40, 40, 25));
 
     draw_rectangle(confirm_x, confirm_y, confirm_x + confirm_w, confirm_y + confirm_h, false);
+
     draw_set_color(confirm_hover ? c_yellow : (is_locked ? c_lime : c_white));
     draw_rectangle(confirm_x, confirm_y, confirm_x + confirm_w, confirm_y + confirm_h, true);
 
     draw_set_halign(fa_center);
     draw_set_valign(fa_middle);
     draw_set_color(c_white);
-    draw_text(confirm_x + confirm_w * 0.5, confirm_y + confirm_h * 0.5,
-        is_locked ? "UNLOCK TABLES" : "LOCK TABLES");
+    draw_text(
+        confirm_x + confirm_w * 0.5,
+        confirm_y + confirm_h * 0.5,
+        is_locked ? "UNLOCK TABLES" : "LOCK TABLES"
+    );
     draw_set_halign(fa_left);
     draw_set_valign(fa_top);
 }
@@ -1525,63 +1571,50 @@ function draw_skills_column(cc, L, skills_x = undefined)
     draw_set_color(c_white);
     draw_rectangle(panel_x, panel_y, panel_x + panel_w, panel_y + panel_h, true);
 
-    // Header
+        // Header
     draw_set_halign(fa_center);
     draw_set_color(c_white);
     draw_text(skills_x, 318, "SKILLS");
 
-    // Free Skill slots
-    // Free Skill Slots: only unrestricted pool
-	var free_remaining = 0;
-	if (!species_skill_choices_are_restricted(cc) && variable_struct_exists(cc, "locked_species"))
-	{
-	    var species = global.species_data[$ cc.locked_species];
-	    if (variable_struct_exists(species.creation.knowledge_skills, "choices"))
-	        free_remaining = species.creation.knowledge_skills.choices.count;
-	}
-	draw_set_color(c_aqua);
-	draw_text(skills_x, 342, "Free Skill Slots: " + string(free_remaining));
+    // Restricted species skill choices (options[] non-empty)
+    if (species_skill_choices_are_restricted(cc)
+        && variable_struct_exists(cc, "species_skill_choice_remaining"))
+    {
+        draw_set_color(make_color_rgb(183, 135, 0));
+        draw_text(skills_x, 340,
+            "Species Skill Choices: "
+            + string(cc.species_skill_choice_remaining)
+            + " / "
+            + string(cc.species_skill_choice_required));
+    }
+    else
+    {
+        // Free slots only when NOT restricted
+        var free_skills = 0;
+        if (variable_struct_exists(cc, "locked_species")
+            && variable_struct_exists(global.species_data, cc.locked_species))
+        {
+            var sp = global.species_data[$ cc.locked_species];
+            if (variable_struct_exists(sp.creation, "knowledge_skills")
+                && variable_struct_exists(sp.creation.knowledge_skills, "choices")
+                && variable_struct_exists(sp.creation.knowledge_skills.choices, "count"))
+            {
+                free_skills = sp.creation.knowledge_skills.choices.count;
+            }
+        }
+        if (free_skills > 0)
+        {
+            draw_set_color(c_aqua);
+            draw_text(skills_x, 340, "Free Skill slots: " + string(free_skills));
+        }
+    }
 
-	// Species choices tracker
-if (variable_struct_exists(cc, "species_skill_choice_required")
-    && cc.species_skill_choice_required > 0)
-{
-    draw_set_color(c_black);
-    draw_rectangle(
-        skills_x - 140,
-        910,
-        skills_x + 140,
-        950,
-        false
-    );
-
-    draw_set_color(c_white);
-    draw_rectangle(
-        skills_x - 140,
-        910,
-        skills_x + 140,
-        950,
-        true
-    );
-
-    draw_set_color(c_white);
-
-    draw_text(
-        skills_x,
-        920,
-        "Species Skill Choices: "
-        + string(cc.species_skill_choice_remaining)
-        + " / "
-        + string(cc.species_skill_choice_required)
-    );
-}
-	
-	// Current table
-draw_set_color(c_ltgray);
-if (cc.selected_table != "")
-    draw_text(skills_x, 358, "Current Table: " + cc.selected_table);
-else
-    draw_text(skills_x, 358, "Current Table: —");
+    // Current table
+    draw_set_color(c_ltgray);
+    if (cc.selected_table != "")
+        draw_text(skills_x, 358, "Current Table: " + cc.selected_table);
+    else
+        draw_text(skills_x, 358, "Current Table: —");
 
 
     draw_set_halign(fa_left);
@@ -2779,18 +2812,13 @@ audio_sound_pitch(snd, random_range(0.90, 1.10));
     else
     {
         // Refund character points
-        var owns_table = false;
-        if (variable_struct_exists(global.talent_data, talent_name))
-        {
-            var talent = global.talent_data[$ talent_name];
-            if (variable_struct_exists(talent, "table"))
-                owns_table = table_is_owned(cc, talent.table);
-        }
-        var refund = owns_table ? 1 : 2;
+var owns_table = table_is_owned(cc, cc.selected_table);
+var refund = owns_table ? 1 : 2;
 
-        var snd = audio_play_sound(scribble, 0.5, false);
+var snd = audio_play_sound(scribble, 0.5, false);
 audio_sound_pitch(snd, random_range(0.90, 1.10));
-        cc.generation_slots_remaining += refund;
+
+cc.generation_slots_remaining += refund;
 
         if (current == 0)
             set_talent_rank(cc, talent_name, -1);
@@ -2828,30 +2856,49 @@ function draw_talents_column(cc, L, talents_x = undefined)
     draw_set_color(c_white);
     draw_rectangle(panel_x, panel_y, panel_x + panel_w, panel_y + panel_h, true);
 
-    // Header
+       // Header
     draw_set_halign(fa_center);
     draw_set_color(c_white);
     draw_text(talents_x, 318, "TALENTS");
 
-    // Free Talent slots
-    var remaining = 0;
-    if (variable_struct_exists(cc, "locked_species"))
+    // Restricted species talent choices
+    if (species_talent_choices_are_restricted(cc)
+        && variable_struct_exists(cc, "species_talent_choice_remaining"))
     {
-        var species = global.species_data[$ cc.locked_species];
-        if (variable_struct_exists(species.creation, "knowledge_talents")
-            && variable_struct_exists(species.creation.knowledge_talents, "choices"))
-            remaining = species.creation.knowledge_talents.choices.count;
+        draw_set_color(make_color_rgb(183, 135, 0));
+        draw_text(talents_x, 340,
+            "Species Talent Choices: "
+            + string(cc.species_talent_choice_remaining)
+            + " / "
+            + string(cc.species_talent_choice_required));
     }
-    draw_set_color(c_aqua);
-    draw_text(talents_x, 342, "Free Talent Slots: " + string(remaining));
-	
-	draw_set_color(c_ltgray);
-if (cc.selected_table != "")
-    draw_text(talents_x, 358, "Current Table: " + cc.selected_table);
-else
-    draw_text(talents_x, 358, "Current Table: —");
+    else
+    {
+        var free_talents = 0;
+        if (variable_struct_exists(cc, "locked_species")
+            && variable_struct_exists(global.species_data, cc.locked_species))
+        {
+            var sp = global.species_data[$ cc.locked_species];
+            if (variable_struct_exists(sp.creation, "knowledge_talents")
+                && variable_struct_exists(sp.creation.knowledge_talents, "choices")
+                && variable_struct_exists(sp.creation.knowledge_talents.choices, "count"))
+            {
+                free_talents = sp.creation.knowledge_talents.choices.count;
+            }
+        }
+        if (free_talents > 0)
+        {
+            draw_set_color(c_aqua);
+            draw_text(talents_x, 340, "Free Talent slots: " + string(free_talents));
+        }
+    }
 
-draw_set_halign(fa_left);
+    draw_set_color(c_ltgray);
+    if (cc.selected_table != "")
+        draw_text(talents_x, 358, "Current Table: " + cc.selected_table);
+    else
+        draw_text(talents_x, 358, "Current Table: —");
+    draw_set_halign(fa_left);
 
     // Early exits
     if (cc.selected_table == "" || !cc.generation.tables_locked)
@@ -2969,7 +3016,7 @@ var has_choice_left = variable_struct_exists(cc, "species_talent_choice_remainin
         else if (is_free)
             draw_set_color(make_color_rgb(20, 50, 60));
 		else if (is_choice_opt && has_choice_left)
-		    draw_set_color(make_color_rgb(255, 105, 180));
+		    draw_set_color(make_color_rgb(183, 135, 0));
 		else if (is_free)
 		    draw_set_color(make_color_rgb(20, 50, 60));
         else
@@ -3464,22 +3511,42 @@ function generation_init_species_choices(cc)
     {
         var sp = global.species_data[$ cc.locked_species];
 
+        // ---- Skills ----
+        // options non-empty → restricted Species Choice
+        // options empty     → Free Skill Slots only (count stays on species data)
         if (variable_struct_exists(sp.creation, "knowledge_skills")
             && variable_struct_exists(sp.creation.knowledge_skills, "choices")
             && variable_struct_exists(sp.creation.knowledge_skills.choices, "count"))
         {
-            var n = sp.creation.knowledge_skills.choices.count;
-            cc.species_skill_choice_required = n;
-            cc.species_skill_choice_remaining = n;
+            var sch = sp.creation.knowledge_skills.choices;
+            var n = sch.count;
+            var has_options = variable_struct_exists(sch, "options")
+                && is_array(sch.options)
+                && array_length(sch.options) > 0;
+
+            if (has_options)
+            {
+                cc.species_skill_choice_required = n;
+                cc.species_skill_choice_remaining = n;
+            }
         }
 
+        // ---- Talents ----
         if (variable_struct_exists(sp.creation, "knowledge_talents")
             && variable_struct_exists(sp.creation.knowledge_talents, "choices")
             && variable_struct_exists(sp.creation.knowledge_talents.choices, "count"))
         {
-            var n = sp.creation.knowledge_talents.choices.count;
-            cc.species_talent_choice_required = n;
-            cc.species_talent_choice_remaining = n;
+            var tch = sp.creation.knowledge_talents.choices;
+            var n = tch.count;
+            var has_options = variable_struct_exists(tch, "options")
+                && is_array(tch.options)
+                && array_length(tch.options) > 0;
+
+            if (has_options)
+            {
+                cc.species_talent_choice_required = n;
+                cc.species_talent_choice_remaining = n;
+            }
         }
     }
 
@@ -3655,4 +3722,51 @@ function string_trim(str)
     while (string_length(str) > 0 && string_char_at(str, string_length(str)) == " ")
         str = string_delete(str, string_length(str), 1);
     return str;
+}
+
+
+function table_contains_species_skill_option(cc, table_name)
+{
+    if (!species_skill_choices_are_restricted(cc))
+        return false;
+
+    if (!variable_global_exists("knowledge_table_data"))
+        return false;
+
+    if (!variable_struct_exists(global.knowledge_table_data, table_name))
+        return false;
+
+    var td = global.knowledge_table_data[$ table_name];
+    if (!variable_struct_exists(td, "skills") || !is_array(td.skills))
+        return false;
+
+    for (var i = 0; i < array_length(td.skills); i++)
+    {
+        if (skill_is_species_choice_option(cc, td.skills[i]))
+            return true;
+    }
+    return false;
+}
+
+function table_contains_species_talent_option(cc, table_name)
+{
+    if (!species_talent_choices_are_restricted(cc))
+        return false;
+
+    if (!variable_global_exists("knowledge_table_data"))
+        return false;
+
+    if (!variable_struct_exists(global.knowledge_table_data, table_name))
+        return false;
+
+    var td = global.knowledge_table_data[$ table_name];
+    if (!variable_struct_exists(td, "talents") || !is_array(td.talents))
+        return false;
+
+    for (var i = 0; i < array_length(td.talents); i++)
+    {
+        if (talent_is_species_choice_option(cc, td.talents[i]))
+            return true;
+    }
+    return false;
 }
