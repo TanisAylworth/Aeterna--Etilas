@@ -1,7 +1,7 @@
 function equipment_data_init()
 {
-    if (variable_global_exists("equipment_data")) return;
-    
+    // TEMP: always rebuild while editing prices
+    // if (variable_global_exists("equipment_data")) return;
     global.equipment_data = { weapons: {} };
     
     // =========================================================

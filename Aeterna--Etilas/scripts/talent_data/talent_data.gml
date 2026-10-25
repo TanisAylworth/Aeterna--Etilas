@@ -9,7 +9,7 @@ global.talent_data[$ "Alertness"] = {
     table: "General",
     ranked: true,
     difficulty: global.SKILL_INTERMEDIATE,
-    description: "A passive increase to your passive perception +1 per rank."
+    description: "Grants +1 to Passive and Active Perception tests."
 };
 
 global.talent_data[$ "Fleet Footed"] = {
@@ -17,7 +17,7 @@ global.talent_data[$ "Fleet Footed"] = {
     table: "General",
     ranked: true,
     difficulty: global.SKILL_INTERMEDIATE,
-    description: "Each rank increases the move speed of this character by 10ft."
+    description: "Grants +5ft of Movement Speed per Rank up to Species maximum. Note: If your character is at Species maximum for Dexterity this talent will do nothing."
 };
 
 global.talent_data[$ "Iron Stomach"] = {
@@ -25,7 +25,7 @@ global.talent_data[$ "Iron Stomach"] = {
     table: "General",
     ranked: false,
     difficulty: global.SKILL_SIMPLE,
-    description: "This character gains advantage on endurance tests for eating poisonous or rotten foods."
+    description: "Grants advantage on Endurance checks for eating poisonous or rotten foods."
 };
 
 global.talent_data[$ "Light Sleeper"] = {
@@ -85,7 +85,7 @@ global.talent_data[$ "Durable"] = {
     table: "General",
     ranked: true,
     difficulty: global.SKILL_INTERMEDIATE,
-    description: "Increases your CDT by 1 per mastery rank. Can be taken a number of times up to your CDT maximum."
+    description: "Increases your CDT by 1 per mastery rank. Can be taken a number of times up to your CDT maximum. Note: If your character's CDT is already maxed out as shown by Limit: X under CDT this Talent will do nothing."
 };
 
 global.talent_data[$ "Fitness"] = {
@@ -93,7 +93,7 @@ global.talent_data[$ "Fitness"] = {
     table: "General",
     ranked: true,
     difficulty: global.SKILL_INTERMEDIATE,
-    description: "Increases your Endurance Test score by 1, up to 2× your Endurance attribute."
+    description: "Increases your Endurance check score by 1."
 };
 
 global.talent_data[$ "Armor Training (Light)"] = {

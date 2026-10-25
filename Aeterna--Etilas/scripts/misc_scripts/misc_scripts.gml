@@ -24,15 +24,16 @@ function skill_buy_rank(cc, skill)
 function get_all_knowledge_tables()
 {
     return  [
-		"General",
-        "Professional",
-        "Laborer",
-        "Clerical",
-        "Roguery",
-        "Warfare",
-        "Arcane",
-        "Occult",
-        "Survival"
+		"Arcane",
+"Clerical",
+"General",
+"Laborer",
+"Occult",
+"Professional",
+"Roguery",
+"Social",
+"Survival",
+"Warfare"
     ];
 }
 

@@ -142,5 +142,6 @@ draw_set_valign(fa_top);
 draw_equipment_preview(cc);
 draw_equipment_tooltip(cc);
 briefing_draw(cc);
+draw_equipment_tooltip(cc);
 
 }

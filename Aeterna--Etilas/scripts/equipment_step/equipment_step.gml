@@ -6,6 +6,10 @@ function equipment_shop_update(cc)
     var my = device_mouse_y_to_gui(0);
     var clicked = mouse_check_button_pressed(mb_left);
     var right_clicked = mouse_check_button_pressed(mb_right);
+	if (!variable_struct_exists(cc.equipment, "hovered_item"))
+    cc.equipment.hovered_item = "";
+if (!variable_struct_exists(cc.equipment, "hovered_skill_key"))
+    cc.equipment.hovered_skill_key = "";
 
     var L = {
         center_x: display_get_gui_width() * 0.5,
