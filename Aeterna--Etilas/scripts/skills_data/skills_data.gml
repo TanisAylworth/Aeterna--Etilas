@@ -983,7 +983,7 @@ global.skill_data[$ "Weapon Skill (X)"] = {
     table: "Warfare",
     specialization: {
         required: true,
-        choices: ["Small Blades", "Blades", "Great Blades", "Hand Axes", "Axes", "Great Axes", "Small Bludgeons", "Bludgeons", "Great Bludgeons", "Bladed Polearms", "Blunt Polearms", "Axe Bladed Polearms", "Tipped Polearms", "Tools", "Improvised", "Unarmed", "Bows", "Crossbows", "Thrown", "Whips", "Flails", "Shields", "Siege Weapons"]
+        choices: ["Small Blades", "Blades", "Great Blades", "Hand Axes", "Axes", "Great Axes", "Small Bludgeons", "Bludgeons", "Great Bludgeons", "Bladed Polearms", "Blunt Polearms", "Axe Bladed Polearms", "Tipped Polearms", "Tools", "Improvised", "Unarmed", "Bows", "Crossbows", "Thrown", "Whips", "Flails", "Shields"]
     },
     check: {
         mode: "best",
@@ -997,7 +997,6 @@ global.skill_data[$ "Weapon Skill (X)"] = {
 };
 
 #endregion
-
 
 #region Clerical
 	// =====================================================
@@ -1608,7 +1607,7 @@ global.skill_data[$ "Lore (Arcane)"] = {
         ]
     },
     difficulty: global.SKILL_ADVANCED,
-    description: "A skill for one’s knowledge on a given subject."
+    description: "This skill is checked whenever the user attempts to recall information about the chosen topic. Degrees of Success produces substantial information. Degrees of Failure produces nothing."
 };
 
 global.skill_data[$ "Emergency Discharge"] = {
@@ -1621,7 +1620,7 @@ global.skill_data[$ "Emergency Discharge"] = {
         ]
     },
     difficulty: global.SKILL_ADVANCED,
-    description: "A skill that can be used in the event of a catastrophic failure during a spell cast. This test is done at a penalty equal to the DoF of the Spellcraft test. Each DoS reduces damage from the vented spell’s feedback by 1."
+    description: "This skill is checked whenever the user attempts to reduce or nullify the effects of Arcane Feedback. Degrees of Success reduce the arcane charge build up that is dealt to the user as damage for fumbling a Spellcraft check or as a result of another's reaction. Degrees of Failure does nothing."
 };
 
 #endregion
@@ -1645,7 +1644,7 @@ global.skill_data[$ "Water Find (X)"] = {
         ]
     },
     difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill for using special survival knowledge to find drinkable water in a given environment."
+    description: "This skill is checked whenever the user attempts to locate a source of water in a chosen terrain. Other terrain types may also be checked but are done so at a (-2) penalty. Each Degree of Success generates 1 unit of water from their method. Degrees of Failure generate nothing. Modified by Weather, Terrain, and Surroundings."
 };
 
 global.skill_data[$ "Survival Weapon (X)"] = {
@@ -1662,7 +1661,7 @@ global.skill_data[$ "Survival Weapon (X)"] = {
         ]
     },
     difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill for tracking prowess with a weapon type used by Survivalists. The primary combat skill."
+    description: "This skill is checked as part of an attack action using one of the chosen weapon types. Survival Weapon functions identically to Weapon Skill (X) but has a separate more Survival focused weapon list. This is a contested check against the opponent's Defensive Action. Degrees of Success results in a hit. Degrees of Failure results in a miss."
 };
 
 global.skill_data[$ "Firebuilding"] = {
@@ -1676,7 +1675,7 @@ global.skill_data[$ "Firebuilding"] = {
         ]
     },
     difficulty: global.SKILL_ADVANCED,
-    description: "A skill for starting fires in the worst conditions with little to no equipment."
+    description: "This skill is checked whenever the user attempts to light a fire with no equipment. Degrees of success shows the ease of lighting the fire. Degrees of failure shows the difficulty in starting the fire. Modified by weather, surroundings, and material."
 };
 
 global.skill_data[$ "Camouflage"] = {
@@ -1689,7 +1688,7 @@ global.skill_data[$ "Camouflage"] = {
         ]
     },
     difficulty: global.SKILL_ADVANCED,
-    description: "A skill for attempting to blend into an environment."
+    description: "This skill is checked whenever the user attempts to increase their base Passive Perception difficulty. Each Degree of Success is the number of Passive Perception Degrees of Success required to spot the user or their target. Degrees of Failure make the user or the target of the skill more easily seen. This can be used in tandem to Hide offering a means to further increase stealth capabilities. This can also be used on objects like doors or hidden entrances. Modified by Terrain, Weather, and Surroundings."
 };
 
 global.skill_data[$ "Breathing Control"] = {
@@ -1702,7 +1701,7 @@ global.skill_data[$ "Breathing Control"] = {
         ]
     },
     difficulty: global.SKILL_ADVANCED,
-    description: "A skill for attempting to hold one's breathe or breathe less in general."
+    description: "This skill is used whenever the user attempts to hold their breath for longer than normally possible per their Fatigue Limit. Degrees of Success results in not accruing a level of fatigue from lack of air. Degrees of Failure results in the normal Fatigue gain. Modified by Activity."
 };
 
 global.skill_data[$ "Primitive Crafts"] = {
@@ -1716,7 +1715,7 @@ global.skill_data[$ "Primitive Crafts"] = {
         ]
     },
     difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill for fabricating improvised tools and weapons."
+    description: "This skill is checked whenever the user attempts to craft rudamentary tools or weapons. This skill is a camp skill and all items produced this way are considered Improvised until they reach quality level 3. Degrees of Success lock in the quality level obtained. Degrees of Failure reduce the quality level. Extreme Successes result in the gaining of a positive level of quality and an additional roll to determine if that is the final state of the craft. Extreme Failures immediately destroys the item and causes a mishap roll to the crafter. Each positive and Negative level of quality imposes a -2 penalty per current level to all subsequent rolls. Modified by Surroundings, Weather, and Terrain."
 };
 
 
@@ -1731,7 +1730,7 @@ global.skill_data[$ "Hunting"] = {
         ]
     },
     difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill for stalking and chasing game."
+    description: "This skill is checked whenever the user attempts to kill game as a source of food. This is a camp skill and requires that the user have the means to hunt such as natural weapons, bows, spears, etc. Additionally, this skill is a compound skill and requires an additional Sneak and Hide check. The total of all three checks determines what kind of game the Hunter can sucessfully hunt. This system also includes local predators and potentially monstrous creatures which may detect the Hunter and attack them intead. If the Hunter gets to ambush their target treat it as combat with the Hunter gaining the Initiative. Otherwise treat this as normal combat. Modified by Terrain, Weather, and Surroundings."
 };
 
 global.skill_data[$ "Foraging"] = {
@@ -1744,7 +1743,7 @@ global.skill_data[$ "Foraging"] = {
         ]
     },
     difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill for finding and gathering plants. May or may not be edible."
+    description: "This skill is checked whenever the user attempts to find herbs or edible plants in the region. This is a camp skill. Each Degree of Success results in the collection of 1 unit of chosen plant matter. Degrees of Failure result in nothing gained. Modified by Terrain, Weather, and Surroundings."
 };
 
 global.skill_data[$ "Herbalism"] = {
@@ -1757,7 +1756,7 @@ global.skill_data[$ "Herbalism"] = {
         ]
     },
     difficulty: global.SKILL_ADVANCED,
-    description: "A skill for the identification and collection of plants. Can be used to gather medical herbs or toxic plants or ones fit for eating. Using herbal poultice increases natural healing factor by 1. More advanced remedies can provide higher bonuses."
+    description: "This skill is checked whenever the user attempts to identify or handle particularly dangerous or beneficial plants. This is a camp skill. Each Degree of Success results in the colelction of one unit of Medicinal or Toxic plant matter. Degrees of failure results in nothing. Modified by Terrain, Weather, and Surroundings."
 };
 
 
@@ -1771,7 +1770,7 @@ global.skill_data[$ "Weather Sense"] = {
         ]
     },
     difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill for determining upcoming weather events."
+    description: "This skill is checked prior to every weather change event. This is a passively tested skill. Each Degree of Success results in the positive detection of what type of weather event is about to occur. Particularly helpful in areas with deadly weather events. Modified by Terrain, Weather, and Surroundings."
 };
 
 
@@ -1789,7 +1788,7 @@ global.skill_data[$ "Survival (X)"] = {
         ]
     },
     difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill for knowing the proper procedure to survive in a given terrain type. Can be tested in other terrains at a -2."
+    description: "This skill is checked whenever the user attempts to draw upon their knowledge on how to survive in a given biome. Other untrained biomes may be tested at a (-2) penalty instead of the usual (-4). Degrees of Success improve all other Survival skill checks in the region by that amount. This is a Passive Skill check that is made whenver the user enters a new biome."
 };
 
 global.skill_data[$ "Lore (Animal)"] = {
@@ -1802,7 +1801,7 @@ global.skill_data[$ "Lore (Animal)"] = {
         ]
     },
     difficulty: global.SKILL_ADVANCED,
-    description: "A skill for knowing things about animals."
+    description: "This skill is checked whenever the user attempts to recall information about the chosen topic. Degrees of Success produces substantial information. Degrees of Failure produces nothing."
 };
 
 global.skill_data[$ "Lore (Monster)"] = {
@@ -1815,7 +1814,7 @@ global.skill_data[$ "Lore (Monster)"] = {
         ]
     },
     difficulty: global.SKILL_ADVANCED,
-    description: "A skill for knowing things about monsters."
+    description: "This skill is checked whenever the user attempts to recall information about the chosen topic. Degrees of Success produces substantial information. Degrees of Failure produces nothing."
 };
 
 global.skill_data[$ "Lore (Plant)"] = {
@@ -1828,7 +1827,7 @@ global.skill_data[$ "Lore (Plant)"] = {
         ]
     },
     difficulty: global.SKILL_ADVANCED,
-    description: "A skill for knowing things about plants."
+    description: "This skill is checked whenever the user attempts to recall information about the chosen topic. Degrees of Success produces substantial information. Degrees of Failure produces nothing."
 };
 
 global.skill_data[$ "Mountaineering"] = {
@@ -1843,7 +1842,7 @@ global.skill_data[$ "Mountaineering"] = {
         ]
     },
     difficulty: global.SKILL_ADVANCED,
-    description: "A skill for navigating and scaling mountain passes. Only one member needs this skill to navigate but others require climb and such to scale."
+    description: "This skill is checked whenever the user attempts to traverse a mountain without using an established path. Degrees of Success results in additional movement speed through rough mountainous terrain. Degrees of Failure results in a move speed penalty. Extreme Failures can lead to death. Modified by Terrain, Weather, and Surroundings."
 };
 
 
@@ -1854,11 +1853,12 @@ global.skill_data[$ "Spelunking"] = {
     check: {
         mode: "best",
         attributes: [
-            { attribute: "Intelligence", modifier: -2 }
+            { attribute: "Intelligence", modifier: -2 },
+            { attribute: "Dexterity", modifier: 0 },
         ]
     },
     difficulty: global.SKILL_ADVANCED,
-    description: "A skill for navigating caves, tight spaces, and crevices."
+    description: "This skill is checked whenever the user attempts to traverse a caves without using an established path. Degrees of Success results in additional movement speed through tight cavernous terrain. Degrees of Failure results in a move speed penalty. Extreme Failures can lead to death. Modified by Terrain, Weather, and Surroundings."
 };
 
 global.skill_data[$ "Danger Sense"] = {
@@ -1871,7 +1871,7 @@ global.skill_data[$ "Danger Sense"] = {
         ]
     },
     difficulty: global.SKILL_ADVANCED,
-    description: "A skill that gives an impending sense of danger upon success if such a threat is present. Can disclose the actual danger of a perceived threat in terms of difficulty. Penalties are based on the creature’s deception or stealth."
+    description: "This skill is checked whenever the user attempts to rely on their gut feeling that something is wrong. This is a Passive Skill and is checked prior to any encounter occurring. This is also a contested check against whether or not the threat's Hide or Sneak rolls. Degrees of Success results in detecting a sense of danger scaling to the potential threat nearby. Degrees of Failure leaves you oblivious. Modified by Terrain, Weather, and Surroundings."
 };
 
 
@@ -1888,7 +1888,7 @@ global.skill_data[$ "Occult (Necromancy)"] = {
         ]
     },
     difficulty: global.SKILL_ADVANCED,
-    description: "A skill for knowing the taboo acts of Necromancy."
+    description: "This skill is checked whenever the user attempts to perform a Necromantic Ritual or call upon a Necromantic Power. The rank at which the power is conjured is determined and the following check is penalized by -2 per rank. Degrees of Success results in a successful conjuration. Degrees of Failure results in a failed conjuration. Extremes have no effects on Necromantic conjurations."
 };
 
 global.skill_data[$ "Occult (Vampirism)"] = {
@@ -1901,7 +1901,7 @@ global.skill_data[$ "Occult (Vampirism)"] = {
         ]
     },
     difficulty: global.SKILL_ADVANCED,
-    description: "A skill for knowing the taboo acts of Vampirism."
+    description: "This skill is checked whenever the user attempts to call upon a Vampiric Power. The rank at which the power is Manifested is determined and the following check is penalized by -2 per rank. Degrees of Success results in a successful Manifestation. Degrees of Failure results in a failed Manifestation. Extremes have no effects on Vampiric Manifestations."
 };
 
 global.skill_data[$ "Occult (Shamanism)"] = {
@@ -1914,7 +1914,7 @@ global.skill_data[$ "Occult (Shamanism)"] = {
         ]
     },
     difficulty: global.SKILL_ADVANCED,
-    description: "A skill for knowing the taboo acts of Shamanism."
+    description: "This skill is checked whenever the user attempts to perform a Shamanic Ritual or call upon a Shamanic Power. The rank at which the power is conjured is determined and the following check is penalized by -2 per rank. Degrees of Success results in a successful conjuration. Degrees of Failure results in a failed conjuration. Extremes have no effects on Shamanic conjurations."
 };
 
 global.skill_data[$ "Occult (Daemonology)"] = {
@@ -1927,7 +1927,8 @@ global.skill_data[$ "Occult (Daemonology)"] = {
         ]
     },
     difficulty: global.SKILL_ADVANCED,
-    description: "A skill for knowing the taboo acts of Daemonology."
+    description: "This skill is checked whenever the user attempts to call upon a Daemonic Power. The rank at which the power is Manifested is determined and the following check is penalized by -2 per rank. Degrees of Success results in a successful Manifestation. Degrees of Failure results in a failed Manifestation. Extremes have no effects on Daemonic Manifestations."
+
 };
 
 
@@ -1941,7 +1942,7 @@ global.skill_data[$ "Occult (Wild Crier)"] = {
         ]
     },
     difficulty: global.SKILL_ADVANCED,
-    description: "A skill for knowing the taboo acts of being a Wild Crier were animal."
+    description: "This skill is checked whenever the user attempts to call upon a Crier Power. The rank at which the power is Manifested is determined and the following check is penalized by -2 per rank. Degrees of Success results in a successful Manifestation. Degrees of Failure results in a failed Manifestation. Extremes have no effects on Crier Manifestations."
 };
 
 global.skill_data[$ "Lore (Occult)"] = {
@@ -1954,7 +1955,7 @@ global.skill_data[$ "Lore (Occult)"] = {
         ]
     },
     difficulty: global.SKILL_ADVANCED,
-    description: "A skill for knowing the taboo acts of various occult classes."
+    description: "This skill is checked whenever the user attempts to recall information about the chosen topic. Degrees of Success produces substantial information. Degrees of Failure produces nothing."
 };
 
 
@@ -1968,7 +1969,7 @@ global.skill_data[$ "Component Preparation"] = {
         ]
     },
     difficulty: global.SKILL_ADVANCED,
-    description: "A skill for handeling and preparring ritual components for occult practices."
+    description: "This skill is checked whenever the user attempts to prepare components for a ritual be it a corpse for Necromancy, a fetish for Shamanism, or an offering for Daemonology. This is a camp skill and all Degrees of Success or Failure are added to the following ritual checks of each type of Occult practice. Modified by Terrain, Weather, and Surroundings."
 };
 
 global.skill_data[$ "Rituals"] = {
@@ -1981,7 +1982,7 @@ global.skill_data[$ "Rituals"] = {
         ]
     },
     difficulty: global.SKILL_ADVANCED,
-    description: "A skill for conducting and officiating in ritual practices for the occult."
+    description: "This skill is checked whenever the user attempts to perform Necromantic, Shamanistic, or Deamonology rituals. This is a camp skill. Each ritual imposes their own penalties based on difficulty and is handled uniquely. Modified by Terrain, Weather, and Surroundings."
 };
 
 global.skill_data[$ "Alchemy"] = {
@@ -1994,7 +1995,7 @@ global.skill_data[$ "Alchemy"] = {
         ]
     },
     difficulty: global.SKILL_ADVANCED,
-    description: "A skill showing knowledge of mixing chemicals and ingredients to create useful mixtures."
+    description: "This skill is checked whenever the user attempts to concoct a potion or tincture that perform extraordinary effects. This is a camp skill. This follows the crafting quality rank system requiring Extreme Successes to gain a level of quality, and Failures destroy the item. Normal Degrees of Success lock in the item at that quality level, and Failure reduce the level by 1. Modified by Weather, and Surroundings."
 };
 #endregion
 
@@ -2014,7 +2015,7 @@ global.skill_data[$ "Debate"] = {
         ]
     },
     difficulty: global.SKILL_INTERMEDIATE,
-    description: "An advanced form of Persuasion used in argumentation to confound or convince a target. Penalties are based on previous situations with the target."
+    description: "This skill is checked whenever the user attempts to convince another of a specific point of view. This is a contested check against the target's skill in question. Degrees of Success results in a positive shift in Reaction Adjustment with a similar ideology buff. Degrees of Failure results in a negative Reaction Adjustment penalty."
 };
 
 global.skill_data[$ "Etiquette"] = {
@@ -2040,7 +2041,7 @@ global.skill_data[$ "Begging"] = {
         ]
     },
     difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill for showing one’s harmless nature or panhandling skill."
+    description: "This skill is checked whenever the user attempts to placate others for money. This is a camp skill. Each Degree of Success results in a gain of 1d10 worth of copper. Each Degree of Failure reduces the Reaction Adjustment of the local populace to your party. Modified by Reputation, Location, Terrain, Weather, and Surroundings."
 };
 
 
@@ -2054,7 +2055,7 @@ global.skill_data[$ "Seduction"] = {
         ]
     },
     difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill for flirting, charming, or romantic manipulation."
+    description: "This skill is checked whenever the user attempts to sexually manipulate another. This is a contested checked against either the opponent's Willpower or ability to see the manipulation with a Charm or Charm related skill check. Each Degree of Success improves the Reaction Adjustment of the other party by 1. Each Degree of Failure reduces the Reaction Adjustment of the other party by 1 instead."
 };
 
 global.skill_data[$ "Command"] = {
@@ -2067,7 +2068,7 @@ global.skill_data[$ "Command"] = {
         ]
     },
     difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill for influencing soldiery to obey specific orders or instructions."
+    description: "This skill is checked whenever the user attempts to demand that an action be taken by another. This is a contested checked against the target's Willpower or their negative Reaction Adjustment towards the party whichever is higher. Additionally, this skill can be used during mass combat to demand action from a unit fleeing or routing. Degrees of Success result in compliance. Degrees of Failure reduce the Reaction Adjustment of the party by that much."
 };
 
 global.skill_data[$ "Deception"] = {
@@ -2080,7 +2081,7 @@ global.skill_data[$ "Deception"] = {
         ]
     },
     difficulty: global.SKILL_ADVANCED,
-    description: "A skill for attempting to lie or deceive someone."
+    description: "This skill is checked whenever the user attempts to lie about anything. This is a contested check against either the oppoent's Charm, Perception, or either related skills. Degrees of Success results in a successful lie. Degrees of Failure results in a decrease in Reaction Adjustment. Modified by Reaction Adjustment."
 };
 
 global.skill_data[$ "Empathy"] = {
@@ -2093,7 +2094,7 @@ global.skill_data[$ "Empathy"] = {
         ]
     },
     difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill for determinging feelings and judging intent."
+    description: "This skill is checked whenever the user attempts to judge another's intent. This is a contested check against the opponent's Charm, Willpower, or other related skill. Degrees of Success determines the opponent's intent vaguely. Degrees of Failure produces a false sense of intent. Modified by Reaction Adjustment."
 };
 
 global.skill_data[$ "Oration"] = {
@@ -2102,11 +2103,12 @@ global.skill_data[$ "Oration"] = {
     check: {
         mode: "best",
         attributes: [
-            { attribute: "Charm", modifier: 0 }
+            { attribute: "Charm", modifier: -2 },
+            { attribute: "Endurance", modifier: 0 }
         ]
     },
     difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill for speaking publically."
+    description: "This skill is checked whenever the user attempts to speak clearly to a mass of people or over a crowd. Degrees of Success results in a message being heard. Degrees of Failure results in nothing. Modified by Terrain, Weather, and Surroundings."
 };
 
 global.skill_data[$ "Interrogation"] = {
@@ -2120,7 +2122,7 @@ global.skill_data[$ "Interrogation"] = {
         ]
     },
     difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill for psrying information from individuals through pain or coercion."
+    description: "This skill is checked whenever the user attempts to pry information from a captured target. This is a contested check against the target's Willpower. Degrees of Success results in a positive gathering of information. Degrees of Failure results in nothing. Modified by Reaction Adjustment."
 };
 
 global.skill_data[$ "Bribery"] = {
@@ -2134,7 +2136,7 @@ global.skill_data[$ "Bribery"] = {
         ]
     },
     difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill for offering bribes to sway the decision making process of a group or individuals. Note this is not a catch all. Penalties are based on RA of the target."
+    description: "This skill is checked whenever the user attempts to utilize money or gifts to persuade an individual. This is a contested check against the target's Willpower. Degrees of Success results in a possitive response to the bribe. Degrees of Failure results in an equally negative penalty to the Reaction Adjustment to the party. Modified by Quality of Gift and Reaction Adjustment."
 };
 global.skill_data[$ "Intimidation"] = {
     name: "Intimidation",
@@ -2147,7 +2149,7 @@ global.skill_data[$ "Intimidation"] = {
         ]
     },
     difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill for influencing someone through physical presence."
+    description: "This skill is checked whenever the user attempts to utilize raw power of influence to persuade a target. This is a contested check against either the target's Strength, Willpower, or Reaction Adjustments. Success results in compulsion to perform an action. Failure reduces your Reaction Adjustment by an equal amount. Modified by Reaction Adjustment."
 };
 global.skill_data[$ "Diplomacy"] = {
     name: "Diplomacy",
@@ -2155,11 +2157,12 @@ global.skill_data[$ "Diplomacy"] = {
     check: {
         mode: "best",
         attributes: [
-            { attribute: "Charm", modifier: 0 }
+            { attribute: "Intelligence", modifier: 0 },
+            { attribute: "Charm", modifier: -2 },
         ]
     },
     difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill for diffusing situations and helping groups reach compromise."
+    description: "This skill is checked whenever the user attempts to come to an agreement with another party. This is a contested check against the target's Reaction Adjustment, and Diplomacy or Intelligence. Degrees of Success results in a possitive agreement being reaced and an increase in Reaction Adjustment. Degrees of Failure results in no agreement being reached and a decrease in Reaction Adjustment. Modified by Reaction Adjustment."
 	
 	
 };
@@ -2174,7 +2177,7 @@ global.skill_data[$ "Persuasion"] = {
         ]
     },
     difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill for convincing someone to perform an act or believe something they normally wouldn’t within reason. This is contested against the target’s logic test."
+    description: "This skill is checked whenever the user attempts to convince another party of something they would otherwise not be willing to do. This is a contested check agaisnt the target's Willpower, Charm, or Social skills. Degrees of Success results in a positive response to the proposed action. Degrees of Failure results in a negative response. Modified by Reaction Adjustment."
 };
 
 global.skill_data[$ "Bargain"] = {
@@ -2200,7 +2203,7 @@ global.skill_data[$ "Crowd Working"] = {
         ]
     },
     difficulty: global.SKILL_INTERMEDIATE,
-    description: "A skill for interacting with a crowd to push them into a desired emotional direction. Works in tandem with some bard songs. Penalties are based on the size and RA of the crowd."
+    description: "This skill is checked whenever the user attempts to manipulate a crowd in any way. This is a contested check against the Reaction Adjustment of the crowd towards the party or another target. Degrees of Success lead to convincing the crowd to action. Degrees of Failure further reduce the Reaction Adjustment of the party. Modified by Reaction Adjustment."
 };
 
 #endregion

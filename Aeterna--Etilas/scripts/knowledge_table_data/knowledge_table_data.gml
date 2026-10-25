@@ -101,7 +101,7 @@ global.knowledge_table_data[$ "Warfare"] =
         "Firearms Use",
         "Leadership",
         "Maintenance",
-        "Seige Craft",
+        "Seigecraft",
         "Signaling",
         "Tactics",
         "Taunting",
