@@ -857,24 +857,104 @@ function damage_format_dice(num, sides, bonus, type)
 }
 
 // Simple die-step ladder (tweak to match your rules)
+function damage_die_ladder()
+{
+    // Index 0 = lowest
+    return [
+        "0d0",
+        "1/4d4",
+        "1/2d4",
+        "3/4d4",
+        "1d2",
+        "1d3",
+        "1d4",
+        "2d2",
+        "1d6",
+        "2d3",
+        "1d8",
+        "2d4",
+        "1d10",
+        "1d12",
+        "2d6",
+        "3d4",
+        "4d4",
+        "2d8",
+        "3d6",
+        "1d20",
+        "2d10",
+        "2d12",
+        "3d8",
+        "4d6"
+    ];
+}
+
+function damage_die_key(num, sides, frac)
+{
+    // frac: 0 = normal, 1 = 1/4, 2 = 1/2, 3 = 3/4
+    if (frac == 1) return "1/4d4";
+    if (frac == 2) return "1/2d4";
+    if (frac == 3) return "3/4d4";
+    if (num <= 0 || sides <= 0) return "0d0";
+    return string(num) + "d" + string(sides);
+}
+
+function damage_die_index_from_parts(num, sides, frac)
+{
+    var key = damage_die_key(num, sides, frac);
+    var ladder = damage_die_ladder();
+    for (var i = 0; i < array_length(ladder); i++)
+    {
+        if (ladder[i] == key)
+            return i;
+    }
+    // Fallback: nearest normal NdM on the ladder
+    var fallback = string(max(1, num)) + "d" + string(max(1, sides));
+    for (var i = 0; i < array_length(ladder); i++)
+    {
+        if (ladder[i] == fallback)
+            return i;
+    }
+    // Default to 1d4 if unknown
+    return 6;
+}
+
+function damage_die_parts_from_key(key)
+{
+    // Returns { num, sides, frac, key }
+    // frac: 0 normal, 1=1/4, 2=1/2, 3=3/4
+    var r = { num: 0, sides: 0, frac: 0, key: key };
+
+    if (key == "0d0") return r;
+    if (key == "1/4d4") { r.num = 1; r.sides = 4; r.frac = 1; return r; }
+    if (key == "1/2d4") { r.num = 1; r.sides = 4; r.frac = 2; return r; }
+    if (key == "3/4d4") { r.num = 1; r.sides = 4; r.frac = 3; return r; }
+
+    var dpos = string_pos("d", key);
+    if (dpos <= 0) return r;
+    r.num   = real(string_copy(key, 1, dpos - 1));
+    r.sides = real(string_copy(key, dpos + 1, string_length(key) - dpos));
+    return r;
+}
+
+function damage_die_step_by(num, sides, frac, steps)
+{
+    var ladder = damage_die_ladder();
+    var idx = damage_die_index_from_parts(num, sides, frac);
+    idx = clamp(idx + steps, 0, array_length(ladder) - 1);
+    return damage_die_parts_from_key(ladder[idx]);
+}
+
 function damage_die_step_up(num, sides, steps)
 {
-    // Each step: try sides+2, or convert common pairs
-    repeat (steps)
-    {
-        if (num == 1 && sides == 2) { num = 1; sides = 3; }
-        else if (num == 1 && sides == 3) { num = 1; sides = 4; }
-        else if (num == 1 && sides == 4) { num = 1; sides = 6; }
-        else if (num == 1 && sides == 6) { num = 1; sides = 8; }
-        else if (num == 1 && sides == 8) { num = 1; sides = 10; }
-        else if (num == 1 && sides == 10) { num = 1; sides = 12; }
-        else if (num == 1 && sides == 12) { num = 2; sides = 6; }
-        else if (num == 2 && sides == 3) { num = 1; sides = 8; }
-        else if (num == 2 && sides == 4) { num = 1; sides = 10; }
-        else if (num == 2 && sides == 6) { num = 1; sides = 12; }
-        else sides += 2;
-    }
-    return { num: num, sides: sides };
+    // Old API (no frac) → assume normal dice
+    var p = damage_die_step_by(num, sides, 0, steps);
+    return { num: p.num, sides: p.sides, frac: p.frac, key: p.key };
+}
+
+function damage_die_step_down(num, sides, steps)
+{
+    var p = damage_die_step_by(num, sides, 0, -steps);
+    return { num: p.num, sides: p.sides, frac: p.frac, key: p.key };
 }
 
 
@@ -1154,21 +1234,3 @@ function equipment_damage_line(cc, item)
     return "Damage: " + final_core + " (" + detail + ")";
 }
 
-
-function damage_die_step_down(num, sides, steps)
-{
-    // Inverse of your step-up ladder
-    repeat (steps)
-    {
-        if (num == 2 && sides == 6) { num = 1; sides = 12; }
-        else if (num == 1 && sides == 12) { num = 1; sides = 10; }
-        else if (num == 1 && sides == 10) { num = 1; sides = 8; }
-        else if (num == 1 && sides == 8) { num = 1; sides = 6; }
-        else if (num == 1 && sides == 6) { num = 1; sides = 4; }
-        else if (num == 1 && sides == 4) { num = 1; sides = 3; }
-        else if (num == 1 && sides == 3) { num = 1; sides = 2; }
-        else if (sides > 2) sides -= 2;
-        else { num = 1; sides = 2; }
-    }
-    return { num: num, sides: sides };
-}

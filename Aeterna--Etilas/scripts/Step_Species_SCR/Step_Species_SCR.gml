@@ -51,7 +51,7 @@ function species_step_update(step)
             
             if (point_in_rectangle(mx, my, xx, yy, xx + box_w, yy + box_h))
             {
-                cc.locked_species = species_id;
+                character_reset_for_new_species(cc, species_id);
                 cc.species_bonus_map = {};
                 cc.species_bonus_remaining = 0;
 				var snd = audio_play_sound(scribble, 5, false);
@@ -71,23 +71,28 @@ function species_step_update(step)
         }
         
         // Confirm button (same as Draw)
-        if (cc.locked_species != undefined)
-        {
-            var btn_w = 260;
-            var btn_h = 60;
-            var btn_x = (vw - btn_w) * 0.5;
-            var btn_y = vh - 100;
-            
-            if (point_in_rectangle(mx, my, btn_x, btn_y, btn_x + btn_w, btn_y + btn_h))
-            {
-                cc.confirmed_species = cc.locked_species;
-                cc.species = cc.locked_species;
-                go_to_next_step(cc);
-				var snd = audio_play_sound(page_turn, 5, false);
-				audio_sound_pitch(snd, random_range(0.90, 1.10));
-                return;
-            }
-        }
+if (cc.locked_species != undefined)
+{
+    var btn_w = 260;
+    var btn_h = 60;
+    var btn_x = (vw - btn_w) * 0.5;
+    var btn_y = vh - 100;
+
+    if (point_in_rectangle(mx, my, btn_x, btn_y, btn_x + btn_w, btn_y + btn_h))
+    {
+        // Rebuild attributes / skills / talents / size for THIS species
+        character_reset_for_new_species(cc, cc.locked_species);
+
+        cc.confirmed_species = cc.locked_species;
+        cc.species = cc.locked_species;
+
+        go_to_next_step(cc);
+
+        var snd = audio_play_sound(page_turn, 5, false);
+        audio_sound_pitch(snd, random_range(0.90, 1.10));
+        return;
+    }
+}
     }
     
     // =====================================================

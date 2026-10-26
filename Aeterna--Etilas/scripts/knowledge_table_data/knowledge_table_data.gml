@@ -127,7 +127,7 @@ global.knowledge_table_data[$ "Warfare"] =
 			"Marksmanship",
 			"Multi-Attack",
 			"Natural Fighting",
-			"Rage",
+			"Rage (X)",
 			"Suppression",
 			"Two Weapon Defense",
 			"Two Weapon Fighting",

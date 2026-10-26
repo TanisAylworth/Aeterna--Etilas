@@ -3326,27 +3326,42 @@ function generation_random_spend(cc)
     if (!is_struct(cc)) return;
     if (!variable_struct_exists(cc, "generation")) return;
 
-    // Prefer locked tables so skill/talent costs stay at 1
+    generation_init_species_choices(cc);
+
     if (!cc.generation.tables_locked)
         cc.generation.tables_locked = true;
 
     var tables = get_all_knowledge_tables();
     if (array_length(tables) == 0) return;
 
-    // Ensure a selected table
     if (cc.selected_table == "" || cc.selected_table == undefined)
         cc.selected_table = tables[irandom(array_length(tables) - 1)];
 
-    var safety = 200; // prevent infinite loops
+    // --------------------------------------------------
+    // 1) Species skill choices (restricted options)
+    // --------------------------------------------------
+    generation_random_spend_species_skills(cc);
 
+    // --------------------------------------------------
+    // 2) Species talent choices (restricted options)
+    // --------------------------------------------------
+    generation_random_spend_species_talents(cc);
+
+    // --------------------------------------------------
+    // 3) Free skill slots (unrestricted count on species)
+    // --------------------------------------------------
+    generation_random_spend_free_skill_slots(cc);
+
+    // --------------------------------------------------
+    // 4) Remaining generation slots (existing logic)
+    // --------------------------------------------------
+    var safety = 200;
     while (cc.generation_slots_remaining > 0 && safety > 0)
     {
         safety--;
-
         var roll = irandom(99);
         var spent = false;
 
-        // 15% — CDT
         if (roll < 15 && cc.generation_slots_remaining > 0)
         {
             var current_cdt = get_current_cdt(cc);
@@ -3357,14 +3372,12 @@ function generation_random_spend(cc)
                 spent = true;
             }
         }
-        // 15% — Gold
         else if (roll < 30 && cc.generation_slots_remaining > 0)
         {
             cc.generation.gold_bonus += 20;
             cc.generation_slots_remaining--;
             spent = true;
         }
-        // 15% — buy an extra table (if affordable)
         else if (roll < 45 && cc.generation_slots_remaining >= 2)
         {
             var t = tables[irandom(array_length(tables) - 1)];
@@ -3378,73 +3391,301 @@ function generation_random_spend(cc)
                 spent = true;
             }
         }
-        // 35% — random skill rank on selected / random owned table
         else if (roll < 80)
         {
-            var skill_table = cc.selected_table;
-            if (!table_is_owned(cc, skill_table))
-            {
-                // pick a random owned table if possible
-                var owned = [];
-                for (var i = 0; i < array_length(tables); i++)
-                    if (table_is_owned(cc, tables[i]))
-                        array_push(owned, tables[i]);
-                if (array_length(owned) > 0)
-                    skill_table = owned[irandom(array_length(owned) - 1)];
-            }
-
-            if (variable_struct_exists(global.knowledge_table_data, skill_table))
-            {
-                var td = global.knowledge_table_data[$ skill_table];
-                if (variable_struct_exists(td, "skills") && array_length(td.skills) > 0)
-                {
-                    var sname = td.skills[irandom(array_length(td.skills) - 1)];
-                    var before = cc.generation_slots_remaining;
-                    // Skip required-spec bases for auto (popup would block)
-                    var sdata = global.skill_data[$ sname];
-                    if (sdata == undefined)
-                        sdata = global.skill_data[$ string_replace_all(sname, " (X)", "")];
-                    var is_spec_req = (sdata != undefined
-                        && variable_struct_exists(sdata, "specialization")
-                        && sdata.specialization.required);
-
-                    if (!is_spec_req)
-                    {
-                        attempt_skill_rank_up(cc, sname, string_replace_all(sname, " (X)", ""), skill_table);
-                        if (cc.generation_slots_remaining < before)
-                            spent = true;
-                    }
-                }
-            }
+            spent = generation_random_try_skill(cc, tables);
         }
-        // 20% — random talent
         else
         {
-            var talent_table = cc.selected_table;
-            if (variable_struct_exists(global.knowledge_table_data, talent_table))
-            {
-                var td = global.knowledge_table_data[$ talent_table];
-                if (variable_struct_exists(td, "talents") && array_length(td.talents) > 0)
-                {
-                    var tname = td.talents[irandom(array_length(td.talents) - 1)];
-                    var before = cc.generation_slots_remaining;
-                    attempt_talent_rank_up(cc, tname, talent_table);
-                    if (cc.generation_slots_remaining < before)
-                        spent = true;
-                }
-            }
+            spent = generation_random_try_talent(cc, tables);
         }
 
-        // If this roll couldn't spend, try a forced cheap skill next loop
         if (!spent && cc.generation_slots_remaining > 0)
         {
-            // last resort: gold is always valid
             cc.generation.gold_bonus += 20;
             cc.generation_slots_remaining--;
         }
     }
 
-    show_debug_message("Random spend done. Slots left: " + string(cc.generation_slots_remaining));
+    show_debug_message("Random spend done. Slots left: " + string(cc.generation_slots_remaining)
+        + " | species skill left: " + string(cc.species_skill_choice_remaining)
+        + " | species talent left: " + string(cc.species_talent_choice_remaining));
+}
+
+
+function generation_random_spend_species_skills(cc)
+{
+    if (!variable_struct_exists(cc, "species_skill_choice_remaining"))
+        return;
+    if (cc.species_skill_choice_remaining <= 0)
+        return;
+
+    var ch = get_species_skill_choices(cc);
+    if (ch == undefined || !variable_struct_exists(ch, "options") || !is_array(ch.options))
+        return;
+    if (array_length(ch.options) == 0)
+        return;
+
+    var safety = 40;
+    while (cc.species_skill_choice_remaining > 0 && safety > 0)
+    {
+        safety--;
+        var opt = ch.options[irandom(array_length(ch.options) - 1)];
+        generation_auto_take_skill(cc, opt, "species_choice");
+    }
+}
+
+
+function generation_random_spend_species_talents(cc)
+{
+    if (!variable_struct_exists(cc, "species_talent_choice_remaining"))
+        return;
+    if (cc.species_talent_choice_remaining <= 0)
+        return;
+
+    var ch = get_species_talent_choices(cc);
+    if (ch == undefined || !variable_struct_exists(ch, "options") || !is_array(ch.options))
+        return;
+    if (array_length(ch.options) == 0)
+        return;
+
+    var safety = 40;
+    while (cc.species_talent_choice_remaining > 0 && safety > 0)
+    {
+        safety--;
+        var opt = ch.options[irandom(array_length(ch.options) - 1)];
+        generation_auto_take_talent(cc, opt, "species_choice");
+    }
+}
+
+
+function generation_random_spend_free_skill_slots(cc)
+{
+    if (!variable_struct_exists(cc, "locked_species")) return;
+    if (!variable_struct_exists(global.species_data, cc.locked_species)) return;
+
+    var sp = global.species_data[$ cc.locked_species];
+    if (!variable_struct_exists(sp.creation, "knowledge_skills")) return;
+    if (!variable_struct_exists(sp.creation.knowledge_skills, "choices")) return;
+
+    var sch = sp.creation.knowledge_skills.choices;
+    // Restricted options are handled above — only pure free slots here
+    if (variable_struct_exists(sch, "options") && is_array(sch.options) && array_length(sch.options) > 0)
+        return;
+
+    var remaining = variable_struct_exists(sch, "count") ? sch.count : 0;
+    if (remaining <= 0) return;
+
+    var pool = [];
+    var tables = get_all_knowledge_tables();
+    for (var t = 0; t < array_length(tables); t++)
+    {
+        if (!table_is_owned(cc, tables[t])) continue;
+        var td = global.knowledge_table_data[$ tables[t]];
+        if (!variable_struct_exists(td, "skills")) continue;
+        for (var s = 0; s < array_length(td.skills); s++)
+            array_push(pool, td.skills[s]);
+    }
+    if (array_length(pool) == 0) return;
+
+    var safety = 40;
+    while (remaining > 0 && safety > 0)
+    {
+        safety--;
+        var sname = pool[irandom(array_length(pool) - 1)];
+        var before = sch.count;
+        generation_auto_take_skill(cc, sname, "free_slot");
+        remaining = sch.count;
+        if (sch.count >= before) break; // failed to spend
+    }
+}
+
+
+function generation_auto_take_skill(cc, skill_name, source)
+{
+    // source: "species_choice" | "free_slot" | "cp"
+    var lookup = string_replace_all(skill_name, " (X)", "");
+    var sdata = variable_struct_exists(global.skill_data, skill_name)
+        ? global.skill_data[$ skill_name]
+        : (variable_struct_exists(global.skill_data, lookup) ? global.skill_data[$ lookup] : undefined);
+
+    var needs_spec = (sdata != undefined
+        && variable_struct_exists(sdata, "specialization")
+        && variable_struct_exists(sdata.specialization, "required")
+        && sdata.specialization.required
+        && variable_struct_exists(sdata.specialization, "choices")
+        && is_array(sdata.specialization.choices)
+        && array_length(sdata.specialization.choices) > 0);
+
+    if (needs_spec)
+    {
+        var choice = sdata.specialization.choices[irandom(array_length(sdata.specialization.choices) - 1)];
+        var base_clean = string_replace_all(skill_name, " (X)", "");
+        var final_name = base_clean + " (" + choice + ")";
+
+        // Already owned?
+        if (variable_struct_exists(cc, "skill_ranks")
+            && variable_struct_exists(cc.skill_ranks, final_name)
+            && is_real(cc.skill_ranks[$ final_name])
+            && cc.skill_ranks[$ final_name] >= 0)
+            return false;
+
+        if (source == "species_choice")
+        {
+            if (cc.species_skill_choice_remaining <= 0) return false;
+            cc.species_skill_choice_remaining--;
+            if (!variable_struct_exists(cc, "species_choice_skill_ranks"))
+                cc.species_choice_skill_ranks = {};
+            if (!variable_struct_exists(cc.species_choice_skill_ranks, final_name))
+                cc.species_choice_skill_ranks[$ final_name] = 0;
+            cc.species_choice_skill_ranks[$ final_name]++;
+        }
+        else if (source == "free_slot")
+        {
+            var sp = global.species_data[$ cc.locked_species];
+            if (sp.creation.knowledge_skills.choices.count <= 0) return false;
+            sp.creation.knowledge_skills.choices.count--;
+            if (!variable_struct_exists(cc, "free_skill_ranks")) cc.free_skill_ranks = {};
+            if (!variable_struct_exists(cc.free_skill_ranks, final_name))
+                cc.free_skill_ranks[$ final_name] = 0;
+            cc.free_skill_ranks[$ final_name]++;
+            if (!variable_struct_exists(cc, "free_slot_skills")) cc.free_slot_skills = [];
+            if (!array_contains(cc.free_slot_skills, final_name))
+                array_push(cc.free_slot_skills, final_name);
+        }
+        else
+        {
+            var owns = table_is_owned(cc, cc.selected_table);
+            var cost = owns ? 1 : 2;
+            if (cc.generation_slots_remaining < cost) return false;
+            cc.generation_slots_remaining -= cost;
+        }
+
+        set_skill_rank(cc, final_name, 0);
+        return true;
+    }
+
+    // Normal skill — prefer your existing rank-up so CP/free rules stay consistent
+    if (source == "species_choice")
+    {
+        if (cc.species_skill_choice_remaining <= 0) return false;
+        // If already has rank, still consume a choice only if you want duplicates denied:
+        if (get_skill_rank(cc, skill_name) >= 0
+            && variable_struct_exists(cc.skill_ranks, skill_name))
+        {
+            // optional: skip already owned
+        }
+        cc.species_skill_choice_remaining--;
+        if (!variable_struct_exists(cc, "species_choice_skill_ranks"))
+            cc.species_choice_skill_ranks = {};
+        if (!variable_struct_exists(cc.species_choice_skill_ranks, skill_name))
+            cc.species_choice_skill_ranks[$ skill_name] = 0;
+        cc.species_choice_skill_ranks[$ skill_name]++;
+        var r = get_skill_rank(cc, skill_name);
+        if (!is_real(r) || r < 0) r = -1;
+        set_skill_rank(cc, skill_name, r + 1);
+        return true;
+    }
+
+    var table = cc.selected_table;
+    attempt_skill_rank_up(cc, skill_name, string_replace_all(skill_name, " (X)", ""), table);
+    return true;
+}
+
+
+function generation_auto_take_talent(cc, talent_name, source)
+{
+    var lookup = string_replace_all(talent_name, " (X)", "");
+    var tdata = variable_struct_exists(global.talent_data, talent_name)
+        ? global.talent_data[$ talent_name]
+        : (variable_struct_exists(global.talent_data, lookup) ? global.talent_data[$ lookup] : undefined);
+
+    var needs_spec = (tdata != undefined
+        && variable_struct_exists(tdata, "specialization")
+        && variable_struct_exists(tdata.specialization, "required")
+        && tdata.specialization.required
+        && variable_struct_exists(tdata.specialization, "choices")
+        && is_array(tdata.specialization.choices)
+        && array_length(tdata.specialization.choices) > 0);
+
+    if (needs_spec)
+    {
+        var choice = tdata.specialization.choices[irandom(array_length(tdata.specialization.choices) - 1)];
+        var base_clean = string_replace_all(talent_name, " (X)", "");
+        var final_name = base_clean + " (" + choice + ")";
+
+        if (get_talent_rank(cc, final_name) >= 0)
+            return false;
+
+        if (source == "species_choice")
+        {
+            if (cc.species_talent_choice_remaining <= 0) return false;
+            cc.species_talent_choice_remaining--;
+        }
+        else
+        {
+            attempt_talent_rank_up(cc, talent_name, cc.selected_table);
+            return true;
+        }
+
+        set_talent_rank(cc, final_name, 0);
+        return true;
+    }
+
+    if (source == "species_choice")
+    {
+        if (cc.species_talent_choice_remaining <= 0) return false;
+        if (get_talent_rank(cc, talent_name) >= 0)
+            return false; // unranked already owned
+        cc.species_talent_choice_remaining--;
+        set_talent_rank(cc, talent_name, 0);
+        return true;
+    }
+
+    attempt_talent_rank_up(cc, talent_name, cc.selected_table);
+    return true;
+}
+
+function generation_random_try_skill(cc, tables)
+{
+    var skill_table = cc.selected_table;
+    if (!table_is_owned(cc, skill_table))
+    {
+        var owned = [];
+        for (var i = 0; i < array_length(tables); i++)
+            if (table_is_owned(cc, tables[i]))
+                array_push(owned, tables[i]);
+        if (array_length(owned) > 0)
+            skill_table = owned[irandom(array_length(owned) - 1)];
+    }
+
+    if (!variable_struct_exists(global.knowledge_table_data, skill_table))
+        return false;
+
+    var td = global.knowledge_table_data[$ skill_table];
+    if (!variable_struct_exists(td, "skills") || array_length(td.skills) == 0)
+        return false;
+
+    var sname = td.skills[irandom(array_length(td.skills) - 1)];
+    var before = cc.generation_slots_remaining;
+    generation_auto_take_skill(cc, sname, "cp");
+    return (cc.generation_slots_remaining < before);
+}
+
+function generation_random_try_talent(cc, tables)
+{
+    var talent_table = cc.selected_table;
+    if (!variable_struct_exists(global.knowledge_table_data, talent_table))
+        return false;
+
+    var td = global.knowledge_table_data[$ talent_table];
+    if (!variable_struct_exists(td, "talents") || array_length(td.talents) == 0)
+        return false;
+
+    var tname = td.talents[irandom(array_length(td.talents) - 1)];
+    var before = cc.generation_slots_remaining;
+    generation_auto_take_talent(cc, tname, "cp");
+    return (cc.generation_slots_remaining < before);
 }
 
 
