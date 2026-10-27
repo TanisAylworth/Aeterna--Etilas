@@ -4011,3 +4011,268 @@ function table_contains_species_talent_option(cc, table_name)
     }
     return false;
 }
+
+
+
+
+function string_join_simple(arr, sep)
+{
+    if (array_length(arr) == 0) return "";
+    var s = string(arr[0]);
+    for (var i = 1; i < array_length(arr); i++)
+        s += sep + string(arr[i]);
+    return s;
+}
+
+
+function species_get_attribute_description(cc)
+{
+    if (!variable_struct_exists(cc, "locked_species")) return "";
+    if (!variable_global_exists("species_data")) return "";
+    if (!variable_struct_exists(global.species_data, cc.locked_species)) return "";
+
+    var sp = global.species_data[$ cc.locked_species];
+
+    if (variable_struct_exists(sp, "attribute_description"))
+        return string(sp.attribute_description);
+
+    if (variable_struct_exists(sp, "creation")
+        && variable_struct_exists(sp.creation, "attribute_description"))
+        return string(sp.creation.attribute_description);
+
+    return "";
+}
+
+function species_get_skill_talent_description(cc)
+{
+    if (!variable_struct_exists(cc, "locked_species")) return "";
+    if (!variable_global_exists("species_data")) return "";
+    if (!variable_struct_exists(global.species_data, cc.locked_species)) return "";
+
+    var sp = global.species_data[$ cc.locked_species];
+
+    if (variable_struct_exists(sp, "skill_talent_description"))
+        return string(sp.skill_talent_description);
+
+    if (variable_struct_exists(sp, "creation")
+        && variable_struct_exists(sp.creation, "skill_talent_description"))
+        return string(sp.creation.skill_talent_description);
+
+    return "";
+}
+
+function draw_species_generation_overview(cc, box_x, box_y, box_w, box_h_max)
+{
+    // box_h_max = hard ceiling so we never collide with UI below
+    if (is_undefined(box_h_max)) box_h_max = 420;
+
+    var pad = 12;
+    var line_h = 17;
+    var line_sep = 18;
+    var text_w = box_w - pad * 2;
+    var col_gap = 12;
+
+    // ---------- collect header lines ----------
+    var header = [];
+    array_push(header, { text: "Species: " + species_get_display_name(cc), color: c_yellow });
+
+    var size_name = variable_struct_exists(cc, "size") && is_string(cc.size) && cc.size != ""
+        ? string_lower(cc.size)
+        : equipment_get_size_name(cc);
+    array_push(header, { text: "Size: " + size_name, color: c_ltgray });
+
+    if (variable_struct_exists(cc, "generation")
+        && variable_struct_exists(cc.generation, "fixed_tables")
+        && is_array(cc.generation.fixed_tables)
+        && array_length(cc.generation.fixed_tables) > 0)
+    {
+        array_push(header, {
+            text: "Tables: " + string_join_simple(cc.generation.fixed_tables, ", "),
+            color: c_ltgray
+        });
+    }
+
+    if (variable_struct_exists(cc, "species_skill_choice_remaining")
+        && cc.species_skill_choice_remaining > 0)
+        array_push(header, {
+            text: "Skill choices left: " + string(cc.species_skill_choice_remaining),
+            color: c_aqua
+        });
+
+    if (variable_struct_exists(cc, "species_talent_choice_remaining")
+        && cc.species_talent_choice_remaining > 0)
+        array_push(header, {
+            text: "Talent choices left: " + string(cc.species_talent_choice_remaining),
+            color: c_aqua
+        });
+
+    // ---------- fixed skill / talent name lists ----------
+    var skill_names = [];
+    var talent_names = [];
+
+    if (variable_struct_exists(cc, "locked_species")
+        && variable_struct_exists(global.species_data, cc.locked_species))
+    {
+        var sp = global.species_data[$ cc.locked_species];
+
+        if (variable_struct_exists(sp, "creation")
+            && variable_struct_exists(sp.creation, "knowledge_skills")
+            && variable_struct_exists(sp.creation.knowledge_skills, "fixed")
+            && is_array(sp.creation.knowledge_skills.fixed))
+        {
+            var fixed = sp.creation.knowledge_skills.fixed;
+            for (var i = 0; i < array_length(fixed); i++)
+            {
+                var f = fixed[i];
+                if (is_struct(f))
+                    array_push(skill_names, f.name + " (" + string(f.rank) + ")");
+                else
+                    array_push(skill_names, string(f));
+            }
+        }
+
+        if (variable_struct_exists(sp, "creation")
+            && variable_struct_exists(sp.creation, "knowledge_talents")
+            && variable_struct_exists(sp.creation.knowledge_talents, "fixed")
+            && is_array(sp.creation.knowledge_talents.fixed))
+        {
+            var ft = sp.creation.knowledge_talents.fixed;
+            for (var i = 0; i < array_length(ft); i++)
+                if (is_string(ft[i]) && ft[i] != "None")
+                    array_push(talent_names, ft[i]);
+        }
+    }
+
+    var advice = species_get_skill_talent_description(cc);
+
+    // ---------- budget vertical space ----------
+    // Reserve minimum space for advice block if present
+    var advice_label_h = (advice != "") ? (10 + line_h) : 0;
+    var advice_min_body = (advice != "") ? (line_sep * 3) : 0; // ~3 lines worth
+    var reserved_bottom = advice_label_h + advice_min_body;
+
+    var header_h = array_length(header) * line_h;
+    var lists_label_h = 0;
+    if (array_length(skill_names) > 0) lists_label_h += line_h;
+    if (array_length(talent_names) > 0) lists_label_h += line_h;
+
+    var available_for_lists =
+        box_h_max - pad * 2 - header_h - lists_label_h - reserved_bottom;
+
+    available_for_lists = max(line_h, available_for_lists);
+
+    // Max rows that fit in the list region (shared budget for skills + talents)
+    var max_rows_total = max(1, floor(available_for_lists / line_h));
+
+    // Split list budget roughly by count
+    var skill_n = array_length(skill_names);
+    var talent_n = array_length(talent_names);
+    var total_n = max(1, skill_n + talent_n);
+
+    var skill_rows_budget = (skill_n <= 0) ? 0 : max(1, round(max_rows_total * (skill_n / total_n)));
+    var talent_rows_budget = (talent_n <= 0) ? 0 : max_rows_total - skill_rows_budget;
+    if (talent_n > 0 && talent_rows_budget < 1)
+    {
+        talent_rows_budget = 1;
+        skill_rows_budget = max(1, max_rows_total - 1);
+    }
+
+    // Columns = ceil(count / rows_budget)
+    var skill_cols = (skill_n <= 0) ? 0 : max(1, ceil(skill_n / skill_rows_budget));
+    var talent_cols = (talent_n <= 0) ? 0 : max(1, ceil(talent_n / talent_rows_budget));
+
+    var skill_rows = (skill_n <= 0) ? 0 : ceil(skill_n / skill_cols);
+    var talent_rows = (talent_n <= 0) ? 0 : ceil(talent_n / talent_cols);
+
+    var lists_h = 0;
+    if (skill_n > 0) lists_h += line_h + skill_rows * line_h;
+    if (talent_n > 0) lists_h += line_h + talent_rows * line_h;
+
+    // Advice gets whatever is left inside max height
+    var used_before_advice = pad * 2 + header_h + lists_h + advice_label_h;
+    var advice_body_max = max(0, box_h_max - used_before_advice);
+    var advice_h = 0;
+    if (advice != "" && advice_body_max > 0)
+    {
+        advice_h = min(advice_body_max, string_height_ext(advice, line_sep, text_w));
+    }
+
+    var box_h = pad * 2 + header_h + lists_h + advice_label_h + advice_h;
+    box_h = min(box_h, box_h_max);
+
+    // ---------- draw panel ----------
+    draw_set_color(c_black);
+    draw_rectangle(box_x, box_y, box_x + box_w, box_y + box_h, false);
+    draw_set_color(c_white);
+    draw_rectangle(box_x, box_y, box_x + box_w, box_y + box_h, true);
+
+    draw_set_halign(fa_left);
+    draw_set_valign(fa_top);
+
+    var yy = box_y + pad;
+
+    // Header
+    for (var i = 0; i < array_length(header); i++)
+    {
+        draw_set_color(header[i].color);
+        draw_text(box_x + pad, yy, header[i].text);
+        yy += line_h;
+    }
+
+    // Skills multi-column
+    if (skill_n > 0)
+    {
+        draw_set_color(c_ltgray);
+        draw_text(box_x + pad, yy, "Fixed Skills:");
+        yy += line_h;
+
+        var col_w = floor((text_w - (skill_cols - 1) * col_gap) / skill_cols);
+        for (var i = 0; i < skill_n; i++)
+        {
+            var col = i div skill_rows;
+            var row = i mod skill_rows;
+            var tx = box_x + pad + col * (col_w + col_gap);
+            var ty = yy + row * line_h;
+            draw_set_color(c_white);
+            // fit long names into column
+            draw_text_fit(skill_names[i], tx, ty, col_w);
+        }
+        yy += skill_rows * line_h;
+    }
+
+    // Talents multi-column
+    if (talent_n > 0)
+    {
+        draw_set_color(c_ltgray);
+        draw_text(box_x + pad, yy, "Fixed Talents:");
+        yy += line_h;
+
+        var col_w = floor((text_w - (talent_cols - 1) * col_gap) / talent_cols);
+        for (var i = 0; i < talent_n; i++)
+        {
+            var col = i div talent_rows;
+            var row = i mod talent_rows;
+            var tx = box_x + pad + col * (col_w + col_gap);
+            var ty = yy + row * line_h;
+            draw_set_color(c_white);
+            draw_text_fit(talent_names[i], tx, ty, col_w);
+        }
+        yy += talent_rows * line_h;
+    }
+
+    // Advice separated
+    if (advice != "" && advice_h > 0)
+    {
+        yy += 10;
+        draw_set_color(c_yellow);
+        draw_text(box_x + pad, yy, "Skills & Talents Advice:");
+        yy += line_h;
+
+        draw_set_color(c_white);
+        // draw_text_ext will draw full text; clip visually by panel height
+        draw_text_ext(box_x + pad, yy, advice, line_sep, text_w);
+    }
+
+    draw_set_color(c_white);
+    return box_h;
+}

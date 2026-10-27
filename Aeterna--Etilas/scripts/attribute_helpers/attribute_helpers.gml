@@ -528,3 +528,154 @@ function undo_last(cc)
     cc.selected_roll_index = -1;
     cc.selected_roll_value = undefined;
 }
+
+
+
+function species_get_attribute_adjustments(cc)
+{
+    // Returns array of { name, value } e.g. { name: "Strength", value: 1 }
+    var out = [];
+    if (!variable_struct_exists(cc, "locked_species")) return out;
+    if (!variable_global_exists("species_data")) return out;
+    if (!variable_struct_exists(global.species_data, cc.locked_species)) return out;
+
+    var sp = global.species_data[$ cc.locked_species];
+    if (!variable_struct_exists(sp, "creation")) return out;
+    if (!variable_struct_exists(sp.creation, "attribute_adjustments")) return out;
+
+    var adj = sp.creation.attribute_adjustments;
+
+    // Fixed map: creation.attribute_adjustments.values.strength = 1
+    if (variable_struct_exists(adj, "type") && adj.type == "fixed"
+        && variable_struct_exists(adj, "values") && is_struct(adj.values))
+    {
+        var keys = variable_struct_get_names(adj.values);
+        for (var i = 0; i < array_length(keys); i++)
+        {
+            var k = keys[i];
+            var v = adj.values[$ k];
+            if (!is_real(v) || v == 0) continue;
+            // Title-case-ish label
+            var label = string_upper(string_char_at(k, 1)) + string_copy(k, 2, string_length(k) - 1);
+            array_push(out, { name: label, value: v, key: k });
+        }
+        return out;
+    }
+
+    // Fallback: stats.attributes on species
+    if (variable_struct_exists(sp, "stats")
+        && variable_struct_exists(sp.stats, "attributes")
+        && is_struct(sp.stats.attributes))
+    {
+        var keys = variable_struct_get_names(sp.stats.attributes);
+        for (var i = 0; i < array_length(keys); i++)
+        {
+            var k = keys[i];
+            var v = sp.stats.attributes[$ k];
+            if (!is_real(v) || v == 0) continue;
+            var label = string_upper(string_char_at(k, 1)) + string_copy(k, 2, string_length(k) - 1);
+            array_push(out, { name: label, value: v, key: k });
+        }
+    }
+    return out;
+}
+
+function species_get_display_name(cc)
+{
+    if (!variable_struct_exists(cc, "locked_species")) return "—";
+    if (!variable_struct_exists(global.species_data, cc.locked_species)) return string(cc.locked_species);
+    var sp = global.species_data[$ cc.locked_species];
+    if (variable_struct_exists(sp, "name")) return string(sp.name);
+    return string(cc.locked_species);
+}
+
+function draw_species_attr_overview(cc, box_x, box_y, box_w)
+{
+    var pad = 12;          // was 50 — use small padding so the box isn’t huge
+    var line_h = 18;
+    var line_sep = 18;     // for wrapped advice
+    var text_w = box_w - pad * 2;
+
+    var adjustments = species_get_attribute_adjustments(cc);
+    var advice = species_get_attribute_description(cc);
+
+    // ----- measure content height -----
+    var content_h = 0;
+
+    // "Species: Name"
+    content_h += 22;
+
+    // "Attribute Adjustments" header
+    content_h += line_h;
+
+    // adjustment rows (or "None")
+    var adj_count = array_length(adjustments);
+    content_h += max(1, adj_count) * line_h;
+
+    // gap + "Advice:" header (only if we have text)
+    var advice_h = 0;
+    if (advice != "")
+    {
+        content_h += 8;          // small gap before advice
+        content_h += line_h;     // "Advice:" label
+        advice_h = string_height_ext(advice, line_sep, text_w);
+        content_h += advice_h;
+    }
+
+    var box_h = pad * 2 + content_h;
+
+    // ----- panel -----
+    draw_set_color(c_black);
+    draw_rectangle(box_x, box_y, box_x + box_w, box_y + box_h, false);
+    draw_set_color(c_white);
+    draw_rectangle(box_x, box_y, box_x + box_w, box_y + box_h, true);
+
+    draw_set_halign(fa_left);
+    draw_set_valign(fa_top);
+
+    var yy = box_y + pad;
+
+    // Species name
+    draw_set_color(c_yellow);
+    draw_text(box_x + pad, yy, "Species: " + species_get_display_name(cc));
+    yy += 22;
+
+    // Adjustments header
+    draw_set_color(c_ltgray);
+    draw_text(box_x + pad, yy, "Attribute Adjustments");
+    yy += line_h;
+
+    if (adj_count == 0)
+    {
+        draw_set_color(c_gray);
+        draw_text(box_x + pad, yy, "None");
+        yy += line_h;
+    }
+    else
+    {
+        for (var i = 0; i < adj_count; i++)
+        {
+            var a = adjustments[i];
+            var _sign = (a.value > 0) ? "+" : "";
+            draw_set_color(a.value > 0 ? c_lime : (a.value < 0 ? c_red : c_white));
+            draw_text(box_x + pad, yy, a.name + " " + _sign + string(a.value));
+            yy += line_h;
+        }
+    }
+
+    // Advice (wrapped)
+    if (advice != "")
+    {
+        yy += 8;
+        draw_set_color(c_ltgray);
+        draw_text(box_x + pad, yy, "Advice:");
+        yy += line_h;
+
+        draw_set_color(c_white);
+        draw_text_ext(box_x + pad, yy, advice, line_sep, text_w);
+        // yy += advice_h; // not needed unless you draw more below
+    }
+
+    draw_set_color(c_white);
+    return box_h;
+}

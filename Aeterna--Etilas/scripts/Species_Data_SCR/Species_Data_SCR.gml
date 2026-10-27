@@ -86,7 +86,17 @@ function Species_Data_SCR()
                     options: []
                 }
             },
-            knowledge_talents: {
+			attribute_description:
+	        "Strengths: Freedom and diversity. Muttish are mediocre to good in almost every facet.\n"
+	      + "Weaknesses: Being generally decent at everything often means not being great at anything.\n"
+	      + "Tip: Utilize your Species Attribute Choices to cover any weak spots in your attribute line up, or improve already good attributes.",
+            
+			skill_talent_description:
+		    "Strengths: Muttish have a very high number of Free Skills and Talents. Use them to Generalize or Specialize.\n"
+		  + "Weaknesses: Warfare and heavy professional trades are less natural.\n"
+		  + "Tip: Spend free/species choices on skills that reinforce your tables before buying off-table at double cost.",
+			
+			knowledge_talents: {
                 fixed: ["Language (Common)",],
 				choices: {
                     count: 2,
@@ -893,6 +903,18 @@ add_species("higlind_gnome", {
                 leadership: -2
                 }
             },
+			
+			attribute_description:
+	        "Strengths: Freedom and diversity. Muttish are mediocre to good in almost every facet.\n"
+	      + "Weaknesses: Being generally decent at everything often means not being great at anything.\n"
+	      + "Tip: Utilize your Species Attribute Choices to cover any weak spots in your attribute line up, or improve already good attributes.",
+            
+			skill_talent_description:
+		    "Strengths: Muttish have a very high number of Free Skills and Talents. Use them to Generalize or Specialize.\n"
+		  + "Weaknesses: Warfare and heavy professional trades are less natural.\n"
+		  + "Tip: Spend free/species choices on skills that reinforce your tables before buying off-table at double cost.",
+			
+			
             knowledge_tables: {
                 fixed: ["Professional", "Clerical"],
                 choices: { count: 0, options: [] }

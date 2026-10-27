@@ -527,5 +527,10 @@ draw_set_halign(fa_left);
 draw_set_valign(fa_top);
 
 briefing_draw(cc);
+
+
+// Controls box already drawn at ctrl_x, ctrl_y with width ctrl_w / height ctrl_h
+var overview_y = ctrl_y + ctrl_h + 12;
+draw_species_attr_overview(cc, ctrl_x, overview_y, ctrl_w);
 	
 }

@@ -219,4 +219,34 @@ draw_specialization_description_popup(cc);
 
 
 briefing_draw(cc);
+
+//ADVICE BOX//
+
+var gui_w = display_get_gui_width();
+var gui_h = display_get_gui_height();
+
+var margin_top = 15;
+var margin_right = 55;
+
+// Help button (adjust to your real control)
+var help_w = 20;
+var help_h = 20;
+var help_gap = 10;
+
+// How far down other UI starts (skills column header ~320, etc.)
+// Set this to the top of whatever must stay clear below the overview
+var clear_below_y = 300; // tune: top of skills list / CDT panels / etc.
+
+var box_w = 650;
+var box_x = gui_w - margin_right - box_w;
+var box_y = margin_top;
+
+// If help is top-right corner, sit under it instead of overlapping
+// box_y = margin_top + help_h + help_gap;
+
+var box_h_max = clear_below_y - box_y - 8;
+box_h_max = max(120, box_h_max);
+
+draw_species_generation_overview(cc, box_x, box_y, box_w, box_h_max);
+
 }
